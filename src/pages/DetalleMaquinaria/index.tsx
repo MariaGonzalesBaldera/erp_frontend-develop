@@ -3,8 +3,6 @@ import {
   Breadcrumbs,
   Button,
   CardMedia,
-  Chip,
-  Fab,
   Grid,
   IconButton,
   Link,

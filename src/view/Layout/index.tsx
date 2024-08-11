@@ -77,7 +77,6 @@ type LayoutProps = {
 const ICONS = [
   <HomeOutlined />,
   <FormatListBulleted />,
-  <NoteAddOutlined />,
   <ListAlt />,
   <LocationOn />,
   <CheckBox />,
@@ -87,7 +86,6 @@ const ICONS = [
 const LINKS = [
   "/dashboard",
   "/lista-maquinarias",
-  "/lista-utilidades1",
   "/lista-utilidades2",
   "/lista-utilidades3",
   "/lista-utilidades4",
@@ -233,7 +231,6 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
             {[
               "Unidades",
               "Lista de Maquinarias",
-              "Crear Maquinaria",
               "Lista de Documentos",
               "Seguimiento GPS",
               "Checklist",

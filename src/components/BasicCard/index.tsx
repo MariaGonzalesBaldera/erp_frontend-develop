@@ -9,55 +9,40 @@ import {
   styled,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import UpdateIcon from "@mui/icons-material/Update";
 import DeleteIcon from "@mui/icons-material/Delete";
 import retroexcavadora from "../../images/demoledor4.png";
 import volquete from "../../images/volete.png";
 import oruga from "../../images/oruga.png";
 import { useNavigate } from "react-router-dom";
+import { MoreVert } from "@mui/icons-material";
+import ConfirmModal from "../ConfirmModal";
+import ModalActualizarData from "../ModalActualizarData";
+import { MaquinariaData } from "../../types/index";
 
 interface BasicCardProps {
-  id: number;
-  brand: string;
-  model: string;
-  modelYear: string;
-  acquisitionDate: string;
-  netLoad: string;
-  fuelType: string;
-  createdAt: string;
-  updatedAt: string;
+  data: MaquinariaData;
 }
 
-const BasicCard: React.FC<BasicCardProps> = ({
-  id,
-  brand,
-  model,
-  modelYear,
-  acquisitionDate,
-  netLoad,
-  fuelType,
-  createdAt,
-  updatedAt,
-}) => {
+const BasicCard: React.FC<BasicCardProps> = ({ data }) => {
   const navigate = useNavigate();
 
   const handleNavigation = () => {
-    navigate(`/detalle-maquinaria/${id}`, {
+    navigate(`/detalle-maquinaria/${data.id}`, {
       state: {
-        id,
-        brand,
-        model,
-        modelYear,
-        acquisitionDate,
-        netLoad,
-        fuelType,
-        createdAt,
-        updatedAt,
+        id: data.id,
+        brand: data.brand,
+        model: data.model,
+        modelYear: data.modelYear,
+        acquisitionDate: data.acquisitionDate,
+        netLoad: data.netLoad,
+        fuelType: data.fuelType,
+        createdAt: data.createdAt,
+        updatedAt: data.updatedAt,
       },
     });
   };
   const getImage = () => {
-    switch (model) {
+    switch (data.model) {
       case "Retroexcavadora":
         return retroexcavadora;
       case "Oruga":
@@ -76,38 +61,56 @@ const BasicCard: React.FC<BasicCardProps> = ({
       boxShadow: theme.shadows[6],
     },
   }));
+  const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
+  const [openModalUpDate, setOpenModalUpDate] = React.useState(false);
+
+  const handleOpenUpdate = () => setOpenModalUpDate(true);
+  const handleCloseUpdate = () => setOpenModalUpDate(false);
+
+  const handleOpenConfirmModal = () => setOpenModalConfirm(true);
+  const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 
   return (
     <StyledCard>
       <Card className="w-45 mx-auto shadow-lg">
-        <div onClick={handleNavigation} style={{ cursor: "pointer" }}>
-          <CardMedia
-            component="img"
-            alt={`Imagen de ${model}`}
-            height="140"
-            image={getImage()}
-            style={{ height: "140px", objectFit: "cover" }}
-          />
-          <CardContent>
-            <h2 className="text-base font-bold mb-2">{"Maquinaria # " + id}</h2>
-            <Stack direction="row"  gap={2}>
-              <Chip label={model} variant="outlined" color="success" />
-              <Chip label={brand} variant="outlined" color="warning" />
-
-            </Stack>
-            <div className="flex justify-between mt-2">
-            <IconButton>
+        <CardMedia
+          component="img"
+          alt={`Imagen de ${data.model}`}
+          height="140"
+          image={getImage()}
+          style={{ height: "140px", objectFit: "cover" }}
+        />
+        <CardContent>
+          <h2 className="text-base font-bold mb-2">
+            {"Maquinaria # " + data.id}
+          </h2>
+          <Stack direction="row" gap={2}>
+            <Chip label={data.model} variant="outlined" color="success" />
+            <Chip label={data.brand} variant="outlined" color="warning" />
+          </Stack>
+          <div className="flex justify-between mt-2">
+            <IconButton onClick={handleOpenUpdate}>
               <EditIcon />
             </IconButton>
-            <IconButton>
-              <UpdateIcon />
+            <IconButton onClick={handleNavigation}>
+              <MoreVert />
             </IconButton>
-            <IconButton color="error">
+            <IconButton color="error" onClick={handleOpenConfirmModal}>
               <DeleteIcon />
             </IconButton>
           </div>
-          </CardContent>
-        </div>
+        </CardContent>
+        <ConfirmModal
+          onConfirm={openModalConfirm}
+          onCancel={handleCloseConfirmModal}
+          id={data.id}
+        />
+        <ModalActualizarData
+          openModal={openModalUpDate}
+          handleClose={handleCloseUpdate}
+          data={data}
+          title={"ACTUALIZAR DATOS DE MAQUINARIA "}
+        />
       </Card>
     </StyledCard>
   );
