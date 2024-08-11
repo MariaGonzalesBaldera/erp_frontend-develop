@@ -1,24 +1,14 @@
-import React, { useState } from "react";
+import React  from "react";
 
-import BasicCard from "../../components/BasicCard";
 import Box from "@mui/material/Box";
 import {
-  Autocomplete,
-  Button,
-  Checkbox,
   Grid,
-  IconButton,
-  MenuItem,
-  Modal,
   Tab,
   Tabs,
-  TextField,
   Typography,
 } from "@mui/material";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import themeNew from "../../utils/theme";
-import { Close } from "@mui/icons-material";
 import ModalFormulario from "../../components/ModalFormulario";
 import ButtonDefault from "../../components/ButtonDefault";
 import MaquinariaGrid from "../../components/MaquinariaGrid";

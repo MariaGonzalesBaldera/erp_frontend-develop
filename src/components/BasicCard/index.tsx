@@ -7,6 +7,7 @@ import {
   Stack,
   Chip,
   styled,
+  Tooltip,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -86,18 +87,26 @@ const BasicCard: React.FC<BasicCardProps> = ({ data }) => {
           </h2>
           <Stack direction="row" gap={2}>
             <Chip label={data.model} variant="outlined" color="success" />
-            <Chip label={data.brand} variant="outlined" color="warning" />
+            <Chip label={data.brand} variant="outlined" color="success" />
           </Stack>
           <div className="flex justify-between mt-2">
-            <IconButton onClick={handleOpenUpdate}>
-              <EditIcon />
-            </IconButton>
-            <IconButton onClick={handleNavigation}>
-              <MoreVert />
-            </IconButton>
-            <IconButton color="error" onClick={handleOpenConfirmModal}>
-              <DeleteIcon />
-            </IconButton>
+            <Tooltip title="Editar">
+              <IconButton onClick={handleOpenUpdate}>
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="Detalle">
+              <IconButton onClick={handleNavigation}>
+                <MoreVert />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="Eliminar">
+              <IconButton color="error" onClick={handleOpenConfirmModal}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
           </div>
         </CardContent>
         <ConfirmModal

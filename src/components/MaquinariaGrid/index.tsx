@@ -14,12 +14,8 @@ const MaquinariaGrid: React.FC<MachineGridProps> = ({ model, data }) => {
   return (
     <Grid container spacing={2}>
       {filteredData.map((item) => (
-        <Grid container spacing={2} key={item.id}>
-          {filteredData.map((item) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item.id}>
-              <BasicCard data={item} />
-            </Grid>
-          ))}
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item.id}>
+          <BasicCard data={item} />
         </Grid>
       ))}
     </Grid>
