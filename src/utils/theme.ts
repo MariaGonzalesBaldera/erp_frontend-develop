@@ -105,7 +105,7 @@ const themeNew = createTheme({
 			dark: "#F26716",
 		},
 		surface: {
-			main: "#F7F4F9",
+			main: "#767582",
 			light: "#FFFFFF",
 			dark: "#E9D0F4",
 		},
@@ -125,16 +125,14 @@ const themeNew = createTheme({
 			dark2: "#4C4C56",
 		},
 		menu: {
-			main: "#52197B",
-			light: "#8A54B2",
-			light2: "#6F3996",
+			main: "#4529d1",
 		},
 		textMain: {
-			main: "#E5E6E6",
+			main: "#f8f7fb",
 			main2: "#79797D",
 			main3: "#BAA3CA",
 			light: "#FFFFFF",
-			dark: "#CCCCCE",
+			dark: "#edefff",
 			light2: "#FCFCFC",
 			dark2: "#1F2026",
 			light3: "#F8F8F8",

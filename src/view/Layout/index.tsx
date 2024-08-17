@@ -23,13 +23,15 @@ import { Link } from "react-router-dom";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import LocalGasStationOutlinedIcon from "@mui/icons-material/LocalGasStationOutlined";
 import { CheckBox, FormatListBulleted, HomeOutlined, ListAlt, LocationOn, NoteAddOutlined } from "@mui/icons-material";
-
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
 }>(({ theme, open }) => ({
   flexGrow: 1,
+  backgroundColor:themeNew.palette.textMain.main,
+  minHeight:"100vh",
   padding: theme.spacing(2.5),
   marginTop: "80px",
   transition: theme.transitions.create("margin", {
@@ -76,7 +78,7 @@ type LayoutProps = {
 };
 const ICONS = [
   <HomeOutlined />,
-  <FormatListBulleted />,
+  <LocalShippingIcon />,
   <ListAlt />,
   <LocationOn />,
   <CheckBox />,
@@ -142,12 +144,12 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
               paddingRight: "1rem",
             }}
           >
-            <Tooltip title="Notifications">
+            <Tooltip title="Notificaciones">
               <IconButton size="large">
                 <NotificationsNoneOutlinedIcon className="text-icon-primary" />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Open settings">
+            <Tooltip title="Configuraciones">
               <Button
                 size="small"
                 onClick={handleOpenUserMenu}
@@ -230,8 +232,8 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
           <List className="px-2.5">
             {[
               "Unidades",
-              "Lista de Maquinarias",
-              "Lista de Documentos",
+              "Maquinarias",
+              "Documentos",
               "Seguimiento GPS",
               "Checklist",
               "Calendario de mantenimientos",
