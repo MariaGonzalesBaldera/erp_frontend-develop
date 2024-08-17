@@ -25,7 +25,7 @@ const styleModal = {
     lg: "40%",
   },
   maxWidth: "800px",
-  height: "500px",
+  height: "400px",
   bgcolor: "background.paper",
   boxShadow: 24,
 };
@@ -188,17 +188,7 @@ const ModalFormulario: React.FC<ModalFormularioProps> = ({
                   ))}
                 </TextField>
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="La fecha de creación se ingresara automaticamente"
-                  variant="outlined"
-                  fullWidth
-                  name="createdAt"
-                  value={formData.createdAt}
-                  onChange={handleChange}
-                  disabled // Este campo está deshabilitado porque usualmente no se actualiza
-                />
-              </Grid>
+                          
               <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
                 <ButtonDefault
                   onClick={handleOpenUpdateModal}

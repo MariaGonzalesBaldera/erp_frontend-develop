@@ -1,36 +1,13 @@
-import React  from "react";
+import React from "react";
 
 import Box from "@mui/material/Box";
-import {
-  Grid,
-  Tab,
-  Tabs,
-  Typography,
-} from "@mui/material";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import { Grid, Tab, Tabs, Typography } from "@mui/material";
 import ModalFormulario from "../../components/ModalFormulario";
 import ButtonDefault from "../../components/ButtonDefault";
 import MaquinariaGrid from "../../components/MaquinariaGrid";
 import { MaquinariaData } from "../../types/index";
-
-const styleModal = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: {
-    xs: "90%",
-    sm: "70%",
-    md: "50%",
-    lg: "40%",
-  },
-  maxWidth: "800px",
-  height: "440px",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-};
-
+import themeNew from "../../utils/theme";
+ 
 const handleChange = (e) => {
   console.log("first");
 };
@@ -249,12 +226,6 @@ const FakeDatas: MaquinariaData[] = [
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
-  const orugas = FakeDatas.filter((item) => item.model === "Oruga");
-  const retroexcavadoras = FakeDatas.filter(
-    (item) => item.model === "Retroexcavadora"
-  );
-  const volquetes = FakeDatas.filter((item) => item.model === "Volquete");
-
   return (
     <div
       role="tabpanel"
@@ -263,9 +234,12 @@ function CustomTabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && (
+        <Box sx={{ p: 3, backgroundColor: themeNew.palette.textMain.main }}>{children}</Box>
+      )}
     </div>
   );
+ //           sx={{backgroundColor:themeNew.palette.textMain.main}}
 }
 
 function a11yProps(index: number) {
@@ -286,28 +260,21 @@ const dataMaquinaria = {
   updatedAt: "",
 };
 const ListaMaquinarias: React.FC = () => {
-  const [selectedBrands, setSelectedBrands] = React.useState<string[]>([]);
-  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-  const checkedIcon = <CheckBoxIcon fontSize="small" />;
   const [openModalNew, setOpenModalNew] = React.useState(false);
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
 
-  const filteredData = selectedBrands.length
-    ? FakeDatas.filter((unit) => selectedBrands.includes(unit.model))
-    : FakeDatas;
-
+  //const {
+  //	data: machineryData,
+  //} = useGetMachineryList();
+  //console.log("DATA "+machineryData)
+ 
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  const orugas = FakeDatas.filter((item) => item.model === "Oruga");
-  const retroexcavadoras = FakeDatas.filter(
-    (item) => item.model === "Retroexcavadora"
-  );
-  const volquetes = FakeDatas.filter((item) => item.model === "Volquete");
-
+ 
   return (
     <>
       <Grid container className="pb-2" alignItems="center">
@@ -328,12 +295,14 @@ const ListaMaquinarias: React.FC = () => {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="Oruga" {...a11yProps(0)} />
+            <Tab            
+            label="Oruga" {...a11yProps(0)} />
             <Tab label="Retroexcavadora" {...a11yProps(1)} />
             <Tab label="Volquete" {...a11yProps(2)} />
           </Tabs>
         </Box>
-        <CustomTabPanel value={value} index={0}>
+        <CustomTabPanel
+         value={value} index={0}>
           <MaquinariaGrid model="Oruga" data={FakeDatas} />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
