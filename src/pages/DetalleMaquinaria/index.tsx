@@ -1,6 +1,8 @@
 import {
   Box,
   Breadcrumbs,
+  Card,
+  CardContent,
   Divider,
   Grid,
   Link,
@@ -10,9 +12,6 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useLocation } from "react-router-dom";
 import React, { useState } from "react";
 import themeNew from "../../utils/theme";
-import Paper from "@mui/material/Paper";
-import { experimentalStyled as styled } from "@mui/material/styles";
-import CheckIcon from "@mui/icons-material/Check";
 import TabDocumentos from "../../components/TabDocumentos";
 import CardItemDetail from "../../components/CardItemDetail";
 
@@ -44,7 +43,7 @@ function DetalleMaquinaria() {
   };
 
   return (
-    <Grid className="pb-4">
+    <>
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
@@ -62,35 +61,23 @@ function DetalleMaquinaria() {
           Detalle maquinaria
         </Typography>
       </Breadcrumbs>
-
-      <Box
-        sx={{
-          maxWidth: "50rem",
-          marginBottom:".6rem"
-        }}
-        className="flex-grow  p-2"
-      >
-        <div className="grid gap-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 justify-start">
-          <CardItemDetail title="Marca del vehículo" value={maquina.brand} />
-          <CardItemDetail title="Modelo del vehículo" value={maquina.model} />
-          <CardItemDetail title="Año de Modelo" value={maquina.modelYear} />
-          <CardItemDetail
-            title="Fecha Adquisición"
-            value={maquina.acquisitionDate}
-          />
-          <CardItemDetail title="Carga Neta" value={maquina.netLoad} />
-          <CardItemDetail
-            title="Tipo de Combustible"
-            value={maquina.fuelType}
-          />
-          <CardItemDetail title="FECHA CREACIÓN" value={maquina.createdAt} />
-        </div>
-      </Box>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto p-2">
+        <CardItemDetail title="Marca del vehículo" value={maquina.brand} />
+        <CardItemDetail title="Modelo del vehículo" value={maquina.model} />
+        <CardItemDetail title="Año de Modelo" value={maquina.modelYear} />
+        <CardItemDetail
+          title="Fecha Adquisición"
+          value={maquina.acquisitionDate}
+        />
+        <CardItemDetail title="Carga Neta" value={maquina.netLoad} />
+        <CardItemDetail title="Tipo de Combustible" value={maquina.fuelType} />
+        <CardItemDetail title="FECHA CREACIÓN" value={maquina.createdAt} />
+      </div>
       <Divider />
-      <Grid className="mt-5">
+      <Grid className="mt-4">
         <TabDocumentos />
       </Grid>
-    </Grid>
+    </>
   );
 }
 

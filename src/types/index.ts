@@ -9,3 +9,15 @@ export interface MaquinariaData {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface PreventMaintenance {
+    id:string;
+    description:string;
+    maintenance_date:string;
+    amount_paid:string;
+    operator:string;
+    project_name:string;
+    observations:string;
+    driving_start:string;
+    driving_end:string;
+}
