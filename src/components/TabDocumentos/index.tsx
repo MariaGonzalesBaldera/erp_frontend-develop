@@ -22,7 +22,7 @@ function CustomTabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3, backgroundColor: "white" }}>{children}</Box>
+        <Box sx={{ pt: 2, backgroundColor: "white" }}>{children}</Box>
       )}
     </div>
   );
@@ -43,10 +43,25 @@ const TabDocumentos: React.FC = () => {
 
   return (
     <Grid>
-      <Typography color={themeNew.palette.surface.main} variant="subtitle2">
+      <Typography sx={{marginBottom:"1rem"}} color={themeNew.palette.surface.main} variant="subtitle2">
         DOCUMENTOS
       </Typography>
-      <Box sx={{ width: "100%" }}>
+      <Box sx={{
+        width: '100%',
+        minWidth: '300px',
+        maxWidth: '800px',
+        margin: '0 0',
+        padding: '4px',
+        backgroundColor: '#cac7fe',
+        '@media (max-width: 600px)': {
+          minWidth: '100px',
+          maxWidth: '400px',
+        },
+        '@media (min-width: 1200px)': {
+          minWidth: '600px',
+          maxWidth: '1000px',
+        },
+      }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={value}
