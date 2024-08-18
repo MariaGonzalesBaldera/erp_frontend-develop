@@ -3,6 +3,7 @@ import React from "react";
 import themeNew from "../../utils/theme";
 import PreventMaintenance from "../TamItemTable/PreventMaintenance";
 import CorrectiveMaintenance from "../TamItemTable/CorrectiveMaintenance";
+import InspectionMachinery from "../TamItemTable/InspectionMachinery";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -43,25 +44,31 @@ const TabDocumentos: React.FC = () => {
 
   return (
     <Grid>
-      <Typography sx={{marginBottom:"1rem"}} color={themeNew.palette.surface.main} variant="subtitle2">
+      <Typography
+        sx={{ marginBottom: "1rem" }}
+        color={themeNew.palette.surface.main}
+        variant="subtitle2"
+      >
         DOCUMENTOS
       </Typography>
-      <Box sx={{
-        width: '100%',
-        minWidth: '300px',
-        maxWidth: '800px',
-        margin: '0 0',
-        padding: '4px',
-        backgroundColor: '#cac7fe',
-        '@media (max-width: 600px)': {
-          minWidth: '100px',
-          maxWidth: '400px',
-        },
-        '@media (min-width: 1200px)': {
-          minWidth: '600px',
-          maxWidth: '1000px',
-        },
-      }}>
+      <Box
+        sx={{
+          width: "100%",
+          minWidth: "300px",
+          maxWidth: "800px",
+          margin: "0 0",
+          padding: "1px",
+          backgroundColor: "#cac7fe",
+          "@media (max-width: 600px)": {
+            minWidth: "100px",
+            maxWidth: "400px",
+          },
+          "@media (min-width: 1200px)": {
+            minWidth: "600px",
+            maxWidth: "1000px",
+          },
+        }}
+      >
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={value}
@@ -74,13 +81,13 @@ const TabDocumentos: React.FC = () => {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <PreventMaintenance/>
+          <PreventMaintenance />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <CorrectiveMaintenance/>
+          <CorrectiveMaintenance />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          Item Three
+          <InspectionMachinery />
         </CustomTabPanel>
       </Box>
     </Grid>

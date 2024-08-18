@@ -5,7 +5,7 @@ import { Grid, Tab, Tabs, Typography } from "@mui/material";
 import ModalFormulario from "../../components/ModalFormulario";
 import ButtonDefault from "../../components/ButtonDefault";
 import MaquinariaGrid from "../../components/MaquinariaGrid";
-import { MaquinariaData } from "../../types/index";
+import { MaquinariaDataItem } from "../../types/index";
 import themeNew from "../../utils/theme";
  
 const handleChange = (e) => {
@@ -34,7 +34,7 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
-const FakeDatas: MaquinariaData[] = [
+const FakeDatas: MaquinariaDataItem[] = [
   {
     id: 1,
     brand: "Volvo",

@@ -61,7 +61,7 @@ function DetalleMaquinaria() {
           Detalle maquinaria
         </Typography>
       </Breadcrumbs>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto p-2">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto p-5">
         <CardItemDetail title="Marca del vehículo" value={maquina.brand} />
         <CardItemDetail title="Modelo del vehículo" value={maquina.model} />
         <CardItemDetail title="Año de Modelo" value={maquina.modelYear} />
@@ -71,7 +71,7 @@ function DetalleMaquinaria() {
         />
         <CardItemDetail title="Carga Neta" value={maquina.netLoad} />
         <CardItemDetail title="Tipo de Combustible" value={maquina.fuelType} />
-        <CardItemDetail title="FECHA CREACIÓN" value={maquina.createdAt} />
+        <CardItemDetail title="FECHA CREACIÓN" value={maquina.createdAt.slice(0, -9)} />
       </div>
       <Divider />
       <Grid className="mt-4">
