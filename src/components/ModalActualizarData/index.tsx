@@ -11,30 +11,13 @@ import React, { useState } from "react";
 import themeNew from "../../utils/theme";
 import { Close } from "@mui/icons-material";
 import ButtonDefault from "../ButtonDefault";
-import { MaquinariaData } from "../../types/index";
-
-const styleModal = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: {
-    xs: "90%",
-    sm: "70%",
-    md: "50%",
-    lg: "40%",
-  },
-  maxWidth: "800px",
-  height: "500px",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-};
- 
+import { MaquinariaDataItem } from "../../types/index";
+import { styleModal } from "../../style/StyleModal";
 
 interface ModalFormularioProps {
   openModal: boolean;
   handleClose: () => void;
-  data: MaquinariaData;
+  data: MaquinariaDataItem;
   title: string;
 }
 const ModalActualizarData: React.FC<ModalFormularioProps> = ({

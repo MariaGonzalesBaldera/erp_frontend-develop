@@ -1,146 +1,133 @@
-import React from "react";
-import {
-  Box,
-  Collapse,
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import Paper from "@mui/material/Paper";
-
-function createData(
-  name: string,
-  calories: string,
-  fat: string,
-  carbs: string,
-  protein: string,
-  price: string
-) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    price,
-    history: [
-      {
-        date: "Pepito Juarez",
-        customerId: "ninguna",
-        amount: "8:00",
-      },
-    ],
-  };
-}
-
-function Row(props: { row: ReturnType<typeof createData> }) {
-  const { row } = props;
-  const [open, setOpen] = React.useState(false);
-
-  return (
-    <React.Fragment>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-        <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell component="th" scope="row">
-          {row.name}
-        </TableCell>
-        <TableCell align="right">{row.calories}</TableCell>
-        <TableCell align="right">{row.fat}</TableCell>
-        <TableCell align="right">{row.carbs}</TableCell>
-        <TableCell align="right">{row.protein}</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Detalle
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Operador</TableCell>
-                    <TableCell>Observaciones</TableCell>
-                    <TableCell align="right">Inicio de conducción</TableCell>
-                    <TableCell align="right">Fin de conducción</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {"10:00"}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
-  );
-}
+import { IconButton, Tooltip } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import React, { useState } from "react";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ModalMoreDetail from "../../ModalMoreDetail";
 
 const rows = [
-  createData("00001", "detalle detalle", "22/10/2024", "2400", "Proyecto Antártida", "3.99"),
-  createData("Ice cream sandwich", "237", "9.0", "37", "4.3", "4.99"),
-  createData("Eclair", "262", "16.0", "24", "6.0", "3.79"),
-  createData("Cupcake", "305", "3.7", "67", "4.3", "2.5"),
-  createData("Gingerbread", "356", "16.0", "49", "3.9", "1.5"),
+  {
+    id: 1,
+    description: "Snow",
+    maintenance_date: "2024-08-01",
+    amount_paid: "2300",
+    operator: "Juanito Perez",
+    project_name: "North Wall Project",
+    observations: "Routine check",
+    driving_start: "08:00",
+    driving_end: "12:00",
+  },
+  {
+    id: 2,
+    description: "Lannister",
+    maintenance_date: "2024-08-02",
+    amount_paid: "1500",
+    operator: "Juanito Perez Juanito PerezJuanito Perez",
+    project_name: "King's Landing",
+    observations: "Emergency repair",
+    driving_start: "10:00",
+    driving_end: "14:00",
+  },
+  {
+    id: 3,
+    description: "Lannister",
+    maintenance_date: "2024-08-03",
+    amount_paid: "1800",
+    operator: "Juanito Perez",
+    project_name: "Casterly Rock",
+    observations: "Standard service",
+    driving_start: "09:00",
+    driving_end: "13:00",
+  },
+  {
+    id: 4,
+    description: "Stark",
+    maintenance_date: "2024-08-04",
+    amount_paid: "2000",
+    operator: "Juanito Perez",
+    project_name: "Winterfell",
+    observations: "Oil change",
+    driving_start: "07:30",
+    driving_end: "11:30",
+  },
+  {
+    id: 5,
+    description: "Targaryen",
+    maintenance_date: "2024-08-05",
+    amount_paid: "null",
+    operator: "Juanito Perez",
+    project_name: "Dragonstone",
+    observations: "Operator training required",
+    driving_start: null,
+    driving_end: null,
+  },
+  {
+    id: 6,
+    description: "Melisandre",
+    maintenance_date: "2024-08-06",
+    amount_paid: "2100",
+    operator: "Juanito Perez",
+    project_name: "Asshai",
+    observations: "Inspection",
+    driving_start: "08:30",
+    driving_end: "12:30",
+  },
 ];
 
 const CorrectiveMaintenance: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState<any>(null);
+
+  const handleOpen = (row: any) => {
+    setSelectedRow(row);
+    setOpen(true);
+  };
+
+  const handleClose = () => setOpen(false);
+
+  const columns: GridColDef[] = [
+    { field: "id", headerName: "ID", flex: 1, minWidth: 100 },
+    { field: "operator", headerName: "Operador", flex: 1, minWidth: 150 },
+    { field: "description", headerName: "Descripción", flex: 2, minWidth: 120 },
+    {
+      field: "project_name",
+      headerName: "Nombre del proyecto",
+      flex: 2,
+      minWidth: 150,
+    },
+    {
+      field: "actions",
+      headerName: "Más Detalle",
+      flex: 0.5, 
+      minWidth: 100,
+      renderCell: (params) => (
+        <Tooltip title="Detalle">
+          <IconButton
+            onClick={() => handleOpen(params.row)}
+            aria-label="Ver detalles" >
+            <MoreVertIcon />
+          </IconButton>
+        </Tooltip>
+      ),
+    },
+  ];
+
   return (
-    <TableContainer component={Paper}>
-      <div
-        style={{
-          height: "auto",
-          width: "100%",
-          maxHeight: "400px",
-          overflowX: "auto",
-        }}
-      >
-        <Table aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell>ID</TableCell>
-              <TableCell align="right">Descripción</TableCell>
-              <TableCell align="right">Fecha Mant.</TableCell>
-              <TableCell align="right">Cantidad pagada</TableCell>
-              <TableCell align="right">Nombre del proyecto</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <Row key={row.name} row={row} />
-            ))}
-          </TableBody>
-        </Table>
+    <>
+      <div style={{ height: 400, width: "100%" }}>
+        <DataGrid
+        className="truncate..."
+        hideFooter 
+        rows={rows} 
+        columns={columns}  />
       </div>
-    </TableContainer>
+
+      <ModalMoreDetail
+        openModal={open}
+        handleClose={handleClose}
+        data={selectedRow}
+        
+      />
+    </>
   );
 };
 

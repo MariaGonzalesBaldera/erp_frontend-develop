@@ -9,7 +9,6 @@ import {
   styled,
   Tooltip,
 } from "@mui/material";
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import ListIcon from '@mui/icons-material/List';
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -19,11 +18,11 @@ import oruga from "../../images/oruga.png";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../ConfirmModal";
 import ModalActualizarData from "../ModalActualizarData";
-import { MaquinariaData } from "../../types/index";
+import { MaquinariaDataItem } from "../../types/index";
 import themeNew from "../../utils/theme";
 
 interface BasicCardProps {
-  data: MaquinariaData;
+  data: MaquinariaDataItem;
 }
 
 const BasicCard: React.FC<BasicCardProps> = ({ data }) => {

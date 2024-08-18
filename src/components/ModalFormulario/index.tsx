@@ -11,14 +11,14 @@ import React, { useState } from "react";
 import themeNew from "../../utils/theme";
 import { Close } from "@mui/icons-material";
 import ButtonDefault from "../ButtonDefault";
-import { MaquinariaData } from "../../types/index";
-import { styleModal } from "../StyleModal";
+import { MaquinariaDataItem } from "../../types/index";
+import { styleModal } from "../../style/StyleModal";
 
 
 interface ModalFormularioProps {
   openModal: boolean;
   handleClose: () => void;
-  data: MaquinariaData;
+  data: MaquinariaDataItem;
   title: string;
 }
 const ModalFormulario: React.FC<ModalFormularioProps> = ({
