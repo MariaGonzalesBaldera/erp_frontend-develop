@@ -3,6 +3,11 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ModalMoreDetailInspection from "../../ModalMoreDetailInspection";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { MachineryInspectionItem } from "../../../types";
+import ConfirmModal from "../../ConfirmModal";
+import ListIcon from '@mui/icons-material/List';
 
 const rows = [
     {
@@ -50,7 +55,7 @@ const rows = [
         fireExtinguisher20Lbs: true,
         safetyCones: true,
         operator: "Luis Fernández",
-        residentEngineer: "María Torres",
+        residentEngineer: "María Torres Maldonado Silva",
         ssoma: "Jorge Quispe",
         observations: "Falta reemplazar luces frontales y cinturón de seguridad",
         createdAt: "2024-08-02",
@@ -320,14 +325,28 @@ const rows = [
 ];
 
 const InspectionMachinery: React.FC = () => {
-  const [open, setOpen] = useState(false);
-  const [selectedRow, setSelectedRow] = useState<any>(null);
+  const [openDetail, setOpenDetail] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+
+  const [selectedRow, setSelectedRow] = useState<any>(0);
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
-    setOpen(true);
+    setOpenDetail(true);
   };
-  const handleClose = () => setOpen(false);
+  
+  const handleOpenDelete = () => {
+    setOpenDelete(true);
+  };
+  const handleCloseConfirmModal = () => setOpenDelete(false);
+
+  const handleOpenEdit = (row: MachineryInspectionItem) => {
+    setSelectedRow(row);
+    setOpenEdit(true);
+  };
+  const handleClose = () => setOpenDetail(false);
+  const handleCloseEdit = () => setOpenEdit(false);
 
   const columns: GridColDef[] = [
     { field: "heavyMachineryId", headerName: "ID", flex: 1, minWidth: 100 },
@@ -341,17 +360,37 @@ const InspectionMachinery: React.FC = () => {
     },
     {
       field: "actions",
-      headerName: "Más Detalle",
+      headerName: "Acciones",
       flex: 0.5, 
-      minWidth: 100,
-      renderCell: (params) => (
-        <Tooltip title="Detalle">
-          <IconButton
-            onClick={() => handleOpen(params.row)}
-            aria-label="Ver detalles" >
-            <MoreVertIcon />
-          </IconButton>
-        </Tooltip>
+      minWidth: 150,
+      disableColumnMenu: true,      renderCell: (params) => (
+        <>
+          <Tooltip title="Editar">
+            <IconButton
+              onClick={() => handleOpenEdit(params.row)}
+              aria-label="Editar"
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title="Detalle">
+            <IconButton
+              onClick={() => handleOpen(params.row)}
+              aria-label="Ver detalles"
+            >
+              <ListIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="ELiminar">
+            <IconButton
+              onClick={() => handleOpenDelete()}
+              aria-label="ELiminar"
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        </>
       ),
     },
   ];
@@ -368,10 +407,15 @@ const InspectionMachinery: React.FC = () => {
         />
       </div>
 
-      <ModalMoreDetailInspection
-        openModal={open}
+      <ModalMoreDetailInspection  //boton de detalle
+        openModal={openDetail}
         handleClose={handleClose}
         data={selectedRow}
+      />
+         <ConfirmModal //boton de eliminar
+        onConfirm={openDelete}
+        onCancel={handleCloseConfirmModal}
+        id={1}
       />
     </>
   );

@@ -10,9 +10,11 @@ export const styleModal = {
     lg: "40%",
   },
   maxWidth: "800px",
-  height: "400px",
+  minHeight: "400px",
   bgcolor: "background.paper",
   boxShadow: 24,
+  overflowY: 'auto',
+
 };
 
 export const styleModalInspection = {
@@ -28,6 +30,7 @@ export const styleModalInspection = {
   },
   height: "500px",
   bgcolor: "background.paper",
+  boxShadow: 24,
   overflowY: 'auto',
 };
 
