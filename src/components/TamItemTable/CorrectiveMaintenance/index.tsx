@@ -161,11 +161,11 @@ const CorrectiveMaintenance: React.FC = () => {
         />
       </div>
 
-      <ModalEditMaintenance //boton de editar
-        openModal={openEdit}
-        handleClose={handleCloseEdit}
-        data={selectedRow}
-      />
+        <ModalEditMaintenance //boton de editar
+          openModal={openEdit}
+          handleClose={handleCloseEdit}
+          data={selectedRow}
+        />
 
       <ModalMoreDetail //boton de detalle
         openModal={openDetail}
