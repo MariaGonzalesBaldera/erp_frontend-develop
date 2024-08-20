@@ -8,6 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { MachineryInspectionItem } from "../../../types";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from '@mui/icons-material/List';
+import ModalEditInspector from "../../ModalEditInspector";
 
 const rows = [
     {
@@ -406,7 +407,12 @@ const InspectionMachinery: React.FC = () => {
           getRowId={(row) => row.heavyMachineryId}
         />
       </div>
-
+      <ModalEditInspector //boton de editar
+        openModal={openEdit}
+        handleClose={handleCloseEdit}
+        data={selectedRow}
+      />
+      
       <ModalMoreDetailInspection  //boton de detalle
         openModal={openDetail}
         handleClose={handleClose}
