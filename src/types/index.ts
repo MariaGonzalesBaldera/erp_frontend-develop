@@ -88,3 +88,19 @@ export interface MachineryInspectionItem {
     updatedAt: string;
     heavyMachineryId: string;
 }
+export interface DocumentItem {
+    id: String;
+    technicalReviewsStart: String;
+    technicalReviewsEnd: String;
+    soatStart: String;
+    soatEnd: String;
+    insuranceStart: String;
+    insuranceEnd: String;
+    trekInsuranceStart: String;
+    trekInsuranceEnd: String;
+    operatingCertificateStart: String;
+    operatingCertificateEnd: String;
+    createdAt: String;
+    updatedAt: String;
+    heavyMachineryId: String;
+}

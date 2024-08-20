@@ -1,22 +1,21 @@
-import { Box, Grid, IconButton, Modal, Typography } from "@mui/material";
 import React from "react";
-import { PreventMaintenanceItem } from "../../types";
+import { DocumentItem } from "../../types";
+import { Box, Grid, IconButton, Modal, Typography } from "@mui/material";
+import { styleModal } from "../../style/StyleModal";
 import themeNew from "../../utils/theme";
 import { Close } from "@mui/icons-material";
-import { styleModal } from "../../style/StyleModal";
 
-interface ModalMoreDetailProps {
+interface ModalDocumentDetailProps {
   openModal: boolean;
   handleClose: () => void;
-  data: PreventMaintenanceItem;
+  data: DocumentItem;
 }
 
-const ModalMoreDetail: React.FC<ModalMoreDetailProps> = ({
+const ModalDocumentDetail: React.FC<ModalDocumentDetailProps> = ({
   openModal,
   handleClose,
   data,
 }) => {
-  
   return (
     <Modal
       open={openModal}
@@ -43,7 +42,7 @@ const ModalMoreDetail: React.FC<ModalMoreDetailProps> = ({
             variant="button"
             component="h2"
           >
-            {"DETALLE DEL MANTENIMIENTO"}
+            {"DETALLE DEL DOCUMENTO #"} {data.id}
           </Typography>
           <IconButton sx={{ color: "white" }} onClick={handleClose}>
             <Close />
@@ -53,61 +52,79 @@ const ModalMoreDetail: React.FC<ModalMoreDetailProps> = ({
         {data && (
           <div className="bg-background p-6 w-full max-w-2xl">
             <div className="grid grid-cols-2 gap-4">
+              
               <div className="flex flex-col">
                 <span className="text-muted-foreground text-sm font-medium">
-                  Código de identificación
-                </span>
-                <span className="text-lg font-bold">{data.id}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                  Descripción
-                </span>
-                <span className="text-lg font-bold">{data.description}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                  Fecha Mant.
+                  technicalReviewsStart
                 </span>
                 <span className="text-lg font-bold">
-                  {data.maintenance_date}
+                  {data.technicalReviewsStart}
                 </span>
               </div>
               <div className="flex flex-col">
                 <span className="text-muted-foreground text-sm font-medium">
-                  Cantidad pagada
+                  technicalReviewsEnd
                 </span>
-                <span className="text-lg font-bold">{data.amount_paid}</span>
+                <span className="text-lg font-bold">
+                  {data.technicalReviewsEnd}
+                </span>
               </div>
               <div className="flex flex-col">
                 <span className="text-muted-foreground text-sm font-medium">
-                  Operador
+                  soatStart
                 </span>
-                <span className="text-lg font-bold">{data.operator}</span>
+                <span className="text-lg font-bold">{data.soatStart}</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-muted-foreground text-sm font-medium">
-                  Nombre del proyecto
+                  soatEnd
                 </span>
-                <span className="text-lg font-bold">{data.project_name}</span>
-              </div>
-              <div className="flex flex-col col-span-2">
-                <span className="text-muted-foreground text-sm font-medium">
-                  Observaciones
-                </span>
-                <span className="text-lg font-bold">{data.observations}</span>
+                <span className="text-lg font-bold">{data.soatEnd}</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-muted-foreground text-sm font-medium">
-                  Inicio de conducción
+                  insuranceStart
                 </span>
-                <span className="text-lg font-bold">{data.driving_start}</span>
+                <span className="text-lg font-bold">{data.insuranceStart}</span>
+              </div>
+              <div className="flex flex-col col-span-1">
+                <span className="text-muted-foreground text-sm font-medium">
+                  insuranceEnd
+                </span>
+                <span className="text-lg font-bold">{data.insuranceEnd}</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-muted-foreground text-sm font-medium">
-                  Fin de conducción
+                  trekInsuranceStart
                 </span>
-                <span className="text-lg font-bold">{data.driving_end}</span>
+                <span className="text-lg font-bold">
+                  {data.trekInsuranceStart}
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-muted-foreground text-sm font-medium">
+                  trekInsuranceEnd
+                </span>
+                <span className="text-lg font-bold">
+                  {data.trekInsuranceEnd}
+                </span>
+              </div>
+
+              <div className="flex flex-col">
+                <span className="text-muted-foreground text-sm font-medium">
+                  operatingCertificateStart
+                </span>
+                <span className="text-lg font-bold">
+                  {data.operatingCertificateStart}
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-muted-foreground text-sm font-medium">
+                  operatingCertificateEnd
+                </span>
+                <span className="text-lg font-bold">
+                  {data.operatingCertificateEnd}
+                </span>
               </div>
             </div>
           </div>
@@ -117,4 +134,4 @@ const ModalMoreDetail: React.FC<ModalMoreDetailProps> = ({
   );
 };
 
-export default ModalMoreDetail;
+export default ModalDocumentDetail;

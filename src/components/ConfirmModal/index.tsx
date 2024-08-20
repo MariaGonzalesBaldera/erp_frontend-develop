@@ -4,7 +4,7 @@ import themeNew from "../../utils/theme";
 
 interface ConfirmModalProps {
   onConfirm: boolean;
-  onCancel?: () => void;
+  onCancel: () => void;
   id: number;
 }
   const ConfirmModal: React.FC<ConfirmModalProps>  = ({ onConfirm, onCancel,id }) => {

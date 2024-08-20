@@ -4,6 +4,7 @@ import themeNew from "../../utils/theme";
 import PreventMaintenance from "../TamItemTable/PreventMaintenance";
 import CorrectiveMaintenance from "../TamItemTable/CorrectiveMaintenance";
 import InspectionMachinery from "../TamItemTable/InspectionMachinery";
+import Documents from "../TamItemTable/Documents";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -75,18 +76,22 @@ const TabDocumentos: React.FC = () => {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="Mant. Preventivo" {...a11yProps(0)} />
-            <Tab label="Mant. Correctivo" {...a11yProps(1)} />
-            <Tab label="Inspecciones" {...a11yProps(2)} />
+            <Tab label="Documentos" {...a11yProps(0)} />
+            <Tab label="Mant. Preventivo" {...a11yProps(1)} />
+            <Tab label="Mant. Correctivo" {...a11yProps(2)} />
+            <Tab label="Inspecciones" {...a11yProps(3)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <PreventMaintenance />
+          <Documents />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <CorrectiveMaintenance />
+          <PreventMaintenance />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
+          <CorrectiveMaintenance />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={3}>
           <InspectionMachinery />
         </CustomTabPanel>
       </Box>

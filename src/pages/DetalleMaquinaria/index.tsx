@@ -1,13 +1,4 @@
-import {
-  Box,
-  Breadcrumbs,
-  Card,
-  CardContent,
-  Divider,
-  Grid,
-  Link,
-  Typography,
-} from "@mui/material";
+import { Breadcrumbs, Divider, Grid, Link, Typography } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useLocation } from "react-router-dom";
 import React, { useState } from "react";
@@ -18,44 +9,22 @@ import CardItemDetail from "../../components/CardItemDetail";
 function DetalleMaquinaria() {
   const location = useLocation();
   const maquina = location.state;
-
-  const [openModalUpdate, setOpenModalUpdate] = React.useState(false);
-  const handleOpenUpdateModal = () => setOpenModalUpdate(true);
-  const handleCloseUpdateModal = () => setOpenModalUpdate(false);
-
-  const [formData, setFormData] = useState({
-    brand: maquina.brand || "",
-    model: maquina.model || "",
-    modelYear: maquina.modelYear || "",
-    acquisitionDate: maquina.acquisitionDate || "",
-    netLoad: maquina.netLoad || "",
-    fuelType: maquina.fuelType || "",
-    createdAt: maquina.createdAt || "",
-  });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-  };
+ 
 
   return (
     <>
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
-        sx={{ maxWidth: "10rem", minWidth: "20rem", marginBottom: ".8rem" }}
+        sx={{ maxWidth: "10rem", minWidth: "26rem", marginBottom: ".8rem" }}
       >
         <Link
-          fontSize={"14px"}
+          fontSize={"12px"}
           color={themeNew.palette.menu.main}
           href="/lista-maquinarias"
           underline="hover"
         >
-          Listado Maquinaria
+          LISTADO MAQUINARIA
         </Link>
         <Typography variant="button" color="text.primary">
           Detalle maquinaria
@@ -71,7 +40,10 @@ function DetalleMaquinaria() {
         />
         <CardItemDetail title="Carga Neta" value={maquina.netLoad} />
         <CardItemDetail title="Tipo de Combustible" value={maquina.fuelType} />
-        <CardItemDetail title="FECHA CREACIÓN" value={maquina.createdAt.slice(0, -9)} />
+        <CardItemDetail
+          title="FECHA CREACIÓN"
+          value={maquina.createdAt.slice(0, -9)}
+        />
       </div>
       <Divider />
       <Grid className="mt-4">
