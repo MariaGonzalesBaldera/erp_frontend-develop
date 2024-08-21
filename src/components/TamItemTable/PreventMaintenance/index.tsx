@@ -104,7 +104,7 @@ const PreventMaintenance: React.FC = () => {
   const handleCloseEdit = () => setOpenEdit(false);
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", flex: 1, minWidth: 100 },
+    { field: "id", headerName: "ID" , minWidth: 100 },
     { field: "operator", headerName: "Operador", flex: 1, minWidth: 150 },
     { field: "description", headerName: "Descripción", flex: 2, minWidth: 120 },
     {

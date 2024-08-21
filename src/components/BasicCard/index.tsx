@@ -119,7 +119,6 @@ const BasicCard: React.FC<BasicCardProps> = ({ data }) => {
           openModal={openModalUpDate}
           handleClose={handleCloseUpdate}
           data={data}
-          title={"ACTUALIZAR DATOS DE MAQUINARIA "}
         />
       </Card>
     </StyledCard>

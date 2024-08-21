@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { styleModal } from "../../style/StyleModal";
+import React, { useEffect, useState } from "react";
+import { styleModalInspection } from "../../style/StyleModal";
 import {
   Box,
   Grid,
@@ -12,6 +12,7 @@ import { DocumentItem } from "../../types";
 import themeNew from "../../utils/theme";
 import { Close } from "@mui/icons-material";
 import ButtonDefault from "../ButtonDefault";
+import HeaderModal from "../HeaderModal";
 
 interface ModalEditDocumentProps {
   openModal: boolean;
@@ -25,18 +26,22 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
   data,
 }) => {
   const [formData, setFormData] = useState({
-    technicalReviewsStart: data.technicalReviewsStart,
-    technicalReviewsEnd: data.technicalReviewsEnd,
-    soatStart: data.soatStart,
-    soatEnd: data.soatEnd,
-    insuranceStart: data.insuranceStart,
-    insuranceEnd: data.insuranceEnd,
-    trekInsuranceStart: data.trekInsuranceStart,
-    trekInsuranceEnd: data.trekInsuranceEnd,
-    operatingCertificateStart: data.operatingCertificateStart,
-    operatingCertificateEnd: data.operatingCertificateEnd,
+    technicalReviewsStart: data.technicalReviewsStart || "",
+    technicalReviewsEnd: data.technicalReviewsEnd || "",
+    soatStart: data.soatStart || "",
+    soatEnd: data.soatEnd || "",
+    insuranceStart: data.insuranceStart || "",
+    insuranceEnd: data.insuranceEnd || "",
+    trekInsuranceStart: data.trekInsuranceStart || "",
+    trekInsuranceEnd: data.trekInsuranceEnd || "",
+    operatingCertificateStart: data.operatingCertificateStart || "",
+    operatingCertificateEnd: data.operatingCertificateEnd || "",
   });
 
+  useEffect(() => {
+    setFormData(data);
+  }, [data])
+  
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -58,36 +63,16 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={styleModal}>
-        <Grid
-          container
-          className="pl-5"
-          sx={{
-            width: "100%",
-            textAlign: "end",
-            height: "2.5rem",
-            backgroundColor: themeNew.palette.primary.main,
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography
-            sx={{ color: "white" }}
-            id="modal-modal-title"
-            variant="button"
-            component="h2"
-          >
-            {"EDITAR DETALLE DEL DOCUMENTO #"} {data.id}
-          </Typography>
-          <IconButton sx={{ color: "white" }} onClick={handleClose}>
-            <Close />
-          </IconButton>
-        </Grid>
-
+      <Box sx={styleModalInspection}>
+        <HeaderModal
+          titleHeader={"EDITAR DETALLE DEL DOCUMENTO "}
+          id={""} //aqui va el id
+          handleClose={handleClose}
+        />
         <div className="bg-background p-6 w-full max-w-2xl">
           <div className="grid grid-cols-2 gap-4">
             <TextField
-              label="Technical Reviews Start"
+              label="Inicio de revisiones técnicas"
               variant="outlined"
               type="date"
               name="technicalReviewsStart"
@@ -95,7 +80,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
               onChange={handleChange}
             />
             <TextField
-              label="Technical Reviews End"
+              label="Fin de revisiones técnicas"
               variant="outlined"
               type="date"
               name="technicalReviewsEnd"
@@ -103,7 +88,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
               onChange={handleChange}
             />
             <TextField
-              label="SOAT Start"
+              label="Inico del SOAT"
               variant="outlined"
               type="date"
               name="soatStart"
@@ -111,7 +96,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
               onChange={handleChange}
             />
             <TextField
-              label="SOAT End"
+              label="Fin del SOAT"
               variant="outlined"
               type="date"
               name="soatEnd"
@@ -119,7 +104,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
               onChange={handleChange}
             />
             <TextField
-              label="Insurance Start"
+              label="Inicio del seguro"
               variant="outlined"
               type="date"
               name="insuranceStart"
@@ -127,7 +112,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
               onChange={handleChange}
             />
             <TextField
-              label="Insurance End"
+              label="Fin del seguro"
               variant="outlined"
               type="date"
               name="insuranceEnd"
@@ -151,7 +136,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
               onChange={handleChange}
             />
             <TextField
-              label="Operating Certificate Start"
+              label="Inicio del certificado de operaciones"
               variant="outlined"
               type="date"
               name="operatingCertificateStart"
@@ -159,7 +144,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
               onChange={handleChange}
             />
             <TextField
-              label="Operating Certificate End"
+              label="Fin del certificado de operaciones"
               variant="outlined"
               type="date"
               name="operatingCertificateEnd"
