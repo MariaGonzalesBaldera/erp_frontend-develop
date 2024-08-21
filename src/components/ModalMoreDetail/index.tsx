@@ -3,7 +3,8 @@ import React from "react";
 import { PreventMaintenanceItem } from "../../types";
 import themeNew from "../../utils/theme";
 import { Close } from "@mui/icons-material";
-import { styleModal } from "../../style/StyleModal";
+import { styleModalInspection } from "../../style/StyleModal";
+import HeaderModal from "../HeaderModal";
 
 interface ModalMoreDetailProps {
   openModal: boolean;
@@ -24,32 +25,12 @@ const ModalMoreDetail: React.FC<ModalMoreDetailProps> = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={styleModal}>
-        <Grid
-          container
-          className="pl-5"
-          sx={{
-            width: "100%",
-            textAlign: "end",
-            height: "2.5rem",
-            backgroundColor: themeNew.palette.primary.main,
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography
-            sx={{ color: "white" }}
-            id="modal-modal-title"
-            variant="button"
-            component="h2"
-          >
-            {"DETALLE DEL MANTENIMIENTO"}
-          </Typography>
-          <IconButton sx={{ color: "white" }} onClick={handleClose}>
-            <Close />
-          </IconButton>
-        </Grid>
-
+      <Box sx={styleModalInspection}>
+        <HeaderModal
+          titleHeader={"DETALLE DEL MANTENIMIENTO"}
+          id={"#"} //aqui va el id
+          handleClose={handleClose}
+        />
         {data && (
           <div className="bg-background p-6 w-full max-w-2xl">
             <div className="grid grid-cols-2 gap-4">

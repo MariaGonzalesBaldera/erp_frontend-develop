@@ -8,10 +8,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { styleModal } from "../../style/StyleModal";
+import { styleModalInspection } from "../../style/StyleModal";
 import themeNew from "../../utils/theme";
 import { Close } from "@mui/icons-material";
 import ButtonDefault from "../ButtonDefault";
+import HeaderModal from "../HeaderModal";
 
 interface ModalEditMaintenanceProps {
   openModal: boolean;
@@ -61,31 +62,12 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={styleModal}>
-        <Grid
-          container
-          className="pl-5"
-          sx={{
-            width: "100%",
-            textAlign: "end",
-            height: "2.5rem",
-            backgroundColor: themeNew.palette.primary.main,
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography
-            sx={{ color: "white" }}
-            id="modal-modal-title"
-            variant="button"
-            component="h2"
-          >
-            {"Editar mantenimiento"}
-          </Typography>
-          <IconButton sx={{ color: "white" }} onClick={handleClose}>
-            <Close />
-          </IconButton>
-        </Grid>
+      <Box sx={styleModalInspection}>
+        <HeaderModal
+          titleHeader={"EDITAR MANTENIMIENTO"}
+          id={"#"} //aqui va el id
+          handleClose={handleClose}
+        />
         <Box className="p-5">
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
           <Grid container spacing={2}>

@@ -12,19 +12,18 @@ import themeNew from "../../utils/theme";
 import { Close } from "@mui/icons-material";
 import ButtonDefault from "../ButtonDefault";
 import { MaquinariaDataItem } from "../../types/index";
-import { styleModal } from "../../style/StyleModal";
+import { styleModalInspection } from "../../style/StyleModal";
+import HeaderModal from "../HeaderModal";
 
 interface ModalFormularioProps {
   openModal: boolean;
   handleClose: () => void;
   data: MaquinariaDataItem;
-  title: string;
 }
 const ModalActualizarData: React.FC<ModalFormularioProps> = ({
   openModal,
   handleClose,
   data,
-  title,
 }) => {
   const [openModalUpdate, setOpenModalUpdate] = React.useState(false);
   const handleOpenUpdateModal = () => setOpenModalUpdate(openModal);
@@ -71,31 +70,12 @@ const ModalActualizarData: React.FC<ModalFormularioProps> = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={styleModal}>
-        <Grid
-          container
-          className="pl-5"
-          sx={{
-            width: "100%",
-            textAlign: "end",
-            height: "2.5rem",
-            backgroundColor: themeNew.palette.primary.main,
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography
-            sx={{ color: "white" }}
-            id="modal-modal-title"
-            variant="button"
-            component="h2"
-          >
-            {title}
-          </Typography>
-          <IconButton sx={{ color: "white" }} onClick={handleClose}>
-            <Close />
-          </IconButton>
-        </Grid>
+      <Box sx={styleModalInspection}>
+        <HeaderModal
+          titleHeader={"ACTUALIZAR DATOS DE MAQUINARIA"}
+          id={""} //aqui va el id
+          handleClose={handleClose}
+        />
         <Box className="p-5">
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
             <Grid container spacing={2}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MachineryInspectionItem } from "../../types";
 import {
   Box,
@@ -10,10 +10,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { styleModal } from "../../style/StyleModal";
+
+import { styleModalInspection } from "../../style/StyleModal";
 import themeNew from "../../utils/theme";
 import { Close } from "@mui/icons-material";
 import ButtonDefault from "../ButtonDefault";
+import HeaderModal from "../HeaderModal";
 
 interface ModalEditDocumentProps {
   openModal: boolean;
@@ -27,53 +29,108 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
   data,
 }) => {
   const [formData, setFormData] = useState({
-    projectName: data.projectName,
-    unitData: data.unitData,
-    activity: data.activity,
-    location: data.location,
-    registrationDate: data.registrationDate,
-    operator: data.operator,
-    residentEngineer: data.residentEngineer,
-    ssoma: data.ssoma,
-    observations: data.observations,
-    frontLights: data.frontLights,
-    rearLights: data.rearLights,
-    rolloverProtection: data.rolloverProtection,
-    seatbelt: data.seatbelt,
-    bucketConditionAndOperation: data.bucketConditionAndOperation,
-    seatCondition: data.seatCondition,
-    windows: data.windows,
-    cabin: data.cabin,
-    reverseAlarm: data.reverseAlarm,
-    accessLadderAndSupports: data.accessLadderAndSupports,
-    mirrors: data.mirrors,
-    horn: data.horn,
-    controlLevers: data.controlLevers,
-    pedals: data.pedals,
-    liftCylinders: data.liftCylinders,
-    articulationCylinders: data.articulationCylinders,
-    doorConditionWithLock: data.doorConditionWithLock,
-    battery: data.battery,
-    electricalInstallation: data.electricalInstallation,
-    steering: data.steering,
-    engine: data.engine,
-    radiator: data.radiator,
-    indicators: data.indicators,
-    brakingSystem: data.brakingSystem,
-    oilCooler: data.oilCooler,
-    hydraulicSystemBlock: data.hydraulicSystemBlock,
-    hoses: data.hoses,
-    belts: data.belts,
-    electricalSystem: data.electricalSystem,
-    swingMechanism: data.swingMechanism,
-    swingMechanismBrake: data.swingMechanismBrake,
-    armLiftControls: data.armLiftControls,
-    rightTrack: data.rightTrack,
-    leftTrack: data.leftTrack,
-    spillKit: data.spillKit,
-    fireExtinguisher20Lbs: data.fireExtinguisher20Lbs,
-    safetyCones: data.safetyCones,
+    projectName: data.projectName || "",
+    unitData: data.unitData || "",
+    activity: data.activity || "",
+    location: data.location || "",
+    registrationDate: data.registrationDate || "",
+    operator: data.operator || "",
+    residentEngineer: data.residentEngineer || "",
+    ssoma: data.ssoma || "",
+    observations: data.observations || "",
+    frontLights: data.frontLights || false,
+    rearLights: data.rearLights || false,
+    directionalLights: data.directionalLights || false,
+    rolloverProtection: data.rolloverProtection || false,
+    seatbelt: data.seatbelt || false,
+    bucketConditionAndOperation: data.bucketConditionAndOperation || false,
+    seatCondition: data.seatCondition || false,
+    windows: data.windows || false,
+    cabin: data.cabin || false,
+    reverseAlarm: data.reverseAlarm || false,
+    accessLadderAndSupports: data.accessLadderAndSupports || false,
+    mirrors: data.mirrors || false,
+    horn: data.horn || false,
+    controlLevers: data.controlLevers || false,
+    pedals: data.pedals || false,
+    liftCylinders: data.liftCylinders || false,
+    articulationCylinders: data.articulationCylinders || false,
+    doorConditionWithLock: data.doorConditionWithLock || false,
+    battery: data.battery || false,
+    electricalInstallation: data.electricalInstallation || false,
+    steering: data.steering || false,
+    engine: data.engine || false,
+    radiator: data.radiator || false,
+    indicators: data.indicators || false,
+    brakingSystem: data.brakingSystem || false,
+    oilCooler: data.oilCooler || false,
+    hydraulicSystemBlock: data.hydraulicSystemBlock || false,
+    hoses: data.hoses || false,
+    belts: data.belts || false,
+    electricalSystem: data.electricalSystem || false,
+    swingMechanism: data.swingMechanism || false,
+    swingMechanismBrake: data.swingMechanismBrake || false,
+    armLiftControls: data.armLiftControls || false,
+    rightTrack: data.rightTrack || false,
+    leftTrack: data.leftTrack || false,
+    spillKit: data.spillKit || false,
+    fireExtinguisher20Lbs: data.fireExtinguisher20Lbs || false,
+    safetyCones: data.safetyCones || false,
   });
+
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      projectName: data.projectName || "",
+      unitData: data.unitData || "",
+      activity: data.activity || "",
+      location: data.location || "",
+      registrationDate: data.registrationDate || "",
+      operator: data.operator || "",
+      residentEngineer: data.residentEngineer || "",
+      ssoma: data.ssoma || "",
+      observations: data.observations || "",
+      frontLights: data.frontLights || false,
+      rearLights: data.rearLights || false,
+      directionalLights: data.directionalLights || false,
+      rolloverProtection: data.rolloverProtection || false,
+      seatbelt: data.seatbelt || false,
+      bucketConditionAndOperation: data.bucketConditionAndOperation || false,
+      seatCondition: data.seatCondition || false,
+      windows: data.windows || false,
+      cabin: data.cabin || false,
+      reverseAlarm: data.reverseAlarm || false,
+      accessLadderAndSupports: data.accessLadderAndSupports || false,
+      mirrors: data.mirrors || false,
+      horn: data.horn || false,
+      controlLevers: data.controlLevers || false,
+      pedals: data.pedals || false,
+      liftCylinders: data.liftCylinders || false,
+      articulationCylinders: data.articulationCylinders || false,
+      doorConditionWithLock: data.doorConditionWithLock || false,
+      battery: data.battery || false,
+      electricalInstallation: data.electricalInstallation || false,
+      steering: data.steering || false,
+      engine: data.engine || false,
+      radiator: data.radiator || false,
+      indicators: data.indicators || false,
+      brakingSystem: data.brakingSystem || false,
+      oilCooler: data.oilCooler || false,
+      hydraulicSystemBlock: data.hydraulicSystemBlock || false,
+      hoses: data.hoses || false,
+      belts: data.belts || false,
+      electricalSystem: data.electricalSystem || false,
+      swingMechanism: data.swingMechanism || false,
+      swingMechanismBrake: data.swingMechanismBrake || false,
+      armLiftControls: data.armLiftControls || false,
+      rightTrack: data.rightTrack || false,
+      leftTrack: data.leftTrack || false,
+      spillKit: data.spillKit || false,
+      fireExtinguisher20Lbs: data.fireExtinguisher20Lbs || false,
+      safetyCones: data.safetyCones || false,
+    }));
+  }, [data]);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -97,36 +154,18 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={styleModal}>
-        <Grid
-          container
-          className="pl-5"
-          sx={{
-            width: "100%",
-            textAlign: "end",
-            height: "2.5rem",
-            backgroundColor: themeNew.palette.primary.main,
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography
-            sx={{ color: "white" }}
-            id="modal-modal-title"
-            variant="button"
-            component="h2"
-          >
-            {"EDITAR DETALLE DEL DOCUMENTO #"} {data.cabin}
-          </Typography>
-          <IconButton sx={{ color: "white" }} onClick={handleClose}>
-            <Close />
-          </IconButton>
-        </Grid>
+      <Box sx={styleModalInspection}>
+        <HeaderModal
+          titleHeader={"EDITAR DETALLE DE LA INSPECCIÓN"}
+          id={"#"} //aqui va el id
+          handleClose={handleClose}
+        />
 
         <div className="bg-background p-6 w-full max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Campos de texto */}
-            <TextField
+            
+{/* Campos de texto */}
+<TextField
               label="Nombre del proyecto"
               variant="outlined"
               name="projectName"
@@ -198,9 +237,15 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               onChange={handleChange}
               fullWidth
             />
+            </div>
 
             {/* Campos booleanos */}
+            <Typography className="p-2" id="modal-modal-title" variant="button" component="h2" fontWeight={"bold"} >
+            {"DETALLES"}
+          </Typography>
+            <div className="grid grid-cols-1 md:grid-cols-2">
             <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
               control={
                 <Checkbox
                   checked={formData.frontLights}
@@ -211,6 +256,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Luces delanteras"
             />
             <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
               control={
                 <Checkbox
                   checked={formData.rearLights}
@@ -221,6 +267,18 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Luces traseras"
             />
             <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.directionalLights}
+                  onChange={handleChange}
+                  name="directionalLights"
+                />
+              }
+              label="Luces direccionales"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
               control={
                 <Checkbox
                   checked={formData.rolloverProtection}
@@ -231,6 +289,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Protección antivuelco"
             />
             <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
               control={
                 <Checkbox
                   checked={formData.seatbelt}
@@ -240,8 +299,8 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               }
               label="Cinturón de seguridad"
             />
-            {/* Añade aquí el resto de los CheckInspectionCards con Checkboxes */}
             <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
               control={
                 <Checkbox
                   checked={formData.bucketConditionAndOperation}
@@ -252,6 +311,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Estado y funcionamiento del cubo"
             />
             <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
               control={
                 <Checkbox
                   checked={formData.seatCondition}
@@ -262,6 +322,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Estado del asiento"
             />
             <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
               control={
                 <Checkbox
                   checked={formData.windows}
@@ -272,6 +333,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Ventanas"
             />
             <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
               control={
                 <Checkbox
                   checked={formData.cabin}
@@ -282,6 +344,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Cabina"
             />
             <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
               control={
                 <Checkbox
                   checked={formData.reverseAlarm}
@@ -292,6 +355,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Alarma de marcha atrás"
             />
             <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
               control={
                 <Checkbox
                   checked={formData.accessLadderAndSupports}
@@ -302,6 +366,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Escalera de acceso y soportes"
             />
             <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
               control={
                 <Checkbox
                   checked={formData.mirrors}
@@ -312,6 +377,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Espejos"
             />
             <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
               control={
                 <Checkbox
                   checked={formData.horn}
@@ -322,6 +388,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Bocina"
             />
             <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
               control={
                 <Checkbox
                   checked={formData.controlLevers}
@@ -332,6 +399,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Palancas de control"
             />
             <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
               control={
                 <Checkbox
                   checked={formData.pedals}
@@ -341,8 +409,260 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               }
               label="Pedales"
             />
-            {/* Continuar agregando los campos restantes de tipo booleano */}
-          </div>
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.liftCylinders}
+                  onChange={handleChange}
+                  name="liftCylinders"
+                />
+              }
+              label="Cilindros de elevación"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.articulationCylinders}
+                  onChange={handleChange}
+                  name="articulationCylinders"
+                />
+              }
+              label="Cilindros de articulación"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.doorConditionWithLock}
+                  onChange={handleChange}
+                  name="doorConditionWithLock"
+                />
+              }
+              label="Estado de la puerta con cerradura"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.battery}
+                  onChange={handleChange}
+                  name="battery"
+                />
+              }
+              label="Batería"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.electricalInstallation}
+                  onChange={handleChange}
+                  name="Instalación eléctrica"
+                />
+              }
+              label="electricalInstallation"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.steering}
+                  onChange={handleChange}
+                  name="Dirección"
+                />
+              }
+              label="steering"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.engine}
+                  onChange={handleChange}
+                  name="Motor"
+                />
+              }
+              label="engine"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.radiator}
+                  onChange={handleChange}
+                  name="Radiador"
+                />
+              }
+              label="radiator"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.indicators}
+                  onChange={handleChange}
+                  name="Indicadores"
+                />
+              }
+              label="indicators"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.brakingSystem}
+                  onChange={handleChange}
+                  name="Sistema de frenos"
+                />
+              }
+              label="brakingSystem"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.oilCooler}
+                  onChange={handleChange}
+                  name="Enfriador de aceite"
+                />
+              }
+              label="oilCooler"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.hydraulicSystemBlock}
+                  onChange={handleChange}
+                  name="Bloque del sistema hidráulico"
+                />
+              }
+              label="hydraulicSystemBlock"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.hoses}
+                  onChange={handleChange}
+                  name="Mangueras"
+                />
+              }
+              label="hoses"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.belts}
+                  onChange={handleChange}
+                  name="Correas"
+                />
+              }
+              label="belts"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.electricalSystem}
+                  onChange={handleChange}
+                  name="Sistema eléctrico"
+                />
+              }
+              label="electricalSystem"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.swingMechanism}
+                  onChange={handleChange}
+                  name="Mecanismo de giro"
+                />
+              }
+              label="swingMechanism"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.swingMechanismBrake}
+                  onChange={handleChange}
+                  name="Freno del mecanismo de giro"
+                />
+              }
+              label="swingMechanismBrake"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.armLiftControls}
+                  onChange={handleChange}
+                  name="Control de elevación del brazo"
+                />
+              }
+              label="armLiftControls"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.rightTrack}
+                  onChange={handleChange}
+                  name="Oruga derecha"
+                />
+              }
+              label="rightTrack"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.leftTrack}
+                  onChange={handleChange}
+                  name="Oruga izquierda"
+                />
+              }
+              label="leftTrack"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.spillKit}
+                  onChange={handleChange}
+                  name="Kit de derrames"
+                />
+              }
+              label="spillKit"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.fireExtinguisher20Lbs}
+                  onChange={handleChange}
+                  name="Extintor de 20 libras"
+                />
+              }
+              label="fireExtinguisher20Lbs"
+            />
+            <FormControlLabel
+                sx={{height:30,fontSizeAdjust:"0.47"}}
+              control={
+                <Checkbox
+                  checked={formData.safetyCones}
+                  onChange={handleChange}
+                  name="Conos de seguridad"
+                />
+              }
+              label="safetyCones"
+            />
+            </div>
 
           <Grid container justifyContent="flex-end" spacing={2} mt={2}>
             <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
@@ -352,7 +672,8 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               />
             </Grid>
           </Grid>
-        </div>
+          </div>
+
       </Box>
     </Modal>
   );

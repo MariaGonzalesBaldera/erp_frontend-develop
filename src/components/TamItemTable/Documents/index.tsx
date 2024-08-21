@@ -81,19 +81,19 @@ const Documents: React.FC = () => {
   const handleCloseEdit = () => setOpenEdit(false);
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", flex: 1, minWidth: 100 },
-    { field: "technicalReviewsStart", headerName: "technicalReviewsStart", flex: 1, minWidth: 150 },
-    { field: "technicalReviewsEnd", headerName: "technicalReviewsEnd", flex: 2, minWidth: 120 },
+    { field: "id", headerName: "ID", minWidth: 50 },
+    { field: "technicalReviewsStart", headerName: "Inicio Revisiones técnicas", flex: 1, minWidth: 200 },
+    { field: "technicalReviewsEnd", headerName: "Fin Revisiones técnicas", flex: 1, minWidth: 120 },
     {
       field: "soatStart",
-      headerName: "soatStart",
-      flex: 2,
+      headerName: "Inicio del Soat",
+      flex: 1,
       minWidth: 150,
     },
     {
       field: "actions",
       headerName: "Acciones",
-      flex: 0.5,
+      flex: 1,
       minWidth: 150,
       disableColumnMenu: true,
       renderCell: (params) => (

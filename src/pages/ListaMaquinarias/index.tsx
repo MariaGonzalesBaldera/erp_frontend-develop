@@ -315,7 +315,6 @@ const ListaMaquinarias: React.FC = () => {
       <ModalFormulario
         openModal={openModalNew}
         handleClose={handleCloseNewModal}
-        title="Nueva maquinaria"
         data={dataMaquinaria}
       />
     </>
