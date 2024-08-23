@@ -17,7 +17,6 @@ const ModalMoreDetail: React.FC<ModalMoreDetailProps> = ({
   handleClose,
   data,
 }) => {
-  
   return (
     <Modal
       open={openModal}
@@ -32,63 +31,55 @@ const ModalMoreDetail: React.FC<ModalMoreDetailProps> = ({
           handleClose={handleClose}
         />
         {data && (
-          <div className="bg-background p-6 w-full max-w-2xl">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                  Código de identificación
+          <div className="bg-background  w-full max-w-2xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-0 max-w-6xl mx-auto p-1">
+              <div className="flex flex-col col-span-1 md:col-span-1 border p-2">
+                <span className="text-muted-foreground text-sm font-small">
+                  Código de identificación:
                 </span>
-                <span className="text-lg font-bold">{data.id}</span>
+                <span className="text-sm font-bold">{data.id}</span>
               </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                  Descripción
+              <div className="flex flex-col col-span-1 md:col-span-1 border p-2">
+                <span className="text-muted-foreground text-sm font-small">
+                  Descripción:
                 </span>
-                <span className="text-lg font-bold">{data.description}</span>
+                <span className="text-sm font-bold">{data.description}</span>
               </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                  Fecha Mant.
+              <div className="flex flex-col col-span-1 md:col-span-1 border p-2">
+                <span className="text-muted-foreground text-sm font-small">
+                  Cantidad pagada:
                 </span>
-                <span className="text-lg font-bold">
-                  {data.maintenance_date}
-                </span>
+                <span className="text-sm font-bold">{data.amount_paid}</span>
               </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                  Cantidad pagada
+              <div className="flex flex-col col-span-1 md:col-span-1 border p-2">
+                <span className="text-muted-foreground text-sm font-small">
+                  Operador:
                 </span>
-                <span className="text-lg font-bold">{data.amount_paid}</span>
+                <span className="text-sm font-bold">{data.operator}</span>
               </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                  Operador
+              <div className="flex flex-col col-span-1 md:col-span-1 border p-2">
+                <span className="text-muted-foreground text-sm font-small">
+                  Nombre del proyecto:
                 </span>
-                <span className="text-lg font-bold">{data.operator}</span>
+                <span className="text-sm font-bold">{data.project_name}</span>
               </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                  Nombre del proyecto
+              <div className="flex flex-col col-span-1 md:col-span-1 border p-2">
+                <span className="text-muted-foreground text-sm font-small">
+                  Inicio de conducción:
                 </span>
-                <span className="text-lg font-bold">{data.project_name}</span>
+                <span className="text-sm font-bold">{data.driving_start}</span>
               </div>
-              <div className="flex flex-col col-span-2">
-                <span className="text-muted-foreground text-sm font-medium">
-                  Observaciones
+              <div className="flex flex-col col-span-1 md:col-span-1 border p-2">
+                <span className="text-muted-foreground text-sm font-small">
+                  Fin de conducción:
                 </span>
-                <span className="text-lg font-bold">{data.observations}</span>
+                <span className="text-sm font-bold">{data.driving_end}</span>
               </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                  Inicio de conducción
+              <div className="flex flex-col col-span-1 md:col-span-1 border p-2">
+                <span className="text-muted-foreground text-sm font-small">
+                  Observaciones:
                 </span>
-                <span className="text-lg font-bold">{data.driving_start}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                  Fin de conducción
-                </span>
-                <span className="text-lg font-bold">{data.driving_end}</span>
+                <span className="text-sm font-bold">{data.observations}</span>
               </div>
             </div>
           </div>

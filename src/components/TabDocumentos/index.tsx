@@ -1,6 +1,5 @@
-import { Box, Grid, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Grid, Tab, Tabs } from "@mui/material";
 import React from "react";
-import themeNew from "../../utils/theme";
 import PreventMaintenance from "../TamItemTable/PreventMaintenance";
 import CorrectiveMaintenance from "../TamItemTable/CorrectiveMaintenance";
 import InspectionMachinery from "../TamItemTable/InspectionMachinery";
@@ -44,15 +43,7 @@ const TabDocumentos: React.FC = () => {
   };
 
   return (
-    <Grid>
-      <Typography
-        sx={{ marginBottom: "1rem" }}
-        color={themeNew.palette.surface.main}
-        variant="subtitle2"
-      >
-        DOCUMENTOS
-      </Typography>
-      <Box
+      <Grid
         sx={{
           width: "100%",
           minWidth: "300px",
@@ -65,7 +56,7 @@ const TabDocumentos: React.FC = () => {
             maxWidth: "400px",
           },
           "@media (min-width: 1200px)": {
-            minWidth: "600px",
+            minWidth: "100%",
             maxWidth: "1000px",
           },
         }}
@@ -94,8 +85,7 @@ const TabDocumentos: React.FC = () => {
         <CustomTabPanel value={value} index={3}>
           <InspectionMachinery />
         </CustomTabPanel>
-      </Box>
-    </Grid>
+      </Grid>
   );
 };
 

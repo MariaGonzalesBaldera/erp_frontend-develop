@@ -350,19 +350,19 @@ const InspectionMachinery: React.FC = () => {
   const handleCloseEdit = () => setOpenEdit(false);
 
   const columns: GridColDef[] = [
-    { field: "heavyMachineryId", headerName: "ID", minWidth: 100 },
+    { field: "heavyMachineryId", headerName: "ID", minWidth: 50,align:"center",headerAlign:"center" },
     { field: "projectName", headerName: "Nombre del Proyecto", flex: 1, minWidth: 150 },
-    { field: "unitData", headerName: "Datos de unidad", flex: 2, minWidth: 120 },
+    { field: "unitData", headerName: "Datos de unidad", flex: 1, minWidth: 120 },
     {
       field: "activity",
       headerName: "Actividad",
-      flex: 2,
+      flex: 1,
       minWidth: 150,
     },
     {
       field: "actions",
       headerName: "Acciones",
-      flex: 0.5, 
+      flex: 1, 
       minWidth: 150,
       disableColumnMenu: true,      renderCell: (params) => (
         <>

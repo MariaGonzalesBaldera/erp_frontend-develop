@@ -13,7 +13,7 @@ export interface MaquinariaDataItem {
 export interface PreventMaintenanceItem {
     id: string;
     description: string;
-    maintenance_date: string;
+    maintenance_date: string; ///filtro
     amount_paid: string;
     operator: string;
     project_name: string;
@@ -41,7 +41,7 @@ export interface MachineryInspectionItem {
     unitData: string;
     activity: string;
     location: string;
-    registrationDate: string;
+    registrationDate: string; //filtro
     frontLights: boolean;
     rearLights: boolean;
     directionalLights: boolean;
