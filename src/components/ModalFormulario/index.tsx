@@ -1,69 +1,82 @@
-import {
-  Box,
-  Grid,
-  IconButton,
-  MenuItem,
-  Modal,
-  TextField,
-  Typography,
-} from "@mui/material";
-import React, { useState } from "react";
-import themeNew from "../../utils/theme";
-import { Close } from "@mui/icons-material";
+import React, { useEffect, useState, useCallback } from "react";
+import { Box, Grid, MenuItem, Modal, TextField } from "@mui/material";
 import ButtonDefault from "../ButtonDefault";
 import { MaquinariaDataItem } from "../../types/index";
 import { styleModalInspection } from "../../style/StyleModal";
 import HeaderModal from "../HeaderModal";
 
-
 interface ModalFormularioProps {
   openModal: boolean;
   handleClose: () => void;
   data: MaquinariaDataItem;
-  title: string;
+  mode: string;
 }
+
+const currencies = [
+  { value: "gas", label: "gas" },
+  { value: "Biodiésel", label: "Biodiésel" },
+  { value: "Petroleo", label: "Petroleo" },
+];
+
 const ModalFormulario: React.FC<ModalFormularioProps> = ({
   openModal,
   handleClose,
   data,
+  mode,
 }) => {
-  const [openModalUpdate, setOpenModalUpdate] = React.useState(false);
-  const handleOpenUpdateModal = () => setOpenModalUpdate(openModal);
-  const handleCloseUpdateModal = () => setOpenModalUpdate(false);
-
   const [formData, setFormData] = useState({
-    brand: data.brand || "",
-    model: data.model || "",
-    modelYear: data.modelYear || "",
-    acquisitionDate: data.acquisitionDate || "",
-    netLoad: data.netLoad || "",
-    fuelType: data.fuelType || "",
-    createdAt: data.createdAt || "",
+    brand: "",
+    model: "",
+    modelYear: "",
+    acquisitionDate: "",
+    netLoad: "",
+    fuelType: "",
+    createdAt: "",
   });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  useEffect(() => {
+    if (openModal) {
+      setFormData({
+        brand: data?.brand || "",
+        model: data?.model || "",
+        modelYear: data?.modelYear || "",
+        acquisitionDate: data?.acquisitionDate || "",
+        netLoad: data?.netLoad || "",
+        fuelType: data?.fuelType || "",
+        createdAt: data?.createdAt || "",
+      });
+    }
+  }, [openModal, data]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-  };
+  const handleChange = useCallback(
+    (e) => {
+      setFormData((prevData) => ({
+        ...prevData,
+        [e.target.name]: e.target.value,
+      }));
+    },
+    [setFormData]
+  );
 
-  const currencies = [
-    {
-      value: "gas",
-      label: "gas",
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (mode === "create") {
+        console.log("Creating new record:", formData);
+        // Lógica de creación
+      } else {
+        console.log("Updating record:", formData);
+        // Lógica de actualización
+      }
+      handleClose();
     },
-    {
-      value: "Biodiésel",
-      label: "Biodiésel",
-    },
-    {
-      value: "Petroleo",
-      label: "Petroleo",
-    },
-  ];
+    [formData, mode, handleClose]
+  );
+  const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR"
+  const modalTitle =
+    mode === "create"
+      ? "NUEVA MAQUINARIA"
+      : "ACTUALIZAR DATOS DE MAQUINARIA";
 
   return (
     <Modal
@@ -74,8 +87,8 @@ const ModalFormulario: React.FC<ModalFormularioProps> = ({
     >
       <Box sx={styleModalInspection}>
         <HeaderModal
-          titleHeader={"NUEVA MAQUINARIA"}
-          id={""} //aqui va el id
+          titleHeader={modalTitle}
+          id={data?.id+"" || ""}
           handleClose={handleClose}
         />
         <Box className="p-5">
@@ -154,11 +167,22 @@ const ModalFormulario: React.FC<ModalFormularioProps> = ({
                   ))}
                 </TextField>
               </Grid>
-                          
+              {mode !== "create" && (
+                <Grid item xs={12}>
+                  <TextField
+                    label="Creado el"
+                    variant="outlined"
+                    fullWidth
+                    name="createdAt"
+                    value={formData.createdAt}
+                    onChange={handleChange}
+                    disabled
+                  />
+                </Grid>
+              )}
               <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
                 <ButtonDefault
-                  onClick={handleOpenUpdateModal}
-                  title="GUARDAR"
+                  title={buttonText}
                 />
               </Grid>
             </Grid>

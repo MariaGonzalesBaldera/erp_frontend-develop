@@ -5,6 +5,8 @@ import { Route, Routes } from 'react-router-dom';
 import Layout from './view/Layout';
 import Dashboard from './pages/Dashboard';
 import DetalleMaquinaria from './pages/DetalleMaquinaria';
+import Documents from './pages/Documents';
+import Maintenance from './pages/Maintenance';
 
 export function App() {
     return (
@@ -14,8 +16,9 @@ export function App() {
                 <Routes>
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/lista-maquinarias" element={<ListaMaquinarias />} />
-                    <Route path="/lista-utilidades" element={<ListaMaquinarias />} />
+                    <Route path="/documents" element={<Documents />} />
                     <Route path="/detalle-maquinaria/:id" element={<DetalleMaquinaria />} />
+                    <Route path="/maintenance" element={<Maintenance/>} />
                 </Routes>
             </Layout>
         </React.Fragment>

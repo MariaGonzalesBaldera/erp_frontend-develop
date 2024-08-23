@@ -1,13 +1,15 @@
-import { IconButton, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
-import { DocumentItem } from "../../../types";
+import { DocumentItem } from "../../types";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ConfirmModal from "../../ConfirmModal";
+import ConfirmModal from "../../components/ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
-import ModalDocumentDetail from "../../ModalDocumentDetail";
-import ModalEditDocument from "../../ModalEditDocument";
+import ModalDocumentDetail from "../../components/ModalDocumentDetail";
+import ModalEditDocument from "../../components/ModalEditDocument";
+import { Grid, IconButton, Tooltip } from "@mui/material";
+import { styleTableResponsive } from "../../style/StyleModal";
+import HeaderPage from "../../components/HeaderPage";
 
 const rows = [
   {
@@ -53,13 +55,31 @@ const rows = [
     heavyMachineryId: "HM003",
   },
 ];
-
+const dataCreate = {
+  id: "",
+  technicalReviewsStart: "",
+  technicalReviewsEnd: "",
+  soatStart: "",
+  soatEnd: "",
+  insuranceStart: "",
+  insuranceEnd: "",
+  trekInsuranceStart: "",
+  trekInsuranceEnd: "",
+  operatingCertificateStart: "",
+  operatingCertificateEnd: "",
+  heavyMachineryId: "",
+}
 const Documents: React.FC = () => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
+
+  const [openModalNew, setOpenModalNew] = React.useState(false);
+  const handleOpenNewModal = () => setOpenModalNew(true);
+  const handleCloseNewModal = () => setOpenModalNew(false);
+
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
@@ -79,9 +99,25 @@ const Documents: React.FC = () => {
   const handleCloseEdit = () => setOpenEdit(false);
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", minWidth: 50,align:"center",headerAlign:"center" },
-    { field: "technicalReviewsStart", headerName: "Inicio Revisiones técnicas", flex: 1, minWidth: 200 },
-    { field: "technicalReviewsEnd", headerName: "Fin Revisiones técnicas", flex: 1, minWidth: 120 },
+    {
+      field: "id",
+      headerName: "ID",
+      minWidth: 50,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "technicalReviewsStart",
+      headerName: "Inicio Revisiones técnicas",
+      flex: 1,
+      minWidth: 200,
+    },
+    {
+      field: "technicalReviewsEnd",
+      headerName: "Fin Revisiones técnicas",
+      flex: 1,
+      minWidth: 120,
+    },
     {
       field: "soatStart",
       headerName: "Inicio del Soat",
@@ -127,34 +163,45 @@ const Documents: React.FC = () => {
   ];
   return (
     <>
-      <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          className="truncate..."
-          hideFooter
-          rows={rows}
-          columns={columns}
+      <HeaderPage title="LISTA DE DOCUMENTOS" titleButton="NUEVO DOCUMENTO" handleOpen={handleOpenNewModal} />
+
+      <Grid sx={styleTableResponsive}>
+        <div style={{ height: 400, width: "100%" }}>
+          <DataGrid
+            className="truncate..."
+            hideFooter
+            rows={rows}
+            columns={columns}
+          />
+        </div>
+
+        <ModalEditDocument //boton de editar
+          openModal={openEdit}
+          handleClose={handleCloseEdit}
+          data={selectedRow}
+          mode="update"
         />
-      </div>
 
-      <ModalEditDocument //boton de editar
-        openModal={openEdit}
-        handleClose={handleCloseEdit}
-        data={selectedRow}
-        mode="update"
-      />
+        <ModalDocumentDetail //boton de detalle
+          openModal={openDetail}
+          handleClose={handleClose}
+          data={selectedRow}
+        />
 
-      <ModalDocumentDetail //boton de detalle
-        openModal={openDetail}
-        handleClose={handleClose}
-        data={selectedRow}
-      />
-
-      <ConfirmModal //boton de eliminar
-        onConfirm={openDelete}
-        onCancel={handleCloseConfirmModal}
-        id={1}
+        <ConfirmModal //boton de eliminar
+          onConfirm={openDelete}
+          onCancel={handleCloseConfirmModal}
+          id={1}
+        />
+      </Grid>
+      <ModalEditDocument
+        openModal={openModalNew}
+        handleClose={handleCloseNewModal}
+        data={dataCreate}
+        mode="create"
       />
     </>
   );
 };
+
 export default Documents;

@@ -4,36 +4,7 @@ import PreventMaintenance from "../TamItemTable/PreventMaintenance";
 import CorrectiveMaintenance from "../TamItemTable/CorrectiveMaintenance";
 import InspectionMachinery from "../TamItemTable/InspectionMachinery";
 import Documents from "../TamItemTable/Documents";
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ pt: 2, backgroundColor: "white" }}>{children}</Box>
-      )}
-    </div>
-  );
-}
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
+import { a11yProps, CustomTabPanel, styleTableResponsive } from "../../style/StyleModal";
 
 const TabDocumentos: React.FC = () => {
   const [value, setValue] = React.useState(0);
@@ -44,22 +15,7 @@ const TabDocumentos: React.FC = () => {
 
   return (
       <Grid
-        sx={{
-          width: "100%",
-          minWidth: "300px",
-          maxWidth: "800px",
-          margin: "0 0",
-          padding: "1px",
-          backgroundColor: "#cac7fe",
-          "@media (max-width: 600px)": {
-            minWidth: "100px",
-            maxWidth: "400px",
-          },
-          "@media (min-width: 1200px)": {
-            minWidth: "100%",
-            maxWidth: "1000px",
-          },
-        }}
+        sx={styleTableResponsive}
       >
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
@@ -77,10 +33,10 @@ const TabDocumentos: React.FC = () => {
           <Documents />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <PreventMaintenance />
+          <PreventMaintenance mode="component" />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          <CorrectiveMaintenance />
+          <CorrectiveMaintenance mode="component" />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>
           <InspectionMachinery />

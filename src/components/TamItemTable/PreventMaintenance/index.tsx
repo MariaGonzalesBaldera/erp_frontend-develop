@@ -1,4 +1,4 @@
-import { IconButton, Tooltip } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -7,8 +7,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmModal from "../../ConfirmModal";
 import ModalEditMaintenance from "../../ModalEditMaintenance";
-import { PreventMaintenanceItem } from "../../../types";
-import ListIcon from '@mui/icons-material/List';
+import {
+  PreventMaintenanceItem,
+  PreventMaintenanceProps,
+} from "../../../types";
+import ListIcon from "@mui/icons-material/List";
+import ButtonDefault from "../../ButtonDefault";
 
 const rows = [
   {
@@ -79,7 +83,7 @@ const rows = [
   },
 ];
 
-const PreventMaintenance: React.FC = () => {
+const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({ mode }) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -90,7 +94,7 @@ const PreventMaintenance: React.FC = () => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
-  
+
   const handleOpenDelete = () => {
     setOpenDelete(true);
   };
@@ -104,7 +108,13 @@ const PreventMaintenance: React.FC = () => {
   const handleCloseEdit = () => setOpenEdit(false);
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", minWidth: 50,align:"center",headerAlign:"center" },
+    {
+      field: "id",
+      headerName: "ID",
+      minWidth: 50,
+      align: "center",
+      headerAlign: "center",
+    },
     { field: "operator", headerName: "Operador", flex: 1, minWidth: 150 },
     { field: "description", headerName: "Descripción", flex: 1, minWidth: 120 },
     {
@@ -153,6 +163,13 @@ const PreventMaintenance: React.FC = () => {
 
   return (
     <>
+      {mode == "page" ? (
+        <Box sx={{textAlign:"end", paddingRight:2,paddingLeft:2,paddingBottom:2}}>
+          <ButtonDefault title="Agregar mantenimiento" />
+        </Box>
+      ) : (
+        <></>
+      )}
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           className="truncate..."

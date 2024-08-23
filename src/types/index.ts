@@ -89,18 +89,47 @@ export interface MachineryInspectionItem {
     heavyMachineryId: string;
 }
 export interface DocumentItem {
-    id: String;
-    technicalReviewsStart: String;
-    technicalReviewsEnd: String;
-    soatStart: String;
-    soatEnd: String;
-    insuranceStart: String;
-    insuranceEnd: String;
-    trekInsuranceStart: String;
-    trekInsuranceEnd: String;
-    operatingCertificateStart: String;
-    operatingCertificateEnd: String;
-    createdAt: String;
-    updatedAt: String;
-    heavyMachineryId: String;
+    id: string;
+    technicalReviewsStart: string;
+    technicalReviewsEnd: string;
+    soatStart: string;
+    soatEnd: string;
+    insuranceStart: string;
+    insuranceEnd: string;
+    trekInsuranceStart: string;
+    trekInsuranceEnd: string;
+    operatingCertificateStart: string;
+    operatingCertificateEnd: string;
+    createdAt?: string;
+    updatedAt?: string;
+    heavyMachineryId: string;
 }
+
+
+///props components
+export interface HeaderPageProps {
+    title: string,
+    titleButton:string,
+    handleOpen: () => void
+}
+
+export interface ModalEditDocumentProps {
+    openModal: boolean;
+    handleClose: () => void;
+    data: DocumentItem;
+    mode : string
+  }
+
+  export interface MaintenanceProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+  }
+
+  export interface PreventMaintenanceProps{
+    mode:string
+  }
+
+  export interface CorrectiveMaintenanceProps{
+    mode:string
+  }
