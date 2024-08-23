@@ -103,19 +103,19 @@ const CorrectiveMaintenance: React.FC = () => {
   const handleCloseEdit = () => setOpenEdit(false);
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", minWidth: 100 },
+    { field: "id", headerName: "ID", minWidth: 50,align:"center",headerAlign:"center" },
     { field: "operator", headerName: "Operador", flex: 1, minWidth: 150 },
-    { field: "description", headerName: "Descripción", flex: 2, minWidth: 120 },
+    { field: "description", headerName: "Descripción", flex: 1, minWidth: 120 },
     {
       field: "project_name",
       headerName: "Nombre del proyecto",
-      flex: 2,
+      flex: 1,
       minWidth: 150,
     },
     {
       field: "actions",
       headerName: "Acciones",
-      flex: 0.5,
+      flex: 1,
       minWidth: 150,
       disableColumnMenu: true,
       renderCell: (params) => (

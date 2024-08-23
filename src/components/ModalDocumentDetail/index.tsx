@@ -1,9 +1,7 @@
 import React from "react";
 import { DocumentItem } from "../../types";
-import { Box, Grid, IconButton, Modal, Typography } from "@mui/material";
+import { Box, Modal } from "@mui/material";
 import { styleModalInspection } from "../../style/StyleModal";
-import themeNew from "../../utils/theme";
-import { Close } from "@mui/icons-material";
 import HeaderModal from "../HeaderModal";
 
 interface ModalDocumentDetailProps {
@@ -31,84 +29,64 @@ const ModalDocumentDetail: React.FC<ModalDocumentDetailProps> = ({
           handleClose={handleClose}
         />
         {data && (
-          <div className="bg-background p-6 w-full max-w-2xl">
-            <div className="grid grid-cols-2 gap-4">
-              
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                Inicio de revisiones técnicas
-                </span>
-                <span className="text-lg font-bold">
-                  {data.technicalReviewsStart}
-                </span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                Fin de revisiones técnicas
-                </span>
-                <span className="text-lg font-bold">
-                  {data.technicalReviewsEnd}
-                </span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                Inico del SOAT
-                </span>
-                <span className="text-lg font-bold">{data.soatStart}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                Fin del SOAT
-                </span>
-                <span className="text-lg font-bold">{data.soatEnd}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                Inicio del seguro
-                </span>
-                <span className="text-lg font-bold">{data.insuranceStart}</span>
-              </div>
-              <div className="flex flex-col col-span-1">
-                <span className="text-muted-foreground text-sm font-medium">
-                Fin del seguro
-                </span>
-                <span className="text-lg font-bold">{data.insuranceEnd}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                  trekInsuranceStart
-                </span>
-                <span className="text-lg font-bold">
-                  {data.trekInsuranceStart}
-                </span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                  trekInsuranceEnd
-                </span>
-                <span className="text-lg font-bold">
-                  {data.trekInsuranceEnd}
-                </span>
-              </div>
-
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                Inicio del certificado de operaciones
-                </span>
-                <span className="text-lg font-bold">
-                  {data.operatingCertificateStart}
-                </span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground text-sm font-medium">
-                Inicio del certificado de operaciones
-                </span>
-                <span className="text-lg font-bold">
-                  {data.operatingCertificateEnd}
-                </span>
-              </div>
+          <div className="bg-background  w-full max-w-2xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 max-w-6xl mx-auto p-1">
+            <div className="flex flex-col col-span-1 md:col-span-1 border p-2">
+              <span className="text-muted-foreground text-sm font-small">
+                Inicio de revisiones técnicas:
+              </span>
+              <span className="text-sm font-bold">
+                {data.technicalReviewsStart}
+              </span>
+            </div>
+            <div className="flex flex-col col-span-1 md:col-span-1 border p-2">
+              <span className="text-muted-foreground text-sm font-small">
+                Fin de revisiones técnicas:
+              </span>
+              <span className="text-sm font-bold">
+                {data.technicalReviewsStart}
+              </span>
+            </div>
+            <div className="flex flex-col col-span-1 md:col-span-1 border p-2">
+              <span className="text-muted-foreground text-sm font-small">
+                Inicio SOAT:
+              </span>
+              <span className="text-sm font-bold">{data.soatStart}</span>
+            </div>
+            <div className="flex flex-col col-span-1 md:col-span-1 border p-2">
+              <span className="text-muted-foreground text-sm font-small">
+                Fin SOAT:
+              </span>
+              <span className="text-sm font-bold">{data.soatEnd}</span>
+            </div>
+            <div className="flex flex-col col-span-1 md:col-span-1 border p-2">
+              <span className="text-muted-foreground text-sm font-small">
+                Inicio seguro:
+              </span>
+              <span className="text-sm font-bold">{data.insuranceStart}</span>
+            </div>
+            <div className="flex flex-col col-span-1 md:col-span-1 border p-2">
+              <span className="text-muted-foreground text-sm font-small">
+                Fin seguro:
+              </span>
+              <span className="text-sm font-bold">{data.insuranceEnd}</span>
+            </div>
+            <div className="flex flex-col col-span-1 md:col-span-1 border p-2">
+              <span className="text-muted-foreground text-sm font-small">
+                trekInsuranceStart:
+              </span>
+              <span className="text-sm font-bold">
+                {data.trekInsuranceStart}
+              </span>
+            </div>
+            <div className="flex flex-col col-span-1 md:col-span-1 border p-2">
+              <span className="text-muted-foreground text-sm font-small">
+                trekInsuranceEnd:
+              </span>
+              <span className="text-sm font-bold">{data.trekInsuranceEnd}</span>
             </div>
           </div>
+        </div>
         )}
       </Box>
     </Modal>

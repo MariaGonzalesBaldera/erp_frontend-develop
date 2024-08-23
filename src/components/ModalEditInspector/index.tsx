@@ -5,15 +5,12 @@ import {
   Checkbox,
   FormControlLabel,
   Grid,
-  IconButton,
   Modal,
   TextField,
   Typography,
 } from "@mui/material";
 
 import { styleModalInspection } from "../../style/StyleModal";
-import themeNew from "../../utils/theme";
-import { Close } from "@mui/icons-material";
 import ButtonDefault from "../ButtonDefault";
 import HeaderModal from "../HeaderModal";
 
@@ -163,9 +160,8 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
 
         <div className="bg-background p-6 w-full max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            
-{/* Campos de texto */}
-<TextField
+            {/* Campos de texto */}
+            <TextField
               label="Nombre del proyecto"
               variant="outlined"
               name="projectName"
@@ -237,17 +233,24 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               onChange={handleChange}
               fullWidth
             />
-            </div>
+          </div>
 
-            {/* Campos booleanos */}
-            <Typography className="p-2" id="modal-modal-title" variant="button" component="h2" fontWeight={"bold"} >
+          {/* Campos booleanos */}
+          <Typography
+            className="p-2"
+            id="modal-modal-title"
+            variant="button"
+            component="h2"
+            fontWeight={"bold"}
+          >
             {"DETALLES"}
           </Typography>
-            <div className="grid grid-cols-1 md:grid-cols-2">
+          <div className="grid grid-cols-1 md:grid-cols-2">
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.frontLights}
                   onChange={handleChange}
                   name="frontLights"
@@ -256,9 +259,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Luces delanteras"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.rearLights}
                   onChange={handleChange}
                   name="rearLights"
@@ -267,9 +271,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Luces traseras"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.directionalLights}
                   onChange={handleChange}
                   name="directionalLights"
@@ -278,9 +283,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Luces direccionales"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.rolloverProtection}
                   onChange={handleChange}
                   name="rolloverProtection"
@@ -289,9 +295,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Protección antivuelco"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.seatbelt}
                   onChange={handleChange}
                   name="seatbelt"
@@ -300,9 +307,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Cinturón de seguridad"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.bucketConditionAndOperation}
                   onChange={handleChange}
                   name="bucketConditionAndOperation"
@@ -311,9 +319,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Estado y funcionamiento del cubo"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.seatCondition}
                   onChange={handleChange}
                   name="seatCondition"
@@ -322,9 +331,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Estado del asiento"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.windows}
                   onChange={handleChange}
                   name="windows"
@@ -333,9 +343,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Ventanas"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.cabin}
                   onChange={handleChange}
                   name="cabin"
@@ -344,9 +355,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Cabina"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.reverseAlarm}
                   onChange={handleChange}
                   name="reverseAlarm"
@@ -355,9 +367,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Alarma de marcha atrás"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.accessLadderAndSupports}
                   onChange={handleChange}
                   name="accessLadderAndSupports"
@@ -366,9 +379,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Escalera de acceso y soportes"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.mirrors}
                   onChange={handleChange}
                   name="mirrors"
@@ -377,9 +391,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Espejos"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.horn}
                   onChange={handleChange}
                   name="horn"
@@ -388,9 +403,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Bocina"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.controlLevers}
                   onChange={handleChange}
                   name="controlLevers"
@@ -399,9 +415,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Palancas de control"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.pedals}
                   onChange={handleChange}
                   name="pedals"
@@ -410,9 +427,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Pedales"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.liftCylinders}
                   onChange={handleChange}
                   name="liftCylinders"
@@ -421,9 +439,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Cilindros de elevación"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.articulationCylinders}
                   onChange={handleChange}
                   name="articulationCylinders"
@@ -432,9 +451,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Cilindros de articulación"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.doorConditionWithLock}
                   onChange={handleChange}
                   name="doorConditionWithLock"
@@ -443,9 +463,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Estado de la puerta con cerradura"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.battery}
                   onChange={handleChange}
                   name="battery"
@@ -454,42 +475,46 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="Batería"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.electricalInstallation}
                   onChange={handleChange}
-                  name="Instalación eléctrica"
+                  name="electricalInstallation"
                 />
               }
-              label="electricalInstallation"
+              label="Instalación eléctrica"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.steering}
                   onChange={handleChange}
-                  name="Dirección"
+                  name="steering"
                 />
               }
-              label="steering"
+              label="Dirección"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.engine}
                   onChange={handleChange}
-                  name="Motor"
+                  name="engine"
                 />
               }
-              label="engine"
+              label="Motor"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.radiator}
                   onChange={handleChange}
                   name="Radiador"
@@ -498,171 +523,186 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               label="radiator"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.indicators}
                   onChange={handleChange}
-                  name="Indicadores"
+                  name="indicators"
                 />
               }
-              label="indicators"
+              label="Indicadores"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.brakingSystem}
                   onChange={handleChange}
-                  name="Sistema de frenos"
+                  name="brakingSystem"
                 />
               }
-              label="brakingSystem"
+              label="Sistema de frenos"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.oilCooler}
                   onChange={handleChange}
-                  name="Enfriador de aceite"
+                  name="oilCooler"
                 />
               }
-              label="oilCooler"
+              label="Enfriador de aceite"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.hydraulicSystemBlock}
                   onChange={handleChange}
-                  name="Bloque del sistema hidráulico"
+                  name="hydraulicSystemBlock"
                 />
               }
-              label="hydraulicSystemBlock"
+              label="Bloque del sistema hidráulico"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.hoses}
                   onChange={handleChange}
-                  name="Mangueras"
+                  name="hoses"
                 />
               }
-              label="hoses"
+              label="Mangueras"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.belts}
                   onChange={handleChange}
-                  name="Correas"
+                  name="belts"
                 />
               }
-              label="belts"
+              label="Correas"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.electricalSystem}
                   onChange={handleChange}
-                  name="Sistema eléctrico"
+                  name="electricalSystem"
                 />
               }
-              label="electricalSystem"
+              label="Sistema eléctrico"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.swingMechanism}
                   onChange={handleChange}
-                  name="Mecanismo de giro"
+                  name="swingMechanism"
                 />
               }
-              label="swingMechanism"
+              label="Mecanismo de giro"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.swingMechanismBrake}
                   onChange={handleChange}
-                  name="Freno del mecanismo de giro"
+                  name="swingMechanismBrake"
                 />
               }
-              label="swingMechanismBrake"
+              label="Freno del mecanismo de giro"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.armLiftControls}
                   onChange={handleChange}
-                  name="Control de elevación del brazo"
+                  name="armLiftControls"
                 />
               }
-              label="armLiftControls"
+              label="Control de elevación del brazo"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.rightTrack}
                   onChange={handleChange}
-                  name="Oruga derecha"
+                  name="rightTrack"
                 />
               }
-              label="rightTrack"
+              label="Oruga derecha"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.leftTrack}
                   onChange={handleChange}
-                  name="Oruga izquierda"
+                  name="leftTrack"
                 />
               }
-              label="leftTrack"
+              label="Oruga izquierda"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.spillKit}
                   onChange={handleChange}
-                  name="Kit de derrames"
+                  name="spillKit"
                 />
               }
-              label="spillKit"
+              label="Kit de derrames"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.fireExtinguisher20Lbs}
                   onChange={handleChange}
-                  name="Extintor de 20 libras"
+                  name="fireExtinguisher20Lbs"
                 />
               }
-              label="fireExtinguisher20Lbs"
+              label="Extintor de 20 libras"
             />
             <FormControlLabel
-                sx={{height:30,fontSizeAdjust:"0.47"}}
+              sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
+                color="success"
                   checked={formData.safetyCones}
                   onChange={handleChange}
-                  name="Conos de seguridad"
+                  name="safetyCones"
                 />
               }
-              label="safetyCones"
+              label="Conos de seguridad"
             />
-            </div>
+          </div>
 
           <Grid container justifyContent="flex-end" spacing={2} mt={2}>
             <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
@@ -672,8 +712,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               />
             </Grid>
           </Grid>
-          </div>
-
+        </div>
       </Box>
     </Modal>
   );

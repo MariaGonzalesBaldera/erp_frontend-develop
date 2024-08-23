@@ -1,11 +1,9 @@
 import { IconButton, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
-import ModalMoreDetail from "../../ModalMoreDetail";
 import { DocumentItem } from "../../../types";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ModalEditMaintenance from "../../ModalEditMaintenance";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
 import ModalDocumentDetail from "../../ModalDocumentDetail";
@@ -81,7 +79,7 @@ const Documents: React.FC = () => {
   const handleCloseEdit = () => setOpenEdit(false);
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", minWidth: 50 },
+    { field: "id", headerName: "ID", minWidth: 50,align:"center",headerAlign:"center" },
     { field: "technicalReviewsStart", headerName: "Inicio Revisiones técnicas", flex: 1, minWidth: 200 },
     { field: "technicalReviewsEnd", headerName: "Fin Revisiones técnicas", flex: 1, minWidth: 120 },
     {

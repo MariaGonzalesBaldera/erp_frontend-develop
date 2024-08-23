@@ -13,9 +13,9 @@ const CheckInspectionCard: React.FC<CheckInspectionCardProps> = ({ data,title })
     <span className="text-muted-foreground text-sm font-medium">
       {title}{" "}
       {data ? (
-        <CheckBoxIcon fontSize="small" sx={{ color: "#aaa5fc" }} />
+        <CheckBoxIcon fontSize="small" color="success" />
       ) : (
-        <CheckBoxOutlineBlankIcon fontSize="small" sx={{ color: "#aaa5fc" }} />
+        <CheckBoxOutlineBlankIcon fontSize="small"  color="success"/>
       )}
     </span>
   );

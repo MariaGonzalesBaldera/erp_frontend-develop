@@ -10,7 +10,7 @@ export const styleModalInspection = {
     md: "50%",
     lg: "45%",
   },
-  minHeight: "400px",  // Altura mínima
+  minHeight: "300px",  // Altura mínima
   maxHeight: "580px",  // Altura máxima
   bgcolor: "background.paper",
   boxShadow: 24,
