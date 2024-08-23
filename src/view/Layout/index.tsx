@@ -22,7 +22,7 @@ import { ListItemButton, ListItemIcon, useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import LocalGasStationOutlinedIcon from "@mui/icons-material/LocalGasStationOutlined";
-import { CheckBox, FormatListBulleted, HomeOutlined, ListAlt, LocationOn, NoteAddOutlined } from "@mui/icons-material";
+import { AssignmentOutlined, CheckBox, CheckBoxOutlineBlank, CheckBoxOutlineBlankOutlined, CheckBoxOutlineBlankTwoTone, CheckBoxOutlined, DriveEtaOutlined, EngineeringOutlined, FormatListBulleted, GradingOutlined, HomeOutlined, LibraryBooks, LibraryBooksOutlined, ListAlt, LocationOn, LocationOnOutlined, NoteAddOutlined } from "@mui/icons-material";
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 const drawerWidth = 240;
 
@@ -78,21 +78,25 @@ type LayoutProps = {
 };
 const ICONS = [
   <HomeOutlined />,
-  <LocalShippingIcon />,
-  <ListAlt />,
-  <LocationOn />,
-  <CheckBox />,
-  <CalendarMonthOutlinedIcon />,
+  <DriveEtaOutlined />,
+  <AssignmentOutlined />,
+  <EngineeringOutlined />,
+  <CheckBoxOutlined/>,
   <LocalGasStationOutlinedIcon />,
+  <LocationOnOutlined />,
+  <LibraryBooksOutlined />,
+
 ];
 const LINKS = [
   "/dashboard",
   "/lista-maquinarias",
-  "/lista-utilidades2",
-  "/lista-utilidades3",
+  "/documents",
+  "/maintenance",
   "/lista-utilidades4",
   "/lista-utilidades5",
   "/lista-utilidades6",
+  "/lista-utilidades7",
+
 ];
 const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
   const theme = useAppTheme();
@@ -231,13 +235,15 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
           {/* TODO: Read the route param to set active or open item on menu */}
           <List className="px-2.5">
             {[
-              "Unidades",
+              "Dashboard",
               "Maquinarias",
               "Documentos",
-              "Seguimiento GPS",
-              "Checklist",
-              "Calendario de mantenimientos",
+              "Mantenimiento",
+              "Inspecciones",
               "Registro de combustible",
+              "Seguimiento GPS",
+              "Contabilidad",
+
             ].map((text, index) => (
               <Link
                 key={LINKS[index] + "_key"}

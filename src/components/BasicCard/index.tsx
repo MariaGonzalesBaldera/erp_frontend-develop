@@ -9,7 +9,7 @@ import {
   styled,
   Tooltip,
 } from "@mui/material";
-import ListIcon from '@mui/icons-material/List';
+import ListIcon from "@mui/icons-material/List";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import retroexcavadora from "../../images/demoledor4.png";
@@ -20,6 +20,7 @@ import ConfirmModal from "../ConfirmModal";
 import ModalActualizarData from "../ModalActualizarData";
 import { MaquinariaDataItem } from "../../types/index";
 import themeNew from "../../utils/theme";
+import ModalFormulario from "../ModalFormulario";
 
 interface BasicCardProps {
   data: MaquinariaDataItem;
@@ -74,7 +75,10 @@ const BasicCard: React.FC<BasicCardProps> = ({ data }) => {
 
   return (
     <StyledCard>
-      <Card className="w-45 mx-auto shadow-lg" sx={{backgroundColor:themeNew.palette.textMain.main}}>
+      <Card
+        className="w-45 mx-auto shadow-lg"
+        sx={{ backgroundColor: themeNew.palette.textMain.main }}
+      >
         <CardMedia
           component="img"
           alt={`Imagen de ${data.model}`}
@@ -115,10 +119,11 @@ const BasicCard: React.FC<BasicCardProps> = ({ data }) => {
           onCancel={handleCloseConfirmModal}
           id={data.id}
         />
-        <ModalActualizarData
+        <ModalFormulario
           openModal={openModalUpDate}
           handleClose={handleCloseUpdate}
           data={data}
+          mode="update"
         />
       </Card>
     </StyledCard>

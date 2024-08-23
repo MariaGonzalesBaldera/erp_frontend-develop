@@ -1,13 +1,17 @@
-import { IconButton, Tooltip } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import ModalMoreDetail from "../../ModalMoreDetail";
-import { CorrectiveMaintananceItem } from "../../../types";
+import {
+  CorrectiveMaintananceItem,
+  CorrectiveMaintenanceProps,
+} from "../../../types";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModalEditMaintenance from "../../ModalEditMaintenance";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
+import ButtonDefault from "../../ButtonDefault";
 
 const rows = [
   {
@@ -78,7 +82,9 @@ const rows = [
   },
 ];
 
-const CorrectiveMaintenance: React.FC = () => {
+const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
+  mode,
+}) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -103,7 +109,13 @@ const CorrectiveMaintenance: React.FC = () => {
   const handleCloseEdit = () => setOpenEdit(false);
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", minWidth: 50,align:"center",headerAlign:"center" },
+    {
+      field: "id",
+      headerName: "ID",
+      minWidth: 50,
+      align: "center",
+      headerAlign: "center",
+    },
     { field: "operator", headerName: "Operador", flex: 1, minWidth: 150 },
     { field: "description", headerName: "Descripción", flex: 1, minWidth: 120 },
     {
@@ -152,6 +164,20 @@ const CorrectiveMaintenance: React.FC = () => {
 
   return (
     <>
+      {mode == "page" ? (
+        <Box
+          sx={{
+            textAlign: "end",
+            paddingRight: 2,
+            paddingLeft: 2,
+            paddingBottom: 2,
+          }}
+        >
+          <ButtonDefault title="Agregar mantenimiento" />
+        </Box>
+      ) : (
+        <></>
+      )}
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           className="truncate..."
@@ -161,11 +187,11 @@ const CorrectiveMaintenance: React.FC = () => {
         />
       </div>
 
-        <ModalEditMaintenance //boton de editar
-          openModal={openEdit}
-          handleClose={handleCloseEdit}
-          data={selectedRow}
-        />
+      <ModalEditMaintenance //boton de editar
+        openModal={openEdit}
+        handleClose={handleCloseEdit}
+        data={selectedRow}
+      />
 
       <ModalMoreDetail //boton de detalle
         openModal={openDetail}

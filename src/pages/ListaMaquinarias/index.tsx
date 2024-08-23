@@ -1,13 +1,13 @@
 import React from "react";
 
 import Box from "@mui/material/Box";
-import { Grid, Tab, Tabs, Typography } from "@mui/material";
+import { Tab, Tabs } from "@mui/material";
 import ModalFormulario from "../../components/ModalFormulario";
-import ButtonDefault from "../../components/ButtonDefault";
 import MaquinariaGrid from "../../components/MaquinariaGrid";
 import { MaquinariaDataItem } from "../../types/index";
-import themeNew from "../../utils/theme";
- 
+import HeaderPage from "../../components/HeaderPage";
+import { a11yProps, CustomTabPanel } from "../../style/StyleModal";
+
 const handleChange = (e) => {
   console.log("first");
 };
@@ -29,11 +29,6 @@ const currencies = [
   },
 ];
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
 const FakeDatas: MaquinariaDataItem[] = [
   {
     id: 1,
@@ -223,31 +218,7 @@ const FakeDatas: MaquinariaDataItem[] = [
     updatedAt: "06-06-2024 19:11:08",
   },
 ];
-function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3, backgroundColor: themeNew.palette.textMain.main }}>{children}</Box>
-      )}
-    </div>
-  );
- //           sx={{backgroundColor:themeNew.palette.textMain.main}}
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
 const dataMaquinaria = {
   id: 0,
   brand: "",
@@ -268,26 +239,20 @@ const ListaMaquinarias: React.FC = () => {
   //	data: machineryData,
   //} = useGetMachineryList();
   //console.log("DATA "+machineryData)
- 
+
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
- 
+
   return (
     <>
-      <Grid container className="pb-2" alignItems="center">
-        <Grid item xs={10} sm={10} md={9.8}>
-          <Typography variant="button">Lista de maquinarias</Typography>
-        </Grid>
-        <Grid item xs={12} sm={4} md={2}>
-          <ButtonDefault
-            onClick={handleOpenNewModal}
-            title="NUEVA MAQUINARIA"
-          />
-        </Grid>
-      </Grid>
+      <HeaderPage
+        title="LISTA DE MAQUINARIA"
+        titleButton="NUEVA MAQUINARIA"
+        handleOpen={handleOpenNewModal}
+      />
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
@@ -295,14 +260,12 @@ const ListaMaquinarias: React.FC = () => {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab            
-            label="Oruga" {...a11yProps(0)} />
+            <Tab label="Oruga" {...a11yProps(0)} />
             <Tab label="Retroexcavadora" {...a11yProps(1)} />
             <Tab label="Volquete" {...a11yProps(2)} />
           </Tabs>
         </Box>
-        <CustomTabPanel
-         value={value} index={0}>
+        <CustomTabPanel value={value} index={0}>
           <MaquinariaGrid model="Oruga" data={FakeDatas} />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
@@ -316,6 +279,7 @@ const ListaMaquinarias: React.FC = () => {
         openModal={openModalNew}
         handleClose={handleCloseNewModal}
         data={dataMaquinaria}
+        mode="create"
       />
     </>
   );
