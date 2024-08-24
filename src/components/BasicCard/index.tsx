@@ -17,10 +17,9 @@ import volquete from "../../images/volete.png";
 import oruga from "../../images/oruga.png";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../ConfirmModal";
-import ModalActualizarData from "../ModalActualizarData";
 import { MaquinariaDataItem } from "../../types/index";
 import themeNew from "../../utils/theme";
-import ModalFormulario from "../ModalFormulario";
+import ModalForm from "../ModalForm";
 
 interface BasicCardProps {
   data: MaquinariaDataItem;
@@ -30,7 +29,7 @@ const BasicCard: React.FC<BasicCardProps> = ({ data }) => {
   const navigate = useNavigate();
 
   const handleNavigation = () => {
-    navigate(`/detalle-maquinaria/${data.id}`, {
+    navigate(`/detail-machinery/${data.id}`, {
       state: {
         id: data.id,
         brand: data.brand,
@@ -119,7 +118,7 @@ const BasicCard: React.FC<BasicCardProps> = ({ data }) => {
           onCancel={handleCloseConfirmModal}
           id={data.id}
         />
-        <ModalFormulario
+        <ModalForm
           openModal={openModalUpDate}
           handleClose={handleCloseUpdate}
           data={data}

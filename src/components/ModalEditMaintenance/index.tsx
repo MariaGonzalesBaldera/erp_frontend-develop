@@ -1,59 +1,83 @@
-import React, { useEffect, useState } from "react";
-import { PreventMaintenanceItem } from "../../types";
-import {
-  Box,
-  Grid,
-  IconButton,
-  Modal,
-  TextField,
-  Typography,
-} from "@mui/material";
+import React, { useCallback, useEffect, useState } from "react";
+import { ModalEditMaintenanceProps } from "../../types";
+import { Box, Grid, Modal, TextField } from "@mui/material";
 import { styleModalInspection } from "../../style/StyleModal";
-import themeNew from "../../utils/theme";
-import { Close } from "@mui/icons-material";
 import ButtonDefault from "../ButtonDefault";
 import HeaderModal from "../HeaderModal";
-
-interface ModalEditMaintenanceProps {
-  openModal: boolean;
-  handleClose: () => void;
-  data: PreventMaintenanceItem;
-}
+import TimePickerForm from "../TimePickerForm";
+import DatePickerForm from "../DatePickerForm";
 
 const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
   openModal,
   handleClose,
   data,
+  mode,
 }) => {
   const [formData, setFormData] = useState({
-    description: data.description || "",
-    maintenance_date: data.maintenance_date || "",
-    amount_paid: data.amount_paid || "",
-    operator: data.operator || "",
-    project_name: data.project_name || "",
-    observations: data.observations || "",
-    driving_start: data.driving_start || "",
-    driving_end: data.driving_end || "",
+    description: "",
+    maintenance_date: "",
+    amount_paid: "",
+    operator: "",
+    project_name: "",
+    observations: "",
+    driving_start: "",
+    driving_end: "",
   });
+
   useEffect(() => {
-    setFormData(data);
-  }, [data]);
+    if (openModal) {
+      setFormData({
+        description: data.description || "",
+        maintenance_date: data.maintenance_date || "",
+        amount_paid: data.amount_paid || "",
+        operator: data.operator || "",
+        project_name: data.project_name || "",
+        observations: data.observations || "",
+        driving_start: data.driving_start || "",
+        driving_end: data.driving_end || "",
+      });
+    }
+  }, [openModal, data]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Aquí puedes manejar la actualización de los datos
-  };
-  const [openModalUpdate, setOpenModalUpdate] = React.useState(false);
+  const handleChange = useCallback(
+    (e) => {
+      setFormData((prevData) => ({
+        ...prevData,
+        [e.target.name]: e.target.value,
+      }));
+    },
+    [setFormData]
+  );
 
-  const handleOpenUpdateModal = () => setOpenModalUpdate(openModal);
-  const handleCloseUpdateModal = () => setOpenModalUpdate(false);
+  const handleDateChange = useCallback(
+    (date) => {
+      setFormData((prevData) => ({
+        ...prevData,
+        maintenance_date: date,
+      }));
+    },
+    [setFormData]
+  );
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (mode === "create") {
+        console.log("Creating record with data:", formData);
+        alert("Record created successfully!");
+      } else {
+        console.log("Updating record with data:", formData);
+        alert("Record updated successfully!");
+      }
+      handleClose(); // Close the modal after operation
+    },
+    [formData, mode, handleClose]
+  );
+
+  const modalTitle =
+    mode === "create" ? "CREAR NUEVO MANTENIMIENTO" : "EDITAR MANTENIMIENTO";
+
+  const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
 
   return (
     <Modal
@@ -64,30 +88,27 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
     >
       <Box sx={styleModalInspection}>
         <HeaderModal
-          titleHeader={"EDITAR MANTENIMIENTO"}
+          titleHeader={modalTitle}
           id={"#"} //aqui va el id
           handleClose={handleClose}
         />
         <Box className="p-5">
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-          <Grid container spacing={2}>
+            <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label="Descripción"
                   name="description"
                   value={formData.description}
-                  onChange={handleInputChange}
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  type="date"
-                  label="Fecha de Mantenimiento"
-                  name="maintenance_date"
-                  value={formData.maintenance_date}
-                  onChange={handleInputChange}
+                <DatePickerForm
+                  dateValue={formData.maintenance_date}
+                  labelValue="Fecha de Mantenimiento"
+                  handleDateChange={handleDateChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -96,7 +117,7 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
                   label="Cantidad Pagada"
                   name="amount_paid"
                   value={formData.amount_paid}
-                  onChange={handleInputChange}
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -105,7 +126,7 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
                   label="Operador"
                   name="operator"
                   value={formData.operator}
-                  onChange={handleInputChange}
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -114,44 +135,36 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
                   label="Nombre del Proyecto"
                   name="project_name"
                   value={formData.project_name}
-                  onChange={handleInputChange}
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                type="text"
+                  type="text"
                   fullWidth
                   label="Observaciones"
                   name="observations"
                   value={formData.observations}
-                  onChange={handleInputChange}
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                type="time"
-                  fullWidth
-                  label="Inicio de Conducción"
-                  name="driving_start"
-                  value={formData.driving_start}
-                  onChange={handleInputChange}
+                <TimePickerForm
+                  timeValue={formData.driving_start}
+                  nameValue="driving_start"
+                  label="Inicio de conduccion"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                type="time"
-                  fullWidth
-                  label="Fin de Conducción"
-                  name="driving_end"
-                  value={formData.driving_end}
-                  onChange={handleInputChange}
+                <TimePickerForm
+                  timeValue={formData.driving_end}
+                  nameValue="driving_end"
+                  label="Fin de conduccion"
                 />
               </Grid>
+
               <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
-                <ButtonDefault
-                  onClick={handleOpenUpdateModal}
-                  title="ACTUALIZAR"
-                />
+                <ButtonDefault title={buttonText} />
               </Grid>
             </Grid>
           </Box>

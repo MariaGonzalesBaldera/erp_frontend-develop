@@ -22,66 +22,77 @@ const rows = [
     operator: "Pepito Gomez",
     project_name: "Proyecto de la playa",
     observations: "Routine check",
-    driving_start: "08:00",
-    driving_end: "12:00",
+    driving_start: "08:00 am",
+    driving_end: "12:00 am",
   },
   {
     id: 2,
     description: "Nueva des",
     maintenance_date: "2024-08-02",
-    amount_paid: "200",
+    amount_paid: "200 am",
     operator: "Juanito Perez Juanito PerezJuanito Perez",
     project_name: "King's Landing",
     observations: "Es urgente",
-    driving_start: "10:00",
-    driving_end: "14:00",
+    driving_start: "10:00 am",
+    driving_end: "14:00 am",
   },
   {
     id: 3,
     description: "Lannister",
     maintenance_date: "2024-08-03",
-    amount_paid: "1800",
+    amount_paid: "1800 am",
     operator: "Juanito Perez",
     project_name: "Casa de las rocas",
     observations: "Standard service",
-    driving_start: "09:00",
-    driving_end: "13:00",
+    driving_start: "09:00 am",
+    driving_end: "13:00 am",
   },
   {
     id: 4,
     description: "Stark",
     maintenance_date: "2024-08-04",
-    amount_paid: "2000",
+    amount_paid: "2000 am",
     operator: "Juanito Perez",
     project_name: "Winterfell",
     observations: "Oil change",
-    driving_start: "07:30",
-    driving_end: "11:30",
+    driving_start: "07:30 am",
+    driving_end: "11:30 am",
   },
   {
     id: 5,
     description: "Targaryen",
     maintenance_date: "2024-08-05",
-    amount_paid: "2000",
+    amount_paid: "2000 am",
     operator: "Juanito Perez",
     project_name: "Dragonstone",
     observations: "Operator training required",
-    driving_start: "08:30",
-    driving_end: "2:30",
+    driving_start: "08:30 am",
+    driving_end: "2:30 am",
   },
   {
     id: 6,
     description: "Melisandre",
     maintenance_date: "2024-08-06",
-    amount_paid: "2100",
+    amount_paid: "2100 am",
     operator: "Juanito Perez",
     project_name: "Asshai",
     observations: "Inspection",
-    driving_start: "08:30",
-    driving_end: "12:30",
+    driving_start: "08:30 am",
+    driving_end: "12:30 am",
   },
 ];
-
+const dataCreate = {
+  id: "",
+  description: "",
+  maintenance_date: "",
+  amount_paid: "",
+  operator: "",
+  project_name: "",
+  observations: "",
+  driving_start: "",
+  driving_end: "",
+  heavyMachineryId: "",
+};
 const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
   mode,
 }) => {
@@ -90,6 +101,10 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
   const [openDelete, setOpenDelete] = useState(false);
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
+
+  const [openModalNew, setOpenModalNew] = React.useState(false);
+  const handleOpenNewModal = () => setOpenModalNew(true);
+  const handleCloseNewModal = () => setOpenModalNew(false);
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
@@ -173,7 +188,9 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
             paddingBottom: 2,
           }}
         >
-          <ButtonDefault title="Agregar mantenimiento" />
+          <ButtonDefault
+          onClick={handleOpenNewModal}
+          title="Agregar mantenimiento" />
         </Box>
       ) : (
         <></>
@@ -191,6 +208,7 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
         openModal={openEdit}
         handleClose={handleCloseEdit}
         data={selectedRow}
+        mode="update"
       />
 
       <ModalMoreDetail //boton de detalle
@@ -203,6 +221,12 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
         onConfirm={openDelete}
         onCancel={handleCloseConfirmModal}
         id={1}
+      />
+       <ModalEditMaintenance //boton de crear
+        openModal={openModalNew}
+        handleClose={handleCloseNewModal}
+        data={dataCreate}
+        mode="create"
       />
     </>
   );

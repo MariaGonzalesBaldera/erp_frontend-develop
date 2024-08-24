@@ -89,13 +89,13 @@ const ICONS = [
 ];
 const LINKS = [
   "/dashboard",
-  "/lista-maquinarias",
+  "/machinery-list",
   "/documents",
   "/maintenance",
-  "/lista-utilidades4",
-  "/lista-utilidades5",
-  "/lista-utilidades6",
-  "/lista-utilidades7",
+  "/inspections",
+  "/fuel-register",
+  "/gps-tracking",
+  "/accounting",
 
 ];
 const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {

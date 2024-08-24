@@ -2,8 +2,8 @@ import React from "react";
 
 import Box from "@mui/material/Box";
 import { Tab, Tabs } from "@mui/material";
-import ModalFormulario from "../../components/ModalFormulario";
-import MaquinariaGrid from "../../components/MaquinariaGrid";
+import ModalForm from "../../components/ModalForm";
+import MachineGrid from "../../components/MachineGrid";
 import { MaquinariaDataItem } from "../../types/index";
 import HeaderPage from "../../components/HeaderPage";
 import { a11yProps, CustomTabPanel } from "../../style/StyleModal";
@@ -230,7 +230,7 @@ const dataMaquinaria = {
   createdAt: "",
   updatedAt: "",
 };
-const ListaMaquinarias: React.FC = () => {
+const MachinerysList: React.FC = () => {
   const [openModalNew, setOpenModalNew] = React.useState(false);
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
@@ -266,16 +266,16 @@ const ListaMaquinarias: React.FC = () => {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <MaquinariaGrid model="Oruga" data={FakeDatas} />
+          <MachineGrid model="Oruga" data={FakeDatas} />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <MaquinariaGrid model="Retroexcavadora" data={FakeDatas} />
+          <MachineGrid model="Retroexcavadora" data={FakeDatas} />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          <MaquinariaGrid model="Volquete" data={FakeDatas} />
+          <MachineGrid model="Volquete" data={FakeDatas} />
         </CustomTabPanel>
       </Box>
-      <ModalFormulario
+      <ModalForm
         openModal={openModalNew}
         handleClose={handleCloseNewModal}
         data={dataMaquinaria}
@@ -284,4 +284,4 @@ const ListaMaquinarias: React.FC = () => {
     </>
   );
 };
-export default ListaMaquinarias;
+export default MachinerysList;

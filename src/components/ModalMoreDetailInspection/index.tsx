@@ -1,8 +1,6 @@
-import { Box, Grid, IconButton, Modal, Typography } from "@mui/material";
+import { Box, Modal, Typography } from "@mui/material";
 import React from "react";
 import { MachineryInspectionItem } from "../../types";
-import themeNew from "../../utils/theme";
-import { Close } from "@mui/icons-material";
 import { styleModalInspection } from "../../style/StyleModal";
 import CheckInspectionCard from "../CheckInspectionCard";
 import HeaderModal from "../HeaderModal";

@@ -1,5 +1,5 @@
 import { Box, Button, Modal, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React  from "react";
 import themeNew from "../../utils/theme";
 
 interface ConfirmModalProps {

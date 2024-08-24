@@ -8,17 +8,6 @@ mant. correctivo
 yyyy-mm-ddT00:00:00
 
 
-- documentos tabla
-DOCUMENTOS
-MANTENIMINETOS
-	2 -> mant prev  == btn-registar
-	     mant corre == btn-registar
-	     
-CALEN x  //abajo de mantenimineto
-cambiar check x inspeciones
-
-
-
 dashboard  
 maquinarias
 documentos
@@ -27,7 +16,8 @@ Inspecciones
 Combustibles  //
 Seguimiento  //
 Contabilidad  //
+
 -- agregar
 tab >> carga combustible
 
-mante correctivo carga de imagen
+mantenimiento correctivo carga de imagen
