@@ -6,7 +6,7 @@ import InspectionMachinery from "../TamItemTable/InspectionMachinery";
 import Documents from "../TamItemTable/Documents";
 import { a11yProps, CustomTabPanel, styleTableResponsive } from "../../style/StyleModal";
 
-const TabDocumentos: React.FC = () => {
+const TabDocuments: React.FC = () => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -45,4 +45,4 @@ const TabDocumentos: React.FC = () => {
   );
 };
 
-export default TabDocumentos;
+export default TabDocuments;

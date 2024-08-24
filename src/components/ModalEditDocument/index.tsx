@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { styleModalInspection } from "../../style/StyleModal";
-import { Box, Grid, Modal, TextField } from "@mui/material";
+import { Box, Grid, Modal } from "@mui/material";
 import { ModalEditDocumentProps } from "../../types";
 import ButtonDefault from "../ButtonDefault";
 import HeaderModal from "../HeaderModal";
+import DatePickerForm from "../DatePickerForm";
 
 const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
   openModal,
@@ -51,6 +52,16 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
     [setFormData]
   );
 
+  const handleDateChange = useCallback(
+    (date) => {
+      setFormData((prevData) => ({
+        ...prevData,
+        maintenance_date: date,
+      }));
+    },
+    [setFormData]
+  );
+
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -71,7 +82,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
       ? "CREAR NUEVO DOCUMENTO"
       : "EDITAR DETALLE DEL DOCUMENTO";
 
-  const buttonText = mode === "create" ? "CREAR" : "ACTUALIZAR";
+  const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
 
   const fields = [
     { label: "Inicio de revisiones técnicas", name: "technicalReviewsStart" },
@@ -109,22 +120,17 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
           <div className="bg-background p-6 w-full max-w-2xl">
             <div className="grid grid-cols-2 gap-4">
               {fields.map((field) => (
-                <TextField
+                <DatePickerForm
                   key={field.name}
-                  label={field.label}
-                  variant="outlined"
-                  type="date"
-                  name={field.name}
-                  value={formData[field.name]}
-                  onChange={handleChange}
-                  focused={mode == "update" ? false : true}
+                  dateValue={formData[field.name]}
+                  labelValue={field.label}
+                  handleDateChange={handleChange}
                 />
               ))}
             </div>
             <Grid container justifyContent="flex-end" spacing={2} mt={2}>
               <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
-                <ButtonDefault
-                 title={buttonText} />
+                <ButtonDefault title={buttonText} />
               </Grid>
             </Grid>
           </div>

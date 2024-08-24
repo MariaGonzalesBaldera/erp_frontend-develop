@@ -1,16 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Box, Grid, MenuItem, Modal, TextField } from "@mui/material";
 import ButtonDefault from "../ButtonDefault";
-import { MaquinariaDataItem } from "../../types/index";
+import { ModalFormProps } from "../../types/index";
 import { styleModalInspection } from "../../style/StyleModal";
 import HeaderModal from "../HeaderModal";
-
-interface ModalFormularioProps {
-  openModal: boolean;
-  handleClose: () => void;
-  data: MaquinariaDataItem;
-  mode: string;
-}
 
 const currencies = [
   { value: "gas", label: "gas" },
@@ -18,7 +11,7 @@ const currencies = [
   { value: "Petroleo", label: "Petroleo" },
 ];
 
-const ModalFormulario: React.FC<ModalFormularioProps> = ({
+const ModalForm: React.FC<ModalFormProps> = ({
   openModal,
   handleClose,
   data,
@@ -193,4 +186,4 @@ const ModalFormulario: React.FC<ModalFormularioProps> = ({
   );
 };
 
-export default ModalFormulario;
+export default ModalForm;

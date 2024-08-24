@@ -1,12 +1,12 @@
-import { Breadcrumbs, Divider, Grid, Link, Typography } from "@mui/material";
+import { Breadcrumbs, Grid, Link, Typography } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useLocation } from "react-router-dom";
-import React, { useState } from "react";
+import React from "react";
 import themeNew from "../../utils/theme";
-import TabDocumentos from "../../components/TabDocumentos";
+import TabDocuments from "../../components/TabDocuments";
 import CardItemDetail from "../../components/CardItemDetail";
 
-function DetalleMaquinaria() {
+function DetailMachinery() {
   const location = useLocation();
   const maquina = location.state;
  
@@ -46,10 +46,10 @@ function DetalleMaquinaria() {
         />
       </div>
       <Grid className="mt-4">
-        <TabDocumentos />
+        <TabDocuments />
       </Grid>
     </>
   );
 }
 
-export default DetalleMaquinaria;
+export default DetailMachinery;

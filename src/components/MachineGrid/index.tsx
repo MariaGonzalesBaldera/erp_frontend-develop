@@ -8,7 +8,7 @@ interface MachineGridProps {
   data: MaquinariaDataItem[];
 }
 
-const MaquinariaGrid: React.FC<MachineGridProps> = ({ model, data }) => {
+const MachineGrid: React.FC<MachineGridProps> = ({ model, data }) => {
   const filteredData = data.filter((item) => item.model === model);
 
   return (
@@ -22,4 +22,4 @@ const MaquinariaGrid: React.FC<MachineGridProps> = ({ model, data }) => {
   );
 };
 
-export default MaquinariaGrid;
+export default MachineGrid;

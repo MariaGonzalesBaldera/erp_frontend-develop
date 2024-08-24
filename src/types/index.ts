@@ -133,3 +133,17 @@ export interface ModalEditDocumentProps {
   export interface CorrectiveMaintenanceProps{
     mode:string
   }
+  
+  export interface ModalEditMaintenanceProps {
+    openModal: boolean;
+    handleClose: () => void;
+    data: PreventMaintenanceItem;
+    mode: string;
+  }
+
+  export interface ModalFormProps {
+    openModal: boolean;
+    handleClose: () => void;
+    data: MaquinariaDataItem;
+    mode: string;
+  }

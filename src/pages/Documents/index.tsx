@@ -194,7 +194,7 @@ const Documents: React.FC = () => {
           id={1}
         />
       </Grid>
-      <ModalEditDocument
+      <ModalEditDocument  ///crear
         openModal={openModalNew}
         handleClose={handleCloseNewModal}
         data={dataCreate}

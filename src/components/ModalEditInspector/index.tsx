@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { MachineryInspectionItem } from "../../types";
 import {
   Box,
@@ -13,17 +13,20 @@ import {
 import { styleModalInspection } from "../../style/StyleModal";
 import ButtonDefault from "../ButtonDefault";
 import HeaderModal from "../HeaderModal";
+import DatePickerForm from "../DatePickerForm";
 
 interface ModalEditDocumentProps {
   openModal: boolean;
   handleClose: () => void;
   data: MachineryInspectionItem;
+  mode: string;
 }
 
 const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
   openModal,
   handleClose,
   data,
+  mode,
 }) => {
   const [formData, setFormData] = useState({
     projectName: data.projectName || "",
@@ -135,6 +138,16 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
       [name]: type === "checkbox" ? checked : value,
     });
   };
+  const handleDateChange = useCallback(
+    (date) => {
+      setFormData((prevData) => ({
+        ...prevData,
+        maintenance_date: date,
+      }));
+    },
+    [setFormData]
+  );
+
   const [openModalUpdate, setOpenModalUpdate] = React.useState(false);
 
   const handleOpenUpdateModal = () => setOpenModalUpdate(openModal);
@@ -143,6 +156,11 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
   const handleSubmit = () => {
     //handleSave(formData);
   };
+
+  const modalTitle =
+    mode === "create" ? "CREAR INSPECCIÓN" : "EDITAR DETALLE DE LA INSPECCIÓN";
+
+  const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
 
   return (
     <Modal
@@ -153,7 +171,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
     >
       <Box sx={styleModalInspection}>
         <HeaderModal
-          titleHeader={"EDITAR DETALLE DE LA INSPECCIÓN"}
+          titleHeader={modalTitle}
           id={"#"} //aqui va el id
           handleClose={handleClose}
         />
@@ -193,13 +211,10 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               onChange={handleChange}
               fullWidth
             />
-            <TextField
-              label="Fecha de registro"
-              variant="outlined"
-              name="registrationDate"
-              value={formData.registrationDate}
-              onChange={handleChange}
-              fullWidth
+            <DatePickerForm
+              dateValue={formData.registrationDate}
+              labelValue="Fecha de registro"
+              handleDateChange={handleDateChange}
             />
             <TextField
               label="Nombre del operador"
@@ -250,7 +265,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.frontLights}
                   onChange={handleChange}
                   name="frontLights"
@@ -262,7 +277,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.rearLights}
                   onChange={handleChange}
                   name="rearLights"
@@ -274,7 +289,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.directionalLights}
                   onChange={handleChange}
                   name="directionalLights"
@@ -286,7 +301,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.rolloverProtection}
                   onChange={handleChange}
                   name="rolloverProtection"
@@ -298,7 +313,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.seatbelt}
                   onChange={handleChange}
                   name="seatbelt"
@@ -310,7 +325,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.bucketConditionAndOperation}
                   onChange={handleChange}
                   name="bucketConditionAndOperation"
@@ -322,7 +337,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.seatCondition}
                   onChange={handleChange}
                   name="seatCondition"
@@ -334,7 +349,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.windows}
                   onChange={handleChange}
                   name="windows"
@@ -346,7 +361,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.cabin}
                   onChange={handleChange}
                   name="cabin"
@@ -358,7 +373,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.reverseAlarm}
                   onChange={handleChange}
                   name="reverseAlarm"
@@ -370,7 +385,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.accessLadderAndSupports}
                   onChange={handleChange}
                   name="accessLadderAndSupports"
@@ -382,7 +397,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.mirrors}
                   onChange={handleChange}
                   name="mirrors"
@@ -394,7 +409,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.horn}
                   onChange={handleChange}
                   name="horn"
@@ -406,7 +421,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.controlLevers}
                   onChange={handleChange}
                   name="controlLevers"
@@ -418,7 +433,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.pedals}
                   onChange={handleChange}
                   name="pedals"
@@ -430,7 +445,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.liftCylinders}
                   onChange={handleChange}
                   name="liftCylinders"
@@ -442,7 +457,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.articulationCylinders}
                   onChange={handleChange}
                   name="articulationCylinders"
@@ -454,7 +469,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.doorConditionWithLock}
                   onChange={handleChange}
                   name="doorConditionWithLock"
@@ -466,7 +481,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.battery}
                   onChange={handleChange}
                   name="battery"
@@ -478,7 +493,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.electricalInstallation}
                   onChange={handleChange}
                   name="electricalInstallation"
@@ -490,7 +505,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.steering}
                   onChange={handleChange}
                   name="steering"
@@ -502,7 +517,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.engine}
                   onChange={handleChange}
                   name="engine"
@@ -514,7 +529,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.radiator}
                   onChange={handleChange}
                   name="Radiador"
@@ -526,7 +541,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.indicators}
                   onChange={handleChange}
                   name="indicators"
@@ -538,7 +553,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.brakingSystem}
                   onChange={handleChange}
                   name="brakingSystem"
@@ -550,7 +565,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.oilCooler}
                   onChange={handleChange}
                   name="oilCooler"
@@ -562,7 +577,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.hydraulicSystemBlock}
                   onChange={handleChange}
                   name="hydraulicSystemBlock"
@@ -574,7 +589,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.hoses}
                   onChange={handleChange}
                   name="hoses"
@@ -586,7 +601,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.belts}
                   onChange={handleChange}
                   name="belts"
@@ -598,7 +613,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.electricalSystem}
                   onChange={handleChange}
                   name="electricalSystem"
@@ -610,7 +625,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.swingMechanism}
                   onChange={handleChange}
                   name="swingMechanism"
@@ -622,7 +637,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.swingMechanismBrake}
                   onChange={handleChange}
                   name="swingMechanismBrake"
@@ -634,7 +649,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.armLiftControls}
                   onChange={handleChange}
                   name="armLiftControls"
@@ -646,7 +661,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.rightTrack}
                   onChange={handleChange}
                   name="rightTrack"
@@ -658,7 +673,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.leftTrack}
                   onChange={handleChange}
                   name="leftTrack"
@@ -670,7 +685,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.spillKit}
                   onChange={handleChange}
                   name="spillKit"
@@ -682,7 +697,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.fireExtinguisher20Lbs}
                   onChange={handleChange}
                   name="fireExtinguisher20Lbs"
@@ -694,7 +709,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               sx={{ height: 30, fontSizeAdjust: "0.47" }}
               control={
                 <Checkbox
-                color="success"
+                  color="success"
                   checked={formData.safetyCones}
                   onChange={handleChange}
                   name="safetyCones"
@@ -708,7 +723,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
             <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
               <ButtonDefault
                 onClick={handleOpenUpdateModal}
-                title="ACTUALIZAR"
+                title={buttonText}
               />
             </Grid>
           </Grid>
