@@ -12,6 +12,7 @@ import {
 } from "../../../types";
 import ListIcon from "@mui/icons-material/List";
 import ButtonDefault from "../../ButtonDefault";
+import { styleTableItem } from "../../../style/StyleModal";
 
 const rows = [
   {
@@ -131,24 +132,45 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({ mode }) => {
       align: "center",
       headerAlign: "center",
     },
-    { field: "operator", headerName: "Operador", flex: 1, minWidth: 150 },
-    { field: "description", headerName: "Descripción", flex: 1, minWidth: 120 },
+    {
+      field: "operator",
+      headerName: "Operador",
+      flex: 1,
+      minWidth: 150,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "description",
+      headerName: "Descripción",
+      flex: 1,
+      minWidth: 120,
+      align: "center",
+      headerAlign: "center",
+    },
     {
       field: "project_name",
       headerName: "Nombre del proyecto",
       flex: 1,
       minWidth: 150,
+
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "actions",
       headerName: "Acciones",
       flex: 1,
       minWidth: 150,
+
+      align: "center",
+      headerAlign: "center",
       disableColumnMenu: true,
       renderCell: (params) => (
         <>
           <Tooltip title="Editar">
             <IconButton
+              color="success"
               onClick={() => handleOpenEdit(params.row)}
               aria-label="Editar"
             >
@@ -158,6 +180,7 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({ mode }) => {
 
           <Tooltip title="Detalle">
             <IconButton
+              color="warning"
               onClick={() => handleOpen(params.row)}
               aria-label="Ver detalles"
             >
@@ -166,6 +189,7 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({ mode }) => {
           </Tooltip>
           <Tooltip title="ELiminar">
             <IconButton
+              color="error"
               onClick={() => handleOpenDelete()}
               aria-label="ELiminar"
             >
@@ -198,6 +222,7 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({ mode }) => {
       )}
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
+          sx={styleTableItem}
           className="truncate..."
           hideFooter
           rows={rows}

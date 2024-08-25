@@ -8,7 +8,7 @@ import ListIcon from "@mui/icons-material/List";
 import ModalDocumentDetail from "../../components/ModalDocumentDetail";
 import ModalEditDocument from "../../components/ModalEditDocument";
 import { Grid, IconButton, Tooltip } from "@mui/material";
-import { styleTableResponsive } from "../../style/StyleModal";
+import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
 import HeaderPage from "../../components/HeaderPage";
 
 const rows = [
@@ -68,7 +68,7 @@ const dataCreate = {
   operatingCertificateStart: "",
   operatingCertificateEnd: "",
   heavyMachineryId: "",
-}
+};
 const Documents: React.FC = () => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
@@ -79,7 +79,6 @@ const Documents: React.FC = () => {
   const [openModalNew, setOpenModalNew] = React.useState(false);
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
-
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
@@ -111,18 +110,24 @@ const Documents: React.FC = () => {
       headerName: "Inicio Revisiones técnicas",
       flex: 1,
       minWidth: 200,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "technicalReviewsEnd",
       headerName: "Fin Revisiones técnicas",
       flex: 1,
       minWidth: 120,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "soatStart",
       headerName: "Inicio del Soat",
       flex: 1,
       minWidth: 150,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "actions",
@@ -130,10 +135,13 @@ const Documents: React.FC = () => {
       flex: 1,
       minWidth: 150,
       disableColumnMenu: true,
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => (
         <>
           <Tooltip title="Editar">
             <IconButton
+              color="success"
               onClick={() => handleOpenEdit(params.row)}
               aria-label="Editar"
             >
@@ -143,6 +151,7 @@ const Documents: React.FC = () => {
 
           <Tooltip title="Detalle">
             <IconButton
+              color="warning"
               onClick={() => handleOpen(params.row)}
               aria-label="Ver detalles"
             >
@@ -151,6 +160,7 @@ const Documents: React.FC = () => {
           </Tooltip>
           <Tooltip title="ELiminar">
             <IconButton
+              color="error"
               onClick={() => handleOpenDelete()}
               aria-label="ELiminar"
             >
@@ -163,11 +173,16 @@ const Documents: React.FC = () => {
   ];
   return (
     <>
-      <HeaderPage title="LISTA DE DOCUMENTOS" titleButton="NUEVO DOCUMENTO" handleOpen={handleOpenNewModal} />
+      <HeaderPage
+        title="LISTA DE DOCUMENTOS"
+        titleButton="NUEVO DOCUMENTO"
+        handleOpen={handleOpenNewModal}
+      />
 
       <Grid sx={styleTableResponsive}>
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
+            sx={styleTableItem}
             className="truncate..."
             hideFooter
             rows={rows}
@@ -194,7 +209,7 @@ const Documents: React.FC = () => {
           id={1}
         />
       </Grid>
-      <ModalEditDocument  ///crear
+      <ModalEditDocument ///crear
         openModal={openModalNew}
         handleClose={handleCloseNewModal}
         data={dataCreate}

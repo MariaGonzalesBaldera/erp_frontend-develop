@@ -8,6 +8,7 @@ import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
 import ModalDocumentDetail from "../../ModalDocumentDetail";
 import ModalEditDocument from "../../ModalEditDocument";
+import { styleTableItem } from "../../../style/StyleModal";
 
 const rows = [
   {
@@ -79,14 +80,36 @@ const Documents: React.FC = () => {
   const handleCloseEdit = () => setOpenEdit(false);
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", minWidth: 50,align:"center",headerAlign:"center" },
-    { field: "technicalReviewsStart", headerName: "Inicio Revisiones técnicas", flex: 1, minWidth: 200 },
-    { field: "technicalReviewsEnd", headerName: "Fin Revisiones técnicas", flex: 1, minWidth: 120 },
+    {
+      field: "id",
+      headerName: "ID",
+      minWidth: 50,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "technicalReviewsStart",
+      headerName: "Inicio Revisiones técnicas",
+      flex: 1,
+      minWidth: 200,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "technicalReviewsEnd",
+      headerName: "Fin Revisiones técnicas",
+      flex: 1,
+      minWidth: 120,
+      align: "center",
+      headerAlign: "center",
+    },
     {
       field: "soatStart",
       headerName: "Inicio del Soat",
       flex: 1,
       minWidth: 150,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "actions",
@@ -94,10 +117,13 @@ const Documents: React.FC = () => {
       flex: 1,
       minWidth: 150,
       disableColumnMenu: true,
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => (
         <>
           <Tooltip title="Editar">
             <IconButton
+              color="success"
               onClick={() => handleOpenEdit(params.row)}
               aria-label="Editar"
             >
@@ -107,6 +133,7 @@ const Documents: React.FC = () => {
 
           <Tooltip title="Detalle">
             <IconButton
+              color="warning"
               onClick={() => handleOpen(params.row)}
               aria-label="Ver detalles"
             >
@@ -115,6 +142,7 @@ const Documents: React.FC = () => {
           </Tooltip>
           <Tooltip title="ELiminar">
             <IconButton
+              color="error"
               onClick={() => handleOpenDelete()}
               aria-label="ELiminar"
             >
@@ -129,6 +157,7 @@ const Documents: React.FC = () => {
     <>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
+          sx={styleTableItem}
           className="truncate..."
           hideFooter
           rows={rows}

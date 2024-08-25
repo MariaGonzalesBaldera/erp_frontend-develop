@@ -12,6 +12,7 @@ import ModalEditMaintenance from "../../ModalEditMaintenance";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
 import ButtonDefault from "../../ButtonDefault";
+import { styleTableItem } from "../../../style/StyleModal";
 
 const rows = [
   {
@@ -131,13 +132,29 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
       align: "center",
       headerAlign: "center",
     },
-    { field: "operator", headerName: "Operador", flex: 1, minWidth: 150 },
-    { field: "description", headerName: "Descripción", flex: 1, minWidth: 120 },
+    {
+      field: "operator",
+      headerName: "Operador",
+      flex: 1,
+      minWidth: 150,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "description",
+      headerName: "Descripción",
+      flex: 1,
+      minWidth: 120,
+      align: "center",
+      headerAlign: "center",
+    },
     {
       field: "project_name",
       headerName: "Nombre del proyecto",
       flex: 1,
       minWidth: 150,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "actions",
@@ -145,10 +162,13 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
       flex: 1,
       minWidth: 150,
       disableColumnMenu: true,
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => (
         <>
           <Tooltip title="Editar">
             <IconButton
+              color="success"
               onClick={() => handleOpenEdit(params.row)}
               aria-label="Editar"
             >
@@ -158,6 +178,7 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
 
           <Tooltip title="Detalle">
             <IconButton
+              color="warning"
               onClick={() => handleOpen(params.row)}
               aria-label="Ver detalles"
             >
@@ -166,6 +187,7 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
           </Tooltip>
           <Tooltip title="ELiminar">
             <IconButton
+              color="error"
               onClick={() => handleOpenDelete()}
               aria-label="ELiminar"
             >
@@ -189,14 +211,16 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
           }}
         >
           <ButtonDefault
-          onClick={handleOpenNewModal}
-          title="Agregar mantenimiento" />
+            onClick={handleOpenNewModal}
+            title="Agregar mantenimiento"
+          />
         </Box>
       ) : (
         <></>
       )}
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
+          sx={styleTableItem}
           className="truncate..."
           hideFooter
           rows={rows}
@@ -222,7 +246,7 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
         onCancel={handleCloseConfirmModal}
         id={1}
       />
-       <ModalEditMaintenance //boton de crear
+      <ModalEditMaintenance //boton de crear
         openModal={openModalNew}
         handleClose={handleCloseNewModal}
         data={dataCreate}

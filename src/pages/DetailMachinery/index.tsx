@@ -1,4 +1,4 @@
-import { Breadcrumbs, Grid, Link, Typography } from "@mui/material";
+import { Box, Breadcrumbs, Grid, Link, Typography } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useLocation } from "react-router-dom";
 import React from "react";
@@ -9,7 +9,6 @@ import CardItemDetail from "../../components/CardItemDetail";
 function DetailMachinery() {
   const location = useLocation();
   const maquina = location.state;
- 
 
   return (
     <>
@@ -30,7 +29,15 @@ function DetailMachinery() {
           Detalle maquinaria
         </Typography>
       </Breadcrumbs>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto p-5">
+      <Box
+        sx={{
+          borderRadius:2,
+          backgroundColor: "#ffffff",
+          borderBottom: "2px #aaa5fc solid",
+          borderRight: "2px #aaa5fc solid",
+        }}
+        className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto p-5 border"
+      >
         <CardItemDetail title="Marca" value={maquina.brand} />
         <CardItemDetail title="Modelo" value={maquina.model} />
         <CardItemDetail title="Año de Modelo" value={maquina.modelYear} />
@@ -44,7 +51,7 @@ function DetailMachinery() {
           title="FECHA CREACIÓN"
           value={maquina.createdAt.slice(0, -9)}
         />
-      </div>
+      </Box>
       <Grid className="mt-4">
         <TabDocuments />
       </Grid>

@@ -1,6 +1,5 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import themeNew from "../../utils/theme";
 
 interface CardItemDetailProps {
   title: String;
@@ -13,7 +12,7 @@ const CardItemDetail: React.FC<CardItemDetailProps> = ({ title, value }) => {
         <Typography
           sx={{
             letterSpacing: "0.001px",
-            color: themeNew.palette.surface.main,
+            color: "#332e81",
             fontSize: "0.8rem",
             paddingRight:".5rem"
           }}
@@ -21,7 +20,7 @@ const CardItemDetail: React.FC<CardItemDetailProps> = ({ title, value }) => {
         >
           {title}:
         </Typography>
-        <Typography variant="body1">{value}</Typography>
+        <Typography color="#1e1b4b" variant="body1">{value}</Typography>
     </Box>
   );
 };

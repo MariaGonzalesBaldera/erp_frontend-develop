@@ -153,9 +153,11 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
   const handleOpenUpdateModal = () => setOpenModalUpdate(openModal);
   const handleCloseUpdateModal = () => setOpenModalUpdate(false);
 
-  const handleSubmit = () => {
-    //handleSave(formData);
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    handleClose()
   };
+
 
   const modalTitle =
     mode === "create" ? "CREAR INSPECCIÓN" : "EDITAR DETALLE DE LA INSPECCIÓN";
@@ -176,7 +178,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
           handleClose={handleClose}
         />
 
-        <div className="bg-background p-6 w-full max-w-6xl mx-auto">
+        <Box component="form" onSubmit={handleSubmit} className="bg-background p-6 w-full max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Campos de texto */}
             <TextField
@@ -215,6 +217,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               dateValue={formData.registrationDate}
               labelValue="Fecha de registro"
               handleDateChange={handleDateChange}
+              nameValue="registrationDate"
             />
             <TextField
               label="Nombre del operador"
@@ -727,7 +730,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
               />
             </Grid>
           </Grid>
-        </div>
+        </Box>
       </Box>
     </Modal>
   );
