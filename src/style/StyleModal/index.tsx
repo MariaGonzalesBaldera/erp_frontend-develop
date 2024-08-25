@@ -40,24 +40,25 @@ export const styleTableResponsive = {
 
 export const styleTabsBackground = {
   "& .MuiTab-root": {
-  backgroundColor: "#0f1b38",
+    backgroundColor: "#0f1b38",
     border: "1px #fff solid",
     color: "#fff",
   },
   "& .Mui-selected": {
-    color: "#92ccfe",
+    backgroundColor: "#bdd3ff",
+    color: "#0f1b38",
   },
 };
 
 export const styleTableItem = {
-  backgroundColor: "#f0f0f0",
   "& .MuiDataGrid-cell": {
     color: "#333",
   },
-  "& .MuiDataGrid-columnHeaders": {
+  "& .MuiDataGrid-columnHeader": {
+    backgroundColor: "#332e81",
     "& .MuiDataGrid-columnHeaderTitle": {
       fontWeight: "bold",
-      color: "#332e81",
+      color: "white",
     },
   },
   "& .MuiDataGrid-row:nth-of-type(odd)": {

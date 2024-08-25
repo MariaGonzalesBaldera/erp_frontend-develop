@@ -256,7 +256,7 @@ const MachinerysList: React.FC = () => {
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
-          //  sx={styleTabsBackground}
+           sx={styleTabsBackground}
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"

@@ -29,7 +29,7 @@ const TabDocuments: React.FC = () => {
           aria-label="basic tabs example"
           TabIndicatorProps={{
             style: {
-              backgroundColor: "#2470ec",
+                backgroundColor: "#1d23e5",
             },
           }}
         >
