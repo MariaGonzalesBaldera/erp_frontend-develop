@@ -20,17 +20,16 @@ import Button from "@mui/material/Button";
 import themeNew, { useAppTheme } from "../../utils/theme";
 import { ListItemButton, ListItemIcon, useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
-import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import LocalGasStationOutlinedIcon from "@mui/icons-material/LocalGasStationOutlined";
-import { AssignmentOutlined, CheckBox, CheckBoxOutlineBlank, CheckBoxOutlineBlankOutlined, CheckBoxOutlineBlankTwoTone, CheckBoxOutlined, DriveEtaOutlined, EngineeringOutlined, FormatListBulleted, GradingOutlined, HomeOutlined, LibraryBooks, LibraryBooksOutlined, ListAlt, LocationOn, LocationOnOutlined, NoteAddOutlined } from "@mui/icons-material";
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import { AssignmentOutlined, CheckBoxOutlined, DriveEtaOutlined, EngineeringOutlined, HomeOutlined, LibraryBooksOutlined, LocationOnOutlined } from "@mui/icons-material";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
 }>(({ theme, open }) => ({
   flexGrow: 1,
-  backgroundColor:themeNew.palette.textMain.main,
+  
+  backgroundColor:"#efeeff",
   minHeight:"100vh",
   padding: theme.spacing(2.5),
   marginTop: "80px",

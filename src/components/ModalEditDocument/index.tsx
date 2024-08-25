@@ -125,6 +125,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
                   dateValue={formData[field.name]}
                   labelValue={field.label}
                   handleDateChange={handleChange}
+                  nameValue={formData[field.name]}
                 />
               ))}
             </div>

@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import { FuelLoadProps } from "../../types";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IconButton, Tooltip } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import React, { useState } from "react";
+import { FuelLoadProps } from "../../../types";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
-import { styleTableItem } from "../../style/StyleModal";
-import ModalEditFuelLoad from "../../components/ModalEditFuelLoad";
-import ModalFuelLoadDetail from "../../components/ModalFuelLoadDetail";
-import ConfirmModal from "../../components/ConfirmModal";
-import HeaderPage from "../../components/HeaderPage";
+import ModalDocumentDetail from "../../ModalDocumentDetail";
+import ModalEditDocument from "../../ModalEditDocument";
+import { styleTableItem } from "../../../style/StyleModal";
+import ModalEditFuelLoad from "../../ModalEditFuelLoad";
+import ModalFuelLoadDetail from "../../ModalFuelLoadDetail";
 
 const rows = [
   {
@@ -40,16 +41,8 @@ const rows = [
     heavyMachineryId: "HM-182345",
   },
 ];
-const dataCreate = {
-  id: "",
-  numberGallons: 0,
-  fuelingMileage: "",
-  fuelingDate: "",
-  amountPaid: 0,
-  invoiceNumber: "",
-  heavyMachineryId: "",
-};
-const FuelRegister: React.FC = () => {
+
+const FuelLoad: React.FC = () => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -72,12 +65,6 @@ const FuelRegister: React.FC = () => {
   };
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
-
-  const [openModalNew, setOpenModalNew] = React.useState(false);
-  const handleOpenNewModal = () => setOpenModalNew(true);
-  const handleCloseNewModal = () => setOpenModalNew(false);
-
-
 
   const columns: GridColDef[] = [
     {
@@ -155,11 +142,6 @@ const FuelRegister: React.FC = () => {
   ];
   return (
     <>
-      <HeaderPage
-        title="LISTA DE REGISTROS"
-        titleButton="NUEVO REGISTRO"
-        handleOpen={handleOpenNewModal}
-      />
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           sx={styleTableItem}
@@ -188,14 +170,8 @@ const FuelRegister: React.FC = () => {
         onCancel={handleCloseConfirmModal}
         id={1}
       />
-      <ModalEditFuelLoad //boton de editar
-        openModal={openModalNew}
-        handleClose={handleCloseNewModal}
-        data={dataCreate}
-        mode="create"
-      />
     </>
   );
 };
 
-export default FuelRegister;
+export default FuelLoad;

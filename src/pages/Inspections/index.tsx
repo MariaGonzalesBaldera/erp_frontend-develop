@@ -4,11 +4,12 @@ import React, { useState } from "react";
 import ModalMoreDetailInspection from "../../components/ModalMoreDetailInspection";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ListIcon from "@mui/icons-material/List";
 import { MachineryInspectionItem } from "../../types";
 import ConfirmModal from "../../components/ConfirmModal";
-import ListIcon from "@mui/icons-material/List";
 import ModalEditInspector from "../../components/ModalEditInspector";
 import HeaderPage from "../../components/HeaderPage";
+import { styleTableItem } from "../../style/StyleModal";
 
 const rows = [
   {
@@ -325,59 +326,58 @@ const rows = [
   },
 ];
 
-const dataCreate = 
-  {
-    projectName: "",
-    unitData: "",
-    activity: "",
-    location: "",
-    registrationDate: "",
-    frontLights: false,
-    rearLights: false,
-    directionalLights: false,
-    rolloverProtection: false,
-    seatbelt: false,
-    bucketConditionAndOperation: false,
-    seatCondition: false,
-    windows: false,
-    cabin: false,
-    reverseAlarm: false,
-    accessLadderAndSupports: false,
-    mirrors: false,
-    horn: false,
-    controlLevers: false,
-    pedals: false,
-    liftCylinders: false,
-    articulationCylinders: false,
-    doorConditionWithLock: false,
-    battery: false,
-    electricalInstallation: false,
-    steering: false,
-    engine: false,
-    radiator: false,
-    indicators: false,
-    brakingSystem: false,
-    oilCooler: false,
-    hydraulicSystemBlock: false,
-    hoses: false,
-    belts: false,
-    electricalSystem: false,
-    swingMechanism: false,
-    swingMechanismBrake: false,
-    armLiftControls: false,
-    rightTrack: false,
-    leftTrack: false,
-    spillKit: false,
-    fireExtinguisher20Lbs: false,
-    safetyCones: false,
-    operator: "",
-    residentEngineer: "",
-    ssoma: "",
-    observations: "",
-    createdAt: "",
-    updatedAt: "",
-    heavyMachineryId: "",
-  }
+const dataCreate = {
+  projectName: "",
+  unitData: "",
+  activity: "",
+  location: "",
+  registrationDate: "",
+  frontLights: false,
+  rearLights: false,
+  directionalLights: false,
+  rolloverProtection: false,
+  seatbelt: false,
+  bucketConditionAndOperation: false,
+  seatCondition: false,
+  windows: false,
+  cabin: false,
+  reverseAlarm: false,
+  accessLadderAndSupports: false,
+  mirrors: false,
+  horn: false,
+  controlLevers: false,
+  pedals: false,
+  liftCylinders: false,
+  articulationCylinders: false,
+  doorConditionWithLock: false,
+  battery: false,
+  electricalInstallation: false,
+  steering: false,
+  engine: false,
+  radiator: false,
+  indicators: false,
+  brakingSystem: false,
+  oilCooler: false,
+  hydraulicSystemBlock: false,
+  hoses: false,
+  belts: false,
+  electricalSystem: false,
+  swingMechanism: false,
+  swingMechanismBrake: false,
+  armLiftControls: false,
+  rightTrack: false,
+  leftTrack: false,
+  spillKit: false,
+  fireExtinguisher20Lbs: false,
+  safetyCones: false,
+  operator: "",
+  residentEngineer: "",
+  ssoma: "",
+  observations: "",
+  createdAt: "",
+  updatedAt: "",
+  heavyMachineryId: "",
+};
 
 const Inspections: React.FC = () => {
   const [openDetail, setOpenDetail] = useState(false);
@@ -420,18 +420,24 @@ const Inspections: React.FC = () => {
       headerName: "Nombre del Proyecto",
       flex: 1,
       minWidth: 150,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "unitData",
       headerName: "Datos de unidad",
       flex: 1,
       minWidth: 120,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "activity",
       headerName: "Actividad",
       flex: 1,
       minWidth: 150,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "actions",
@@ -439,10 +445,13 @@ const Inspections: React.FC = () => {
       flex: 1,
       minWidth: 150,
       disableColumnMenu: true,
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => (
         <>
           <Tooltip title="Editar">
             <IconButton
+              color="success"
               onClick={() => handleOpenEdit(params.row)}
               aria-label="Editar"
             >
@@ -452,6 +461,7 @@ const Inspections: React.FC = () => {
 
           <Tooltip title="Detalle">
             <IconButton
+              color="warning"
               onClick={() => handleOpen(params.row)}
               aria-label="Ver detalles"
             >
@@ -460,6 +470,7 @@ const Inspections: React.FC = () => {
           </Tooltip>
           <Tooltip title="ELiminar">
             <IconButton
+              color="error"
               onClick={() => handleOpenDelete()}
               aria-label="ELiminar"
             >
@@ -470,6 +481,7 @@ const Inspections: React.FC = () => {
       ),
     },
   ];
+
   return (
     <>
       <HeaderPage
@@ -477,9 +489,9 @@ const Inspections: React.FC = () => {
         titleButton="NUEVA INSPECCIÓN"
         handleOpen={handleOpenNewModal}
       />
-
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
+          sx={styleTableItem}
           className="truncate..."
           hideFooter
           rows={rows}

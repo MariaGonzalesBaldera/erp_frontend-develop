@@ -2,6 +2,8 @@ import React from "react";
 import { Box } from "@mui/material";
 import { MaintenanceProps } from "../../types";
 
+//style
+
 export const styleModalInspection = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -13,7 +15,7 @@ export const styleModalInspection = {
     md: "50%",
     lg: "45%",
   },
-  minHeight: "300px", // Altura mínima
+  minHeight: "260px", // Altura mínima
   maxHeight: "580px", // Altura máxima
   bgcolor: "background.paper",
   boxShadow: 24,
@@ -36,6 +38,35 @@ export const styleTableResponsive = {
   },
 };
 
+export const styleTabsBackground = {
+  "& .MuiTab-root": {
+  backgroundColor: "#0f1b38",
+    border: "1px #fff solid",
+    color: "#fff",
+  },
+  "& .Mui-selected": {
+    color: "#92ccfe",
+  },
+};
+
+export const styleTableItem = {
+  backgroundColor: "#f0f0f0",
+  "& .MuiDataGrid-cell": {
+    color: "#333",
+  },
+  "& .MuiDataGrid-columnHeaders": {
+    "& .MuiDataGrid-columnHeaderTitle": {
+      fontWeight: "bold",
+      color: "#332e81",
+    },
+  },
+  "& .MuiDataGrid-row:nth-of-type(odd)": {
+    backgroundColor: "#f9f9f9",
+  },
+  "& .MuiDataGrid-row:nth-of-type(even)": {
+    backgroundColor: "#e0e0e0",
+  },
+};
 
 export function CustomTabPanel(props: MaintenanceProps) {
   const { children, value, index, ...other } = props;
@@ -49,7 +80,7 @@ export function CustomTabPanel(props: MaintenanceProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ pt: 2, backgroundColor: "white" }}>{children}</Box>
+        <Box sx={{ p: 2, backgroundColor: "white" }}>{children}</Box>
       )}
     </div>
   );

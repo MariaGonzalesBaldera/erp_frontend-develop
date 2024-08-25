@@ -8,16 +8,19 @@ interface DatePickerFormProps {
   dateValue: string;
   labelValue: string;
   handleDateChange: (date: any) => void;
+  nameValue: string
 }
 
 const DatePickerForm: React.FC<DatePickerFormProps> = ({
   dateValue,
   labelValue,
   handleDateChange,
+  nameValue
 }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
+        name={nameValue}
         value={dayjs(dateValue)}
         label={labelValue}
         onChange={handleDateChange}

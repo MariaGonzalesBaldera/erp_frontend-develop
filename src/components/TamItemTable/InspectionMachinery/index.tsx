@@ -6,61 +6,62 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { MachineryInspectionItem } from "../../../types";
 import ConfirmModal from "../../ConfirmModal";
-import ListIcon from '@mui/icons-material/List';
+import ListIcon from "@mui/icons-material/List";
 import ModalEditInspector from "../../ModalEditInspector";
+import { styleTableItem } from "../../../style/StyleModal";
 
 const rows = [
-    {
-        projectName: "Proyecto B",
-        unitData: "Bulldozer D8T",
-        activity: "Nivelación de terreno",
-        location: "Arequipa, Perú",
-        registrationDate: "2024-08-02",
-        frontLights: false,
-        rearLights: true,
-        directionalLights: true,
-        rolloverProtection: true,
-        seatbelt: false,
-        bucketConditionAndOperation: true,
-        seatCondition: true,
-        windows: false,
-        cabin: true,
-        reverseAlarm: true,
-        accessLadderAndSupports: true,
-        mirrors: true,
-        horn: true,
-        controlLevers: false,
-        pedals: true,
-        liftCylinders: true,
-        articulationCylinders: true,
-        doorConditionWithLock: false,
-        battery: true,
-        electricalInstallation: true,
-        steering: true,
-        engine: true,
-        radiator: true,
-        indicators: false,
-        brakingSystem: true,
-        oilCooler: true,
-        hydraulicSystemBlock: true,
-        hoses: true,
-        belts: true,
-        electricalSystem: true,
-        swingMechanism: false,
-        swingMechanismBrake: true,
-        armLiftControls: false,
-        rightTrack: true,
-        leftTrack: true,
-        spillKit: true,
-        fireExtinguisher20Lbs: true,
-        safetyCones: true,
-        operator: "Luis Fernández",
-        residentEngineer: "María Torres Maldonado Silva",
-        ssoma: "Jorge Quispe",
-        observations: "Falta reemplazar luces frontales y cinturón de seguridad",
-        createdAt: "2024-08-02",
-        updatedAt: "2024-08-02",
-        heavyMachineryId: "HM-001"
+  {
+    projectName: "Proyecto B",
+    unitData: "Bulldozer D8T",
+    activity: "Nivelación de terreno",
+    location: "Arequipa, Perú",
+    registrationDate: "2024-08-02",
+    frontLights: false,
+    rearLights: true,
+    directionalLights: true,
+    rolloverProtection: true,
+    seatbelt: false,
+    bucketConditionAndOperation: true,
+    seatCondition: true,
+    windows: false,
+    cabin: true,
+    reverseAlarm: true,
+    accessLadderAndSupports: true,
+    mirrors: true,
+    horn: true,
+    controlLevers: false,
+    pedals: true,
+    liftCylinders: true,
+    articulationCylinders: true,
+    doorConditionWithLock: false,
+    battery: true,
+    electricalInstallation: true,
+    steering: true,
+    engine: true,
+    radiator: true,
+    indicators: false,
+    brakingSystem: true,
+    oilCooler: true,
+    hydraulicSystemBlock: true,
+    hoses: true,
+    belts: true,
+    electricalSystem: true,
+    swingMechanism: false,
+    swingMechanismBrake: true,
+    armLiftControls: false,
+    rightTrack: true,
+    leftTrack: true,
+    spillKit: true,
+    fireExtinguisher20Lbs: true,
+    safetyCones: true,
+    operator: "Luis Fernández",
+    residentEngineer: "María Torres Maldonado Silva",
+    ssoma: "Jorge Quispe",
+    observations: "Falta reemplazar luces frontales y cinturón de seguridad",
+    createdAt: "2024-08-02",
+    updatedAt: "2024-08-02",
+    heavyMachineryId: "HM-001",
   },
   {
     projectName: "Proyecto B",
@@ -112,7 +113,7 @@ const rows = [
     observations: "Falta reemplazar luces frontales y cinturón de seguridad",
     createdAt: "2024-08-02",
     updatedAt: "2024-08-02",
-    heavyMachineryId: "HM-002"
+    heavyMachineryId: "HM-002",
   },
   {
     projectName: "Proyecto C",
@@ -164,7 +165,7 @@ const rows = [
     observations: "Reemplazar extintor y revisar alarmas de retroceso",
     createdAt: "2024-08-03",
     updatedAt: "2024-08-03",
-    heavyMachineryId: "HM-003"
+    heavyMachineryId: "HM-003",
   },
   {
     projectName: "Proyecto D",
@@ -216,7 +217,7 @@ const rows = [
     observations: "Revisar condición del balde",
     createdAt: "2024-08-04",
     updatedAt: "2024-08-04",
-    heavyMachineryId: "HM-004"
+    heavyMachineryId: "HM-004",
   },
   {
     projectName: "Proyecto E",
@@ -268,7 +269,7 @@ const rows = [
     observations: "Reemplazar asiento del operador",
     createdAt: "2024-08-05",
     updatedAt: "2024-08-05",
-    heavyMachineryId: "HM-005"
+    heavyMachineryId: "HM-005",
   },
   {
     projectName: "Proyecto F",
@@ -320,8 +321,8 @@ const rows = [
     observations: "Revisar luces direccionales y extintor",
     createdAt: "2024-08-06",
     updatedAt: "2024-08-06",
-    heavyMachineryId: "HM-006"
-  }
+    heavyMachineryId: "HM-006",
+  },
 ];
 
 const InspectionMachinery: React.FC = () => {
@@ -335,7 +336,7 @@ const InspectionMachinery: React.FC = () => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
-  
+
   const handleOpenDelete = () => {
     setOpenDelete(true);
   };
@@ -349,24 +350,50 @@ const InspectionMachinery: React.FC = () => {
   const handleCloseEdit = () => setOpenEdit(false);
 
   const columns: GridColDef[] = [
-    { field: "heavyMachineryId", headerName: "ID", minWidth: 50,align:"center",headerAlign:"center" },
-    { field: "projectName", headerName: "Nombre del Proyecto", flex: 1, minWidth: 150 },
-    { field: "unitData", headerName: "Datos de unidad", flex: 1, minWidth: 120 },
+    {
+      field: "heavyMachineryId",
+      headerName: "ID",
+      minWidth: 50,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "projectName",
+      headerName: "Nombre del Proyecto",
+      flex: 1,
+      minWidth: 150,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "unitData",
+      headerName: "Datos de unidad",
+      flex: 1,
+      minWidth: 120,
+      align: "center",
+      headerAlign: "center",
+    },
     {
       field: "activity",
       headerName: "Actividad",
       flex: 1,
       minWidth: 150,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "actions",
       headerName: "Acciones",
-      flex: 1, 
+      flex: 1,
       minWidth: 150,
-      disableColumnMenu: true,      renderCell: (params) => (
+      disableColumnMenu: true,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
         <>
           <Tooltip title="Editar">
             <IconButton
+              color="success"
               onClick={() => handleOpenEdit(params.row)}
               aria-label="Editar"
             >
@@ -376,6 +403,7 @@ const InspectionMachinery: React.FC = () => {
 
           <Tooltip title="Detalle">
             <IconButton
+              color="warning"
               onClick={() => handleOpen(params.row)}
               aria-label="Ver detalles"
             >
@@ -384,6 +412,7 @@ const InspectionMachinery: React.FC = () => {
           </Tooltip>
           <Tooltip title="ELiminar">
             <IconButton
+              color="error"
               onClick={() => handleOpenDelete()}
               aria-label="ELiminar"
             >
@@ -399,6 +428,7 @@ const InspectionMachinery: React.FC = () => {
     <>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
+          sx={styleTableItem}
           className="truncate..."
           hideFooter
           rows={rows}
@@ -411,13 +441,13 @@ const InspectionMachinery: React.FC = () => {
         handleClose={handleCloseEdit}
         data={selectedRow}
       />
-      
-      <ModalMoreDetailInspection  //boton de detalle
+
+      <ModalMoreDetailInspection //boton de detalle
         openModal={openDetail}
         handleClose={handleClose}
         data={selectedRow}
       />
-         <ConfirmModal //boton de eliminar
+      <ConfirmModal //boton de eliminar
         onConfirm={openDelete}
         onCancel={handleCloseConfirmModal}
         id={1}

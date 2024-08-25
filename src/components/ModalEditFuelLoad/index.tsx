@@ -1,44 +1,50 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { ModalEditMaintenanceProps } from "../../types";
+import { FuelLoadProps } from "../../types";
 import { Box, Grid, Modal, TextField } from "@mui/material";
 import { styleModalInspection } from "../../style/StyleModal";
-import ButtonDefault from "../ButtonDefault";
 import HeaderModal from "../HeaderModal";
-import TimePickerForm from "../TimePickerForm";
 import DatePickerForm from "../DatePickerForm";
+import ButtonDefault from "../ButtonDefault";
 
-const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
+interface ModalEditFuelLoadProps {
+  openModal: boolean;
+  handleClose: () => void;
+  data: FuelLoadProps;
+  mode: string;
+}
+
+const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
   openModal,
   handleClose,
   data,
   mode,
 }) => {
   const [formData, setFormData] = useState({
-    description: "",
-    maintenance_date: "",
-    amount_paid: "",
-    operator: "",
-    project_name: "",
-    observations: "",
-    driving_start: "",
-    driving_end: "",
+    id: "",
+    numberGallons: 0,
+    fuelingMileage: "",
+    fuelingDate: "",
+    amountPaid: 0,
+    invoiceNumber: "",
+    createdAt: "",
+    updatedAt: "",
+    heavyMachineryId: "",
   });
-
   useEffect(() => {
     if (openModal) {
       setFormData({
-        description: data.description || "",
-        maintenance_date: data.maintenance_date || "",
-        amount_paid: data.amount_paid || "",
-        operator: data.operator || "",
-        project_name: data.project_name || "",
-        observations: data.observations || "",
-        driving_start: data.driving_start || "",
-        driving_end: data.driving_end || "",
+        id: data.id || "",
+        numberGallons: data.numberGallons || 0,
+        fuelingMileage: data.fuelingMileage || "",
+        fuelingDate: data.fuelingDate || "",
+        amountPaid: data.amountPaid || 0,
+        invoiceNumber: data.invoiceNumber || "",
+        createdAt: data.createdAt || "",
+        updatedAt: data.updatedAt || "",
+        heavyMachineryId: data.heavyMachineryId || "",
       });
     }
   }, [openModal, data]);
-
   const handleChange = useCallback(
     (e) => {
       setFormData((prevData) => ({
@@ -48,7 +54,6 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
     },
     [setFormData]
   );
-
   const handleDateChange = useCallback(
     (date) => {
       setFormData((prevData) => ({
@@ -58,7 +63,6 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
     },
     [setFormData]
   );
-
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -75,7 +79,7 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
   );
 
   const modalTitle =
-    mode === "create" ? "CREAR NUEVO MANTENIMIENTO" : "EDITAR MANTENIMIENTO";
+    mode === "create" ? "CREAR NUEVO REGISTRO" : "EDITAR REGISTRO";
 
   const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
 
@@ -89,7 +93,7 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
       <Box sx={styleModalInspection}>
         <HeaderModal
           titleHeader={modalTitle}
-          id={"#"} //aqui va el id
+          id={formData.id || "#"} // Display the ID if available
           handleClose={handleClose}
         />
         <Box className="p-5">
@@ -98,72 +102,56 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label="Descripción"
-                  name="description"
-                  value={formData.description}
+                  label="Número de Galones"
+                  name="numberGallons"
+                  value={formData.numberGallons}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Millaje de Abastecimiento"
+                  name="fuelingMileage"
+                  value={formData.fuelingMileage}
                   onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <DatePickerForm
-                  dateValue={formData.maintenance_date}
-                  labelValue="Fecha de Mantenimiento"
+                  dateValue={formData.fuelingDate}
+                  labelValue="Fecha de Abastecimiento"
                   handleDateChange={handleDateChange}
-                  nameValue="maintenance_date"
+                  nameValue="fuelingDate"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label="Cantidad Pagada"
-                  name="amount_paid"
-                  value={formData.amount_paid}
+                  name="amountPaid"
+                  value={formData.amountPaid}
                   onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label="Operador"
-                  name="operator"
-                  value={formData.operator}
+                  label="Número de Factura"
+                  name="invoiceNumber"
+                  value={formData.invoiceNumber}
                   onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label="Nombre del Proyecto"
-                  name="project_name"
-                  value={formData.project_name}
+                  label="ID de la Maquinaria Pesada"
+                  name="heavyMachineryId"
+                  value={formData.heavyMachineryId}
                   onChange={handleChange}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  type="text"
-                  fullWidth
-                  label="Observaciones"
-                  name="observations"
-                  value={formData.observations}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TimePickerForm
-                  timeValue={formData.driving_start}
-                  nameValue="driving_start"
-                  label="Inicio de conduccion"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TimePickerForm
-                  timeValue={formData.driving_end}
-                  nameValue="driving_end"
-                  label="Fin de conduccion"
-                />
-              </Grid>
-
               <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
                 <ButtonDefault title={buttonText} />
               </Grid>
@@ -175,4 +163,4 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
   );
 };
 
-export default ModalEditMaintenance;
+export default ModalEditFuelLoad;

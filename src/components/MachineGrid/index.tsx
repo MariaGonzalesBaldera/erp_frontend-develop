@@ -13,9 +13,9 @@ const MachineGrid: React.FC<MachineGridProps> = ({ model, data }) => {
 
   return (
     <Grid container spacing={2}>
-      {filteredData.map((item) => (
+      {filteredData.map((item,index) => (
         <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item.id}>
-          <BasicCard data={item} />
+          <BasicCard data={item} index={index} />
         </Grid>
       ))}
     </Grid>

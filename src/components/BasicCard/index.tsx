@@ -12,20 +12,20 @@ import {
 import ListIcon from "@mui/icons-material/List";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import retroexcavadora from "../../images/demoledor4.png";
-import volquete from "../../images/volete.png";
-import oruga from "../../images/oruga.png";
+import retroexcavadora from "../../images/retro.png";
+import volquete from "../../images/volquete2.png";
+import oruga from "../../images/oruga2.png";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../ConfirmModal";
 import { MaquinariaDataItem } from "../../types/index";
-import themeNew from "../../utils/theme";
 import ModalForm from "../ModalForm";
 
 interface BasicCardProps {
   data: MaquinariaDataItem;
+  index: number;
 }
 
-const BasicCard: React.FC<BasicCardProps> = ({ data }) => {
+const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
   const navigate = useNavigate();
 
   const handleNavigation = () => {
@@ -72,36 +72,45 @@ const BasicCard: React.FC<BasicCardProps> = ({ data }) => {
   const handleOpenConfirmModal = () => setOpenModalConfirm(true);
   const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 
+  const colorsCard = (index: number) => {
+    const colorsItem = ["#e9ebc8", "#e8f4df", "#e9ebc8", "#e8f4df"];
+    return colorsItem[index % colorsItem.length];
+  };
+
   return (
     <StyledCard>
       <Card
         className="w-45 mx-auto shadow-lg"
-        sx={{ backgroundColor: themeNew.palette.textMain.main }}
+        sx={{
+          border:"1px #b6b5c4 solid",
+          background: "#fff",
+          borderBottom:"5px #6c63f1 solid"
+        }}
       >
         <CardMedia
           component="img"
           alt={`Imagen de ${data.model}`}
           height="140"
           image={getImage()}
-          style={{ height: "140px", objectFit: "cover" }}
+          style={{ height: "120px", objectFit: "cover" }}
         />
         <CardContent>
-          <h2 className="text-base font-bold mb-2">
+          <h2 className="text-base font-bold mb-2 color ">
             {"Maquinaria # " + data.id}
           </h2>
           <Stack direction="row" gap={2}>
-            <Chip label={data.model} variant="outlined" color="success" />
-            <Chip label={data.brand} variant="outlined" color="success" />
+            <Chip label={data.model} variant="filled" sx={{color:"#1e1b4b"}} />
+            <Chip label={data.brand} variant="filled" sx={{color:"#1e1b4b"}}  />
           </Stack>
           <div className="flex justify-between mt-2">
             <Tooltip title="Editar">
-              <IconButton onClick={handleOpenUpdate}>
+              <IconButton color="success" onClick={handleOpenUpdate}>
                 <EditIcon />
               </IconButton>
             </Tooltip>
 
             <Tooltip title="Detalle">
-              <IconButton onClick={handleNavigation}>
+              <IconButton color="warning" onClick={handleNavigation}>
                 <ListIcon />
               </IconButton>
             </Tooltip>

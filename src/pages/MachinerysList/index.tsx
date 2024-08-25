@@ -6,7 +6,7 @@ import ModalForm from "../../components/ModalForm";
 import MachineGrid from "../../components/MachineGrid";
 import { MaquinariaDataItem } from "../../types/index";
 import HeaderPage from "../../components/HeaderPage";
-import { a11yProps, CustomTabPanel } from "../../style/StyleModal";
+import { a11yProps, CustomTabPanel, styleTabsBackground } from "../../style/StyleModal";
 
 const handleChange = (e) => {
   console.log("first");
@@ -256,9 +256,15 @@ const MachinerysList: React.FC = () => {
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
+          //  sx={styleTabsBackground}
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
+            TabIndicatorProps={{
+              style: {
+                backgroundColor: "#2470ec",
+              },
+            }}
           >
             <Tab label="Oruga" {...a11yProps(0)} />
             <Tab label="Retroexcavadora" {...a11yProps(1)} />

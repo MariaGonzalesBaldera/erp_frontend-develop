@@ -4,6 +4,7 @@ import ButtonDefault from "../ButtonDefault";
 import { ModalFormProps } from "../../types/index";
 import { styleModalInspection } from "../../style/StyleModal";
 import HeaderModal from "../HeaderModal";
+import DatePickerForm from "../DatePickerForm";
 
 const currencies = [
   { value: "gas", label: "gas" },
@@ -50,7 +51,15 @@ const ModalForm: React.FC<ModalFormProps> = ({
     },
     [setFormData]
   );
-
+  const handleDateChange = useCallback(
+    (date) => {
+      setFormData((prevData) => ({
+        ...prevData,
+        maintenance_date: date,
+      }));
+    },
+    [setFormData]
+  );
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -65,11 +74,9 @@ const ModalForm: React.FC<ModalFormProps> = ({
     },
     [formData, mode, handleClose]
   );
-  const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR"
+  const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
   const modalTitle =
-    mode === "create"
-      ? "NUEVA MAQUINARIA"
-      : "ACTUALIZAR DATOS DE MAQUINARIA";
+    mode === "create" ? "NUEVA MAQUINARIA" : "ACTUALIZAR DATOS DE MAQUINARIA";
 
   return (
     <Modal
@@ -81,7 +88,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
       <Box sx={styleModalInspection}>
         <HeaderModal
           titleHeader={modalTitle}
-          id={data?.id+"" || ""}
+          id={data?.id + "" || ""}
           handleClose={handleClose}
         />
         <Box className="p-5">
@@ -119,17 +126,11 @@ const ModalForm: React.FC<ModalFormProps> = ({
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Fecha de Adquisición"
-                  variant="outlined"
-                  fullWidth
-                  name="acquisitionDate"
-                  type="date"
-                  value={formData.acquisitionDate}
-                  onChange={handleChange}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                <DatePickerForm
+                  dateValue={formData.acquisitionDate}
+                  labelValue="Fecha de Adquisición"
+                  handleDateChange={handleDateChange}
+                  nameValue={"acquisitionDate"}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -174,9 +175,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
                 </Grid>
               )}
               <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
-                <ButtonDefault
-                  title={buttonText}
-                />
+                <ButtonDefault title={buttonText} />
               </Grid>
             </Grid>
           </Box>
