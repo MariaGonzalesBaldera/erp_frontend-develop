@@ -12,9 +12,9 @@ import {
 import ListIcon from "@mui/icons-material/List";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import retroexcavadora from "../../images/retro.png";
-import volquete from "../../images/volquete2.png";
-import oruga from "../../images/oruga2.png";
+import retroexcavadora from "../../images/retro2.png";
+import volquete from "../../images/volquete22.png";
+import oruga from "../../images/orugax.png";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../ConfirmModal";
 import { MaquinariaDataItem } from "../../types/index";
@@ -73,7 +73,7 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
   const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 
   const colorsCard = (index: number) => {
-    const colorsItem = ["#e9ebc8", "#e8f4df", "#e9ebc8", "#e8f4df"];
+    const colorsItem = ["#383977", "#7272e2"];
     return colorsItem[index % colorsItem.length];
   };
 
@@ -82,9 +82,9 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
       <Card
         className="w-45 mx-auto shadow-lg"
         sx={{
-          border:"1px #b6b5c4 solid",
-          background: "#fff",
-          borderBottom:"5px #6c63f1 solid"
+          border: "1px #b6b5c4 solid",
+          background: colorsCard(index), //"#302d82"//"linear-gradient(to bottom, #7988ff ,#fff)", //  #14109f
+          //borderBottom:"4px # 0e0a5c solid"
         }}
       >
         <CardMedia
@@ -95,28 +95,66 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
           style={{ height: "120px", objectFit: "cover" }}
         />
         <CardContent>
-          <h2 className="text-base font-bold mb-2 color ">
+          <h2 className="text-base font-bold mb-2 text-slate-100 ">
             {"Maquinaria # " + data.id}
           </h2>
-          <Stack direction="row" gap={2}>
-            <Chip label={data.model} variant="filled" sx={{color:"#1e1b4b"}} />
-            <Chip label={data.brand} variant="filled" sx={{color:"#1e1b4b"}}  />
+          <Stack direction="row" gap={1}>
+            <Chip
+              label={data.model}
+              variant="outlined"
+              sx={{ color: "white" }}
+            />
+            <Chip
+              label={data.brand}
+              variant="outlined"
+              sx={{ color: "white" }}
+            />
           </Stack>
           <div className="flex justify-between mt-2">
             <Tooltip title="Editar">
-              <IconButton color="success" onClick={handleOpenUpdate}>
+              <IconButton
+                sx={{
+                  backgroundColor: "white",
+                  "&:hover": {
+                    backgroundColor: "#e3e8fc",
+                    color: colorsCard(index),
+                  },
+                }}
+                color="success"
+                onClick={handleOpenUpdate}
+              >
                 <EditIcon />
               </IconButton>
             </Tooltip>
 
             <Tooltip title="Detalle">
-              <IconButton color="warning" onClick={handleNavigation}>
+              <IconButton
+                sx={{
+                  backgroundColor: "white",
+                  "&:hover": {
+                    backgroundColor: "#e3e8fc",
+                    color: colorsCard(index),
+                  },
+                }}
+                color="warning"
+                onClick={handleNavigation}
+              >
                 <ListIcon />
               </IconButton>
             </Tooltip>
 
             <Tooltip title="Eliminar">
-              <IconButton color="error" onClick={handleOpenConfirmModal}>
+              <IconButton
+                sx={{
+                  backgroundColor: "white",
+                  "&:hover": {
+                    backgroundColor: "#e3e8fc",
+                    color: colorsCard(index),
+                  },
+                }}
+                color="error"
+                onClick={handleOpenConfirmModal}
+              >
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
