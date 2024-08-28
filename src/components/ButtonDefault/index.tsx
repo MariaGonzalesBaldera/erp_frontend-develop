@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 
 interface ButtonDefaultProps {
   title: string;
-    onClick: () => void;
+    onClick?: () => void;
 }
 
 const ButtonDefault: React.FC<ButtonDefaultProps> = ({ title, onClick }) => {

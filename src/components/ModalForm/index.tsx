@@ -1,15 +1,28 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Box, Grid, MenuItem, Modal, TextField } from "@mui/material";
+import { Box, capitalize, Grid, MenuItem, Modal, TextField } from "@mui/material";
 import ButtonDefault from "../ButtonDefault";
 import { ModalFormProps } from "../../types/index";
 import { styleModalInspection } from "../../style/StyleModal";
 import HeaderModal from "../HeaderModal";
 import DatePickerForm from "../DatePickerForm";
+import {
+  useCreateMachinery,
+  useUpdateMachinery,
+} from "../../hooks/useMaquinaria";
+import { MachineryResponse } from "../../domain/machinery.interface";
+import { useQueryClient } from "@tanstack/react-query";
+import dayjs from "dayjs";
 
-const currencies = [
-  { value: "gas", label: "gas" },
-  { value: "Biodiésel", label: "Biodiésel" },
-  { value: "Petroleo", label: "Petroleo" },
+const fuelTypeItem = [
+  { value: "gas", label: "Gas" },
+  { value: "biodiesel", label: "Biodiésel" },
+  { value: "petroleo", label: "Petróleo" },
+];
+
+const modelItem = [
+  { value: "oruga", label: "Oruga" },
+  { value: "retroexcavadora", label: "Retroexcavadora" },
+  { value: "volquete", label: "Volquete" },
 ];
 
 const ModalForm: React.FC<ModalFormProps> = ({
@@ -18,6 +31,9 @@ const ModalForm: React.FC<ModalFormProps> = ({
   data,
   mode,
 }) => {
+  const createMachinery = useCreateMachinery();
+  const queryClient = useQueryClient();
+
   const [formData, setFormData] = useState({
     brand: "",
     model: "",
@@ -27,7 +43,14 @@ const ModalForm: React.FC<ModalFormProps> = ({
     fuelType: "",
     createdAt: "",
   });
-
+  const [errors, setErrors] = useState({
+    brand: false,
+    model: false,
+    modelYear: false,
+    acquisitionDate: false,
+    netLoad: false,
+    fuelType: false,
+  });
   useEffect(() => {
     if (openModal) {
       setFormData({
@@ -42,42 +65,117 @@ const ModalForm: React.FC<ModalFormProps> = ({
     }
   }, [openModal, data]);
 
-  const handleChange = useCallback(
-    (e) => {
-      setFormData((prevData) => ({
-        ...prevData,
-        [e.target.name]: e.target.value,
+  const updateBeneficiaryMutation = useUpdateMachinery({
+    id: data.id?.toString(),
+  });
+
+  const handleChange = useCallback((e) => {
+    const { name, value } = e.target;
+
+    // Actualizar los datos del formulario
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+
+    // Eliminar el error si el campo tiene un valor válido
+    if (value !== "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: false,
       }));
-    },
-    [setFormData]
-  );
-  const handleDateChange = useCallback(
-    (date) => {
-      setFormData((prevData) => ({
-        ...prevData,
-        maintenance_date: date,
+    }
+  }, []);
+  const handleDateChange = useCallback((date) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      acquisitionDate: date,
+    }));
+
+    if (date !== null) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        acquisitionDate: false,
       }));
-    },
-    [setFormData]
-  );
+    }
+  }, []);
+
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
+      // Verifica campos vacíos
+      const newErrors = {
+        brand: formData.brand === "",
+        model: formData.model === "",
+        modelYear: formData.modelYear === "",
+        acquisitionDate: formData.acquisitionDate === "",
+        netLoad: formData.netLoad === "",
+        fuelType: formData.fuelType === "",
+      };
+
+      setErrors(newErrors);
+
+      // Verifica si hay errores
+      const hasErrors = Object.values(newErrors).some((error) => error);
+      if (hasErrors) {
+        return; // No proceder si hay errores
+      }
+      let body;
       if (mode === "create") {
-        console.log("Creating new record:", formData);
-        // Lógica de creación
+        body = {
+          brand: (formData.brand),
+          model: formData.model,
+          modelYear: formData.modelYear,
+          acquisitionDate: formatDateForAPI(formData.acquisitionDate),
+          netLoad: formData.netLoad,
+          fuelType: formData.fuelType,
+        };
+        console.log("Creating new record:", body);
+        onCreateMachinery(body);
       } else {
-        console.log("Updating record:", formData);
-        // Lógica de actualización
+        body = {
+          brand: formData.brand,
+          model: formData.model,
+          modelYear: formData.modelYear,
+          acquisitionDate: formatDateForAPI(formData.acquisitionDate),
+          netLoad: formData.netLoad,
+          fuelType: formData.fuelType
+        };
+        onUpdateMachinery(body);
       }
       handleClose();
     },
-    [formData, mode, handleClose]
+    [formData, mode, useCreateMachinery, handleClose]
   );
   const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
   const modalTitle =
     mode === "create" ? "NUEVA MAQUINARIA" : "ACTUALIZAR DATOS DE MAQUINARIA";
 
+  const onCreateMachinery = async (data: MachineryResponse) => {
+    try {
+      const response = await createMachinery.mutateAsync(data);
+      console.log(response);
+      queryClient.invalidateQueries({
+        queryKey: ["sigma-machinery"],
+      });
+    } catch (error) {
+      console.log("Error-> " + error);
+    }
+  };
+  const onUpdateMachinery = async (data: MachineryResponse) => {
+    try {
+      const response = await updateBeneficiaryMutation.mutateAsync(data);
+      console.log(response);
+      queryClient.invalidateQueries({
+        queryKey: ["sigma-machinery-update"],
+      });
+    } catch (error) {
+      console.log("Error-> " + error);
+    }
+  };
+  const formatDateForAPI = (date) => {
+    return date ? dayjs(date).format("YYYY-MM-DD") : "";
+  };
   return (
     <Modal
       open={openModal}
@@ -102,17 +200,29 @@ const ModalForm: React.FC<ModalFormProps> = ({
                   name="brand"
                   value={formData.brand}
                   onChange={handleChange}
+                  error={errors.brand}
+                  helperText={errors.brand ? "Este campo es requerido" : ""}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  id="outlined-select-currency"
                   label="Modelo"
+                  select
                   variant="outlined"
                   fullWidth
                   name="model"
                   value={formData.model}
                   onChange={handleChange}
-                />
+                  error={errors.model}
+                  helperText={errors.model ? "Este campo es requerido" : ""}
+                >
+                  {modelItem.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -123,6 +233,8 @@ const ModalForm: React.FC<ModalFormProps> = ({
                   type="number"
                   value={formData.modelYear}
                   onChange={handleChange}
+                  error={errors.modelYear}
+                  helperText={errors.modelYear ? "Este campo es requerido" : ""}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -131,6 +243,10 @@ const ModalForm: React.FC<ModalFormProps> = ({
                   labelValue="Fecha de Adquisición"
                   handleDateChange={handleDateChange}
                   nameValue={"acquisitionDate"}
+                  error={errors.acquisitionDate}
+                  helperText={
+                    errors.acquisitionDate ? "Este campo es requerido" : ""
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -141,6 +257,8 @@ const ModalForm: React.FC<ModalFormProps> = ({
                   name="netLoad"
                   value={formData.netLoad}
                   onChange={handleChange}
+                  error={errors.netLoad}
+                  helperText={errors.netLoad ? "Este campo es requerido" : ""}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -153,8 +271,10 @@ const ModalForm: React.FC<ModalFormProps> = ({
                   name="fuelType"
                   value={formData.fuelType}
                   onChange={handleChange}
+                  error={errors.fuelType}
+                  helperText={errors.fuelType ? "Este campo es requerido" : ""}
                 >
-                  {currencies.map((option) => (
+                  {fuelTypeItem.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.label}
                     </MenuItem>

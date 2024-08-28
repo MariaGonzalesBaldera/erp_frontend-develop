@@ -17,11 +17,11 @@ import volquete from "../../images/volquete22.png";
 import oruga from "../../images/orugax.png";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../ConfirmModal";
-import { MaquinariaDataItem } from "../../types/index";
 import ModalForm from "../ModalForm";
+import { MachineryResponse } from "../../domain/machinery.interface";
 
 interface BasicCardProps {
-  data: MaquinariaDataItem;
+  data: MachineryResponse;
   index: number;
 }
 
@@ -45,11 +45,11 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
   };
   const getImage = () => {
     switch (data.model) {
-      case "Retroexcavadora":
+      case "eetroexcavadora":
         return retroexcavadora;
-      case "Oruga":
+      case "oruga":
         return oruga;
-      case "Volquete":
+      case "volquete":
         return volquete;
       default:
         return retroexcavadora;
@@ -73,7 +73,7 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
   const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 
   const colorsCard = (index: number) => {
-    const colorsItem = ["#383977", "#7272e2"];
+    const colorsItem = ["#383977", "#6374ae"];
     return colorsItem[index % colorsItem.length];
   };
 
@@ -96,18 +96,18 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
         />
         <CardContent>
           <h2 className="text-base font-bold mb-2 text-slate-100 ">
-            {"Maquinaria # " + data.id}
+            {"CÓDIGO ID " + data.id}
           </h2>
-          <Stack direction="row" gap={1}>
+          <Stack sx={{justifyContent:"space-around"}} direction="row" gap={1}>
             <Chip
               label={data.model}
               variant="outlined"
-              sx={{ color: "white" }}
+              sx={{ color: "white",border:`1px ${colorsCard(index+1)} solid`}}
             />
             <Chip
               label={data.brand}
               variant="outlined"
-              sx={{ color: "white" }}
+              sx={{ color: "white",border:`1px ${colorsCard(index+1)} solid` }}
             />
           </Stack>
           <div className="flex justify-between mt-2">
@@ -163,7 +163,7 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
         <ConfirmModal
           onConfirm={openModalConfirm}
           onCancel={handleCloseConfirmModal}
-          id={data.id}
+          id={data.id?.toString()}
         />
         <ModalForm
           openModal={openModalUpDate}
