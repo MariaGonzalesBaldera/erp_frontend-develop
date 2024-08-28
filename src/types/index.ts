@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { MachineryResponse } from "../domain/machinery.interface";
+
 //types data
 export interface MaquinariaDataItem {
   id: number;
@@ -7,8 +10,8 @@ export interface MaquinariaDataItem {
   acquisitionDate: string;
   netLoad: string;
   fuelType: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface PreventMaintenanceItem {
@@ -123,7 +126,8 @@ export interface FuelLoadProps {
 export interface HeaderPageProps {
   title: string,
   titleButton: string,
-  handleOpen: () => void
+  handleOpen: () => void,
+  mode?:String
 }
 
 export interface ModalEditDocumentProps {
@@ -157,6 +161,9 @@ export interface ModalEditMaintenanceProps {
 export interface ModalFormProps {
   openModal: boolean;
   handleClose: () => void;
-  data: MaquinariaDataItem;
+  data: MachineryResponse;
   mode: string;
 }
+
+
+//errors

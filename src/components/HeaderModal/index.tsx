@@ -33,7 +33,7 @@ const HeaderModal: React.FC<HeaderModalProps> = ({
         variant="button"
         component="h2"
       >
-        {titleHeader} {id}
+        {titleHeader} {id=="0"?"":id}
       </Typography>
       <IconButton sx={{ color: "white" }} onClick={handleClose}>
         <Close />

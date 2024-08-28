@@ -1,11 +1,11 @@
 import { Grid } from "@mui/material";
 import React from "react";
 import BasicCard from "../BasicCard";
-import { MaquinariaDataItem } from "../../types/index";
+import { MachineryResponse } from "../../domain/machinery.interface";
 
 interface MachineGridProps {
   model: string;
-  data: MaquinariaDataItem[];
+  data: MachineryResponse[];
 }
 
 const MachineGrid: React.FC<MachineGridProps> = ({ model, data }) => {
