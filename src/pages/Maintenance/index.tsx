@@ -8,6 +8,7 @@ import {
 } from "../../style/StyleModal";
 import PreventMaintenance from "../../components/TamItemTable/PreventMaintenance";
 import CorrectiveMaintenance from "../../components/TamItemTable/CorrectiveMaintenance";
+import SearchInput from "../../components/SearchInput";
 
 const Maintenance: React.FC = () => {
   const [value, setValue] = React.useState(0);
@@ -23,7 +24,6 @@ const Maintenance: React.FC = () => {
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
-          
         >
           <Tab label="Mant. Preventivo" {...a11yProps(0)} />
           <Tab label="Mant. Correctivo" {...a11yProps(1)} />

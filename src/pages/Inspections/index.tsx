@@ -1,4 +1,4 @@
-import { IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
+import { Grid, IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import ModalMoreDetailInspection from "../../components/ModalMoreDetailInspection";
@@ -12,6 +12,7 @@ import ModalEditInspector from "../../components/ModalEditInspector";
 import HeaderPage from "../../components/HeaderPage";
 import { styleTableItem } from "../../style/StyleModal";
 import { SearchSharp } from "@mui/icons-material";
+import SearchInput from "../../components/SearchInput";
 
 const rows = [
   {
@@ -491,17 +492,18 @@ const Inspections: React.FC = () => {
         titleButton="NUEVA INSPECCIÓN"
         handleOpen={handleOpenNewModal}
       />
-      
-      <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          sx={styleTableItem}
-          className="truncate..."
-          hideFooter
-          rows={rows}
-          columns={columns}
-          getRowId={(row) => row.heavyMachineryId}
-        />
-      </div>
+
+      <SearchInput />
+        <Grid  style={{ height: 400}}>
+          <DataGrid
+            sx={styleTableItem}
+            className="truncate..."
+            hideFooter
+            rows={rows}
+            columns={columns}
+            getRowId={(row) => row.heavyMachineryId}
+          />
+      </Grid>
       <ModalEditInspector //boton de editar
         openModal={openEdit}
         handleClose={handleCloseEdit}

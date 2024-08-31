@@ -10,6 +10,7 @@ import ModalEditFuelLoad from "../../components/ModalEditFuelLoad";
 import ModalFuelLoadDetail from "../../components/ModalFuelLoadDetail";
 import ConfirmModal from "../../components/ConfirmModal";
 import HeaderPage from "../../components/HeaderPage";
+import SearchInput from "../../components/SearchInput";
 
 const rows = [
   {
@@ -160,6 +161,7 @@ const FuelRegister: React.FC = () => {
         titleButton="NUEVO REGISTRO"
         handleOpen={handleOpenNewModal}
       />
+      <SearchInput />
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           sx={styleTableItem}

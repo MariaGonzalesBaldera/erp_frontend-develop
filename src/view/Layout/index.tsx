@@ -234,7 +234,7 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
           {/* TODO: Read the route param to set active or open item on menu */}
           <List className="px-2.5">
             {[
-              "Dashboard",
+              "Inicio",
               "Maquinarias",
               "Documentos",
               "Mantenimiento",

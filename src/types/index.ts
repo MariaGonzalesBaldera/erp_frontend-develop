@@ -127,7 +127,6 @@ export interface HeaderPageProps {
   title: string,
   titleButton: string,
   handleOpen: () => void,
-  mode?:String
 }
 
 export interface ModalEditDocumentProps {
@@ -165,5 +164,25 @@ export interface ModalFormProps {
   mode: string;
 }
 
+export interface MonthlyAccountingInformation {
+  year: number;
+  month: number;
+  originDescription: string;
+  transactionType: string;
+  amountPaid: number;
+
+}
+
+export interface DetailedAccountingInformation {
+  id:number;
+  year:number;
+  month:number;
+  originDescription:string;
+  transactionType:string;
+  amountPaid:number;
+  invoiceNumber:string;
+  transactionDate:string;
+  heavyMachinery:number;
+}
 
 //errors
