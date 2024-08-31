@@ -10,6 +10,7 @@ import ModalEditDocument from "../../components/ModalEditDocument";
 import { Grid, IconButton, Tooltip } from "@mui/material";
 import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
 import HeaderPage from "../../components/HeaderPage";
+import SearchInput from "../../components/SearchInput";
 
 const rows = [
   {
@@ -178,6 +179,7 @@ const Documents: React.FC = () => {
         titleButton="NUEVO DOCUMENTO"
         handleOpen={handleOpenNewModal}
       />
+      <SearchInput />
 
       <Grid sx={styleTableResponsive}>
         <div style={{ height: 400, width: "100%" }}>

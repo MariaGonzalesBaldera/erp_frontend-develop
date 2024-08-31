@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../ConfirmModal";
 import ModalForm from "../ModalForm";
 import { MachineryResponse } from "../../domain/machinery.interface";
+import { capitalizer } from "../../utils/capitalize";
 
 interface BasicCardProps {
   data: MachineryResponse;
@@ -100,7 +101,7 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
           </h2>
           <Stack sx={{justifyContent:"space-around"}} direction="row" gap={1}>
             <Chip
-              label={data.model}
+              label={capitalizer(data.model)}
               variant="outlined"
               sx={{ color: "white",border:`1px ${colorsCard(index+1)} solid`}}
             />

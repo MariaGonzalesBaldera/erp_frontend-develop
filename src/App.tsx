@@ -1,7 +1,7 @@
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import MachinerysList from "./pages/MachinerysList"
-import { Route, Routes } from "react-router-dom";
+import { Router, Routes, Route } from 'react-router-dom';
 import Layout from "./view/Layout";
 import Dashboard from "./pages/Dashboard";
 import DetailMachinery from "./pages/DetailMachinery";
@@ -11,28 +11,36 @@ import Inspections from "./pages/Inspections";
 import FuelRegister from "./pages/FuelRegister";
 import GpsTracking from "./pages/GpsTracking";
 import Accounting from "./pages/Accounting";
+import Login from "./pages/Login";
 
 export function App() {
   return (
-    <React.Fragment>
+      <div className="app">
       <CssBaseline />
-      <Layout>
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/machinery-list" element={<MachinerysList />} />
-          <Route path="/documents" element={<Documents />} />
-          <Route
-            path="/detail-machinery/:id"
-            element={<DetailMachinery />}
-          />
-          <Route path="/maintenance" element={<Maintenance />} />
-          <Route path="/inspections" element={<Inspections />} />
-          <Route path="/fuel-register" element={<FuelRegister />} />
-          <Route path="/gps-tracking" element={<GpsTracking />} />
-          <Route path="/accounting" element={<Accounting />} />
+          {/* Login Route outside of Layout */}
+          <Route path="/login" element={<Login />} />
 
+          {/* Routes inside Layout */}
+          <Route
+            path="/*"
+            element={
+              <Layout>
+                <Routes>
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/machinery-list" element={<MachinerysList />} />
+                  <Route path="/documents" element={<Documents />} />
+                  <Route path="/detail-machinery/:id" element={<DetailMachinery />} />
+                  <Route path="/maintenance" element={<Maintenance />} />
+                  <Route path="/inspections" element={<Inspections />} />
+                  <Route path="/fuel-register" element={<FuelRegister />} />
+                  <Route path="/gps-tracking" element={<GpsTracking />} />
+                  <Route path="/accounting" element={<Accounting />} />
+                </Routes>
+              </Layout>
+            }
+          />
         </Routes>
-      </Layout>
-    </React.Fragment>
+      </div>
   );
 }

@@ -1,4 +1,4 @@
-import { Box, IconButton, Tooltip } from "@mui/material";
+import { Box, Grid, IconButton, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import ModalMoreDetail from "../../ModalMoreDetail";
@@ -13,6 +13,7 @@ import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
 import ButtonDefault from "../../ButtonDefault";
 import { styleTableItem } from "../../../style/StyleModal";
+import SearchInput from "../../SearchInput";
 
 const rows = [
   {
@@ -202,19 +203,20 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
   return (
     <>
       {mode == "page" ? (
-        <Box
-          sx={{
-            textAlign: "end",
-            paddingRight: 2,
-            paddingLeft: 2,
-            paddingBottom: 2,
-          }}
-        >
+        <Grid container spacing={2} alignItems="center" sx={{ pb: 1 }}>
+        {/* SearchInput */}
+        <Grid item xs={12} md={6}>
+          <SearchInput   />
+        </Grid>
+        
+        {/* ButtonDefault */}
+        <Grid item xs={12} md={6} sx={{ textAlign: { xs: "start", md: "end" } }} >
           <ButtonDefault
             onClick={handleOpenNewModal}
             title="Agregar mantenimiento"
           />
-        </Box>
+        </Grid>
+      </Grid>
       ) : (
         <></>
       )}
