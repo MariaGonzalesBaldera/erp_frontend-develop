@@ -17,20 +17,31 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
+import PeopleAlt from "@mui/material/Button";
+
 import themeNew, { useAppTheme } from "../../utils/theme";
 import { ListItemButton, ListItemIcon, useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
 import LocalGasStationOutlinedIcon from "@mui/icons-material/LocalGasStationOutlined";
-import { AssignmentOutlined, CheckBoxOutlined, DriveEtaOutlined, EngineeringOutlined, HomeOutlined, LibraryBooksOutlined, LocationOnOutlined } from "@mui/icons-material";
+import {
+  AssignmentOutlined,
+  CheckBoxOutlined,
+  DriveEtaOutlined,
+  EngineeringOutlined,
+  HomeOutlined,
+  LibraryBooksOutlined,
+  LocationOnOutlined,
+  PeopleAltOutlined,
+} from "@mui/icons-material";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
 }>(({ theme, open }) => ({
   flexGrow: 1,
-  
-  backgroundColor:"#efeeff",
-  minHeight:"100vh",
+
+  backgroundColor: "#efeeff",
+  minHeight: "100vh",
   padding: theme.spacing(2.5),
   marginTop: "80px",
   transition: theme.transitions.create("margin", {
@@ -80,11 +91,11 @@ const ICONS = [
   <DriveEtaOutlined />,
   <AssignmentOutlined />,
   <EngineeringOutlined />,
-  <CheckBoxOutlined/>,
+  <CheckBoxOutlined />,
   <LocalGasStationOutlinedIcon />,
   <LocationOnOutlined />,
   <LibraryBooksOutlined />,
-
+  <PeopleAltOutlined />,
 ];
 const LINKS = [
   "/dashboard",
@@ -95,7 +106,7 @@ const LINKS = [
   "/fuel-register",
   "/gps-tracking",
   "/accounting",
-
+  "/human-resources",
 ];
 const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
   const theme = useAppTheme();
@@ -193,20 +204,21 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
               data-testid="user-menu"
             >
               <MenuItem
+                sx={{ justifyContent: "end" }}
                 key={0}
                 onClick={() => {
                   location.replace("/help-and-support");
                 }}
                 data-testid="menu-item"
               >
-                <Typography textAlign="center">Support</Typography>
+                <Typography textAlign="center">Ayuda</Typography>
               </MenuItem>
               <MenuItem
                 key={1}
                 onClick={() => console.log("back")}
                 data-testid="menu-item-logout"
               >
-                <Typography textAlign="center">Logout</Typography>
+                <Typography textAlign="center">Cerrar Sessión</Typography>
               </MenuItem>
             </Menu>
           </Box>
@@ -227,7 +239,7 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
           }}
           variant="persistent"
           anchor="left"
-          open={ open} 
+          open={open}
           data-testid="drawer"
         >
           <div className="flex justify-center w-80 h-10"></div>
@@ -242,7 +254,7 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
               "Registro de combustible",
               "Seguimiento GPS",
               "Contabilidad",
-
+              "RRHH",
             ].map((text, index) => (
               <Link
                 key={LINKS[index] + "_key"}
@@ -253,20 +265,25 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
                 <ListItem
                   key={LINKS[index] + "_item"}
                   disablePadding
-				  
                   sx={{
                     backgroundColor:
-                      selectedLink === LINKS[index] ? themeNew.palette.secondary.main : themeNew.palette.primary.main,
+                      selectedLink === LINKS[index]
+                        ? themeNew.palette.secondary.main
+                        : themeNew.palette.primary.main,
                     color:
-                      selectedLink === LINKS[index] ? themeNew.palette.secondary.main : themeNew.palette.primary.main,
+                      selectedLink === LINKS[index]
+                        ? themeNew.palette.secondary.main
+                        : themeNew.palette.primary.main,
                   }}
                 >
-                  <ListItemButton >
+                  <ListItemButton>
                     <ListItemIcon
                       sx={{
-						minWidth: '40px', 
+                        minWidth: "40px",
                         color:
-                          selectedLink === LINKS[index] ? themeNew.palette.primary.main : themeNew.palette.secondary.main,
+                          selectedLink === LINKS[index]
+                            ? themeNew.palette.primary.main
+                            : themeNew.palette.secondary.main,
                       }}
                     >
                       {ICONS[index]}
@@ -275,7 +292,9 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
                       primary={text}
                       sx={{
                         color:
-                          selectedLink === LINKS[index] ? themeNew.palette.primary.main : themeNew.palette.secondary.main,
+                          selectedLink === LINKS[index]
+                            ? themeNew.palette.primary.main
+                            : themeNew.palette.secondary.main,
                       }}
                     />
                   </ListItemButton>

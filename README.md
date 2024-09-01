@@ -9,3 +9,21 @@ Currently, two official plugins are available:
  `
 
  git pull origin develop
+
+HISTORICO
+ hora inicio 
+ hora final
+ kilometros recorridos
+ horas trabajadas
+ 
+ fecha
+
+
+ inicio:
+ maquinarias disponibles
+ maquinarias en obra
+_____________________
+ combo box en busqueda
+
+
+relleno card 
