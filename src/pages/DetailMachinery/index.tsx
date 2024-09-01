@@ -33,20 +33,20 @@ function DetailMachinery() {
         sx={{
           borderRadius:2,
           backgroundColor: "#ffffff",
-          borderBottom: "2px #aaa5fc solid",
-          borderRight: "2px #aaa5fc solid",
+          // borderBottom: "2px #aaa5fc solid",
+          // borderRight: "2px #aaa5fc solid",
         }}
-        className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto p-5 border"
+        className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto p-3 border"
       >
         <CardItemDetail title="Marca" value={maquina.brand} />
         <CardItemDetail title="Modelo" value={maquina.model} />
         <CardItemDetail title="Año de Modelo" value={maquina.modelYear} />
         <CardItemDetail
-          title="Fecha Adquisición"
+          title="Fecha compra"
           value={maquina.acquisitionDate}
         />
         <CardItemDetail title="Carga Neta" value={maquina.netLoad} />
-        <CardItemDetail title="Tipo de Combustible" value={maquina.fuelType} />
+        <CardItemDetail title="Tipo Combustible" value={maquina.fuelType} />
         <CardItemDetail
           title="FECHA CREACIÓN"
           value={maquina.createdAt.slice(0, -9)}

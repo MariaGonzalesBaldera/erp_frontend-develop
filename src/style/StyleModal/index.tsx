@@ -49,13 +49,14 @@ export const styleTabsBackground = {
     color: "#0f1b38",
   },
 };
-
 export const styleTableItem = {
   "& .MuiDataGrid-cell": {
     color: "#333",
+    border: "1px solid #ccc", 
   },
   "& .MuiDataGrid-columnHeader": {
     backgroundColor: "#332e81",
+    border: "1px solid #ccc", 
     "& .MuiDataGrid-columnHeaderTitle": {
       fontWeight: "bold",
       color: "white",
@@ -66,7 +67,7 @@ export const styleTableItem = {
   },
   "& .MuiDataGrid-row:nth-of-type(even)": {
     backgroundColor: "#e0e0e0",
-  },
+  } 
 };
 
 export function CustomTabPanel(props: MaintenanceProps) {
