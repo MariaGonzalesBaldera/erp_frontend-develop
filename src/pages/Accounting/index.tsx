@@ -3,6 +3,7 @@ import React from "react";
 import { a11yProps, CustomTabPanel, styleTableResponsive, styleTabsBackground } from "../../style/StyleModal";
 import MonthFilter from "../../components/AccountingComponents/MonthFilter";
 import DayFilter from "../../components/AccountingComponents/DayFilter";
+import StatTableInfo from "../../components/StatTableInfo";
 
 const Accounting: React.FC = () => {
   const [value, setValue] = React.useState(0);
