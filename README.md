@@ -28,6 +28,12 @@ _____________________
 
 relleno card 
 
+-_________________________---
+sm:grid-cols-{n}: Para pantallas pequeñas.
+md:grid-cols-{n}: Para pantallas medianas.
+lg:grid-cols-{n}: Para pantallas grandes.
+xl:grid-cols-{n}: Para pantallas extra grandes.
+2xl:grid-cols-{n}: Para pantallas muy grandes.
 ____________________________________-
 <Card className="flex border border-gray-300 items-center justify-between col-span-1 md:col-span-1 pr-3 pl-3">
       <Icon sx={{ color: "white",backgroundColor:colorIcon,padding:0.3,borderRadius:1 }}/>

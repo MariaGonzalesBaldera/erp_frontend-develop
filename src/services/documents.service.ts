@@ -1,11 +1,11 @@
-import { MachineryResponse, ParamsDelete } from "../domain/machinery.interface";
+import { DocumentResponse, ParamsDelete,IMachinery } from "../domain/machinery.interface";
 import { axios } from "../utils/axios.create";
 
 const LOG_PREFIX = "ProgramService :";
 
-const findAll = async (): Promise<MachineryResponse[]> => {
+const findAll = async (): Promise<DocumentResponse[]> => {
 	return axios
-		.get("/heavyMachinery")
+		.get("/machineryDocument")
 		.then((res) => res.data)
 		.catch((err) => {
 			console.log(err.response.data)
@@ -13,9 +13,9 @@ const findAll = async (): Promise<MachineryResponse[]> => {
 		});
 };
 
-const create = async (data: MachineryResponse): Promise<MachineryResponse> => {
+const create = async (data: DocumentResponse): Promise<DocumentResponse> => {
 	return axios
-		.post("/heavyMachinery/create", data)
+		.post("/machineryDocument/create", data)
 		.then((res) => res.data.body)
 		.catch((err) => {
 			Promise.reject(err.response.data)
@@ -24,18 +24,18 @@ const create = async (data: MachineryResponse): Promise<MachineryResponse> => {
 };
 
 const update = async (
-	data: Partial<MachineryResponse>,
+	data: Partial<DocumentResponse>,
 	id?: string,
-): Promise<MachineryResponse> => {
+): Promise<DocumentResponse> => {
 	return axios
-		.put(`/heavyMachinery/update/${id}`, data) 
+		.put(`/machineryDocument/update/${id}`, data) 
 		.then((res) => res.data.body)
 		.catch((err) => Promise.reject(err.response.data));
 };
 
 const deleteOne = async (params: ParamsDelete) => {
 	return axios
-		.delete(`/heavyMachinery/delete/${params.id}`)
+		.delete(`/machineryDocument/delete/${params.id}`)
 		.then((res) => {
 			return res.data.body;
 		})

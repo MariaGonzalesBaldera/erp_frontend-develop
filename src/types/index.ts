@@ -121,6 +121,19 @@ export interface FuelLoadProps {
   heavyMachineryId: string;
 }
 
+export interface TransportationCost {
+  id: string
+  description: string
+  transactionDate: string
+  amountPaid: number
+  invoiceNumber: string
+  operatorName: string
+  projectName: string
+  createdAt: string
+  updatedAt: string
+  heavyMachineryId: string
+}
+
 
 ///props components
 export interface HeaderPageProps {
@@ -174,15 +187,15 @@ export interface MonthlyAccountingInformation {
 }
 
 export interface DetailedAccountingInformation {
-  id:number;
-  year:number;
-  month:number;
-  originDescription:string;
-  transactionType:string;
-  amountPaid:number;
-  invoiceNumber:string;
-  transactionDate:string;
-  heavyMachinery:number;
+  id: number;
+  year: number;
+  month: number;
+  originDescription: string;
+  transactionType: string;
+  amountPaid: number;
+  invoiceNumber: string;
+  transactionDate: string;
+  heavyMachinery: number;
 }
 
 //errors

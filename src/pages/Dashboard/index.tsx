@@ -71,12 +71,12 @@ const Dashboard: React.FC = () => {
         <div className="space-y-6">
           <div className="bg-card rounded-lg shadow-lg overflow-hidden">
             <div className="p-3 space-y-4">
-              <CircularBarCard color="#12af25" percentage={percentage} />
+              <CircularBarCard title="Maquinarias disponibles" color="#12af25" percentage={percentage} />
             </div>
           </div>
           <div className="bg-card rounded-lg shadow-lg overflow-hidden">
             <div className="p-3 space-y-4">
-              <CircularBarCard color="#ff5f5f" percentage={percentage} />
+              <CircularBarCard title="Maquinarias en obra" color="#ff5f5f" percentage={percentage} />
             </div>
           </div>
         </div>
