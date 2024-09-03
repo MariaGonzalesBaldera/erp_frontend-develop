@@ -10,11 +10,13 @@ import React from "react";
 import themeNew from "../../utils/theme";
 
 interface CircularBarCardProps {
+  title:string;
   percentage: number;
   color: string;
 }
 
 const CircularBarCard: React.FC<CircularBarCardProps> = ({
+  title,
   percentage,
   color,
 }) => {
@@ -24,12 +26,12 @@ const CircularBarCard: React.FC<CircularBarCardProps> = ({
         <Typography
           sx={{ backgroundColor: themeNew.palette.primary.main, 
             color: "white",
+            fontSize:16,fontWeight:"bold",
           borderRadius:1 }}
-          variant="h6"
           component="div"
           gutterBottom
         >
-          Uso de Maquinaria
+          {title}
         </Typography>
         <Box
           sx={{

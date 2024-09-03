@@ -4,7 +4,7 @@ import {
 	ThemeOptions,
 	useTheme,
 } from "@mui/material";
-
+//theme
 import { TypographyOptions } from "@mui/material/styles/createTypography";
 
 type CustomPaletteOptions = {

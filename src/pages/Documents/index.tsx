@@ -11,6 +11,9 @@ import { Grid, IconButton, Tooltip } from "@mui/material";
 import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
 import HeaderPage from "../../components/HeaderPage";
 import SearchInput from "../../components/SearchInput";
+import GroupRadioButton from "../../components/GroupRadioButton";
+import ButtonDefault from "../../components/ButtonDefault";
+import ButtonIconSearch from "../../components/ButtonIconSearch";
 
 const rows = [
   {
@@ -174,13 +177,35 @@ const Documents: React.FC = () => {
   ];
   return (
     <>
-      <HeaderPage
+      {/* <HeaderPage
         title="LISTA DE DOCUMENTOS"
         titleButton="NUEVO DOCUMENTO"
         handleOpen={handleOpenNewModal}
-      />
-      <SearchInput />
-
+      /> */}
+        <Grid
+          container
+          justifyContent={"space-between"}
+          direction={{ xs: "column-reverse", sm: "row" }}
+          alignItems={{ xs: "start", sm: "center" }}
+          spacing={2}
+          gap={1}
+          className="p-4"
+        >
+        <Grid  xs="auto" sm={4.5}>
+          <GroupRadioButton />
+        </Grid>
+        <Grid  xs="auto" sm={4}>
+          {/* <SearchInput /> */}
+          <ButtonIconSearch />
+        </Grid>
+        <Grid  xs="auto" sm={3} 
+        justifySelf={{ xs: "end", sm: "end" }}>
+          <ButtonDefault
+            onClick={() => console.log("first")}
+            title="NUEVO DOCUMENTO"
+          />
+        </Grid>
+      </Grid>
       <Grid sx={styleTableResponsive}>
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid

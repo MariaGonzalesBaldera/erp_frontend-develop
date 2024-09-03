@@ -1,62 +1,34 @@
-import { SearchSharp } from "@mui/icons-material";
-import {
-  Box,
-  Grid,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, Typography, } from "@mui/material";
 import React, { useCallback } from "react";
-import ButtonDefault from "../../ButtonDefault";
-import themeNew from "../../../utils/theme";
+import GroupRadioButton from "../../GroupRadioButton";
+import ButtonIconSearch from "../../ButtonIconSearch";
+import DatePickerForm from "../../DatePickerForm";
 
 const ActualGps: React.FC = () => {
-  const handleChange = useCallback((e) => {
-    (prevData) => ({
-      ...prevData,
-      [e.target.name]: e.target.value,
-    });
-  }, []);
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-6xl mx-auto">
-      <div className="col-span-1 md:col-span-1 border flex items-start justify-start p-4">
+      <div className="col-span-1 md:col-span-1 border rounded-md border-gray-400 flex items-start justify-start p-2">
         <Grid
           container
-          spacing={0.5}
           justifyItems="center"
           justifyContent="center"
         >
-          <Grid item xs={12} sm={10}>
-            <TextField
-              label="Unidad"
-              name="unidad"
-              onChange={handleChange}
-              size="small"
-              fullWidth
-            />
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={2}
-            sx={{
-              display: "flex",
-            }}
-          >
-            <SearchSharp
-              sx={{
-                border: `1px ${themeNew.palette.outline.main} solid`,
-                width: 45,
-                height: 40,
-                padding: 0.8,
-                cursor: "pointer",
-                borderRadius: 1,
-              }}
-            />
-          </Grid>
-
+          <GroupRadioButton />
+          <Box className="pt-2 pb-2">
+            <ButtonIconSearch />
+          </Box>
           <Grid item xs={12}>
-            <Box className="border border-gray-300 p-4 rounded-md mt-1">
+            <DatePickerForm
+              key={"filter-day"}
+              dateValue={""}
+              labelValue="Fecha"
+              handleDateChange={() => console.log("first")}
+              nameValue="end-day"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            
+            <Box sx={{backgroundColor:"#e2e0ff",color:"#1e1b4b"}} className="border border-gray-300 p-4 rounded-md mt-2">
               <Typography>
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                 Dolorem aut alias aliquid, libero quaerat sapiente in quisquam
@@ -70,7 +42,7 @@ const ActualGps: React.FC = () => {
         </Grid>
       </div>
       <div className="col-span-1 md:col-span-2 border flex items-center justify-start p-0">
-        <div className="w-full h-0 pb-[56.25%] relative">
+        <div className="w-full h-full pb-[56.25%] relative">
           {" "}
           {/* 16:9 Aspect Ratio */}
           <iframe

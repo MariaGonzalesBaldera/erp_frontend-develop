@@ -1,11 +1,11 @@
-import { MachineryResponse, ParamsDelete } from "../domain/machinery.interface";
+import { TransportationResponse, ParamsDelete } from "../domain/machinery.interface";
 import { axios } from "../utils/axios.create";
 
 const LOG_PREFIX = "ProgramService :";
 
-const findAll = async (): Promise<MachineryResponse[]> => {
+const findAll = async (): Promise<TransportationResponse[]> => {
 	return axios
-		.get("/heavyMachinery")
+		.get("/transportationCost")
 		.then((res) => res.data)
 		.catch((err) => {
 			console.log(err.response.data)
@@ -13,9 +13,9 @@ const findAll = async (): Promise<MachineryResponse[]> => {
 		});
 };
 
-const create = async (data: MachineryResponse): Promise<MachineryResponse> => {
+const create = async (data: TransportationResponse): Promise<TransportationResponse> => {
 	return axios
-		.post("/heavyMachinery/create", data)
+		.post("/transportationCost/create", data)
 		.then((res) => res.data.body)
 		.catch((err) => {
 			Promise.reject(err.response.data)
@@ -24,18 +24,18 @@ const create = async (data: MachineryResponse): Promise<MachineryResponse> => {
 };
 
 const update = async (
-	data: Partial<MachineryResponse>,
+	data: Partial<TransportationResponse>,
 	id?: string,
-): Promise<MachineryResponse> => {
+): Promise<TransportationResponse> => {
 	return axios
-		.put(`/heavyMachinery/update/${id}`, data) 
+		.put(`/transportationCost/update/${id}`, data) 
 		.then((res) => res.data.body)
 		.catch((err) => Promise.reject(err.response.data));
 };
 
 const deleteOne = async (params: ParamsDelete) => {
 	return axios
-		.delete(`/heavyMachinery/delete/${params.id}`)
+		.delete(`/transportationCost/delete/${params.id}`)
 		.then((res) => {
 			return res.data.body;
 		})
