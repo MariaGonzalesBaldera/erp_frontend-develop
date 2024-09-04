@@ -1,23 +1,12 @@
-format cammel case
-format date
-
-yyyy-mm-dd
-
-mant. correctivo
-
-yyyy-mm-ddT00:00:00
-
-
-dashboard  
-maquinarias
-documentos
-mantenimiento
-Inspecciones
-Combustibles  //
-Seguimiento  //
-Contabilidad  //
-
--- agregar
-tab >> carga combustible
 
 mantenimiento correctivo carga de imagen
+
+
+
+http://localhost:8090/api/evidenceImage/findByMachinery/1   === este endpoint devueve vacio cualquier numero ingresado
+
+
+http://localhost:8090/api/correctiveMaintenance/create  
+aqui se envia en form-data, cuando sse envia los datos si le files, registra, pero si se envia sin el archivo sale error pero lo registra
+
+
