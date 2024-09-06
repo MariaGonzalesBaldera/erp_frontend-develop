@@ -5,13 +5,11 @@ import ModalMoreDetailInspection from "../../components/ModalMoreDetailInspectio
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListIcon from "@mui/icons-material/List";
-import Search from "@mui/icons-material/List";
 import { MachineryInspectionItem } from "../../types";
 import ConfirmModal from "../../components/ConfirmModal";
 import ModalEditInspector from "../../components/ModalEditInspector";
 import HeaderPage from "../../components/HeaderPage";
 import { styleTableItem } from "../../style/StyleModal";
-import { SearchSharp } from "@mui/icons-material";
 import SearchInput from "../../components/SearchInput";
 
 const rows = [

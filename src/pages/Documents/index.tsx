@@ -176,12 +176,7 @@ const Documents: React.FC = () => {
     },
   ];
   return (
-    <>
-      {/* <HeaderPage
-        title="LISTA DE DOCUMENTOS"
-        titleButton="NUEVO DOCUMENTO"
-        handleOpen={handleOpenNewModal}
-      /> */}
+    <> 
         <Grid
           container
           justifyContent={"space-between"}
