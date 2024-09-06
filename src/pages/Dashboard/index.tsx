@@ -25,9 +25,9 @@ export const CardItemDashboard: React.FC<CardItemDashboardProps> = ({
   colorIcon,
 }) => {
   return (
-    <Card sx={{backgroundColor:colorIcon,border:"2px #fff solid"}} 
+    <Card sx={{backgroundColor:themeNew.palette.primary.main,border:"2px #fff solid"}} 
     className="flex items-start justify-between col-span-1 md:col-span-1 p-2">
-      <Icon sx={{ color: colorIcon,backgroundColor:"white",padding:0.3,borderRadius:1 }}/>
+      <Icon sx={{ color: "white",backgroundColor:colorIcon,padding:0.3,borderRadius:1 }}/>
 
       <Box className="p-3 text-end">
         <div className="text-2xl font-bold text-white">{value}</div>
@@ -63,7 +63,7 @@ const Dashboard: React.FC = () => {
         <CardItemDashboard
           title="Maquinarias en inspección"
           value="40"
-          icon={LocationOn}
+          icon={Assignment}
           colorIcon="#fb7609"
         />
       </div>

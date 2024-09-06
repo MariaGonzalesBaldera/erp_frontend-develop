@@ -46,7 +46,7 @@ const deleteOne = async (params: ParamsDelete) => {
 		});
 };
 
-export const machineryService = {
+export const employeeService = {
 	findAll,
 	create,
 	deleteOne,

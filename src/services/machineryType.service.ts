@@ -45,7 +45,7 @@ const deleteOne = async (params: ParamsDelete) => {
 		});
 };
 
-export const machineryService = {
+export const machineryTypeService = {
 	findAll,
 	create,
 	deleteOne,
