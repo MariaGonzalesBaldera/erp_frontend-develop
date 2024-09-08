@@ -1,8 +1,6 @@
 import { DocumentResponse, ParamsDelete,IMachinery } from "../domain/machinery.interface";
 import { axios } from "../utils/axios.create";
 
-const LOG_PREFIX = "ProgramService :";
-
 const findAll = async (): Promise<DocumentResponse[]> => {
 	return axios
 		.get("/machineryDocument")
@@ -40,7 +38,6 @@ const deleteOne = async (params: ParamsDelete) => {
 			return res.data.body;
 		})
 		.catch((err) => {
-			console.error(LOG_PREFIX, err);
 			return Promise.reject(err.response.data);
 		});
 };

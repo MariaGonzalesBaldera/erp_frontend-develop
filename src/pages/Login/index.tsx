@@ -11,24 +11,42 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import React from "react";
-import ButtonDefault from "../../components/ButtonDefault";
+import React, {useState} from "react";
 import themeNew from "../../utils/theme";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { authService } from "../../services/auth.service";
 
-function Login() {
-  const navigate = useNavigate(); 
+const Login: React.FC = () => {
+  const navigate = useNavigate();
+  const { authentication } = authService;
+  const [showPassword, setShowPassword] = useState(false);
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  const handleLogin = () => {
-    // Aquí puedes agregar lógica adicional, como autenticación.
-    // Redirige al dashboard.
-    navigate("/dashboard");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const data = { username, password };
+
+      const response = await authentication(data);
+      console.log("response: ",response)
+      const { accessToken } = response;
+      localStorage.removeItem("accessToken");
+
+      localStorage.setItem("accessToken", accessToken);
+      navigate("/dashboard");
+    } catch (err: any) {
+      setError("Error en el login. Verifica tus credenciales.");
+    }
   };
+
   return (
     <Box
       className="flex min-h-screen items-center justify-center bg-background px-4"
@@ -52,6 +70,8 @@ function Login() {
               label="Usuario"
               variant="outlined"
               placeholder="Ingresa tu usuario"
+              value={username}
+              onChange={(e)=>setUsername(e.target.value)}
             />
             <TextField
               fullWidth
@@ -59,6 +79,8 @@ function Login() {
               variant="outlined"
               type={showPassword ? "text" : "password"}
               placeholder="Ingresa tu contraseña"
+              value={password}
+              onChange={(e)=>setPassword(e.target.value)}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -77,7 +99,7 @@ function Login() {
           </div>
         </CardContent>
         <CardActions className="flex flex-col space-y-2 px-4">
-          <Button
+          <Button component="form"
             variant="contained"
             sx={{
               backgroundColor: "#1e1b4b",
@@ -106,6 +128,6 @@ function Login() {
       </Card>
     </Box>
   );
-}
+};
 
 export default Login;

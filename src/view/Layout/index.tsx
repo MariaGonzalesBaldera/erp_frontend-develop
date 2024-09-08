@@ -21,7 +21,7 @@ import PeopleAlt from "@mui/material/Button";
 
 import themeNew, { useAppTheme } from "../../utils/theme";
 import { ListItemButton, ListItemIcon, useMediaQuery } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LocalGasStationOutlinedIcon from "@mui/icons-material/LocalGasStationOutlined";
 import {
   AssignmentOutlined,
@@ -109,6 +109,7 @@ const LINKS = [
   "/human-resources",
 ];
 const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
+  const navigate = useNavigate();
   const theme = useAppTheme();
   const [open, setOpen] = useState(true);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -125,6 +126,13 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
   const [selectedLink, setSelectedLink] = useState(location.pathname);
 
   const isTabletOrMobile = useMediaQuery(themeNew.breakpoints.down("md"));
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken"); // Si tienes un refreshToken también
+
+    navigate("/login");
+  };
 
   React.useEffect(() => {
     setOpen(!isTabletOrMobile);
@@ -215,7 +223,7 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
               </MenuItem>
               <MenuItem
                 key={1}
-                onClick={() => console.log("back")}
+                onClick={handleLogout}
                 data-testid="menu-item-logout"
               >
                 <Typography textAlign="center">Cerrar Sessión</Typography>

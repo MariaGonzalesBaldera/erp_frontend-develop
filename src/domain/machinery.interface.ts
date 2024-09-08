@@ -10,6 +10,11 @@ export interface MachineryResponse {
   updatedAt?: string;
 }
 
+export interface CredentialsBody {
+  username: string;
+  password: string;
+}
+
 export interface DocumentResponse {
   id?: string;
   technicalReviewsStart: string;
