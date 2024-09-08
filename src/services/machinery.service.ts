@@ -1,4 +1,4 @@
-import { MachineryResponse, ParamsDelete, ParamsDeleteItem } from "../domain/machinery.interface";
+import { MachineryResponse, ParamsDeleteItem } from "../domain/machinery.interface";
 import { axios } from "../utils/axios.create";
 
 const LOG_PREFIX = "ProgramService :";
@@ -40,7 +40,6 @@ const deleteOne = async (params: ParamsDeleteItem) => {
 			return res.data.body;
 		})
 		.catch((err) => {
-			console.error(LOG_PREFIX, err);
 			return Promise.reject(err.response.data);
 		});
 };

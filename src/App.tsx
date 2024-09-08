@@ -12,6 +12,7 @@ import FuelRegister from "./pages/FuelRegister";
 import GpsTracking from "./pages/GpsTracking";
 import Accounting from "./pages/Accounting";
 import Login from "./pages/Login";
+import ProtectedRoute from "../proteger";
 
 export function App() {
   return (
@@ -25,6 +26,7 @@ export function App() {
           <Route
             path="/*"
             element={
+              <ProtectedRoute>
               <Layout>
                 <Routes>
                   <Route path="/dashboard" element={<Dashboard />} />
@@ -38,6 +40,7 @@ export function App() {
                   <Route path="/accounting" element={<Accounting />} />
                 </Routes>
               </Layout>
+              </ProtectedRoute>
             }
           />
         </Routes>
