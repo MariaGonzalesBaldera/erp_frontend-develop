@@ -46,7 +46,6 @@ const MachinerysList: React.FC = () => {
         title="LISTA DE MAQUINARIA"
         titleButton="NUEVA MAQUINARIA"
         handleOpen={handleOpenNewModal}
-        mode="maquinaria"
       />
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

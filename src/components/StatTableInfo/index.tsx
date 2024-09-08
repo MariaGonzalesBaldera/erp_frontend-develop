@@ -21,7 +21,7 @@ const StatTableInfo: React.FC = () => {
         margin: "0 auto",
       }}
     >
-      <Typography variant="h6" component="div" gutterBottom>
+      <Typography color={"white"} variant="h6" component="div" gutterBottom>
         Uso de Maquinaria
       </Typography>
       <BarChart

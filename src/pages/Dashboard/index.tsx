@@ -67,24 +67,24 @@ const Dashboard: React.FC = () => {
           colorIcon="#fb7609"
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-2 max-w-full mx-auto p-4 md:p-6">
-        <div className="space-y-6">
-          <div className="bg-card rounded-lg shadow-lg overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-2 max-w-full mx-auto p-4 md:p-0 mt-4">
+        <Box className="space-y-6">
+          <Box className="bg-card rounded-lg shadow-lg overflow-hidden" sx={{backgroundColor:"#3e2e81"}}>
             <div className="p-3 space-y-4">
               <CircularBarCard title="Maquinarias disponibles" color="#12af25" percentage={percentage} />
             </div>
-          </div>
-          <div className="bg-card rounded-lg shadow-lg overflow-hidden">
+          </Box>
+          <Box className="bg-card rounded-lg shadow-lg overflow-hidden" sx={{backgroundColor:"#3e2e81"}}>
             <div className="p-3 space-y-4">
               <CircularBarCard title="Maquinarias en obra" color="#ff5f5f" percentage={percentage} />
             </div>
-          </div>
-        </div>
-        <div className="bg-card rounded-lg shadow-lg overflow-hidden">
-          <div className="p-3 space-y-4">
+          </Box>
+        </Box> 
+        <Box className="bg-card rounded-lg shadow-lg overflow-hidden" sx={{backgroundColor:"#3e2e81"}}>
+          <div className="p-2 space-y-4">
             <StatTableInfo />
           </div>
-        </div>
+        </Box>
       </div>
     </div>
   );

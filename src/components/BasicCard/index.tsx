@@ -20,6 +20,7 @@ import ConfirmModal from "../ConfirmModal";
 import ModalForm from "../ModalForm";
 import { MachineryResponse } from "../../domain/machinery.interface";
 import { capitalizer } from "../../utils/capitalize";
+import { useDeleteMachinery } from "../../hooks/useMaquinaria";
 
 interface BasicCardProps {
   data: MachineryResponse;
@@ -28,6 +29,7 @@ interface BasicCardProps {
 
 const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
   const navigate = useNavigate();
+  const { mutateAsync: mutationDeleteId } = useDeleteMachinery();
 
   const handleNavigation = () => {
     navigate(`/detail-machinery/${data.id}`, {
@@ -76,6 +78,14 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
   const colorsCard = (index: number) => {
     const colorsItem = ["#383977", "#6374ae"];
     return colorsItem[index % colorsItem.length];
+  };
+  const handleDeleteMachinery = async () => {
+    try {
+      await mutationDeleteId(Number(data.id+""));
+      console.log("Maquinaria eliminada exitosamente");
+    } catch (error) {
+      console.log("Error al eliminar maquinaria: ", error);
+    }
   };
 
   return (
@@ -164,7 +174,8 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
         <ConfirmModal
           onConfirm={openModalConfirm}
           onCancel={handleCloseConfirmModal}
-          id={data.id?.toString()}
+          onConfirmAction={handleDeleteMachinery} 
+          id={Number(data.id+"")}
         />
         <ModalForm
           openModal={openModalUpDate}

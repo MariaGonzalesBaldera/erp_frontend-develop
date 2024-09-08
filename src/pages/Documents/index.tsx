@@ -7,10 +7,8 @@ import ConfirmModal from "../../components/ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
 import ModalDocumentDetail from "../../components/ModalDocumentDetail";
 import ModalEditDocument from "../../components/ModalEditDocument";
-import { Grid, IconButton, Tooltip } from "@mui/material";
+import { Box, Grid, IconButton, Tooltip } from "@mui/material";
 import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
-import HeaderPage from "../../components/HeaderPage";
-import SearchInput from "../../components/SearchInput";
 import GroupRadioButton from "../../components/GroupRadioButton";
 import ButtonDefault from "../../components/ButtonDefault";
 import ButtonIconSearch from "../../components/ButtonIconSearch";
@@ -176,25 +174,23 @@ const Documents: React.FC = () => {
     },
   ];
   return (
-    <> 
+    <Box> 
         <Grid
           container
-          justifyContent={"space-between"}
-          direction={{ xs: "column-reverse", sm: "row" }}
+          justifyContent={"space-around"}
+          direction={{ xs: "column", sm: "row" }}
           alignItems={{ xs: "start", sm: "center" }}
-          spacing={2}
           gap={1}
-          className="p-4"
+          className="p-2  bg-white mb-2"
         >
-        <Grid  xs="auto" sm={4.5}>
+        <Grid  item xs="auto" sm={4.5} order={{ xs: 2, sm: 1 }}>
           <GroupRadioButton />
         </Grid>
-        <Grid  xs="auto" sm={4}>
-          {/* <SearchInput /> */}
+        <Grid item xs="auto" sm={4} order={{ xs: 3, sm: 2 }}>
           <ButtonIconSearch />
         </Grid>
-        <Grid  xs="auto" sm={3} 
-        justifySelf={{ xs: "end", sm: "end" }}>
+        <Grid item xs="auto" sm={3}
+       order={{ xs: 1, sm: 3 }}>
           <ButtonDefault
             onClick={() => console.log("first")}
             title="NUEVO DOCUMENTO"
@@ -237,7 +233,7 @@ const Documents: React.FC = () => {
         data={dataCreate}
         mode="create"
       />
-    </>
+    </Box>
   );
 };
 

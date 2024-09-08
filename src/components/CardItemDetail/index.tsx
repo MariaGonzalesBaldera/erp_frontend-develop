@@ -1,29 +1,30 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
+import { capitalizer } from "../../utils/capitalize";
 
 interface CardItemDetailProps {
-  title: String;
-  value: String;
+  title: string;
+  value: string;
 }
 
 const CardItemDetail: React.FC<CardItemDetailProps> = ({ title, value }) => {
   return (
-    <Box className="flex items-center bg-white justify-start col-span-1 md:col-span-1 border border-gray-300 rounded-sm shadow-md p-2 my-1">
+    <Box sx={{backgroundColor:"#312d6c", borderRadius:1}} className="flex items-center justify-start col-span-1 md:col-span-1 p-2">
     <Typography
         sx={{
             letterSpacing: "0.001px",
-            color: "#332e81", // Cambiado a un color más oscuro
-            backgroundColor: "#e0e0e0", // Fondo más claro para contraste
-            fontSize: "0.85rem", // Tamaño de fuente ligeramente mayor
-            padding: "4px 8px", // Añadido padding
-            borderRadius: "4px", // Bordes redondeados para suavizar
-            marginRight: "4px" // Añadido margen para separación
+            color: "#332e81",
+            backgroundColor: "#fff",
+            fontSize: "0.85rem",
+            padding: "4px 8px",
+            borderRadius:1,
+          border:"1px #1e1b4b solid",
         }}
         variant="button"
     >
         &nbsp;{title}:&nbsp;
     </Typography>
-    <Typography color="#1e1b4b" variant="body1"> &nbsp;{value}</Typography>
+    <Typography color="white" variant="body1"> &nbsp;{capitalizer(value)}</Typography>
 </Box>
 
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Box, capitalize, Grid, MenuItem, Modal, TextField } from "@mui/material";
+import { Box, Grid, MenuItem, Modal, TextField } from "@mui/material";
 import ButtonDefault from "../ButtonDefault";
 import { ModalFormProps } from "../../types/index";
 import { styleModalInspection } from "../../style/StyleModal";
@@ -10,7 +10,6 @@ import {
   useUpdateMachinery,
 } from "../../hooks/useMaquinaria";
 import { MachineryResponse } from "../../domain/machinery.interface";
-import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 
 const fuelTypeItem = [
@@ -32,7 +31,6 @@ const ModalForm: React.FC<ModalFormProps> = ({
   mode,
 }) => {
   const createMachinery = useCreateMachinery();
-  const queryClient = useQueryClient();
 
   const [formData, setFormData] = useState({
     brand: "",
@@ -155,20 +153,15 @@ const ModalForm: React.FC<ModalFormProps> = ({
     try {
       const response = await createMachinery.mutateAsync(data);
       console.log(response);
-      queryClient.invalidateQueries({
-        queryKey: ["sigma-machinery"],
-      });
     } catch (error) {
       console.log("Error-> " + error);
     }
   };
+
   const onUpdateMachinery = async (data: MachineryResponse) => {
     try {
       const response = await updateBeneficiaryMutation.mutateAsync(data);
       console.log(response);
-      queryClient.invalidateQueries({
-        queryKey: ["sigma-machinery-update"],
-      });
     } catch (error) {
       console.log("Error-> " + error);
     }
@@ -195,6 +188,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
               <Grid item xs={12} sm={6}>
                 <TextField
                   label="Marca"
+                  size="small"
                   variant="outlined"
                   fullWidth
                   name="brand"
@@ -206,6 +200,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  size="small"
                   id="outlined-select-currency"
                   label="Modelo"
                   select
@@ -226,6 +221,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  size="small"
                   label="Año de Modelo"
                   variant="outlined"
                   fullWidth
@@ -251,18 +247,24 @@ const ModalForm: React.FC<ModalFormProps> = ({
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  size="small"
                   label="Carga Neta"
                   variant="outlined"
                   fullWidth
                   name="netLoad"
+                  type="number"
                   value={formData.netLoad}
                   onChange={handleChange}
                   error={errors.netLoad}
                   helperText={errors.netLoad ? "Este campo es requerido" : ""}
+                  InputProps={{
+                    endAdornment: <span className="text-icon-primary">Toneladas</span>,
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  size="small"
                   id="outlined-select-currency"
                   label="Tipo de Combustible"
                   select

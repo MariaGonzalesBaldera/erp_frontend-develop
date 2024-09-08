@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import React, { useCallback } from "react";
 import GroupRadioButton from "../../GroupRadioButton";
 import ButtonIconSearch from "../../ButtonIconSearch";
@@ -8,16 +8,9 @@ const ActualGps: React.FC = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-6xl mx-auto">
       <div className="col-span-1 md:col-span-1 border rounded-md border-gray-400 flex items-start justify-start p-2">
-        <Grid
-          container
-          justifyItems="center"
-          justifyContent="center"
-        >
+        <Grid container justifyItems="center" justifyContent="center">
           <GroupRadioButton />
-          <Box className="pt-2 pb-2">
-            <ButtonIconSearch />
-          </Box>
-          <Grid item xs={12}>
+          <Grid item xs={12}  className="pt-2">
             <DatePickerForm
               key={"filter-day"}
               dateValue={""}
@@ -26,16 +19,29 @@ const ActualGps: React.FC = () => {
               nameValue="end-day"
             />
           </Grid>
+          <Grid item  xs={12} className="pt-2">
+            <ButtonIconSearch />
+          </Grid>
+
           <Grid item xs={12}>
-            
-            <Box sx={{backgroundColor:"#e2e0ff",color:"#1e1b4b"}} className="border border-gray-300 p-4 rounded-md mt-2">
+            <Box
+              sx={{ backgroundColor: "#e2e0ff", color: "#1e1b4b" }}
+              className="border border-gray-300 p-4 rounded-md mt-2"
+            >
+              <Typography variant="h6" gutterBottom>
+                Detalles de la Operación
+              </Typography>
               <Typography>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Dolorem aut alias aliquid, libero quaerat sapiente in quisquam
-                dolorum et nihil necessitatibus asperiores odit animi
-                voluptatibus iste perferendis unde, voluptatum quam. Praesentium
-                ducimus archi non repellendus perspiciatis ipsa veniam
-                temporibus velit aliquid. Minima.
+                <strong>Hora de Inicio: </strong>08:00 AM
+              </Typography>
+              <Typography>
+                <strong>Hora Final: </strong>05:00 PM
+              </Typography>
+              <Typography>
+                <strong>Kilómetros Recorridos: </strong>120 km
+              </Typography>
+              <Typography>
+                <strong>Horas Trabajadas: </strong>9 horas
               </Typography>
             </Box>
           </Grid>

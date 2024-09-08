@@ -31,6 +31,10 @@ export type ParamsDelete = {
   id: string;
 };
 
+export type ParamsDeleteItem = {
+  id: number;
+};
+
 export type IMachinery = {
   message?: string,
 }

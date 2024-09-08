@@ -40,7 +40,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
 }>(({ theme, open }) => ({
   flexGrow: 1,
 
-  backgroundColor: "#efeeff",
+  backgroundColor: "#d9d9fb",
   minHeight: "100vh",
   padding: theme.spacing(2.5),
   marginTop: "80px",

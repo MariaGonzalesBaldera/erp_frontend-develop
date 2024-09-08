@@ -6,12 +6,12 @@ import {
   RadioGroup,
 } from "@mui/material";
 import React from "react";
-import themeNew from "../../utils/theme";
 
 const GroupRadioButton: React.FC = () => {
   return (
     <FormControl
       sx={{
+        border:"1px #1e1b4b solid",
         backgroundColor: "#e2e0ff",
         padding: 1,
         borderRadius: 1.5,

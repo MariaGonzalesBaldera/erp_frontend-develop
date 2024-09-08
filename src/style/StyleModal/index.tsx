@@ -46,7 +46,7 @@ export const styleTabsBackground = {
   },
   "& .Mui-selected": {
     backgroundColor: "#bdd3ff",
-    color: "#0f1b38",
+    color: "#1e1b4b",
   },
 };
 export const styleTableItem = {

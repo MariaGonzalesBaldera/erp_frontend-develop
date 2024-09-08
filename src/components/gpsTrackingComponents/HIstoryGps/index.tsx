@@ -27,13 +27,20 @@ const HistoryGps: React.FC = () => {
               sx={{ backgroundColor: "#e2e0ff", color: "#1e1b4b" }}
               className="border border-gray-300 p-4 rounded-md mt-2"
             >
+               <Typography variant="h6" gutterBottom>
+                Detalles de la Operación
+              </Typography>
               <Typography>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Dolorem aut alias aliquid, libero quaerat sapiente in quisquam
-                dolorum et nihil necessitatibus asperiores odit animi
-                voluptatibus iste perferendis unde, voluptatum quam. Praesentium
-                ducimus archi non repellendus perspiciatis ipsa veniam
-                temporibus velit aliquid. Minima.
+                <strong>Hora de Inicio: </strong>08:00 AM
+              </Typography>
+              <Typography>
+                <strong>Hora Final: </strong>05:00 PM
+              </Typography>
+              <Typography>
+                <strong>Kilómetros Recorridos: </strong>120 km
+              </Typography>
+              <Typography>
+                <strong>Horas Trabajadas: </strong>9 horas
               </Typography>
             </Box>
           </Grid>
