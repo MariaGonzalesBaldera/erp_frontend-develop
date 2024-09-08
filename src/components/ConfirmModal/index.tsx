@@ -1,34 +1,30 @@
 import { Box, Button, Modal, Typography } from "@mui/material";
 import React from "react";
 import themeNew from "../../utils/theme";
-import { useDeleteMachinery } from "../../hooks/useMaquinaria";
 
 interface ConfirmModalProps {
   onConfirm: boolean;
   onCancel: () => void;
-  id: string;
+  onConfirmAction: () => Promise<void>;
+  id: number;
 }
 const ConfirmModal: React.FC<ConfirmModalProps> = ({
   onConfirm,
   onCancel,
+  onConfirmAction,
   id,
 }) => {
-  const { mutateAsync: mutationDeleteId, isPending } = useDeleteMachinery();
 
   const handleClose = () => {
     if (onCancel) onCancel();
   };
 
-  const handleConfirm = () => {
-    handleDelete(id);
-    if (onCancel) onCancel();
-  };
-  const handleDelete = async (id: string) => {
+  const handleConfirm = async () => {
     try {
-      const response = await mutationDeleteId(id);
-      console.log("response ",response);
+      await onConfirmAction();
+      handleClose();
     } catch (error) {
-      console.log("error => ", error);
+      console.log("Error al ejecutar la acción: ", error);
     }
   };
 

@@ -5,8 +5,8 @@ import themeNew from "../../utils/theme";
 
 const ButtonIconSearch: React.FC = () => {
   return (
-    <Grid item xs={12}sm={12}>
-    <Box  display="flex">
+    <Grid item xs={12}sm={12} >
+    <Box  display="flex" justifyContent={"start"}>
       <TextField
         label="Ingrese codigo de maquinaria"
         name="unidad"
@@ -16,7 +16,7 @@ const ButtonIconSearch: React.FC = () => {
             backgroundColor:"#f6f6fc",
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
-              borderColor: "#1e1b4b",
+              borderColor: "grey",
             },
           },
         }}

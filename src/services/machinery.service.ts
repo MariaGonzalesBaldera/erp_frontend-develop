@@ -1,4 +1,4 @@
-import { MachineryResponse, ParamsDelete } from "../domain/machinery.interface";
+import { MachineryResponse, ParamsDelete, ParamsDeleteItem } from "../domain/machinery.interface";
 import { axios } from "../utils/axios.create";
 
 const LOG_PREFIX = "ProgramService :";
@@ -8,8 +8,8 @@ const findAll = async (): Promise<MachineryResponse[]> => {
 		.get("/heavyMachinery")
 		.then((res) => res.data)
 		.catch((err) => {
-			console.log(err.response.data)
-			throw new Error(err.response.data);
+			console.error(err.response?.data || "Error en la solicitud");
+      throw new Error(err.response?.data.message || "Error al obtener los datos");
 		});
 };
 
@@ -18,8 +18,8 @@ const create = async (data: MachineryResponse): Promise<MachineryResponse> => {
 		.post("/heavyMachinery/create", data)
 		.then((res) => res.data.body)
 		.catch((err) => {
-			Promise.reject(err.response.data)
-			console.log("Error => " + err)
+			console.error("Error =>", err.response?.data || "Error en la solicitud");
+      return Promise.reject(err.response?.data.message || "Error al crear maquinaria");
 		});
 };
 
@@ -33,7 +33,7 @@ const update = async (
 		.catch((err) => Promise.reject(err.response.data));
 };
 
-const deleteOne = async (params: ParamsDelete) => {
+const deleteOne = async (params: ParamsDeleteItem) => {
 	return axios
 		.delete(`/heavyMachinery/delete/${params.id}`)
 		.then((res) => {

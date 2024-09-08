@@ -5,6 +5,7 @@ import React from "react";
 import themeNew from "../../utils/theme";
 import TabDocuments from "../../components/TabDocuments";
 import CardItemDetail from "../../components/CardItemDetail";
+import { formatDayMonthYear } from "../../utils/capitalize";
 
 function DetailMachinery() {
   const location = useLocation();
@@ -20,7 +21,7 @@ function DetailMachinery() {
         <Link
           fontSize={"12px"}
           color={themeNew.palette.menu.main}
-          href="/lista-maquinarias"
+          href="/machinery-list"
           underline="hover"
         >
           LISTADO MAQUINARIA
@@ -31,21 +32,15 @@ function DetailMachinery() {
       </Breadcrumbs>
       <Box
         sx={{
-          borderRadius:2,
-          backgroundColor: "#ffffff",
-          // borderBottom: "2px #aaa5fc solid",
-          // borderRight: "2px #aaa5fc solid",
+          borderRadius: 2,
+          backgroundColor: "#fff",
         }}
-        className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto p-3 border"
-      >
+        className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto p-2 border">
         <CardItemDetail title="Marca" value={maquina.brand} />
         <CardItemDetail title="Modelo" value={maquina.model} />
         <CardItemDetail title="Año de Modelo" value={maquina.modelYear} />
-        <CardItemDetail
-          title="Fecha compra"
-          value={maquina.acquisitionDate}
-        />
-        <CardItemDetail title="Carga Neta" value={maquina.netLoad} />
+        <CardItemDetail title="Fecha compra" value={formatDayMonthYear(maquina.acquisitionDate)} />
+        <CardItemDetail title="Carga Neta" value={maquina.netLoad+" Tn"} />
         <CardItemDetail title="Tipo Combustible" value={maquina.fuelType} />
         <CardItemDetail
           title="FECHA CREACIÓN"
