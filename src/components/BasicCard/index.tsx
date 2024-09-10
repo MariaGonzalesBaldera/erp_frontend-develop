@@ -79,7 +79,7 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
     const colorsItem = ["#383977", "#6374ae"];
     return colorsItem[index % colorsItem.length];
   };
-  const handleDeleteMachinery = async () => {
+  const handleDelete = async () => {
     try {
       await mutationDeleteId(Number(data.id+""));
       console.log("Maquinaria eliminada exitosamente");
@@ -174,7 +174,7 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
         <ConfirmModal
           onConfirm={openModalConfirm}
           onCancel={handleCloseConfirmModal}
-          onConfirmAction={handleDeleteMachinery} 
+          onConfirmAction={handleDelete} 
           id={Number(data.id+"")}
         />
         <ModalForm

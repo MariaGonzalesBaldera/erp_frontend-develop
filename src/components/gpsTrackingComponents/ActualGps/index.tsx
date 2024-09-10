@@ -9,7 +9,7 @@ const ActualGps: React.FC = () => {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-6xl mx-auto">
       <div className="col-span-1 md:col-span-1 border rounded-md border-gray-400 flex items-start justify-start p-2">
         <Grid container justifyItems="center" justifyContent="center">
-          <GroupRadioButton />
+          <GroupRadioButton showTitle />
           <Grid item xs={12}  className="pt-2">
             <DatePickerForm
               key={"filter-day"}

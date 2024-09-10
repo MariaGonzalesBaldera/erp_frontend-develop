@@ -1,56 +1,54 @@
-import { Box, Grid, IconButton, Tooltip } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
-import ModalMoreDetail from "../../ModalMoreDetail";
+import HeaderPage from "../../components/HeaderPage";
+import SearchInput from "../../components/SearchInput";
+import { Grid, IconButton, Tooltip } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { styleTableItem } from "../../style/StyleModal";
+import ModalEditInspector from "../../components/ModalEditInspector";
+import ModalMoreDetailInspection from "../../components/ModalMoreDetailInspection";
+import ConfirmModal from "../../components/ConfirmModal";
+import { UserItem } from "../../types";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ConfirmModal from "../../ConfirmModal";
-import ModalEditMaintenance from "../../ModalEditMaintenance";
-import {
-  PreventMaintenanceItem,
-  PreventMaintenanceProps,
-} from "../../../types";
 import ListIcon from "@mui/icons-material/List";
-import ButtonDefault from "../../ButtonDefault";
-import { styleTableItem } from "../../../style/StyleModal";
-import SearchInput from "../../SearchInput";
-import { useGetPreventiveByMachinery } from "../../../hooks/usePreventiveMaintenance";
+import ModalDetailUser from "../../components/ModalDetailUser";
+import ModalEditUser from "../../components/ModalEditUser";
+
+const rows = [
+  {
+    id:1,
+    username: "pepe123",
+    firstname: "Pepe",
+    lastname: "Perez",
+    email: "pepe123@gmail.com",
+    role: "USER",
+  },
+  {
+    id:2,
+    username: "admin",
+    firstname: "admin",
+    lastname: "root",
+    email: "admin@gmial.com",
+    role: "ADMIN",
+  },
+];
 
 const dataCreate = {
-  id: "",
-  motorOil: false,
-  oilFilters: false,
-  fuelFilters: false,
-  airFilters: false,
-  transmissionOil: false,
-  periodType: "",
-  maintenancePeriod: "",
-  maintenanceDate: "",
-  nextMaintenancePeriod: "",
-  amountPaid: "",
-  invoiceNumber: "",
-  observations: "",
-  heavyMachineryId: "",
+  id:0,
+  username: "",
+  firstname: "",
+  lastname: "",
+  email: "",
+  role: "",
 };
 
-const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
-  idMachinery,
-  mode,
-}) => {
+const Rrhh: React.FC = () => {
+
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
-
-  const [openModalNew, setOpenModalNew] = React.useState(false);
-  const handleOpenNewModal = () => setOpenModalNew(true);
-  const handleCloseNewModal = () => setOpenModalNew(false);
-
-  const { data: machineryData } = useGetPreventiveByMachinery({
-    id: idMachinery,
-  });
-  console.log("DATA " + machineryData);
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
@@ -62,12 +60,16 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
   };
   const handleCloseConfirmModal = () => setOpenDelete(false);
 
-  const handleOpenEdit = (row: PreventMaintenanceItem) => {
+  const handleOpenEdit = (row: UserItem) => {
     setSelectedRow(row);
     setOpenEdit(true);
   };
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
+
+  const [openModalNew, setOpenModalNew] = React.useState(false);
+  const handleOpenNewModal = () => setOpenModalNew(true);
+  const handleCloseNewModal = () => setOpenModalNew(false);
 
   const columns: GridColDef[] = [
     {
@@ -78,27 +80,39 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
       headerAlign: "center",
     },
     {
-      field: "periodType",
-      headerName: "Tipo de período",
+      field: "username",
+      headerName: "Usuario",
       flex: 1,
       minWidth: 150,
       align: "center",
       headerAlign: "center",
     },
     {
-      field: "maintenancePeriod",
-      headerName: "Período de mantenimiento",
+      field:"fullname",
+      headerName: "Nombre Completo",
       flex: 1,
       minWidth: 120,
+      renderCell: (params) => (
+        <span>
+          {params.row.firstname} {params.row.lastname}
+        </span>
+      ),
       align: "center",
       headerAlign: "center",
     },
     {
-      field: "amountPaid",
-      headerName: "Importe pagado",
+      field: "email",
+      headerName: "Correo",
       flex: 1,
       minWidth: 150,
-
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "role",
+      headerName: "Rol",
+      flex: 1,
+      minWidth: 150,
       align: "center",
       headerAlign: "center",
     },
@@ -107,10 +121,9 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
       headerName: "Acciones",
       flex: 1,
       minWidth: 150,
-
+      disableColumnMenu: true,
       align: "center",
       headerAlign: "center",
-      disableColumnMenu: true,
       renderCell: (params) => (
         <>
           <Tooltip title="Editar">
@@ -146,66 +159,48 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
     },
   ];
 
-  return (
-    <>
-      {mode == "page" ? (
-        <Grid container spacing={2} alignItems="center" sx={{ pb: 1 }}>
-          {/* SearchInput */}
-          <Grid item xs={12} md={6}>
-            <SearchInput />
-          </Grid>
+ return( <>
+      <HeaderPage
+        title="LISTA DE USUARIOS"
+        titleButton="NUEVO USUARIO"
+        handleOpen={handleOpenNewModal}
+      />
 
-          {/* ButtonDefault */}
-          <Grid
-            item
-            xs={12}
-            md={6}
-            sx={{ textAlign: { xs: "start", md: "end" } }}
-          >
-            <ButtonDefault
-              onClick={handleOpenNewModal}
-              title="Agregar mantenimiento"
-            />
-          </Grid>
-        </Grid>
-      ) : (
-        <></>
-      )}
-      <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          sx={styleTableItem}
-          className="truncate..."
-          hideFooter
-          rows={machineryData || []}
-          columns={columns}
-        />
-      </div>
-
-      <ModalEditMaintenance //boton de editar
+      <SearchInput />
+        <Grid style={{ height: 400}}>
+          <DataGrid
+            sx={styleTableItem}
+            className="truncate..."
+            hideFooter
+            rows={rows}
+            columns={columns}
+          />
+      </Grid>
+      <ModalEditUser //boton de editar
         openModal={openEdit}
         handleClose={handleCloseEdit}
         data={selectedRow}
         mode="update"
       />
 
-      <ModalMoreDetail //boton de detalle
+      <ModalDetailUser //boton de detalle
         openModal={openDetail}
         handleClose={handleClose}
         data={selectedRow}
       />
-
-      <ConfirmModal //boton de eliminar
+      {/* <ConfirmModal //boton de eliminar
         onConfirm={openDelete}
         onCancel={handleCloseConfirmModal}
-        id={selectedRow.id}
-      />
-      <ModalEditMaintenance //boton de crear
+        id={1}
+      />*/}
+      <ModalEditUser //boton de editar
         openModal={openModalNew}
         handleClose={handleCloseNewModal}
         data={dataCreate}
         mode="create"
-      />
+      /> 
     </>
-  );
+    );
 };
-export default PreventMaintenance;
+
+export default Rrhh;

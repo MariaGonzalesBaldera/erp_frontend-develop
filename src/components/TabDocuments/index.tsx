@@ -12,7 +12,11 @@ import {
 } from "../../style/StyleModal";
 import FuelLoad from "../TamItemTable/FuelLoad";
 
-const TabDocuments: React.FC = () => {
+interface TabDocumentsProps{
+  idMachinery:number
+}
+
+const TabDocuments: React.FC<TabDocumentsProps> = ({idMachinery}) => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -41,13 +45,13 @@ const TabDocuments: React.FC = () => {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <Documents />
+        <Documents idMachinery={idMachinery} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <PreventMaintenance mode="component" />
+        <PreventMaintenance idMachinery={idMachinery} mode="component" />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <CorrectiveMaintenance mode="component" />
+        <CorrectiveMaintenance idMachinery={idMachinery} mode="component" />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
         <InspectionMachinery />

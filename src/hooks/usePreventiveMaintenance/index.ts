@@ -2,13 +2,21 @@ import { useMutation, UseMutationResult, useQuery } from "@tanstack/react-query"
 import { preventiveMaintenanceService } from "../../services/preventiveMaintenance.service";
 import { IMachinery, PreventiveMaintenanceResponse } from "../../domain/machinery.interface";
 
-const { findAll,create,deleteOne, update } = preventiveMaintenanceService; 
+const { findAll,create,deleteOne, update,findByMachinery } = preventiveMaintenanceService; 
 
 
 export const useGetPreventiveMaintenanceList = () => {
 	return useQuery({
 		queryKey: ["get-preventive-maintenance-searched"],
 		queryFn: () => findAll(),
+	});
+};
+
+export const useGetPreventiveByMachinery = ({ id }: { id: number }) => {
+	return useQuery({
+		queryKey: ["get-preventive-maintenance-searched",id],
+		queryFn: () => findByMachinery(id),
+		 enabled: !!id,
 	});
 };
 

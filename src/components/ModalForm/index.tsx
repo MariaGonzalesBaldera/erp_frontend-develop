@@ -10,7 +10,7 @@ import {
   useUpdateMachinery,
 } from "../../hooks/useMaquinaria";
 import { MachineryResponse } from "../../domain/machinery.interface";
-import dayjs from "dayjs";
+import { formatDateForAPI } from "../../utils/capitalize";
 
 const fuelTypeItem = [
   { value: "gas", label: "Gas" },
@@ -31,6 +31,10 @@ const ModalForm: React.FC<ModalFormProps> = ({
   mode,
 }) => {
   const createMachinery = useCreateMachinery();
+
+  const updateBeneficiaryMutation = useUpdateMachinery({
+    id: data.id?.toString(),
+  });
 
   const [formData, setFormData] = useState({
     brand: "",
@@ -62,10 +66,6 @@ const ModalForm: React.FC<ModalFormProps> = ({
       });
     }
   }, [openModal, data]);
-
-  const updateBeneficiaryMutation = useUpdateMachinery({
-    id: data.id?.toString(),
-  });
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -121,7 +121,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
       let body;
       if (mode === "create") {
         body = {
-          brand: (formData.brand),
+          brand: formData.brand,
           model: formData.model,
           modelYear: formData.modelYear,
           acquisitionDate: formatDateForAPI(formData.acquisitionDate),
@@ -137,7 +137,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
           modelYear: formData.modelYear,
           acquisitionDate: formatDateForAPI(formData.acquisitionDate),
           netLoad: formData.netLoad,
-          fuelType: formData.fuelType
+          fuelType: formData.fuelType,
         };
         onUpdateMachinery(body);
       }
@@ -145,10 +145,6 @@ const ModalForm: React.FC<ModalFormProps> = ({
     },
     [formData, mode, useCreateMachinery, handleClose]
   );
-  const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
-  const modalTitle =
-    mode === "create" ? "NUEVA MAQUINARIA" : "ACTUALIZAR DATOS DE MAQUINARIA";
-
   const onCreateMachinery = async (data: MachineryResponse) => {
     try {
       const response = await createMachinery.mutateAsync(data);
@@ -166,9 +162,10 @@ const ModalForm: React.FC<ModalFormProps> = ({
       console.log("Error-> " + error);
     }
   };
-  const formatDateForAPI = (date) => {
-    return date ? dayjs(date).format("YYYY-MM-DD") : "";
-  };
+  const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
+  const modalTitle =
+    mode === "create" ? "NUEVA MAQUINARIA" : "ACTUALIZAR DATOS DE MAQUINARIA";
+
   return (
     <Modal
       open={openModal}
@@ -258,7 +255,9 @@ const ModalForm: React.FC<ModalFormProps> = ({
                   error={errors.netLoad}
                   helperText={errors.netLoad ? "Este campo es requerido" : ""}
                   InputProps={{
-                    endAdornment: <span className="text-icon-primary">Toneladas</span>,
+                    endAdornment: (
+                      <span className="text-icon-primary">Toneladas</span>
+                    ),
                   }}
                 />
               </Grid>

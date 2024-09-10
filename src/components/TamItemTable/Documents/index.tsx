@@ -9,68 +9,33 @@ import ListIcon from "@mui/icons-material/List";
 import ModalDocumentDetail from "../../ModalDocumentDetail";
 import ModalEditDocument from "../../ModalEditDocument";
 import { styleTableItem } from "../../../style/StyleModal";
+import {useDeleteDocument, useGetDocumentByMachinery} from '../../../hooks/useDocuments'
 
-const rows = [
-  {
-    id: "1",
-    technicalReviewsStart: "2024-01-01",
-    technicalReviewsEnd: "2025-01-01",
-    soatStart: "2024-02-01",
-    soatEnd: "2025-02-01",
-    insuranceStart: "2024-03-01",
-    insuranceEnd: "2025-03-01",
-    trekInsuranceStart: "2024-04-01",
-    trekInsuranceEnd: "2025-04-01",
-    operatingCertificateStart: "2024-05-01",
-    operatingCertificateEnd: "2025-05-01",
-    heavyMachineryId: "HM001",
-  },
-  {
-    id: "2",
-    technicalReviewsStart: "2024-02-15",
-    technicalReviewsEnd: "2025-02-15",
-    soatStart: "2024-03-15",
-    soatEnd: "2025-03-15",
-    insuranceStart: "2024-04-15",
-    insuranceEnd: "2025-04-15",
-    trekInsuranceStart: "2024-05-15",
-    trekInsuranceEnd: "2025-05-15",
-    operatingCertificateStart: "2024-06-15",
-    operatingCertificateEnd: "2025-06-15",
-    createdAt: "2024-08-02",
-  },
-  {
-    id: "3",
-    technicalReviewsStart: "2024-03-01",
-    technicalReviewsEnd: "2025-03-01",
-    soatStart: "2024-04-01",
-    soatEnd: "2025-04-01",
-    insuranceStart: "2024-05-01",
-    insuranceEnd: "2025-05-01",
-    trekInsuranceStart: "2024-06-01",
-    trekInsuranceEnd: "2025-06-01",
-    operatingCertificateStart: "2024-07-01",
-    operatingCertificateEnd: "2025-07-01",
-    heavyMachineryId: "HM003",
-  },
-];
+interface DocumentsProps{
+  idMachinery:number;
+}
 
-const Documents: React.FC = () => {
+const Documents: React.FC<DocumentsProps> = ({idMachinery}) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
+  const { mutateAsync: mutationDeleteId } = useDeleteDocument();
+  const [valueDelete, setValueDelete] = useState(0);
+
+  const {
+  	data: machineryData,
+  } = useGetDocumentByMachinery({id: idMachinery});
+  console.log("DATA "+machineryData)
+
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
 
-  const handleOpenDelete = () => {
-    setOpenDelete(true);
-  };
-  const handleCloseConfirmModal = () => setOpenDelete(false);
+  const handleCloseConfirmModal = () => {
+    setOpenModalConfirm(false)};
 
   const handleOpenEdit = (row: DocumentItem) => {
     setSelectedRow(row);
@@ -78,6 +43,19 @@ const Documents: React.FC = () => {
   };
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
+
+  const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
+  const handleOpenConfirmModal = () => setOpenModalConfirm(true);
+
+  const handleDelete = async () => {
+    try {
+      await mutationDeleteId(Number(valueDelete));
+      console.log("Documento eliminado exitosamente");
+    } catch (error) {
+      console.log("Error al eliminar documento: ", error);
+    }
+  };
+
 
   const columns: GridColDef[] = [
     {
@@ -143,7 +121,10 @@ const Documents: React.FC = () => {
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
-              onClick={() => handleOpenDelete()}
+              onClick={()=>{
+                setValueDelete(Number(params.id))
+                handleOpenConfirmModal()
+              }}
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -160,7 +141,7 @@ const Documents: React.FC = () => {
           sx={styleTableItem}
           className="truncate..."
           hideFooter
-          rows={rows}
+          rows={machineryData || []}
           columns={columns}
         />
       </div>
@@ -179,9 +160,10 @@ const Documents: React.FC = () => {
       />
 
       <ConfirmModal //boton de eliminar
-        onConfirm={openDelete}
+        onConfirm={openModalConfirm}
         onCancel={handleCloseConfirmModal}
-        id={1}
+        onConfirmAction={handleDelete}
+        id={Number(valueDelete)}
       />
     </>
   );

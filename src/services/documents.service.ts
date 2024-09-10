@@ -1,9 +1,19 @@
-import { DocumentResponse, ParamsDelete,IMachinery } from "../domain/machinery.interface";
+import { DocumentResponse, ParamsDelete,IMachinery, ParamsDeleteItem } from "../domain/machinery.interface";
 import { axios } from "../utils/axios.create";
 
 const findAll = async (): Promise<DocumentResponse[]> => {
 	return axios
 		.get("/machineryDocument")
+		.then((res) => res.data)
+		.catch((err) => {
+			console.log(err.response.data)
+			throw new Error(err.response.data);
+		});
+};
+
+const findByMachinery = async (id?:number): Promise<DocumentResponse[]> => {
+	return axios
+		.get(`/machineryDocument/findByMachinery/${id}`)
 		.then((res) => res.data)
 		.catch((err) => {
 			console.log(err.response.data)
@@ -23,7 +33,7 @@ const create = async (data: DocumentResponse): Promise<DocumentResponse> => {
 
 const update = async (
 	data: Partial<DocumentResponse>,
-	id?: string,
+	id?: number,
 ): Promise<DocumentResponse> => {
 	return axios
 		.put(`/machineryDocument/update/${id}`, data) 
@@ -31,7 +41,7 @@ const update = async (
 		.catch((err) => Promise.reject(err.response.data));
 };
 
-const deleteOne = async (params: ParamsDelete) => {
+const deleteOne = async (params: ParamsDeleteItem) => {
 	return axios
 		.delete(`/machineryDocument/delete/${params.id}`)
 		.then((res) => {
@@ -46,5 +56,6 @@ export const documentsService = {
 	findAll,
 	create,
 	deleteOne,
-	update
+	update,
+	findByMachinery
 };
