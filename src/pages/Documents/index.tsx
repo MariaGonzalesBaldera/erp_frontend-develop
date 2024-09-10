@@ -1,5 +1,5 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { DocumentItem } from "../../types";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -11,52 +11,13 @@ import { Box, Grid, IconButton, Tooltip } from "@mui/material";
 import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
 import GroupRadioButton from "../../components/GroupRadioButton";
 import ButtonDefault from "../../components/ButtonDefault";
-import ButtonIconSearch from "../../components/ButtonIconSearch";
+import {
+  useGetDocumentList,
+  useDeleteDocument,
+} from "../../hooks/useDocuments";
+import { SearchSharp } from "@mui/icons-material";
+import themeNew from "../../utils/theme";
 
-const rows = [
-  {
-    id: "1",
-    technicalReviewsStart: "2024-01-01",
-    technicalReviewsEnd: "2025-01-01",
-    soatStart: "2024-02-01",
-    soatEnd: "2025-02-01",
-    insuranceStart: "2024-03-01",
-    insuranceEnd: "2025-03-01",
-    trekInsuranceStart: "2024-04-01",
-    trekInsuranceEnd: "2025-04-01",
-    operatingCertificateStart: "2024-05-01",
-    operatingCertificateEnd: "2025-05-01",
-    heavyMachineryId: "HM001",
-  },
-  {
-    id: "2",
-    technicalReviewsStart: "2024-02-15",
-    technicalReviewsEnd: "2025-02-15",
-    soatStart: "2024-03-15",
-    soatEnd: "2025-03-15",
-    insuranceStart: "2024-04-15",
-    insuranceEnd: "2025-04-15",
-    trekInsuranceStart: "2024-05-15",
-    trekInsuranceEnd: "2025-05-15",
-    operatingCertificateStart: "2024-06-15",
-    operatingCertificateEnd: "2025-06-15",
-    createdAt: "2024-08-02",
-  },
-  {
-    id: "3",
-    technicalReviewsStart: "2024-03-01",
-    technicalReviewsEnd: "2025-03-01",
-    soatStart: "2024-04-01",
-    soatEnd: "2025-04-01",
-    insuranceStart: "2024-05-01",
-    insuranceEnd: "2025-05-01",
-    trekInsuranceStart: "2024-06-01",
-    trekInsuranceEnd: "2025-06-01",
-    operatingCertificateStart: "2024-07-01",
-    operatingCertificateEnd: "2025-07-01",
-    heavyMachineryId: "HM003",
-  },
-];
 const dataCreate = {
   id: "",
   technicalReviewsStart: "",
@@ -74,31 +35,55 @@ const dataCreate = {
 const Documents: React.FC = () => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
 
   const [openModalNew, setOpenModalNew] = React.useState(false);
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
+  const { mutateAsync: mutationDeleteId } = useDeleteDocument();
+  const [valueDelete, setValueDelete] = useState(0);
+
+  const [selectedValue, setSelectedValue] = useState<string>("");
+
+  const handleRadioChange = (value: string) => {
+    console.log(value)
+    setSelectedValue(value);
+  };
+
+  const { data: documentsData } = useGetDocumentList();
+  console.log("DATA " + JSON.stringify(documentsData, null, 2));
+
+  const searchByModel = () => {
+    
+  };
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
 
-  const handleOpenDelete = () => {
-    setOpenDelete(true);
-  };
-  const handleCloseConfirmModal = () => setOpenDelete(false);
+  const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 
   const handleOpenEdit = (row: DocumentItem) => {
+    console.log("row: ", row);
     setSelectedRow(row);
     setOpenEdit(true);
   };
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
 
+  const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
+  const handleOpenConfirmModal = () => setOpenModalConfirm(true);
+  
+  const handleDelete = async () => {
+    try {
+      await mutationDeleteId(valueDelete);
+      console.log("Documento eliminado exitosamente");
+    } catch (error) {
+      console.log("Error al eliminar documento: ", error);
+    }
+  };
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -163,7 +148,10 @@ const Documents: React.FC = () => {
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
-              onClick={() => handleOpenDelete()}
+              onClick={() => {
+                setValueDelete(Number(params.id));
+                handleOpenConfirmModal();
+              }}
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -173,28 +161,58 @@ const Documents: React.FC = () => {
       ),
     },
   ];
+
   return (
-    <Box> 
-        <Grid
-          container
-          justifyContent={"space-around"}
-          direction={{ xs: "column", sm: "row" }}
-          alignItems={{ xs: "start", sm: "center" }}
-          gap={1}
-          className="p-2  bg-white mb-2"
-        >
-        <Grid  item xs="auto" sm={4.5} order={{ xs: 2, sm: 1 }}>
-          <GroupRadioButton />
-        </Grid>
-        <Grid item xs="auto" sm={4} order={{ xs: 3, sm: 2 }}>
-          <ButtonIconSearch />
-        </Grid>
-        <Grid item xs="auto" sm={3}
-       order={{ xs: 1, sm: 3 }}>
-          <ButtonDefault
-            onClick={() => console.log("first")}
-            title="NUEVO DOCUMENTO"
+    <Box>
+      <Grid
+        container
+        justifyContent={"space-between"}
+        direction={{ xs: "column", sm: "row" }}
+        alignItems={{ xs: "start", sm: "center" }}
+        gap={1}
+        className="p-2 border border-gray-400 bg-white mb-2"
+      >
+        <Grid container xs="auto" gap={2} alignItems={"center"} order={{ xs: 2, sm: 1 }}>
+          <GroupRadioButton
+            showTitle={false}
+            selectedValue={selectedValue}
+            onChange={handleRadioChange}
           />
+          <SearchSharp
+            sx={{
+              border: `1px ${themeNew.palette.primary.main} solid`,
+              width: 45,
+              height: 40,
+              padding: 0.8,
+              cursor: "pointer",
+              borderRadius: 1,
+              "&:hover": {
+                color: "#e2e0ff",
+                backgroundColor: themeNew.palette.primary.main,
+              },
+            }}
+            onClick={searchByModel}
+          />
+        </Grid>
+        {/* <Grid item xs="auto" order={{ xs: 3, sm: 2 }}>
+          <SearchSharp
+            sx={{
+              border: `1px ${themeNew.palette.primary.main} solid`,
+              width: 45,
+              height: 40,
+              padding: 0.8,
+              cursor: "pointer",
+              borderRadius: 1,
+              "&:hover": {
+                color: "#e2e0ff",
+                backgroundColor: themeNew.palette.primary.main,
+              },
+            }}
+            onClick={searchByModel}
+          />
+        </Grid> */}
+        <Grid item xs="auto" order={{ xs: 1, sm: 3 }}>
+          <ButtonDefault onClick={handleOpenNewModal} title="NUEVO DOCUMENTO" />
         </Grid>
       </Grid>
       <Grid sx={styleTableResponsive}>
@@ -203,7 +221,7 @@ const Documents: React.FC = () => {
             sx={styleTableItem}
             className="truncate..."
             hideFooter
-            rows={rows}
+            rows={documentsData || []}
             columns={columns}
           />
         </div>
@@ -222,9 +240,10 @@ const Documents: React.FC = () => {
         />
 
         <ConfirmModal //boton de eliminar
-          onConfirm={openDelete}
+          onConfirm={openModalConfirm}
           onCancel={handleCloseConfirmModal}
-          id={1}
+          onConfirmAction={handleDelete}
+          id={Number(valueDelete)}
         />
       </Grid>
       <ModalEditDocument ///crear

@@ -8,13 +8,6 @@ import HeaderPage from "../../components/HeaderPage";
 import { a11yProps, CustomTabPanel, styleTabsBackground } from "../../style/StyleModal";
 import { useGetMachineryList } from "../../hooks/useMaquinaria";
 
-const handleChange = (e) => {
-  console.log("first");
-};
-const handleSubmit = (e) => {
-  e.preventDefault();
-};
- 
 const dataMaquinaria = {
   id: 0,
   brand: "",

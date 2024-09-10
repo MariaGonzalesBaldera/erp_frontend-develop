@@ -16,7 +16,7 @@ export interface CredentialsBody {
 }
 
 export interface DocumentResponse {
-  id?: string;
+  id?: number;
   technicalReviewsStart: string;
   technicalReviewsEnd: string;
   soatStart: string;

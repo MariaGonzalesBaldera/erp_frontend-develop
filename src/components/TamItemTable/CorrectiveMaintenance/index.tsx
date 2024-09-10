@@ -96,7 +96,7 @@ const dataCreate = {
   heavyMachineryId: "",
 };
 const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
-  mode,
+  idMachinery, mode
 }) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);

@@ -13,6 +13,7 @@ import GpsTracking from "./pages/GpsTracking";
 import Accounting from "./pages/Accounting";
 import Login from "./pages/Login";
 import ProtectedRoute from "../proteger";
+import Rrhh from "./pages/Rrhh";
 
 export function App() {
   return (
@@ -38,6 +39,8 @@ export function App() {
                   <Route path="/fuel-register" element={<FuelRegister />} />
                   <Route path="/gps-tracking" element={<GpsTracking />} />
                   <Route path="/accounting" element={<Accounting />} />
+                  <Route path="/human-resources" element={<Rrhh />} />
+                  
                 </Routes>
               </Layout>
               </ProtectedRoute>

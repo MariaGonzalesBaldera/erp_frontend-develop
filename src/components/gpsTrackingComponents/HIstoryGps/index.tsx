@@ -9,7 +9,7 @@ const HistoryGps: React.FC = () => {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-6xl mx-auto">
       <div className="col-span-1 md:col-span-1 border flex items-start justify-start p-2">
         <Grid container justifyItems="center" justifyContent="center">
-          <GroupRadioButton />
+          <GroupRadioButton showTitle />
           <Box className="pt-2 pb-2">
             <ButtonIconSearch />
           </Box>

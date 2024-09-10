@@ -13,6 +13,16 @@ const findAll = async (): Promise<PreventiveMaintenanceResponse[]> => {
 		});
 };
 
+const findByMachinery = async (id?:number): Promise<PreventiveMaintenanceResponse[]> => {
+	return axios
+		.get(`/machineryDocument/findByMachinery/${id}`)
+		.then((res) => res.data)
+		.catch((err) => {
+			console.log(err.response.data)
+			throw new Error(err.response.data);
+		});
+};
+
 const create = async (data: PreventiveMaintenanceResponse): Promise<PreventiveMaintenanceResponse> => {
 	return axios
 		.post("/preventiveMaintenance/create", data)
@@ -49,5 +59,6 @@ export const preventiveMaintenanceService = {
 	findAll,
 	create,
 	deleteOne,
-	update
+	update,
+	findByMachinery
 };
