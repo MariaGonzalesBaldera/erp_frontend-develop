@@ -7,6 +7,7 @@ import React from "react";
 import themeNew from "../../utils/theme";
 import StatTableInfo from "../../components/StatTableInfo";
 import CircularBarCard from "../../components/CircularBarCard";
+import { useLocation } from 'react-router-dom';
 
 import { DriveEta, LocationOn } from "@mui/icons-material";
 import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
@@ -38,6 +39,8 @@ export const CardItemDashboard: React.FC<CardItemDashboardProps> = ({
 };
 
 const Dashboard: React.FC = () => {
+  const location = useLocation();
+  const { username, role } = location.state || {};
   const percentage = 70;
   return (
     <div className="p-3">
