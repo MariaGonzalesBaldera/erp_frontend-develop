@@ -35,14 +35,13 @@ const dataCreate = {
 const Documents: React.FC = () => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-
+  const [valueDelete, setValueDelete] = useState(0);
   const [selectedRow, setSelectedRow] = useState<any>(0);
 
   const [openModalNew, setOpenModalNew] = React.useState(false);
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
   const { mutateAsync: mutationDeleteId } = useDeleteDocument();
-  const [valueDelete, setValueDelete] = useState(0);
 
   const [selectedValue, setSelectedValue] = useState<string>("");
 
@@ -54,9 +53,7 @@ const Documents: React.FC = () => {
   const { data: documentsData } = useGetDocumentList();
   console.log("DATA " + JSON.stringify(documentsData, null, 2));
 
-  const searchByModel = () => {
-    
-  };
+  const searchByModel = () => {};
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);

@@ -13,28 +13,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ListIcon from "@mui/icons-material/List";
 import ModalDetailUser from "../../components/ModalDetailUser";
 import ModalEditUser from "../../components/ModalEditUser";
-
-const rows = [
-  {
-    id:1,
-    username: "pepe123",
-    firstname: "Pepe",
-    lastname: "Perez",
-    email: "pepe123@gmail.com",
-    role: "USER",
-  },
-  {
-    id:2,
-    username: "admin",
-    firstname: "admin",
-    lastname: "root",
-    email: "admin@gmial.com",
-    role: "ADMIN",
-  },
-];
+import { useGetUserList,useDeleteUser } from "../../hooks/useAuthentication";
+import { SearchSharp } from "@mui/icons-material";
+import themeNew from "../../utils/theme";
 
 const dataCreate = {
-  id:0,
+  id: 0,
   username: "",
   firstname: "",
   lastname: "",
@@ -43,33 +27,47 @@ const dataCreate = {
 };
 
 const Rrhh: React.FC = () => {
-
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
-
+  const [valueDelete, setValueDelete] = useState(0);
   const [selectedRow, setSelectedRow] = useState<any>(0);
+
+  const [openModalNew, setOpenModalNew] = React.useState(false);
+  const handleOpenNewModal = () => setOpenModalNew(true);
+  const handleCloseNewModal = () => setOpenModalNew(false);
+
+  const { mutateAsync: mutationDeleteId } = useDeleteUser();
+
+  const { data: userData } = useGetUserList();
+  console.log("DATA " + userData);
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
-
-  const handleOpenDelete = () => {
-    setOpenDelete(true);
-  };
-  const handleCloseConfirmModal = () => setOpenDelete(false);
+ 
+  const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 
   const handleOpenEdit = (row: UserItem) => {
+    console.log("row: ", row);
     setSelectedRow(row);
     setOpenEdit(true);
   };
+
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
 
-  const [openModalNew, setOpenModalNew] = React.useState(false);
-  const handleOpenNewModal = () => setOpenModalNew(true);
-  const handleCloseNewModal = () => setOpenModalNew(false);
+  const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
+  const handleOpenConfirmModal = () => setOpenModalConfirm(true);
+
+  const handleDelete = async () => {
+    try {
+      await mutationDeleteId(valueDelete);
+      console.log("Documento eliminado exitosamente");
+    } catch (error) {
+      console.log("Error al eliminar documento: ", error);
+    }
+  };
 
   const columns: GridColDef[] = [
     {
@@ -88,7 +86,7 @@ const Rrhh: React.FC = () => {
       headerAlign: "center",
     },
     {
-      field:"fullname",
+      field: "fullname",
       headerName: "Nombre Completo",
       flex: 1,
       minWidth: 120,
@@ -148,7 +146,10 @@ const Rrhh: React.FC = () => {
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
-              onClick={() => handleOpenDelete()}
+              onClick={() => {
+                setValueDelete(Number(params.id));
+                handleOpenConfirmModal();
+              }}
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -159,22 +160,45 @@ const Rrhh: React.FC = () => {
     },
   ];
 
- return( <>
+  return (
+    <>
       <HeaderPage
         title="LISTA DE USUARIOS"
         titleButton="NUEVO USUARIO"
         handleOpen={handleOpenNewModal}
       />
+      <Grid
+        container
+        gap={2}
+        alignItems={"center"}
+        order={{ xs: 2, sm: 1 }}
+      >
+        <SearchInput title="Ingresa el código de usuario" />
+        <SearchSharp
+          sx={{
+            border: `1px ${themeNew.palette.primary.main} solid`,
+            width: 45,
+            height: 40,
+            padding: 0.8,
+            cursor: "pointer",
+            borderRadius: 1,
+            "&:hover": {
+              color: "#e2e0ff",
+              backgroundColor: themeNew.palette.primary.main,
+            },
+          }}
+          onClick={() => console.log("first")}
+        />
+      </Grid>
 
-      <SearchInput />
-        <Grid style={{ height: 400}}>
-          <DataGrid
-            sx={styleTableItem}
-            className="truncate..."
-            hideFooter
-            rows={rows}
-            columns={columns}
-          />
+      <Grid style={{ height: 400 }}>
+        <DataGrid
+          sx={styleTableItem}
+          className="truncate..."
+          hideFooter
+          rows={userData || []}
+          columns={columns}
+        />
       </Grid>
       <ModalEditUser //boton de editar
         openModal={openEdit}
@@ -188,19 +212,20 @@ const Rrhh: React.FC = () => {
         handleClose={handleClose}
         data={selectedRow}
       />
-      {/* <ConfirmModal //boton de eliminar
-        onConfirm={openDelete}
+      <ConfirmModal //boton de eliminar
+        onConfirm={openModalConfirm}
         onCancel={handleCloseConfirmModal}
-        id={1}
-      />*/}
-      <ModalEditUser //boton de editar
+        onConfirmAction={handleDelete}
+        id={Number(valueDelete)}
+      />
+      <ModalEditUser //boton de crear
         openModal={openModalNew}
         handleClose={handleCloseNewModal}
         data={dataCreate}
         mode="create"
-      /> 
+      />
     </>
-    );
+  );
 };
 
 export default Rrhh;

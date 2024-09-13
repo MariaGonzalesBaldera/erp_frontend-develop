@@ -1,7 +1,6 @@
 import { MachineryResponse, ParamsDeleteItem } from "../domain/machinery.interface";
 import { axios } from "../utils/axios.create";
 
-const LOG_PREFIX = "ProgramService :";
 
 const findAll = async (): Promise<MachineryResponse[]> => {
 	return axios

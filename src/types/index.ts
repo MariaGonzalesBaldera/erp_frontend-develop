@@ -4,7 +4,7 @@ import { MachineryResponse } from "../domain/machinery.interface";
 //types data
 
 export interface UserItem {
-  id: number;
+  id?: number;
   username: string;
   firstname: string;
   lastname: string;
@@ -12,6 +12,22 @@ export interface UserItem {
   role: string;
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface NewPasswordRequest {
+  currentPassword: string,
+  newPassword: string
+}
+
+export interface UserRequest {
+  userDTO: {
+    username: string,
+    firstname: string,
+    lastname: string,
+    email: string,
+    role: string,
+  },
+  password: string,
 }
 
 export interface MaquinariaDataItem {

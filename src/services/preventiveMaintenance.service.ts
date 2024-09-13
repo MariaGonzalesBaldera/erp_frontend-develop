@@ -8,8 +8,8 @@ const findAll = async (): Promise<PreventiveMaintenanceResponse[]> => {
 		.get("/preventiveMaintenance")
 		.then((res) => res.data)
 		.catch((err) => {
-			console.log(err.response.data)
-			throw new Error(err.response.data);
+			console.error(err.response?.data || "Error en la solicitud");
+      throw new Error(err.response?.data.message || "Error al obtener los datos");
 		});
 };
 
@@ -18,8 +18,8 @@ const findByMachinery = async (id?:number): Promise<PreventiveMaintenanceRespons
 		.get(`/machineryDocument/findByMachinery/${id}`)
 		.then((res) => res.data)
 		.catch((err) => {
-			console.log(err.response.data)
-			throw new Error(err.response.data);
+			console.error("Error =>", err.response?.data || "Error en la solicitud");
+      return Promise.reject(err.response?.data.message || "Error al crear maquinaria");
 		});
 };
 
@@ -28,8 +28,8 @@ const create = async (data: PreventiveMaintenanceResponse): Promise<PreventiveMa
 		.post("/preventiveMaintenance/create", data)
 		.then((res) => res.data.body)
 		.catch((err) => {
-			Promise.reject(err.response.data)
-			console.log("Error => " + err)
+			console.error("Error =>", err.response?.data || "Error en la solicitud");
+      return Promise.reject(err.response?.data.message || "Error al crear maquinaria");
 		});
 };
 
@@ -50,7 +50,6 @@ const deleteOne = async (params: ParamsDelete) => {
 			return res.data.body;
 		})
 		.catch((err) => {
-			console.error(LOG_PREFIX, err);
 			return Promise.reject(err.response.data);
 		});
 };

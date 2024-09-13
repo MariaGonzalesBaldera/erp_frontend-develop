@@ -127,7 +127,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
         console.log("update",body.heavyMachineryId)
         onUpdateDocument(body);
       }
-      handleClose(); // Close the modal after operation
+      handleClose();
     },
     [formData, mode, useCreateDocument, handleClose]
   );
