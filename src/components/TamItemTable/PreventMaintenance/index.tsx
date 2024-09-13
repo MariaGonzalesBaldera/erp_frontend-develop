@@ -152,7 +152,7 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
         <Grid container spacing={2} alignItems="center" sx={{ pb: 1 }}>
           {/* SearchInput */}
           <Grid item xs={12} md={6}>
-            <SearchInput />
+            <SearchInput title="Ingresa el código de la maquinaria" />
           </Grid>
 
           {/* ButtonDefault */}

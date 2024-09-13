@@ -5,6 +5,11 @@ import { styleModalInspection } from "../../style/StyleModal";
 import HeaderModal from "../HeaderModal";
 import DatePickerForm from "../DatePickerForm";
 import ButtonDefault from "../ButtonDefault";
+import {
+  useCreateFuelingUp,
+  useUpdateFuelingUp,
+} from "../../hooks/useFuelingUp";
+import { FuelingUpResponse } from "../../domain/machinery.interface";
 
 interface ModalEditFuelLoadProps {
   openModal: boolean;
@@ -19,6 +24,10 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
   data,
   mode,
 }) => {
+  const createFuelingUp = useCreateFuelingUp();
+  const updateMutation = useUpdateFuelingUp({
+    id: Number(data.id),
+  });
   const [formData, setFormData] = useState({
     id: "",
     numberGallons: 0,
@@ -29,6 +38,16 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
     createdAt: "",
     updatedAt: "",
     heavyMachineryId: "",
+  });
+  const [errors, setErrors] = useState({
+    numberGallons: false,
+    fuelingMileage: false,
+    fuelingDate: false,
+    amountPaid: false,
+    invoiceNumber: false,
+    createdAt: false,
+    updatedAt: false,
+    heavyMachineryId: false,
   });
   useEffect(() => {
     if (openModal) {
@@ -54,29 +73,78 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
     },
     [setFormData]
   );
-  const handleDateChange = useCallback(
-    (date) => {
-      setFormData((prevData) => ({
-        ...prevData,
-        maintenance_date: date,
+  const handleDateChange = useCallback((date) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      fuelingDate: date,
+    }));
+
+    if (date !== null) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        fuelingDate: false,
       }));
-    },
-    [setFormData]
-  );
+    }
+  }, []);
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
+
+      const newErrors = {
+        numberGallons: formData.numberGallons === 0,
+        fuelingMileage: formData.fuelingMileage === "",
+        fuelingDate: formData.fuelingDate === "",
+        amountPaid: formData.amountPaid === 0,
+        invoiceNumber: formData.invoiceNumber === "",
+        createdAt: formData.createdAt === "",
+        updatedAt: formData.updatedAt === "",
+        heavyMachineryId: formData.heavyMachineryId === "",
+      };
+
+      setErrors(newErrors);
+
+      const hasErrors = Object.values(newErrors).some((error) => {error});
+      if (hasErrors) {
+        return; // No proceder si hay errores
+      }
+
+      let body = {
+        numberGallons: formData.numberGallons,
+        fuelingMileage: formData.fuelingMileage,
+        fuelingDate: formData.fuelingDate,
+        amountPaid: formData.amountPaid,
+        invoiceNumber: formData.invoiceNumber,
+        createdAt: formData.createdAt,
+        updatedAt: formData.updatedAt,
+        heavyMachineryId: formData.heavyMachineryId,
+      };
+      console.log("heavyMachineryId " + body);
       if (mode === "create") {
-        console.log("Creating record with data:", formData);
-        alert("Record created successfully!");
+        onCreateFuelingUp(body);
       } else {
-        console.log("Updating record with data:", formData);
-        alert("Record updated successfully!");
+        onUpdateFuelingUp(body); // Solo se envían los datos del usuario al actualizar
       }
       handleClose(); // Close the modal after operation
     },
-    [formData, mode, handleClose]
+    [formData, mode, useCreateFuelingUp, useUpdateFuelingUp, handleClose]
   );
+
+  const onCreateFuelingUp = async (data: FuelingUpResponse) => {
+    try {
+      const response = await createFuelingUp.mutateAsync(data);
+      console.log(response);
+    } catch (error) {
+      console.log("Error-> " + error);
+    }
+  };
+  const onUpdateFuelingUp = async (data: FuelingUpResponse) => {
+    try {
+      const response = await updateMutation.mutateAsync(data);
+      console.log(response);
+    } catch (error) {
+      console.log("Error-> " + error);
+    }
+  };
 
   const modalTitle =
     mode === "create" ? "CREAR NUEVO REGISTRO" : "EDITAR REGISTRO";
@@ -93,7 +161,7 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
       <Box sx={styleModalInspection}>
         <HeaderModal
           titleHeader={modalTitle}
-          id={formData.id || "#"} // Display the ID if available
+          id={formData.id || ""} // Display the ID if available
           handleClose={handleClose}
         />
         <Box className="p-5">
@@ -101,20 +169,27 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Número de Galones"
                   name="numberGallons"
+                  type="number"
                   value={formData.numberGallons}
                   onChange={handleChange}
+                  error={errors.numberGallons}
+                  helperText={errors.numberGallons ? "Campo requerido" : ""}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Millaje de Abastecimiento"
                   name="fuelingMileage"
                   value={formData.fuelingMileage}
                   onChange={handleChange}
+                  error={errors.fuelingMileage}
+                  helperText={errors.fuelingMileage ? "Campo requerido" : ""}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -123,33 +198,45 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
                   labelValue="Fecha de Abastecimiento"
                   handleDateChange={handleDateChange}
                   nameValue="fuelingDate"
+                  error={errors.fuelingDate}
+                  helperText={errors.fuelingDate ? "Campo requerido" : ""}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Cantidad Pagada"
                   name="amountPaid"
+                  type="number"
                   value={formData.amountPaid}
                   onChange={handleChange}
+                  error={errors.amountPaid}
+                  helperText={errors.amountPaid ? "Campo requerido" : ""}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Número de Factura"
                   name="invoiceNumber"
                   value={formData.invoiceNumber}
                   onChange={handleChange}
+                  error={errors.invoiceNumber}
+                  helperText={errors.invoiceNumber ? "Campo requerido" : ""}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="ID de la Maquinaria Pesada"
                   name="heavyMachineryId"
                   value={formData.heavyMachineryId}
                   onChange={handleChange}
+                  error={errors.heavyMachineryId}
+                  helperText={errors.heavyMachineryId ? "Campo requerido" : ""}
                 />
               </Grid>
               <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>

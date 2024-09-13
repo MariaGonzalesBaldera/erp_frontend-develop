@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { UserItem } from "../../types";
-import { Box, Grid, MenuItem, Modal, TextField } from "@mui/material";
+import { UserItem, UserRequest } from "../../types";
+import { Box, Button, Grid, MenuItem, Modal, TextField } from "@mui/material";
 import { styleModalInspection } from "../../style/StyleModal";
 import HeaderModal from "../HeaderModal";
 import ButtonDefault from "../ButtonDefault";
 import { validateEmail } from "../../utils/capitalize";
-
+import { useCreateUser, useUpdateUser } from "../../hooks/useAuthentication";
+import ChangePassword from "../ChangePassword";
 interface ModalEditUserProps {
   openModal: boolean;
   handleClose: () => void;
@@ -14,7 +15,7 @@ interface ModalEditUserProps {
 }
 
 const RoleItem = [
-  { value: "ADMIN", label: "Admin" },
+  { value: "ADMINISTRATOR", label: "Admin" },
   { value: "USER", label: "Usuario" },
 ];
 
@@ -24,46 +25,122 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
   data,
   mode,
 }) => {
-  const [formData, setFormData] = useState({
-    username: data.username || "",
-    firstname: data.firstname || "",
-    lastname: data.lastname || "",
-    email: data.email || "",
-    role: data.role || "",
-  });
-  useEffect(() => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      username: data.username || "",
-      firstname: data.firstname || "",
-      lastname: data.lastname || "",
-      email: data.email || "",
-      role: data.role || "",
-    }));
-  }, [data]);
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
+  const createUser = useCreateUser();
+  const [openChangeModal, setOpenChangeModal] = useState(false);
+  const handleCloseChangeModal = () => {
+    setOpenChangeModal(false);
   };
-  const [emailError, setEmailError] = useState('');
+  const updateMutation = useUpdateUser({
+    id: Number(data.id),
+  });
+  const [formData, setFormData] = useState({
+    username: "",
+    firstname: "",
+    lastname: "",
+    email: "",
+    role: "",
+    password: "",
+  });
 
+  const [errors, setErrors] = useState({
+    username: false,
+    firstname: false,
+    lastname: false,
+    email: false,
+    role: false,
+  });
 
-  const [openModalUpdate, setOpenModalUpdate] = React.useState(false);
+  useEffect(() => {
+    if (openModal && data) {
+      setFormData({
+        username: data.username || "",
+        firstname: data.firstname || "",
+        lastname: data.lastname || "",
+        email: data.email || "",
+        role: data.role || "",
+        password: "",
+      });
+    }
+  }, [openModal, data]);
 
-  const handleOpenUpdateModal = () => setOpenModalUpdate(openModal);
-  const handleCloseUpdateModal = () => setOpenModalUpdate(false);
+  const handleChange = useCallback((e) => {
+    const { name, value } = e.target;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validateEmail(formData.email)) {
-        setEmailError('Por favor ingresa un correo válido.');
-      } else {
-        setEmailError('');
-        console.log('Formulario enviado con éxito:', formData);
+    // Actualizar los datos del formulario
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+
+    // Eliminar el error si el campo tiene un valor válido
+    if (value !== "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: false,
+      }));
+    }
+  }, []);
+  const [emailError, setEmailError] = useState("");
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+
+      const newErrors = {
+        username: formData.username === "",
+        firstname: formData.firstname === "",
+        lastname: formData.lastname === "",
+        email: formData.email === "" || !validateEmail(formData.email), // Valida si el email es correcto
+        role: formData.role === "",
+        password: mode === "create" && formData.password === "", // El password es obligatorio solo al crear
+      };
+
+      setErrors(newErrors);
+
+      const hasErrors = Object.values(newErrors).some((error) => error);
+      if (hasErrors) {
+        return; // No proceder si hay errores
       }
+
+      const body = {
+        userDTO: {
+          username: formData.username,
+          firstname: formData.firstname,
+          lastname: formData.lastname,
+          email: formData.email,
+          role: formData.role,
+        },
+        password: formData.password,
+      };
+
+      if (mode === "create") {
+        onCreateUser(body);
+      } else {
+        onUpdateUser(body.userDTO); // Solo se envían los datos del usuario al actualizar
+      }
+      handleClose();
+    },
+    [formData, mode, useCreateUser, useUpdateUser, handleClose]
+  );
+  const onCreateUser = async (data: UserRequest) => {
+    try {
+      const response = await createUser.mutateAsync(data);
+      console.log(response);
+    } catch (error) {
+      console.log("Error-> " + error);
+    }
+  };
+  const onUpdateUser = async (data: UserItem) => {
+    try {
+      const response = await updateMutation.mutateAsync(data);
+      console.log(response);
+    } catch (error) {
+      console.log("Error-> " + error);
+    }
+  };
+
+  const handleOpenChangePass = () => {
+    setOpenChangeModal(true);
     handleClose();
   };
 
@@ -101,6 +178,8 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
               onChange={handleChange}
               fullWidth
               size="small"
+              error={errors.username}
+              helperText={errors.username ? "Campo requerido" : ""}
             />
             <TextField
               label="Primer Nombre"
@@ -110,6 +189,8 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
               onChange={handleChange}
               fullWidth
               size="small"
+              error={errors.firstname}
+              helperText={errors.firstname ? "Campo requerido" : ""}
             />
             <TextField
               label="Apellido"
@@ -119,6 +200,8 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
               onChange={handleChange}
               fullWidth
               size="small"
+              error={errors.lastname}
+              helperText={errors.lastname ? "Campo requerido" : ""}
             />
             <TextField
               label="Correo"
@@ -126,10 +209,10 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
               name="email"
               value={formData.email}
               onChange={handleChange}
-              error={!!emailError}
-              helperText={emailError}
               fullWidth
               size="small"
+              error={errors.email}
+              helperText={errors.email ? "Ingrese un correo válido" : ""}
             />
             <TextField
               size="small"
@@ -141,6 +224,8 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
               name="role"
               value={formData.role}
               onChange={handleChange}
+              error={errors.role}
+              helperText={errors.role ? "Campo requerido" : ""}
             >
               {RoleItem.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
@@ -148,17 +233,38 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
                 </MenuItem>
               ))}
             </TextField>
+            {mode == "create" ? (
+              <TextField
+                label="Contraseña"
+                variant="outlined"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                fullWidth
+                size="small"
+              />
+            ) : (
+              <Button
+                onClick={handleOpenChangePass}
+                sx={{ border: "1px gray solid" }}
+              >
+                Cambiar clave
+              </Button>
+            )}
           </div>
 
           <Grid container justifyContent="flex-end" spacing={2} mt={2}>
             <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
-              <ButtonDefault
-                onClick={handleOpenUpdateModal}
-                title={buttonText}
-              />
+              <ButtonDefault title={buttonText} />
             </Grid>
           </Grid>
         </Box>
+
+        <ChangePassword
+          openModal={openChangeModal}
+          handleClose={handleCloseChangeModal}
+          id={Number(data.id)}
+        />
       </Box>
     </Modal>
   );
