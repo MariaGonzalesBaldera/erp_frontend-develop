@@ -48,6 +48,7 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
     lastname: false,
     email: false,
     role: false,
+    password: false,
   });
 
   useEffect(() => {
@@ -58,7 +59,7 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
         lastname: data.lastname || "",
         email: data.email || "",
         role: data.role || "",
-        password: "",
+        password: data.role || "",
       });
     }
   }, [openModal, data]);
@@ -242,6 +243,8 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
                 onChange={handleChange}
                 fullWidth
                 size="small"
+                error={errors.password}
+              helperText={errors.password ? "Campo requerido" : ""}
               />
             ) : (
               <Button

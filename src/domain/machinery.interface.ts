@@ -1,5 +1,5 @@
 export interface MachineryResponse {
-  id?: number;
+  id: number | undefined;
   brand: string;
   model: string;
   modelYear: string;
@@ -193,4 +193,13 @@ export interface InspectionResponse {
   createdAt?: string,
   updatedAt?: string,
   heavyMachineryId?: string
+}
+
+export interface AccountingResponse {
+  id?: number,
+  year: number,
+  month: number,
+  originDescription: string,
+  transactionType: string,
+  amountPaid: number
 }
