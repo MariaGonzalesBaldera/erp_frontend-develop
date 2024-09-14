@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FuelLoadProps } from "../../types";
-import { Box, Grid, MenuItem, Modal, TextField } from "@mui/material";
+import { Box, capitalize, Grid, MenuItem, Modal, TextField } from "@mui/material";
 import { styleModalInspection } from "../../style/StyleModal";
 import HeaderModal from "../HeaderModal";
 import DatePickerForm from "../DatePickerForm";
@@ -14,6 +14,7 @@ import {
   FuelingUpResponse,
   MachineryResponse,
 } from "../../domain/machinery.interface";
+import { capitalizer } from "../../utils/capitalize";
 
 interface ModalEditFuelLoadProps {
   openModal: boolean;
@@ -51,7 +52,6 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
   });
 
   useEffect(() => {
-    console.log("selectedMachinery", selectedMachinery + "");
     if (openModal && data) {
       setFormData({
         id: data.id || "",
@@ -60,7 +60,7 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
         fuelingDate: data.fuelingDate || "",
         amountPaid: data.amountPaid || 0,
         invoiceNumber: data.invoiceNumber || "",
-        heavyMachineryId: selectedMachinery + "" || "",
+        heavyMachineryId: data.heavyMachineryId + "" || "",
       });
     }
   }, [openModal, data]);
@@ -97,19 +97,31 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
-
-      const newErrors = {
-        numberGallons: formData.numberGallons === 0,
-        fuelingMileage: formData.fuelingMileage === "",
-        fuelingDate: formData.fuelingDate === "",
-        amountPaid: formData.amountPaid === 0,
-        invoiceNumber: formData.invoiceNumber === "",
-        heavyMachineryId: selectedMachinery === "",
-      };
+      let newErrors;
+      if (mode == "create") {
+        newErrors = {
+          numberGallons: formData.numberGallons === 0,
+          fuelingMileage: formData.fuelingMileage === "",
+          fuelingDate: formData.fuelingDate === "",
+          amountPaid: formData.amountPaid === 0,
+          invoiceNumber: formData.invoiceNumber === "",
+          heavyMachineryId: selectedMachinery === "",
+        };
+      } else {
+        newErrors = {
+          numberGallons: formData.numberGallons === 0,
+          fuelingMileage: formData.fuelingMileage === "",
+          fuelingDate: formData.fuelingDate === "",
+          amountPaid: formData.amountPaid === 0,
+          invoiceNumber: formData.invoiceNumber === "",
+        };
+      }
 
       setErrors(newErrors);
 
-      const hasErrors = Object.values(newErrors).some((error) => error);
+      const hasErrors = Object.values(newErrors).some((error) => {
+        error;
+      });
       if (hasErrors) {
         return; // No proceder si hay errores
       }
@@ -120,9 +132,13 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
         fuelingDate: formData.fuelingDate,
         amountPaid: formData.amountPaid,
         invoiceNumber: formData.invoiceNumber,
-        heavyMachineryId: selectedMachinery + "",
+        heavyMachineryId:
+          mode === "create"
+            ? selectedMachinery + ""
+            : formData.heavyMachineryId,
       };
       if (mode === "create") {
+        console.log("formData.heavyMachineryId " ,formData.heavyMachineryId)
         onCreateFuelingUp(body);
       } else {
         onUpdateFuelingUp(body); // Solo se envían los datos del usuario al actualizar
@@ -170,7 +186,7 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
         ) // Filtrar elementos con id definido
         .map((machinery) => ({
           value: machinery.id!,
-          label: `${machinery.id} - ${machinery.model} ${machinery.brand}`,
+          label: `${machinery.id} - ${capitalizer(machinery.model)} - ${capitalizer(machinery.brand)}`,
         }));
       setMachineryItems(formattedItems);
     }
@@ -291,16 +307,6 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
                       </TextField>
                     )}
                   </div>
-                  {/* <TextField
-                  size="small"
-                  fullWidth
-                  label="ID de la Maquinaria Pesada"
-                  name="heavyMachineryId"
-                  value={formData.heavyMachineryId}
-                  onChange={handleChange}
-                  error={errors.heavyMachineryId}
-                  helperText={errors.heavyMachineryId ? "Campo requerido" : ""}
-                /> */}
                 </Grid>
               ) : (
                 ""

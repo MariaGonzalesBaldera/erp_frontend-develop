@@ -219,7 +219,6 @@ export interface MonthlyAccountingInformation {
   originDescription: string;
   transactionType: string;
   amountPaid: number;
-
 }
 
 export interface DetailedAccountingInformation {

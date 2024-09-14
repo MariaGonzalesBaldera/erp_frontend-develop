@@ -1,7 +1,8 @@
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
+import 'dayjs/locale/es';
 import React from "react";
 
 interface DatePickerFormProps {
@@ -12,7 +13,7 @@ interface DatePickerFormProps {
   error?: boolean;
   helperText?: string;
 }
-
+dayjs.locale('es');
 const DatePickerForm: React.FC<DatePickerFormProps> = ({
   dateValue,
   labelValue,
@@ -22,7 +23,7 @@ const DatePickerForm: React.FC<DatePickerFormProps> = ({
   helperText,
 }) => {
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
       <DatePicker 
         name={nameValue}
         value={dateValue ? dayjs(dateValue, "YYYY-MM-DD") : null}
