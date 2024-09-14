@@ -1,5 +1,5 @@
 import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   styleTableItem,
   styleTableResponsive,
@@ -9,56 +9,61 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListIcon from "@mui/icons-material/List";
 import DatePickerForm from "../../DatePickerForm";
+import { SearchSharp } from "@mui/icons-material";
+import themeNew from "../../../utils/theme";
+import dayjs from "dayjs";
+import { useGetAccountingRangeList } from "../../../hooks/userAcccounting";
+import { AccountingResponse } from "../../../domain/machinery.interface";
 
-const rows = [
-  {
-    id: 1,
-    year: 2023,
-    month: 7,
-    originDescription: "Compra de materiales",
-    transactionType: "Gasto",
-    amountPaid: 15000.5,
-    invoiceNumber: "FAC-202307001",
-    transactionDate: "2023-07-15",
-    heavyMachinery: 2,
-  },
-  {
-    id: 2,
-    year: 2023,
-    month: 8,
-    originDescription: "Mantenimiento de equipo",
-    transactionType: "Gasto",
-    amountPaid: 22000.75,
-    invoiceNumber: "FAC-202308002",
-    transactionDate: "2023-08-10",
-    heavyMachinery: 1,
-  },
-  {
-    id: 3,
-    year: 2023,
-    month: 9,
-    originDescription: "Alquiler de maquinaria",
-    transactionType: "Gasto",
-    amountPaid: 30000.0,
-    invoiceNumber: "FAC-202309003",
-    transactionDate: "2023-09-05",
-    heavyMachinery: 3,
-  },
-  {
-    id: 4,
-    year: 2023,
-    month: 10,
-    originDescription: "Venta de chatarra",
-    transactionType: "Ingreso",
-    amountPaid: 5000.0,
-    invoiceNumber: "FAC-202310004",
-    transactionDate: "2023-10-20",
-    heavyMachinery: 0,
-  },
-];
+ 
 function DayFilter() {
-  const handleChange = useCallback((e) => {}, []);
+  // Establecer las fechas iniciales (hace una semana y hoy)
+  const [initialDay, setInitialDay] = useState(
+    dayjs().subtract(7, "day").format("YYYY-MM-DD")
+  );
+  const [endDay, setEndDay] = useState(dayjs().format("YYYY-MM-DD"));
+ 
+  const [rowsWithIds, setRowsWithIds] = useState<AccountingResponse[]>([]);
+  const [searchParams, setSearchParams] = useState({
+    searchDateStart: initialDay,
+    searchDateEnd: endDay,
+  });
+  // Hook para obtener los datos
+  const { data: accountingData, refetch } = useGetAccountingRangeList({
+    searchDateStart: searchParams.searchDateStart,
+    searchDateEnd: searchParams.searchDateEnd,
+  });
 
+  useEffect(() => {
+    if (accountingData) {
+      const dataWithIds = accountingData.map((item, index) => ({
+        ...item,
+        id: index + 1, // Agregar id numérico único
+      }));
+      setRowsWithIds(dataWithIds);
+    }
+  }, [accountingData]);
+
+  // Manejar el cambio de fecha
+  const handleChange = (date: any, nameValue: string) => {
+    if (nameValue === "initial-day") {
+      setInitialDay(dayjs(date).format("YYYY-MM-DD"));
+    } else if (nameValue === "end-day") {
+      setEndDay(dayjs(date).format("YYYY-MM-DD"));
+    }
+  };
+
+  // Manejar la búsqueda cuando se haga clic en el ícono
+  const handleSearch = () => {
+    // Actualizar los parámetros de búsqueda
+    setSearchParams({
+      searchDateStart: initialDay,
+      searchDateEnd: endDay,
+    });
+    
+    // Refrescar los datos manualmente
+    refetch();
+  };
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -137,23 +142,39 @@ function DayFilter() {
     <div>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto mb-5">
         <div className="col-span-1 md:col-span-1 flex items-center justify-start">
-          <DatePickerForm
-            key={"initial-day"}
-            dateValue={""}
-            labelValue="Inicio de busqueda"
-            handleDateChange={handleChange}
+        <DatePickerForm
+            key="initial-day"
+            dateValue={initialDay}
+            labelValue="Inicio de búsqueda"
+            handleDateChange={(date) => handleChange(date, "initial-day")}
             nameValue="initial-day"
           />
         </div>
         <div className="col-span-1 md:col-span-1 flex items-center justify-start">
         <DatePickerForm
-            key={"end-day"}
-            dateValue={""}
-            labelValue="Fin de busqueda"
-            handleDateChange={handleChange}
+            key="end-day"
+            dateValue={endDay}
+            labelValue="Fin de búsqueda"
+            handleDateChange={(date) => handleChange(date, "end-day")}
             nameValue="end-day"
           />
         </div>
+        <SearchSharp
+            onClick={handleSearch}
+            sx={{
+              border: `1px ${themeNew.palette.primary.main} solid`,
+              width: 45,
+              height: 40,
+              padding: 0.8,
+              cursor: "pointer",
+              borderRadius: 1,
+              marginLeft: 1, // Añade un margen a la izquierda del ícono
+              "&:hover": {
+                color: "#e2e0ff",
+                backgroundColor: themeNew.palette.primary.main,
+              },
+            }}
+          />
       </div>
 
       <div className="grid border grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto">
@@ -183,7 +204,7 @@ function DayFilter() {
                 sx={styleTableItem}
                 className="truncate..."
                 hideFooter
-                rows={rows}
+                rows={rowsWithIds || []}
                 columns={columns}
               />
             </div>

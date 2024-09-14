@@ -37,49 +37,49 @@ const MonthItem = [
   { value: "12", label: "Diciembre" },
 ];
 function MonthFilter() {
-  ///obtener el mes actual
-  const currentDate = new Date();
-  const currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0");
-  const currentYear = currentDate.getFullYear();
+ // Obtener el mes y año actual
+ const currentDate = new Date();
+ const currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0");
+ const currentYear = currentDate.getFullYear();
 
-  // Estados para el mes y el año seleccionados
-  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
-  const [selectedYear, setSelectedYear] = useState(currentYear.toString());
-  const [searchDate, setSearchDate] = useState(
-    `${currentYear}-${currentMonth}-01`
-  );
+ // Estados para el mes y el año seleccionados
+ const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+ const [selectedYear, setSelectedYear] = useState(currentYear.toString());
+ const [searchDate, setSearchDate] = useState(`${currentYear}-${currentMonth}-01`);
 
-  // Estado para los datos con 'id'
-  const [rowsWithIds, setRowsWithIds] = useState<AccountingResponse[]>([]);
+ // Estado para los datos con 'id'
+ const [rowsWithIds, setRowsWithIds] = useState<AccountingResponse[]>([]);
 
-  // Obtener los datos iniciales
-  const { data: listData } = useGetAccountingList({ id: searchDate });
+ // Obtener los datos iniciales con el hook personalizado
+ const { data: listData, refetch } = useGetAccountingList({ searchMonth: searchDate });
 
-  useEffect(() => {
-    if (listData) {
-      const dataWithIds = listData.map((item, index) => ({
-        ...item,
-        id: index + 1, // Agregar id numérico único
-      }));
-      setRowsWithIds(dataWithIds);
-    }
-  }, [listData]);
-  // Manejar cambios en los TextField
-  const handleChangeMonth = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedMonth(event.target.value);
-  };
+ // Efecto para actualizar los datos con ID único
+ useEffect(() => {
+   if (listData) {
+     const dataWithIds = listData.map((item, index) => ({
+       ...item,
+       id: index + 1, // Agregar ID numérico único
+     }));
+     setRowsWithIds(dataWithIds);
+   }
+ }, [listData]);
 
-  // Manejar cambios en el TextField de año
-  const handleChangeYear = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedYear(event.target.value);
-  };
+ // Manejar cambios en el TextField del mes
+ const handleChangeMonth = (event: React.ChangeEvent<HTMLInputElement>) => {
+   setSelectedMonth(event.target.value);
+ };
 
-  // Manejar búsqueda al hacer clic en el botón
-  const handleSearch = () => {
-    const newDate = `${selectedYear}-${selectedMonth}-01`; // Combinar año-mes-01
-    setSearchDate(newDate); // Actualizar la fecha de búsqueda
-    console.log("Nueva fecha para la búsqueda: ", newDate);
-  };
+ // Manejar cambios en el TextField del año
+ const handleChangeYear = (event: React.ChangeEvent<HTMLInputElement>) => {
+   setSelectedYear(event.target.value);
+ };
+
+ // Manejar la búsqueda al hacer clic en el botón
+ const handleSearch = () => {
+   const newDate = `${selectedYear}-${selectedMonth}-01`; // Formato YYYY-MM-01
+   setSearchDate(newDate); // Actualizar la fecha de búsqueda
+   refetch(); // Refrescar los datos de la búsqueda
+ };
 
   const columns: GridColDef[] = [
     {
@@ -157,8 +157,8 @@ function MonthFilter() {
   ];
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-5 max-w-6xl mx-auto">
-        <div className="col-span- md:col-span-2 flex items-center justify-start p-2">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto">
+        <div className="col-span- md:col-span-2 flex items-center justify-start">
           <TextField
             size="small"
             id="outlined-select-currency"
