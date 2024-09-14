@@ -1,15 +1,19 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FuelLoadProps } from "../../types";
-import { Box, Grid, Modal, TextField } from "@mui/material";
+import { Box, Grid, MenuItem, Modal, TextField } from "@mui/material";
 import { styleModalInspection } from "../../style/StyleModal";
 import HeaderModal from "../HeaderModal";
 import DatePickerForm from "../DatePickerForm";
 import ButtonDefault from "../ButtonDefault";
+import { useGetMachineryList } from "../../hooks/useMaquinaria";
 import {
   useCreateFuelingUp,
   useUpdateFuelingUp,
 } from "../../hooks/useFuelingUp";
-import { FuelingUpResponse } from "../../domain/machinery.interface";
+import {
+  FuelingUpResponse,
+  MachineryResponse,
+} from "../../domain/machinery.interface";
 
 interface ModalEditFuelLoadProps {
   openModal: boolean;
@@ -35,8 +39,6 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
     fuelingDate: "",
     amountPaid: 0,
     invoiceNumber: "",
-    createdAt: "",
-    updatedAt: "",
     heavyMachineryId: "",
   });
   const [errors, setErrors] = useState({
@@ -45,12 +47,12 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
     fuelingDate: false,
     amountPaid: false,
     invoiceNumber: false,
-    createdAt: false,
-    updatedAt: false,
     heavyMachineryId: false,
   });
+
   useEffect(() => {
-    if (openModal) {
+    console.log("selectedMachinery", selectedMachinery + "");
+    if (openModal && data) {
       setFormData({
         id: data.id || "",
         numberGallons: data.numberGallons || 0,
@@ -58,21 +60,27 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
         fuelingDate: data.fuelingDate || "",
         amountPaid: data.amountPaid || 0,
         invoiceNumber: data.invoiceNumber || "",
-        createdAt: data.createdAt || "",
-        updatedAt: data.updatedAt || "",
-        heavyMachineryId: data.heavyMachineryId || "",
+        heavyMachineryId: selectedMachinery + "" || "",
       });
     }
   }, [openModal, data]);
-  const handleChange = useCallback(
-    (e) => {
-      setFormData((prevData) => ({
-        ...prevData,
-        [e.target.name]: e.target.value,
+
+  const handleChange = useCallback((e) => {
+    const { name, value } = e.target;
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+
+    if (value !== "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: false,
       }));
-    },
-    [setFormData]
-  );
+    }
+  }, []);
+
   const handleDateChange = useCallback((date) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -96,14 +104,12 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
         fuelingDate: formData.fuelingDate === "",
         amountPaid: formData.amountPaid === 0,
         invoiceNumber: formData.invoiceNumber === "",
-        createdAt: formData.createdAt === "",
-        updatedAt: formData.updatedAt === "",
-        heavyMachineryId: formData.heavyMachineryId === "",
+        heavyMachineryId: selectedMachinery === "",
       };
 
       setErrors(newErrors);
 
-      const hasErrors = Object.values(newErrors).some((error) => {error});
+      const hasErrors = Object.values(newErrors).some((error) => error);
       if (hasErrors) {
         return; // No proceder si hay errores
       }
@@ -114,11 +120,8 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
         fuelingDate: formData.fuelingDate,
         amountPaid: formData.amountPaid,
         invoiceNumber: formData.invoiceNumber,
-        createdAt: formData.createdAt,
-        updatedAt: formData.updatedAt,
-        heavyMachineryId: formData.heavyMachineryId,
+        heavyMachineryId: selectedMachinery + "",
       };
-      console.log("heavyMachineryId " + body);
       if (mode === "create") {
         onCreateFuelingUp(body);
       } else {
@@ -151,6 +154,38 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
 
   const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
 
+  //recuperacion de maquinarias
+  const { data: machineryData, isLoading, error } = useGetMachineryList(); // Llamar a la API
+  const [machineryItems, setMachineryItems] = useState<
+    { value: number; label: string }[]
+  >([]); // Estado para almacenar el mapeo de datos
+
+  // Actualizar el estado cuando los datos de la API están disponibles
+  useEffect(() => {
+    if (machineryData && !isLoading && !error) {
+      const formattedItems = (machineryData || [])
+        .filter(
+          (machinery): machinery is MachineryResponse =>
+            machinery.id !== undefined
+        ) // Filtrar elementos con id definido
+        .map((machinery) => ({
+          value: machinery.id!,
+          label: `${machinery.id} - ${machinery.model} ${machinery.brand}`,
+        }));
+      setMachineryItems(formattedItems);
+    }
+  }, [machineryData, isLoading, error]);
+
+  // Estado para manejar la selección del usuario
+  const [selectedMachinery, setSelectedMachinery] = useState<number | "">("");
+
+  // Manejar el cambio de selección
+  const handleChangeMachinery = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSelectedMachinery(Number(event.target.value));
+    errors.heavyMachineryId = false;
+  };
   return (
     <Modal
       open={openModal}
@@ -227,8 +262,36 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
                   helperText={errors.invoiceNumber ? "Campo requerido" : ""}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
+              {mode == "create" ? (
+                <Grid item xs={12} sm={6}>
+                  <div>
+                    {isLoading ? (
+                      <p>Cargando maquinaria...</p>
+                    ) : error ? (
+                      <p>Error al cargar la maquinaria</p>
+                    ) : (
+                      <TextField
+                        select
+                        size="small"
+                        label="Seleccione Maquinaria"
+                        value={selectedMachinery}
+                        onChange={handleChangeMachinery}
+                        name="heavyMachineryId"
+                        fullWidth
+                        error={errors.heavyMachineryId}
+                        helperText={
+                          errors.heavyMachineryId ? "Campo requerido" : ""
+                        }
+                      >
+                        {machineryItems.map((item) => (
+                          <MenuItem key={item.value} value={item.value}>
+                            {item.label}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    )}
+                  </div>
+                  {/* <TextField
                   size="small"
                   fullWidth
                   label="ID de la Maquinaria Pesada"
@@ -237,8 +300,11 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
                   onChange={handleChange}
                   error={errors.heavyMachineryId}
                   helperText={errors.heavyMachineryId ? "Campo requerido" : ""}
-                />
-              </Grid>
+                /> */}
+                </Grid>
+              ) : (
+                ""
+              )}
               <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
                 <ButtonDefault title={buttonText} />
               </Grid>
