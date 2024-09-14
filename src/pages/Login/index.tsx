@@ -9,9 +9,11 @@ import {
   IconButton,
   Box,
   InputAdornment,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import themeNew from "../../utils/theme";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../../services/auth.service";
@@ -21,9 +23,10 @@ const Login: React.FC = () => {
   const { authentication } = authService;
   const [showPassword, setShowPassword] = useState(false);
 
-  const [username, setUsername] = useState("");
+  const [usernameValue, setUsernameValue] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -33,20 +36,40 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      const data = { username, password };
+      const data = { username: usernameValue, password };
 
       const response = await authentication(data);
-      console.log("response: ",response)
-      const { accessToken } = response;
+
+      const { accessToken, user } = response;
+      const { username, role } = user;
+
       localStorage.removeItem("accessToken");
+      localStorage.removeItem("username");
+      localStorage.removeItem("role");
+
 
       localStorage.setItem("accessToken", accessToken);
-      navigate("/dashboard");
+      localStorage.setItem("username", user.username);
+      localStorage.setItem("role", user.role);
+      navigate("/dashboard", { state: { username, role } });
+
     } catch (err: any) {
-      setError("Error en el login. Verifica tus credenciales.");
+      const errorMessage =
+        err.response?.data?.message ||
+        "Error en el login. Verifica tus credenciales.";
+      setError(errorMessage); // Almacenar el mensaje de error
+      setOpenSnackbar(true);
     }
   };
-
+  const handleCloseSnackbar = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
   return (
     <Box
       className="flex min-h-screen items-center justify-center bg-background px-4"
@@ -70,8 +93,8 @@ const Login: React.FC = () => {
               label="Usuario"
               variant="outlined"
               placeholder="Ingresa tu usuario"
-              value={username}
-              onChange={(e)=>setUsername(e.target.value)}
+              value={usernameValue}
+              onChange={(e) => setUsernameValue(e.target.value)}
             />
             <TextField
               fullWidth
@@ -80,7 +103,7 @@ const Login: React.FC = () => {
               type={showPassword ? "text" : "password"}
               placeholder="Ingresa tu contraseña"
               value={password}
-              onChange={(e)=>setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -99,7 +122,8 @@ const Login: React.FC = () => {
           </div>
         </CardContent>
         <CardActions className="flex flex-col space-y-2 px-4">
-          <Button component="form"
+          <Button
+            component="form"
             variant="contained"
             sx={{
               backgroundColor: "#1e1b4b",
@@ -126,6 +150,19 @@ const Login: React.FC = () => {
           </Typography>
         </CardActions>
       </Card>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          {error} {/* Mostrar el mensaje de error */}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

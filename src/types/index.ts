@@ -2,6 +2,34 @@ import { useState } from "react";
 import { MachineryResponse } from "../domain/machinery.interface";
 
 //types data
+
+export interface UserItem {
+  id?: number;
+  username: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  role: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface NewPasswordRequest {
+  currentPassword: string,
+  newPassword: string
+}
+
+export interface UserRequest {
+  userDTO: {
+    username: string,
+    firstname: string,
+    lastname: string,
+    email: string,
+    role: string,
+  },
+  password: string,
+}
+
 export interface MaquinariaDataItem {
   id: number;
   brand: string;
@@ -16,15 +44,21 @@ export interface MaquinariaDataItem {
 
 export interface PreventMaintenanceItem {
   id: string;
-  description: string;
-  maintenance_date: string; ///filtro
-  amount_paid: string;
-  operator: string;
-  project_name: string;
+  motorOil: boolean;
+  oilFilters: boolean;
+  fuelFilters: boolean;
+  airFilters: boolean;
+  transmissionOil: boolean;
+  periodType: string;
+  maintenancePeriod: string;
+  maintenanceDate: string;
+  nextMaintenancePeriod: string;
+  amountPaid: string;
+  invoiceNumber: string;
   observations: string;
-  driving_start: string;
-  driving_end: string;
-  heavyMachineryId: String;
+  createdAt?: string;
+  updatedAt?: string;
+  heavyMachineryId?: string;
 }
 
 export interface CorrectiveMaintananceItem {
@@ -156,11 +190,13 @@ export interface MaintenanceProps {
 }
 
 export interface PreventMaintenanceProps {
-  mode: string
+  mode: string;
+  idMachinery: number;
 }
 
 export interface CorrectiveMaintenanceProps {
-  mode: string
+  mode: string;
+  idMachinery: number;
 }
 
 export interface ModalEditMaintenanceProps {

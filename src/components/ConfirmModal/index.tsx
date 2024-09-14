@@ -14,7 +14,6 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   onConfirmAction,
   id,
 }) => {
-
   const handleClose = () => {
     if (onCancel) onCancel();
   };

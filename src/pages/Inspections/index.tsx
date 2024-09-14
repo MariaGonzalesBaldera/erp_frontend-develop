@@ -491,7 +491,7 @@ const Inspections: React.FC = () => {
         handleOpen={handleOpenNewModal}
       />
 
-      <SearchInput />
+      <SearchInput title="Ingresa el código de la maquinaria" />
         <Grid  style={{ height: 400}}>
           <DataGrid
             sx={styleTableItem}

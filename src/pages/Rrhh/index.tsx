@@ -1,41 +1,45 @@
 import React, { useState } from "react";
-import { FuelLoadProps } from "../../types";
+import HeaderPage from "../../components/HeaderPage";
+import SearchInput from "../../components/SearchInput";
+import { Grid, IconButton, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { IconButton, Tooltip } from "@mui/material";
+import { styleTableItem } from "../../style/StyleModal";
+import ModalEditInspector from "../../components/ModalEditInspector";
+import ModalMoreDetailInspection from "../../components/ModalMoreDetailInspection";
+import ConfirmModal from "../../components/ConfirmModal";
+import { UserItem } from "../../types";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListIcon from "@mui/icons-material/List";
-import { styleTableItem } from "../../style/StyleModal";
-import ModalEditFuelLoad from "../../components/ModalEditFuelLoad";
-import ModalFuelLoadDetail from "../../components/ModalFuelLoadDetail";
-import ConfirmModal from "../../components/ConfirmModal";
-import HeaderPage from "../../components/HeaderPage";
-import SearchInput from "../../components/SearchInput";
-
-import {
-  useGetFuelingUpList,
-  useDeleteFuelingUp,
-} from "../../hooks/useFuelingUp";
+import ModalDetailUser from "../../components/ModalDetailUser";
+import ModalEditUser from "../../components/ModalEditUser";
+import { useGetUserList,useDeleteUser } from "../../hooks/useAuthentication";
+import { SearchSharp } from "@mui/icons-material";
+import themeNew from "../../utils/theme";
 
 const dataCreate = {
-  id: "",
-  numberGallons: 0,
-  fuelingMileage: "",
-  fuelingDate: "",
-  amountPaid: 0,
-  invoiceNumber: "",
-  heavyMachineryId: "",
+  id: 0,
+  username: "",
+  firstname: "",
+  lastname: "",
+  email: "",
+  role: "",
 };
-const FuelRegister: React.FC = () => {
+
+const Rrhh: React.FC = () => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [valueDelete, setValueDelete] = useState(0);
   const [selectedRow, setSelectedRow] = useState<any>(0);
 
-  const { data: fuelingData } = useGetFuelingUpList();
-  console.log("DATA " + JSON.stringify(fuelingData, null, 2));
+  const [openModalNew, setOpenModalNew] = React.useState(false);
+  const handleOpenNewModal = () => setOpenModalNew(true);
+  const handleCloseNewModal = () => setOpenModalNew(false);
 
-  const { mutateAsync: mutationDeleteId } = useDeleteFuelingUp();
+  const { mutateAsync: mutationDeleteId } = useDeleteUser();
+
+  const { data: userData } = useGetUserList();
+  console.log("DATA " + userData);
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
@@ -44,16 +48,14 @@ const FuelRegister: React.FC = () => {
  
   const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 
-  const handleOpenEdit = (row: FuelLoadProps) => {
+  const handleOpenEdit = (row: UserItem) => {
+    console.log("row: ", row);
     setSelectedRow(row);
     setOpenEdit(true);
   };
+
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
-
-  const [openModalNew, setOpenModalNew] = React.useState(false);
-  const handleOpenNewModal = () => setOpenModalNew(true);
-  const handleCloseNewModal = () => setOpenModalNew(false);
 
   const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
   const handleOpenConfirmModal = () => setOpenModalConfirm(true);
@@ -76,24 +78,37 @@ const FuelRegister: React.FC = () => {
       headerAlign: "center",
     },
     {
-      field: "numberGallons",
-      headerName: "Número de galones",
+      field: "username",
+      headerName: "Usuario",
       flex: 1,
-      minWidth: 200,
+      minWidth: 150,
       align: "center",
       headerAlign: "center",
     },
     {
-      field: "fuelingMileage",
-      headerName: "Combustible kilometraje",
+      field: "fullname",
+      headerName: "Nombre Completo",
       flex: 1,
       minWidth: 120,
+      renderCell: (params) => (
+        <span>
+          {params.row.firstname} {params.row.lastname}
+        </span>
+      ),
       align: "center",
       headerAlign: "center",
     },
     {
-      field: "fuelingDate",
-      headerName: "Fecha abastecimiento de combustible",
+      field: "email",
+      headerName: "Correo",
+      flex: 1,
+      minWidth: 150,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "role",
+      headerName: "Rol",
       flex: 1,
       minWidth: 150,
       align: "center",
@@ -104,9 +119,9 @@ const FuelRegister: React.FC = () => {
       headerName: "Acciones",
       flex: 1,
       minWidth: 150,
+      disableColumnMenu: true,
       align: "center",
       headerAlign: "center",
-      disableColumnMenu: true,
       renderCell: (params) => (
         <>
           <Tooltip title="Editar">
@@ -144,44 +159,66 @@ const FuelRegister: React.FC = () => {
       ),
     },
   ];
+
   return (
     <>
       <HeaderPage
-        title="LISTA DE REGISTROS"
-        titleButton="NUEVO REGISTRO"
+        title="LISTA DE USUARIOS"
+        titleButton="NUEVO USUARIO"
         handleOpen={handleOpenNewModal}
       />
-      <SearchInput title="Ingresa el código de la maquinaria" />
-      <div style={{ height: 400, width: "100%" }}>
+      <Grid
+        container
+        gap={2}
+        alignItems={"center"}
+        order={{ xs: 2, sm: 1 }}
+      >
+        <SearchInput title="Ingresa el código de usuario" />
+        <SearchSharp
+          sx={{
+            border: `1px ${themeNew.palette.primary.main} solid`,
+            width: 45,
+            height: 40,
+            padding: 0.8,
+            cursor: "pointer",
+            borderRadius: 1,
+            "&:hover": {
+              color: "#e2e0ff",
+              backgroundColor: themeNew.palette.primary.main,
+            },
+          }}
+          onClick={() => console.log("first")}
+        />
+      </Grid>
+
+      <Grid style={{ height: 400 }}>
         <DataGrid
           sx={styleTableItem}
           className="truncate..."
           hideFooter
-          rows={fuelingData || []}
+          rows={userData || []}
           columns={columns}
         />
-      </div>
-
-      <ModalEditFuelLoad //boton de editar
+      </Grid>
+      <ModalEditUser //boton de editar
         openModal={openEdit}
         handleClose={handleCloseEdit}
         data={selectedRow}
         mode="update"
       />
 
-      <ModalFuelLoadDetail //boton de detalle
+      <ModalDetailUser //boton de detalle
         openModal={openDetail}
         handleClose={handleClose}
         data={selectedRow}
       />
-
       <ConfirmModal //boton de eliminar
         onConfirm={openModalConfirm}
         onCancel={handleCloseConfirmModal}
         onConfirmAction={handleDelete}
         id={Number(valueDelete)}
       />
-      <ModalEditFuelLoad //boton de editar
+      <ModalEditUser //boton de crear
         openModal={openModalNew}
         handleClose={handleCloseNewModal}
         data={dataCreate}
@@ -191,4 +228,4 @@ const FuelRegister: React.FC = () => {
   );
 };
 
-export default FuelRegister;
+export default Rrhh;

@@ -96,6 +96,7 @@ const dataCreate = {
   heavyMachineryId: "",
 };
 const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
+  idMachinery,
   mode,
 }) => {
   const [openDetail, setOpenDetail] = useState(false);
@@ -204,19 +205,24 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
     <>
       {mode == "page" ? (
         <Grid container spacing={2} alignItems="center" sx={{ pb: 1 }}>
-        {/* SearchInput */}
-        <Grid item xs={12} md={6}>
-          <SearchInput   />
+          {/* SearchInput */}
+          <Grid item xs={12} md={6}>
+            <SearchInput title="Ingresa el código de la maquinaria" />
+          </Grid>
+
+          {/* ButtonDefault */}
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{ textAlign: { xs: "start", md: "end" } }}
+          >
+            <ButtonDefault
+              onClick={handleOpenNewModal}
+              title="Agregar mantenimiento"
+            />
+          </Grid>
         </Grid>
-        
-        {/* ButtonDefault */}
-        <Grid item xs={12} md={6} sx={{ textAlign: { xs: "start", md: "end" } }} >
-          <ButtonDefault
-            onClick={handleOpenNewModal}
-            title="Agregar mantenimiento"
-          />
-        </Grid>
-      </Grid>
       ) : (
         <></>
       )}

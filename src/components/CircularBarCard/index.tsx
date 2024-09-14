@@ -10,7 +10,7 @@ import React from "react";
 import themeNew from "../../utils/theme";
 
 interface CircularBarCardProps {
-  title:string;
+  title: string;
   percentage: number;
   color: string;
 }
@@ -24,10 +24,13 @@ const CircularBarCard: React.FC<CircularBarCardProps> = ({
     <Card sx={{ textAlign: "center" }}>
       <CardContent>
         <Typography
-          sx={{ backgroundColor: themeNew.palette.primary.main, 
+          sx={{
+            backgroundColor: themeNew.palette.primary.main,
             color: "white",
-            fontSize:16,fontWeight:"bold",
-          borderRadius:1 }}
+            fontSize: 16,
+            fontWeight: "bold",
+            borderRadius: 1,
+          }}
           component="div"
           gutterBottom
         >

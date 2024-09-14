@@ -7,6 +7,7 @@ import React from "react";
 import themeNew from "../../utils/theme";
 import StatTableInfo from "../../components/StatTableInfo";
 import CircularBarCard from "../../components/CircularBarCard";
+import { useLocation } from 'react-router-dom';
 
 import { DriveEta, LocationOn } from "@mui/icons-material";
 import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
@@ -38,6 +39,8 @@ export const CardItemDashboard: React.FC<CardItemDashboardProps> = ({
 };
 
 const Dashboard: React.FC = () => {
+  const location = useLocation();
+  const { username, role } = location.state || {};
   const percentage = 70;
   return (
     <div className="p-3">
@@ -69,19 +72,19 @@ const Dashboard: React.FC = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-2 max-w-full mx-auto p-4 md:p-0 mt-4">
         <Box className="space-y-6">
-          <Box className="bg-card rounded-lg shadow-lg overflow-hidden" sx={{backgroundColor:"#3e2e81"}}>
+          <Box className="bg-card rounded-lg shadow-lg overflow-hidden" sx={{backgroundColor:"#aaa5fc"}}>
             <div className="p-3 space-y-4">
-              <CircularBarCard title="Maquinarias disponibles" color="#12af25" percentage={percentage} />
+              <CircularBarCard title="Maquinarias disponibles" color="#12af25" percentage={40} />
             </div>
           </Box>
-          <Box className="bg-card rounded-lg shadow-lg overflow-hidden" sx={{backgroundColor:"#3e2e81"}}>
+          <Box className="bg-card rounded-lg shadow-lg overflow-hidden" sx={{backgroundColor:"#aaa5fc"}}>
             <div className="p-3 space-y-4">
               <CircularBarCard title="Maquinarias en obra" color="#ff5f5f" percentage={percentage} />
             </div>
           </Box>
         </Box> 
-        <Box className="bg-card rounded-lg shadow-lg overflow-hidden" sx={{backgroundColor:"#3e2e81"}}>
-          <div className="p-2 space-y-4">
+        <Box className="bg-card rounded-lg shadow-lg overflow-hidden" sx={{backgroundColor:"#aaa5fc"}}>
+          <div className="p-2 space-y-4 ">
             <StatTableInfo />
           </div>
         </Box>

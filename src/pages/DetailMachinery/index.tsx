@@ -48,7 +48,7 @@ function DetailMachinery() {
         />
       </Box>
       <Grid className="mt-4">
-        <TabDocuments />
+        <TabDocuments idMachinery={maquina.id} />
       </Grid>
     </>
   );
