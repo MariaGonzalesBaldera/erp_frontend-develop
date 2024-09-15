@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FuelLoadProps } from "../../types";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { IconButton, Tooltip } from "@mui/material";
+import { Grid, IconButton, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListIcon from "@mui/icons-material/List";
@@ -15,7 +15,11 @@ import SearchInput from "../../components/SearchInput";
 import {
   useGetFuelingUpList,
   useDeleteFuelingUp,
+  useGetFuelingUpByModel,
 } from "../../hooks/useFuelingUp";
+import { capitalizer } from "../../utils/capitalize";
+import GroupRadioButton from "../../components/GroupRadioButton";
+import ButtonDefault from "../../components/ButtonDefault";
 
 const dataCreate = {
   id: "",
@@ -32,8 +36,31 @@ const FuelRegister: React.FC = () => {
   const [valueDelete, setValueDelete] = useState(0);
   const [selectedRow, setSelectedRow] = useState<any>(0);
 
-  const { data: fuelingData } = useGetFuelingUpList();
-  console.log("DATA " + JSON.stringify(fuelingData, null, 2));
+  const [selectedValue, setSelectedValue] = useState<string>("oruga");
+  const [documentsData, setDocumentsData] = useState<any[]>([]);
+
+  const { data: initialDocumentsData } = useGetFuelingUpList();
+
+  const { data: searchedDocumentsData } = useGetFuelingUpByModel({
+    model: selectedValue,
+  });
+ // Cargar datos iniciales cuando el componente carga
+ React.useEffect(() => {
+  if (initialDocumentsData) {
+    setDocumentsData(initialDocumentsData);
+  }
+}, [initialDocumentsData]);
+
+React.useEffect(() => {
+  if (searchedDocumentsData) {
+    setDocumentsData(searchedDocumentsData);
+  }
+}, [searchedDocumentsData]);
+
+const handleRadioChange = (value: string) => {
+  console.log(value);
+  setSelectedValue(value);
+};
 
   const { mutateAsync: mutationDeleteId } = useDeleteFuelingUp();
 
@@ -146,21 +173,46 @@ const FuelRegister: React.FC = () => {
   ];
   return (
     <>
-      <HeaderPage
-        title="LISTA DE REGISTROS"
-        titleButton="NUEVO REGISTRO"
-        handleOpen={handleOpenNewModal}
-      />
-      <SearchInput title="Ingresa el código de la maquinaria" />
+       <Grid
+        container
+        justifyContent={"space-between"}
+        direction={{ xs: "column", sm: "row" }}
+        alignItems={{ xs: "start", sm: "center" }}
+        gap={1}
+        className="p-2 border border-gray-400 bg-white mb-2"
+      >
+        <Grid
+          container
+          xs="auto"
+          gap={2}
+          alignItems={"center"}
+          order={{ xs: 2, sm: 1 }}
+        >
+          <GroupRadioButton
+            showTitle={false}
+            selectedValue={selectedValue}
+            onChange={handleRadioChange}
+          />
+        </Grid>
+        <Grid item xs="auto" order={{ xs: 1, sm: 3 }}>
+          <ButtonDefault onClick={handleOpenNewModal} title="NUEVO REGISTRO" />
+        </Grid>
+      </Grid>
       <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          sx={styleTableItem}
-          className="truncate..."
-          hideFooter
-          rows={fuelingData || []}
-          columns={columns}
-        />
-      </div>
+          {documentsData.length === 0 ? (
+            <div style={{ textAlign: "center", marginTop: "20px",alignContent:"center",border:"1px gray solid",height:"8rem" }}>
+              No se encontraron documentos de {capitalizer(selectedValue)}
+            </div>
+          ) : (
+            <DataGrid
+              sx={styleTableItem}
+              className="truncate..."
+              hideFooter
+              rows={documentsData}
+              columns={columns}
+            />
+          )}
+        </div>
 
       <ModalEditFuelLoad //boton de editar
         openModal={openEdit}

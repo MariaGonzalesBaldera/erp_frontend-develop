@@ -3,7 +3,7 @@ import { CorrectiveMaintananceService } from "../../services/correctiveMaintenan
 import { IMachinery } from "../../domain/machinery.interface";
 import { CorrectiveMaintananceItem } from "../../types";
 
-const { findAll,create,deleteOne, update,findByMachinery } = CorrectiveMaintananceService;
+const { findAll,create,deleteOne, update,findByMachinery,findByModel } = CorrectiveMaintananceService;
 
 export const useGetCorrectiveList = () => {
 	return useQuery({
@@ -19,7 +19,13 @@ export const useGetCorrectiveByMachinery = ({ id }: { id: number }) => {
 		 enabled: !!id,
 	});
 };
-
+export const useGetCorrectiveByModel = ({ model }: { model: string }) => {
+	return useQuery({
+		queryKey: ["get-corrective-searched-model",model],
+		queryFn: () => findByModel(model),
+		enabled: !!model,
+	});
+};
 export const useCreateCorrective = () => {
 
   const queryClient = useQueryClient();

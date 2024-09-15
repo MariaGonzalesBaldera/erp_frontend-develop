@@ -2,13 +2,21 @@ import { useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanst
 import { fuelingUpService } from "../../services/fuelingUp.service";
 import { IMachinery, FuelingUpResponse } from "../../domain/machinery.interface";
 
-const { findAll,create,deleteOne, update } = fuelingUpService;
+const { findAll,create,deleteOne, update,findByModel } = fuelingUpService;
 
 
 export const useGetFuelingUpList = () => {
 	return useQuery({
 		queryKey: ["get-fueling-up-searched"],
 		queryFn: () => findAll(),
+	});
+};
+
+export const useGetFuelingUpByModel = ({ model }: { model: string }) => {
+	return useQuery({
+		queryKey: ["get-fueling-searched-model",model],
+		queryFn: () => findByModel(model),
+		enabled: !!model,
 	});
 };
 

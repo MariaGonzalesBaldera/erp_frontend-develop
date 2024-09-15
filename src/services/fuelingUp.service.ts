@@ -41,10 +41,19 @@ const deleteOne = async (params: ParamsDeleteItem) => {
 			return Promise.reject(err.response.data);
 		});
 };
-
+const findByModel = async (model: string): Promise<FuelingUpResponse[]> => {
+	return axios
+		.get(`/fuelingUp/findByMachineryModel/${model}`)
+		.then((res) => res.data)
+		.catch((err) => {
+			console.log(err.response.data)
+			throw new Error(err.response.data);
+		});
+};
 export const fuelingUpService = {
 	findAll,
 	create,
 	deleteOne,
-	update
+	update,
+	findByModel
 };

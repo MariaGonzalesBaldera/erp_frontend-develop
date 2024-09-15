@@ -14,9 +14,9 @@ import ButtonDefault from "../../components/ButtonDefault";
 import {
   useGetDocumentList,
   useDeleteDocument,
+  useGetDocumentByModel,
 } from "../../hooks/useDocuments";
-import { SearchSharp } from "@mui/icons-material";
-import themeNew from "../../utils/theme";
+import { capitalizer } from "../../utils/capitalize";
 
 const dataCreate = {
   id: "",
@@ -39,21 +39,37 @@ const Documents: React.FC = () => {
   const [selectedRow, setSelectedRow] = useState<any>(0);
 
   const [openModalNew, setOpenModalNew] = React.useState(false);
+
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
-  const { mutateAsync: mutationDeleteId } = useDeleteDocument();
 
-  const [selectedValue, setSelectedValue] = useState<string>("");
+  const [selectedValue, setSelectedValue] = useState<string>("oruga");
+  const { mutateAsync: mutationDeleteId } = useDeleteDocument();
+  const [documentsData, setDocumentsData] = useState<any[]>([]);
+
+  const { data: initialDocumentsData } = useGetDocumentList();
+
+  const { data: searchedDocumentsData } = useGetDocumentByModel({
+    model: selectedValue,
+  });
+
+  // Cargar datos iniciales cuando el componente carga
+  React.useEffect(() => {
+    if (initialDocumentsData) {
+      setDocumentsData(initialDocumentsData);
+    }
+  }, [initialDocumentsData]);
+
+  React.useEffect(() => {
+    if (searchedDocumentsData) {
+      setDocumentsData(searchedDocumentsData);
+    }
+  }, [searchedDocumentsData]);
 
   const handleRadioChange = (value: string) => {
-    console.log(value)
+    console.log(value);
     setSelectedValue(value);
   };
-
-  const { data: documentsData } = useGetDocumentList();
-  console.log("DATA " + JSON.stringify(documentsData, null, 2));
-
-  const searchByModel = () => {};
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
@@ -72,7 +88,7 @@ const Documents: React.FC = () => {
 
   const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
   const handleOpenConfirmModal = () => setOpenModalConfirm(true);
-  
+
   const handleDelete = async () => {
     try {
       await mutationDeleteId(valueDelete);
@@ -169,58 +185,38 @@ const Documents: React.FC = () => {
         gap={1}
         className="p-2 border border-gray-400 bg-white mb-2"
       >
-        <Grid container xs="auto" gap={2} alignItems={"center"} order={{ xs: 2, sm: 1 }}>
+        <Grid
+          container
+          xs="auto"
+          gap={2}
+          alignItems={"center"}
+          order={{ xs: 2, sm: 1 }}
+        >
           <GroupRadioButton
             showTitle={false}
             selectedValue={selectedValue}
             onChange={handleRadioChange}
           />
-          <SearchSharp
-            sx={{
-              border: `1px ${themeNew.palette.primary.main} solid`,
-              width: 45,
-              height: 40,
-              padding: 0.8,
-              cursor: "pointer",
-              borderRadius: 1,
-              "&:hover": {
-                color: "#e2e0ff",
-                backgroundColor: themeNew.palette.primary.main,
-              },
-            }}
-            onClick={searchByModel}
-          />
         </Grid>
-        {/* <Grid item xs="auto" order={{ xs: 3, sm: 2 }}>
-          <SearchSharp
-            sx={{
-              border: `1px ${themeNew.palette.primary.main} solid`,
-              width: 45,
-              height: 40,
-              padding: 0.8,
-              cursor: "pointer",
-              borderRadius: 1,
-              "&:hover": {
-                color: "#e2e0ff",
-                backgroundColor: themeNew.palette.primary.main,
-              },
-            }}
-            onClick={searchByModel}
-          />
-        </Grid> */}
         <Grid item xs="auto" order={{ xs: 1, sm: 3 }}>
           <ButtonDefault onClick={handleOpenNewModal} title="NUEVO DOCUMENTO" />
         </Grid>
       </Grid>
       <Grid sx={styleTableResponsive}>
         <div style={{ height: 400, width: "100%" }}>
-          <DataGrid
-            sx={styleTableItem}
-            className="truncate..."
-            hideFooter
-            rows={documentsData || []}
-            columns={columns}
-          />
+          {documentsData.length === 0 ? (
+            <div style={{ textAlign: "center", marginTop: "20px",alignContent:"center",border:"1px gray solid",height:"8rem" }}>
+              No se encontraron documentos de {capitalizer(selectedValue)}
+            </div>
+          ) : (
+            <DataGrid
+              sx={styleTableItem}
+              className="truncate..."
+              hideFooter
+              rows={documentsData}
+              columns={columns}
+            />
+          )}
         </div>
 
         <ModalEditDocument //boton de editar

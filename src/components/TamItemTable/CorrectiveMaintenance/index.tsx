@@ -11,9 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ModalEditMaintenance from "../../ModalEditMaintenance";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
-import ButtonDefault from "../../ButtonDefault";
 import { styleTableItem } from "../../../style/StyleModal";
-import SearchInput from "../../SearchInput";
 import {useGetCorrectiveByMachinery} from '../../../hooks/useCorrectiveMaintenance'
 
 const dataCreate = {

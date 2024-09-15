@@ -1,5 +1,5 @@
 import { ParamsDelete } from "../domain/machinery.interface";
-import { PreventMaintenanceItem } from "../types";
+import { PreventMaintenanceItem, ResponseByModel } from "../types";
 import { axios } from "../utils/axios.create";
 
 const findAll = async (): Promise<PreventMaintenanceItem[]> => {
@@ -52,11 +52,20 @@ const deleteOne = async (params: ParamsDelete) => {
 			return Promise.reject(err.response.data);
 		});
 };
-
+const findByModel = async (model: string): Promise<PreventMaintenanceItem[]> => {
+	return axios
+		.get(`/preventiveMaintenance/findByMachineryModel/${model}`)
+		.then((res) => res.data)
+		.catch((err) => {
+			console.log(err.response.data)
+			throw new Error(err.response.data);
+		});
+};
 export const preventiveMaintenanceService = {
 	findAll,
 	create,
 	deleteOne,
 	update,
-	findByMachinery
+	findByMachinery,
+	findByModel
 };

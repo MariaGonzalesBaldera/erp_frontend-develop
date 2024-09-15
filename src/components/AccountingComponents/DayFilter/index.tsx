@@ -14,6 +14,7 @@ import themeNew from "../../../utils/theme";
 import dayjs from "dayjs";
 import { useGetAccountingRangeList } from "../../../hooks/userAcccounting";
 import { AccountingResponse } from "../../../domain/machinery.interface";
+import { getMonthName } from "../../../utils/capitalize";
 
  
 function DayFilter() {
@@ -97,45 +98,18 @@ function DayFilter() {
       headerAlign: "center",
     },
     {
-      field: "actions",
-      headerName: "Acciones",
+      field: "Fecha",
+      headerName: "Mes y año",
       flex: 1,
       minWidth: 150,
-      disableColumnMenu: true,
+      renderCell: (params) => (
+        <span>
+          {getMonthName(params.row.month || "")} - {params.row.year}
+        </span>
+      ),
       align: "center",
       headerAlign: "center",
-      renderCell: (params) => (
-        <>
-          <Tooltip title="Editar">
-            <IconButton
-              color="success"
-              //   onClick={() => handleOpenEdit(params.row)}
-              aria-label="Editar"
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="Detalle">
-            <IconButton
-              color="warning"
-              //   onClick={() => handleOpen(params.row)}
-              aria-label="Ver detalles"
-            >
-              <ListIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="ELiminar">
-            <IconButton
-              color="error"
-              //   onClick={() => handleOpenDelete()}
-              aria-label="ELiminar"
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        </>
-      ),
+      
     },
   ];
   return (

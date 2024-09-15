@@ -52,11 +52,20 @@ const findByMachinery = async (id?: number): Promise<CorrectiveMaintananceItem[]
             throw new Error(err.response.data);
         });
 };
-
+const findByModel = async (model: string): Promise<CorrectiveMaintananceItem[]> => {
+	return axios
+		.get(`/correctiveMaintenance/findByMachineryModel/${model}`)
+		.then((res) => res.data)
+		.catch((err) => {
+			console.log(err.response.data)
+			throw new Error(err.response.data);
+		});
+};
 export const CorrectiveMaintananceService = {
     findAll,
     create,
     deleteOne,
     update,
-    findByMachinery
+    findByMachinery,
+    findByModel
 }
