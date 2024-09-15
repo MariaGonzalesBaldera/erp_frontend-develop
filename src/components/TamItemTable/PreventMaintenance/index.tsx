@@ -11,9 +11,7 @@ import {
   PreventMaintenanceProps,
 } from "../../../types";
 import ListIcon from "@mui/icons-material/List";
-import ButtonDefault from "../../ButtonDefault";
 import { styleTableItem } from "../../../style/StyleModal";
-import SearchInput from "../../SearchInput";
 import { useGetPreventiveByMachinery } from "../../../hooks/usePreventiveMaintenance";
 
 const dataCreate = {
@@ -35,7 +33,6 @@ const dataCreate = {
 
 const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
   idMachinery,
-  mode,
 }) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
@@ -47,10 +44,10 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
 
-  const { data: machineryData } = useGetPreventiveByMachinery({
+  const { data: preventData } = useGetPreventiveByMachinery({
     id: idMachinery,
   });
-  console.log("DATA " + machineryData);
+  console.log("DATA " + JSON.stringify(preventData, null, 2));
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
@@ -148,14 +145,12 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
 
   return (
     <>
-      {mode == "page" ? (
+      {/* {mode == "page" ? (
         <Grid container spacing={2} alignItems="center" sx={{ pb: 1 }}>
-          {/* SearchInput */}
           <Grid item xs={12} md={6}>
             <SearchInput title="Ingresa el código de la maquinaria" />
           </Grid>
 
-          {/* ButtonDefault */}
           <Grid
             item
             xs={12}
@@ -171,12 +166,13 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
       ) : (
         <></>
       )}
+       */}
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           sx={styleTableItem}
           className="truncate..."
           hideFooter
-          rows={machineryData || []}
+          rows={preventData || []}
           columns={columns}
         />
       </div>

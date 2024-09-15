@@ -14,75 +14,8 @@ import ListIcon from "@mui/icons-material/List";
 import ButtonDefault from "../../ButtonDefault";
 import { styleTableItem } from "../../../style/StyleModal";
 import SearchInput from "../../SearchInput";
+import {useGetCorrectiveByMachinery} from '../../../hooks/useCorrectiveMaintenance'
 
-const rows = [
-  {
-    id: 1,
-    description: "Nueva descripcion",
-    maintenance_date: "2024-08-01",
-    amount_paid: "123",
-    operator: "Pepito Gomez",
-    project_name: "Proyecto de la playa",
-    observations: "Routine check",
-    driving_start: "08:00 am",
-    driving_end: "12:00 am",
-  },
-  {
-    id: 2,
-    description: "Nueva des",
-    maintenance_date: "2024-08-02",
-    amount_paid: "200 am",
-    operator: "Juanito Perez Juanito PerezJuanito Perez",
-    project_name: "King's Landing",
-    observations: "Es urgente",
-    driving_start: "10:00 am",
-    driving_end: "14:00 am",
-  },
-  {
-    id: 3,
-    description: "Lannister",
-    maintenance_date: "2024-08-03",
-    amount_paid: "1800 am",
-    operator: "Juanito Perez",
-    project_name: "Casa de las rocas",
-    observations: "Standard service",
-    driving_start: "09:00 am",
-    driving_end: "13:00 am",
-  },
-  {
-    id: 4,
-    description: "Stark",
-    maintenance_date: "2024-08-04",
-    amount_paid: "2000 am",
-    operator: "Juanito Perez",
-    project_name: "Winterfell",
-    observations: "Oil change",
-    driving_start: "07:30 am",
-    driving_end: "11:30 am",
-  },
-  {
-    id: 5,
-    description: "Targaryen",
-    maintenance_date: "2024-08-05",
-    amount_paid: "2000 am",
-    operator: "Juanito Perez",
-    project_name: "Dragonstone",
-    observations: "Operator training required",
-    driving_start: "08:30 am",
-    driving_end: "2:30 am",
-  },
-  {
-    id: 6,
-    description: "Melisandre",
-    maintenance_date: "2024-08-06",
-    amount_paid: "2100 am",
-    operator: "Juanito Perez",
-    project_name: "Asshai",
-    observations: "Inspection",
-    driving_start: "08:30 am",
-    driving_end: "12:30 am",
-  },
-];
 const dataCreate = {
   id: "",
   description: "",
@@ -97,7 +30,6 @@ const dataCreate = {
 };
 const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
   idMachinery,
-  mode,
 }) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
@@ -108,6 +40,11 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
   const [openModalNew, setOpenModalNew] = React.useState(false);
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
+
+  const {
+  	data: correctiveData,
+  } = useGetCorrectiveByMachinery({id: idMachinery});
+  console.log("DATA "+correctiveData)
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
@@ -135,7 +72,7 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
       headerAlign: "center",
     },
     {
-      field: "operator",
+      field: "operatorName",
       headerName: "Operador",
       flex: 1,
       minWidth: 150,
@@ -151,7 +88,7 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
       headerAlign: "center",
     },
     {
-      field: "project_name",
+      field: "projectName",
       headerName: "Nombre del proyecto",
       flex: 1,
       minWidth: 150,
@@ -203,14 +140,12 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
 
   return (
     <>
-      {mode == "page" ? (
+      {/* {mode == "page" ? (
         <Grid container spacing={2} alignItems="center" sx={{ pb: 1 }}>
-          {/* SearchInput */}
           <Grid item xs={12} md={6}>
             <SearchInput title="Ingresa el código de la maquinaria" />
           </Grid>
 
-          {/* ButtonDefault */}
           <Grid
             item
             xs={12}
@@ -225,13 +160,13 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
         </Grid>
       ) : (
         <></>
-      )}
+      )} */}
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           sx={styleTableItem}
           className="truncate..."
           hideFooter
-          rows={rows}
+          rows={correctiveData || []}
           columns={columns}
         />
       </div>
