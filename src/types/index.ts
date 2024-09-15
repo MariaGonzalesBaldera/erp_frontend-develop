@@ -43,7 +43,7 @@ export interface MaquinariaDataItem {
 }
 
 export interface PreventMaintenanceItem {
-  id: string;
+  id?: number;
   motorOil: boolean;
   oilFilters: boolean;
   fuelFilters: boolean;
@@ -53,25 +53,28 @@ export interface PreventMaintenanceItem {
   maintenancePeriod: string;
   maintenanceDate: string;
   nextMaintenancePeriod: string;
-  amountPaid: string;
+  amountPaid: number;
   invoiceNumber: string;
   observations: string;
   createdAt?: string;
   updatedAt?: string;
-  heavyMachineryId?: string;
+  heavyMachineryId?: number;
 }
 
 export interface CorrectiveMaintananceItem {
-  id: String;
+  id?: number;
   description: string;
   maintenanceDate: string;
-  amountPaid: string;
+  amountPaid: number;
+  invoiceNumber: string;
   operatorName: string;
   projectName: string;
   observations: string;
   drivingStart: string;
   drivingEnd: string;
-  heavyMachineryId: String;
+  createdAt?: string;
+  updatedAt?: string;
+  heavyMachineryId?: string
 }
 
 export interface MachineryInspectionItem {
@@ -190,12 +193,10 @@ export interface MaintenanceProps {
 }
 
 export interface PreventMaintenanceProps {
-  mode: string;
   idMachinery: number;
 }
 
 export interface CorrectiveMaintenanceProps {
-  mode: string;
   idMachinery: number;
 }
 

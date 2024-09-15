@@ -1,9 +1,8 @@
-import { PreventiveMaintenanceResponse, ParamsDelete } from "../domain/machinery.interface";
+import { ParamsDelete } from "../domain/machinery.interface";
+import { PreventMaintenanceItem } from "../types";
 import { axios } from "../utils/axios.create";
 
-const LOG_PREFIX = "ProgramService :";
-
-const findAll = async (): Promise<PreventiveMaintenanceResponse[]> => {
+const findAll = async (): Promise<PreventMaintenanceItem[]> => {
 	return axios
 		.get("/preventiveMaintenance")
 		.then((res) => res.data)
@@ -13,9 +12,9 @@ const findAll = async (): Promise<PreventiveMaintenanceResponse[]> => {
 		});
 };
 
-const findByMachinery = async (id?:number): Promise<PreventiveMaintenanceResponse[]> => {
+const findByMachinery = async (id?:number): Promise<PreventMaintenanceItem[]> => {
 	return axios
-		.get(`/machineryDocument/findByMachinery/${id}`)
+		.get(`/preventiveMaintenance/findByMachinery/${id}`)
 		.then((res) => res.data)
 		.catch((err) => {
 			console.error("Error =>", err.response?.data || "Error en la solicitud");
@@ -23,7 +22,7 @@ const findByMachinery = async (id?:number): Promise<PreventiveMaintenanceRespons
 		});
 };
 
-const create = async (data: PreventiveMaintenanceResponse): Promise<PreventiveMaintenanceResponse> => {
+const create = async (data: PreventMaintenanceItem): Promise<PreventMaintenanceItem> => {
 	return axios
 		.post("/preventiveMaintenance/create", data)
 		.then((res) => res.data.body)
@@ -34,9 +33,9 @@ const create = async (data: PreventiveMaintenanceResponse): Promise<PreventiveMa
 };
 
 const update = async (
-	data: Partial<PreventiveMaintenanceResponse>,
+	data: Partial<PreventMaintenanceItem>,
 	id?: string,
-): Promise<PreventiveMaintenanceResponse> => {
+): Promise<PreventMaintenanceItem> => {
 	return axios
 		.put(`/preventiveMaintenance/update/${id}`, data) 
 		.then((res) => res.data.body)
