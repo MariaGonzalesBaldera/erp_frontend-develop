@@ -2,7 +2,7 @@ import { useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanst
 import { documentsService } from "../../services/documents.service";
 import { IMachinery, DocumentResponse } from "../../domain/machinery.interface";
 
-const { findAll,create,deleteOne, update,findByMachinery } = documentsService ; 
+const { findAll,create,deleteOne, update,findByMachinery ,findByModel} = documentsService ; 
 
 export const useGetDocumentList = () => {
 	return useQuery({
@@ -18,7 +18,13 @@ export const useGetDocumentByMachinery = ({ id }: { id: number }) => {
 		 enabled: !!id,
 	});
 };
-
+export const useGetDocumentByModel = ({ model }: { model: string }) => {
+	return useQuery({
+		queryKey: ["get-document-searched-model",model],
+		queryFn: () => findByModel(model),
+		enabled: !!model,
+	});
+};
 export const useCreateDocument = () => {
 
   const queryClient = useQueryClient();

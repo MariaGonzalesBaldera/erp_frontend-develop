@@ -234,4 +234,20 @@ export interface DetailedAccountingInformation {
   heavyMachinery: number;
 }
 
-//errors
+export interface ResponseByModel {
+  id: number;
+  technicalReviewsStart: string;
+  technicalReviewsEnd: string;
+  soatStart: string;
+  soatEnd: string;
+  insuranceStart: string;
+  insuranceEnd: string;
+  trekInsuranceStart: string;
+  trekInsuranceEnd: string;
+  operatingCertificateStart: string;
+  operatingCertificateEnd: string;
+  createdAt: string;
+  updatedAt: string;
+  heavyMachineryId: number
+}
+ 

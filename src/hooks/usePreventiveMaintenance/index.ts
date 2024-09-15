@@ -3,7 +3,7 @@ import { preventiveMaintenanceService } from "../../services/preventiveMaintenan
 import { IMachinery } from "../../domain/machinery.interface";
 import { PreventMaintenanceItem } from "../../types";
 
-const { findAll,create,deleteOne, update,findByMachinery } = preventiveMaintenanceService; 
+const { findAll,create,deleteOne, update,findByMachinery,findByModel } = preventiveMaintenanceService; 
 
 
 export const useGetPreventiveMaintenanceList = () => {
@@ -20,7 +20,13 @@ export const useGetPreventiveByMachinery = ({ id }: { id: number }) => {
 		 enabled: !!id,
 	});
 };
-
+export const useGetPreventiveByModel = ({ model }: { model: string }) => {
+	return useQuery({
+		queryKey: ["get-preventive-searched-model",model],
+		queryFn: () => findByModel(model),
+		enabled: !!model,
+	});
+};
 export const useCreatePreventiveMaintenance = () => {
 	return useMutation({
 		mutationFn: (data: PreventMaintenanceItem) => create(data),
