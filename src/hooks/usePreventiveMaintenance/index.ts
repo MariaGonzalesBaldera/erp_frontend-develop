@@ -1,8 +1,9 @@
 import { useMutation, UseMutationResult, useQuery } from "@tanstack/react-query";
 import { preventiveMaintenanceService } from "../../services/preventiveMaintenance.service";
-import { IMachinery, PreventiveMaintenanceResponse } from "../../domain/machinery.interface";
+import { IMachinery } from "../../domain/machinery.interface";
+import { PreventMaintenanceItem } from "../../types";
 
-const { findAll,create,deleteOne, update,findByMachinery } = preventiveMaintenanceService; 
+const { findAll,create,deleteOne, update,findByMachinery,findByModel } = preventiveMaintenanceService; 
 
 
 export const useGetPreventiveMaintenanceList = () => {
@@ -19,10 +20,16 @@ export const useGetPreventiveByMachinery = ({ id }: { id: number }) => {
 		 enabled: !!id,
 	});
 };
-
+export const useGetPreventiveByModel = ({ model }: { model: string }) => {
+	return useQuery({
+		queryKey: ["get-preventive-searched-model",model],
+		queryFn: () => findByModel(model),
+		enabled: !!model,
+	});
+};
 export const useCreatePreventiveMaintenance = () => {
 	return useMutation({
-		mutationFn: (data: PreventiveMaintenanceResponse) => create(data),
+		mutationFn: (data: PreventMaintenanceItem) => create(data),
 	});
 };
 
@@ -32,7 +39,7 @@ export const useUpdatePreventiveMaintenance = ({
 	id?: string;
 }) => {
 	return useMutation({
-		mutationFn: (data: Partial<PreventiveMaintenanceResponse>) =>
+		mutationFn: (data: Partial<PreventMaintenanceItem>) =>
 			update(data, id),
 	});
 };

@@ -1,18 +1,20 @@
-import { Box, Grid, IconButton, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
+import { styleTableItem } from "../../../style/StyleModal";
+import ModalEditMaintenance from "../../ModalEditMaintenance";
 import ModalMoreDetail from "../../ModalMoreDetail";
+import ConfirmModal from "../../ConfirmModal";
+import { Grid, IconButton, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ConfirmModal from "../../ConfirmModal";
-import ModalEditMaintenance from "../../ModalEditMaintenance";
-import {
-  PreventMaintenanceItem,
-  PreventMaintenanceProps,
-} from "../../../types";
 import ListIcon from "@mui/icons-material/List";
-import { styleTableItem } from "../../../style/StyleModal";
-import { useGetPreventiveByMachinery } from "../../../hooks/usePreventiveMaintenance";
+import { PreventMaintenanceItem } from "../../../types";
+import { useGetPreventiveByModel, useGetPreventiveMaintenanceList } from "../../../hooks/usePreventiveMaintenance";
+import ButtonDefault from "../../ButtonDefault";
+import SearchInput from "../../SearchInput";
+import GroupRadioButton from "../../GroupRadioButton";
+import { capitalizer } from "../../../utils/capitalize";
+import { useGetDocumentByModel } from "../../../hooks/useDocuments";
 
 const dataCreate = {
   id: "",
@@ -31,9 +33,7 @@ const dataCreate = {
   heavyMachineryId: "",
 };
 
-const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
-  idMachinery,
-}) => {
+const PreventMaintenancePage: React.FC = ({}) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -43,11 +43,29 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
   const [openModalNew, setOpenModalNew] = React.useState(false);
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
-
-  const { data: preventData } = useGetPreventiveByMachinery({
-    id: idMachinery,
+  const [selectedValue, setSelectedValue] = useState<string>("oruga");
+  const [preventData, setDocumentsData] = useState<any[]>([]);
+  const { data: initialpreventData } = useGetPreventiveMaintenanceList();
+  const { data: searchedDocumentsData } = useGetPreventiveByModel({
+    model: selectedValue,
   });
-  console.log("DATA " + JSON.stringify(preventData, null, 2));
+  // Cargar datos iniciales cuando el componente carga
+  React.useEffect(() => {
+    if (initialpreventData) {
+      setDocumentsData(initialpreventData);
+    }
+  }, [initialpreventData]);
+
+  React.useEffect(() => {
+    if (searchedDocumentsData) {
+      setDocumentsData(searchedDocumentsData);
+    }
+  }, [searchedDocumentsData]);
+  const handleRadioChange = (value: string) => {
+    console.log(value);
+    setSelectedValue(value);
+  };
+
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
@@ -145,36 +163,54 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
 
   return (
     <>
-      {/* {mode == "page" ? (
-        <Grid container spacing={2} alignItems="center" sx={{ pb: 1 }}>
-          <Grid item xs={12} md={6}>
-            <SearchInput title="Ingresa el código de la maquinaria" />
-          </Grid>
-
-          <Grid
-            item
-            xs={12}
-            md={6}
-            sx={{ textAlign: { xs: "start", md: "end" } }}
-          >
-            <ButtonDefault
-              onClick={handleOpenNewModal}
-              title="Agregar mantenimiento"
-            />
-          </Grid>
+      <Grid
+        container
+        justifyContent={"space-between"}
+        direction={{ xs: "column", sm: "row" }}
+        alignItems={{ xs: "start", sm: "center" }}
+        gap={1}
+        className="p-2 border border-gray-400 bg-white mb-2"
+      >
+        <Grid
+          container
+          xs="auto"
+          gap={2}
+          alignItems={"center"}
+          order={{ xs: 2, sm: 1 }}
+        >
+          <GroupRadioButton
+            showTitle={false}
+            selectedValue={selectedValue}
+            onChange={handleRadioChange}
+          />
         </Grid>
-      ) : (
-        <></>
-      )}
-       */}
+        <Grid item xs="auto" order={{ xs: 1, sm: 3 }}>
+          <ButtonDefault onClick={handleOpenNewModal} title="NUEVO DOCUMENTO" />
+        </Grid>
+      </Grid>
+
       <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          sx={styleTableItem}
-          className="truncate..."
-          hideFooter
-          rows={preventData || []}
-          columns={columns}
-        />
+        {preventData.length === 0 ? (
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: "20px",
+              alignContent: "center",
+              border: "1px gray solid",
+              height: "8rem",
+            }}
+          >
+            No se encontraron documentos de {capitalizer(selectedValue)}
+          </div>
+        ) : (
+          <DataGrid
+            sx={styleTableItem}
+            className="truncate..."
+            hideFooter
+            rows={preventData}
+            columns={columns}
+          />
+        )}
       </div>
 
       <ModalEditMaintenance //boton de editar
@@ -204,4 +240,5 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
     </>
   );
 };
-export default PreventMaintenance;
+
+export default PreventMaintenancePage;

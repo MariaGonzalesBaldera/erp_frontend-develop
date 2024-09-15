@@ -1,18 +1,18 @@
-import { Box, Grid, IconButton, Tooltip } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
-import ModalMoreDetail from "../../ModalMoreDetail";
-import {
-  CorrectiveMaintananceItem,
-  CorrectiveMaintenanceProps,
-} from "../../../types";
+import { useGetCorrectiveByModel, useGetCorrectiveList } from "../../../hooks/useCorrectiveMaintenance";
+import { CorrectiveMaintananceItem } from "../../../types";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Box, Grid, IconButton, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModalEditMaintenance from "../../ModalEditMaintenance";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
 import { styleTableItem } from "../../../style/StyleModal";
-import {useGetCorrectiveByMachinery} from '../../../hooks/useCorrectiveMaintenance'
+import ModalMoreDetail from "../../ModalMoreDetail";
+import ButtonDefault from "../../ButtonDefault";
+import { capitalizer } from "../../../utils/capitalize";
+import GroupRadioButton from "../../GroupRadioButton";
 
 const dataCreate = {
   id: "",
@@ -26,23 +26,45 @@ const dataCreate = {
   driving_end: "",
   heavyMachineryId: "",
 };
-const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
-  idMachinery,
-}) => {
+
+const CorrectiveMaintenancePage = ({}) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
-
   const [openModalNew, setOpenModalNew] = React.useState(false);
+
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
+  const [selectedValue, setSelectedValue] = useState<string>("oruga");
+  const [documentsData, setDocumentsData] = useState<any[]>([]);
 
-  const {
-  	data: correctiveData,
-  } = useGetCorrectiveByMachinery({id: idMachinery});
-  console.log("DATA "+correctiveData)
+  const { data: initialDocumentsData } = useGetCorrectiveList();
+
+  const { data: searchedDocumentsData } = useGetCorrectiveByModel({
+    model: selectedValue,
+  });
+
+
+
+  React.useEffect(() => {
+    if (initialDocumentsData) {
+      setDocumentsData(initialDocumentsData);
+    }
+  }, [initialDocumentsData]);
+
+  React.useEffect(() => {
+    if (searchedDocumentsData) {
+      setDocumentsData(searchedDocumentsData);
+    }
+  }, [searchedDocumentsData]);
+
+  const handleRadioChange = (value: string) => {
+    console.log(value);
+    setSelectedValue(value);
+  };
+
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
@@ -137,36 +159,54 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
   ];
 
   return (
-    <>
-      {/* {mode == "page" ? (
-        <Grid container spacing={2} alignItems="center" sx={{ pb: 1 }}>
-          <Grid item xs={12} md={6}>
-            <SearchInput title="Ingresa el código de la maquinaria" />
-          </Grid>
-
-          <Grid
-            item
-            xs={12}
-            md={6}
-            sx={{ textAlign: { xs: "start", md: "end" } }}
-          >
-            <ButtonDefault
-              onClick={handleOpenNewModal}
-              title="Agregar mantenimiento"
-            />
-          </Grid>
+    <Box>
+      <Grid
+        container
+        justifyContent={"space-between"}
+        direction={{ xs: "column", sm: "row" }}
+        alignItems={{ xs: "start", sm: "center" }}
+        gap={1}
+        className="p-2 border border-gray-400 bg-white mb-2"
+      >
+        <Grid
+          container
+          xs="auto"
+          gap={2}
+          alignItems={"center"}
+          order={{ xs: 2, sm: 1 }}
+        >
+          <GroupRadioButton
+            showTitle={false}
+            selectedValue={selectedValue}
+            onChange={handleRadioChange}
+          />
         </Grid>
-      ) : (
-        <></>
-      )} */}
+        <Grid item xs="auto" order={{ xs: 1, sm: 3 }}>
+          <ButtonDefault onClick={handleOpenNewModal} title="NUEVO DOCUMENTO" />
+        </Grid>
+      </Grid>
       <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          sx={styleTableItem}
-          className="truncate..."
-          hideFooter
-          rows={correctiveData || []}
-          columns={columns}
-        />
+        {documentsData.length === 0 ? (
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: "20px",
+              alignContent: "center",
+              border: "1px gray solid",
+              height: "8rem",
+            }}
+          >
+            No se encontraron documentos de {capitalizer(selectedValue)}
+          </div>
+        ) : (
+          <DataGrid
+            sx={styleTableItem}
+            className="truncate..."
+            hideFooter
+            rows={documentsData}
+            columns={columns}
+          />
+        )}
       </div>
 
       <ModalEditMaintenance //boton de editar
@@ -193,8 +233,8 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
         data={dataCreate}
         mode="create"
       />
-    </>
+    </Box>
   );
 };
 
-export default CorrectiveMaintenance;
+export default CorrectiveMaintenancePage;

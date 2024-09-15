@@ -11,6 +11,8 @@ import ModalEditInspector from "../../components/ModalEditInspector";
 import HeaderPage from "../../components/HeaderPage";
 import { styleTableItem } from "../../style/StyleModal";
 import SearchInput from "../../components/SearchInput";
+import GroupRadioButton from "../../components/GroupRadioButton";
+import ButtonDefault from "../../components/ButtonDefault";
 
 const rows = [
   {
@@ -386,6 +388,7 @@ const Inspections: React.FC = () => {
   const [openDelete, setOpenDelete] = useState(false);
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
+  const [selectedValue, setSelectedValue] = useState<string>("oruga");
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
@@ -407,7 +410,11 @@ const Inspections: React.FC = () => {
   const [openModalNew, setOpenModalNew] = React.useState(false);
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
-
+  
+  const handleRadioChange = (value: string) => {
+    console.log(value);
+    setSelectedValue(value);
+  };
   const columns: GridColDef[] = [
     {
       field: "heavyMachineryId",
@@ -485,13 +492,31 @@ const Inspections: React.FC = () => {
 
   return (
     <>
-      <HeaderPage
-        title="LISTA DE INSPECCIONES"
-        titleButton="NUEVA INSPECCIÓN"
-        handleOpen={handleOpenNewModal}
-      />
-
-      <SearchInput title="Ingresa el código de la maquinaria" />
+           <Grid
+        container
+        justifyContent={"space-between"}
+        direction={{ xs: "column", sm: "row" }}
+        alignItems={{ xs: "start", sm: "center" }}
+        gap={1}
+        className="p-2 border border-gray-400 bg-white mb-2"
+      >
+        <Grid
+          container
+          xs="auto"
+          gap={2}
+          alignItems={"center"}
+          order={{ xs: 2, sm: 1 }}
+        >
+          <GroupRadioButton
+            showTitle={false}
+            selectedValue={selectedValue}
+            onChange={handleRadioChange}
+          />
+        </Grid>
+        <Grid item xs="auto" order={{ xs: 1, sm: 3 }}>
+          <ButtonDefault onClick={handleOpenNewModal} title="NUEVO DOCUMENTO" />
+        </Grid>
+      </Grid>
         <Grid  style={{ height: 400}}>
           <DataGrid
             sx={styleTableItem}

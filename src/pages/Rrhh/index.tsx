@@ -167,7 +167,7 @@ const Rrhh: React.FC = () => {
         titleButton="NUEVO USUARIO"
         handleOpen={handleOpenNewModal}
       />
-      <Grid
+      {/* <Grid
         container
         gap={2}
         alignItems={"center"}
@@ -189,9 +189,9 @@ const Rrhh: React.FC = () => {
           }}
           onClick={() => console.log("first")}
         />
-      </Grid>
+      </Grid> */}
 
-      <Grid style={{ height: 400 }}>
+      <Grid style={{ height: 400,marginTop:"1rem" }}>
         <DataGrid
           sx={styleTableItem}
           className="truncate..."
