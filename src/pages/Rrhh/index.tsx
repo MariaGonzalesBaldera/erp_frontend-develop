@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import HeaderPage from "../../components/HeaderPage";
-import SearchInput from "../../components/SearchInput";
 import { Grid, IconButton, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { styleTableItem } from "../../style/StyleModal";
-import ModalEditInspector from "../../components/ModalEditInspector";
-import ModalMoreDetailInspection from "../../components/ModalMoreDetailInspection";
 import ConfirmModal from "../../components/ConfirmModal";
 import { UserItem } from "../../types";
 import EditIcon from "@mui/icons-material/Edit";
@@ -13,17 +10,25 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ListIcon from "@mui/icons-material/List";
 import ModalDetailUser from "../../components/ModalDetailUser";
 import ModalEditUser from "../../components/ModalEditUser";
-import { useGetUserList,useDeleteUser } from "../../hooks/useAuthentication";
-import { SearchSharp } from "@mui/icons-material";
-import themeNew from "../../utils/theme";
+import { useGetEmployeeList,useDeleteEmployee } from "../../hooks/useEmployee";
 
 const dataCreate = {
   id: 0,
-  username: "",
-  firstname: "",
-  lastname: "",
-  email: "",
-  role: "",
+  firstName:"",
+  lastName: "",
+  address:"",
+  age: 0,
+  documentType:"",
+  documentNumber:"",
+  phoneNumber:"",
+  email:"",
+  dateOfBirth:"",
+  startDate:"",
+  position:"",
+  attendance:"",
+  salary: 0,
+  overtimeHours: 0,
+  performance: 0,
 };
 
 const Rrhh: React.FC = () => {
@@ -36,10 +41,10 @@ const Rrhh: React.FC = () => {
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
 
-  const { mutateAsync: mutationDeleteId } = useDeleteUser();
+  const { mutateAsync: mutationDeleteId } = useDeleteEmployee();
 
-  const { data: userData } = useGetUserList();
-  console.log("DATA " + userData);
+  const { data: userData } = useGetEmployeeList();
+  console.log("DATA " + JSON.stringify(userData, null, 2));
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
@@ -78,8 +83,8 @@ const Rrhh: React.FC = () => {
       headerAlign: "center",
     },
     {
-      field: "username",
-      headerName: "Usuario",
+      field: "documentNumber",
+      headerName: "Numero de documento",
       flex: 1,
       minWidth: 150,
       align: "center",
@@ -92,7 +97,7 @@ const Rrhh: React.FC = () => {
       minWidth: 120,
       renderCell: (params) => (
         <span>
-          {params.row.firstname} {params.row.lastname}
+          {params.row.firstName} {params.row.lastName}
         </span>
       ),
       align: "center",
@@ -107,8 +112,8 @@ const Rrhh: React.FC = () => {
       headerAlign: "center",
     },
     {
-      field: "role",
-      headerName: "Rol",
+      field: "position",
+      headerName: "Pocisión",
       flex: 1,
       minWidth: 150,
       align: "center",
@@ -167,30 +172,7 @@ const Rrhh: React.FC = () => {
         titleButton="NUEVO USUARIO"
         handleOpen={handleOpenNewModal}
       />
-      {/* <Grid
-        container
-        gap={2}
-        alignItems={"center"}
-        order={{ xs: 2, sm: 1 }}
-      >
-        <SearchInput title="Ingresa el código de usuario" />
-        <SearchSharp
-          sx={{
-            border: `1px ${themeNew.palette.primary.main} solid`,
-            width: 45,
-            height: 40,
-            padding: 0.8,
-            cursor: "pointer",
-            borderRadius: 1,
-            "&:hover": {
-              color: "#e2e0ff",
-              backgroundColor: themeNew.palette.primary.main,
-            },
-          }}
-          onClick={() => console.log("first")}
-        />
-      </Grid> */}
-
+      
       <Grid style={{ height: 400,marginTop:"1rem" }}>
         <DataGrid
           sx={styleTableItem}

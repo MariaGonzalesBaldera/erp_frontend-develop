@@ -1,5 +1,5 @@
 
-import { EmployeeResponse, ParamsDelete } from "../domain/machinery.interface";
+import { EmployeeResponse, ParamsDelete, ParamsDeleteItem } from "../domain/machinery.interface";
 import { axios } from "../utils/axios.create";
 
 const LOG_PREFIX = "ProgramService :";
@@ -26,7 +26,7 @@ const create = async (data: EmployeeResponse): Promise<EmployeeResponse> => {
 
 const update = async (
 	data: Partial<EmployeeResponse>,
-	id?: string,
+	id?: number,
 ): Promise<EmployeeResponse> => {
 	return axios
 		.put(`/employee/update/${id}`, data) 
@@ -34,14 +34,13 @@ const update = async (
 		.catch((err) => Promise.reject(err.response.data));
 };
 
-const deleteOne = async (params: ParamsDelete) => {
+const deleteOne = async (params: ParamsDeleteItem) => {
 	return axios
 		.delete(`/employee/delete/${params.id}`)
 		.then((res) => {
 			return res.data.body;
 		})
 		.catch((err) => {
-			console.error(LOG_PREFIX, err);
 			return Promise.reject(err.response.data);
 		});
 };

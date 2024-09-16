@@ -1,4 +1,4 @@
-import { MachineryIncomeResponse, ParamsDelete } from "../domain/machinery.interface";
+import { MachineryIncomeResponse, ParamsDelete, ParamsDeleteItem } from "../domain/machinery.interface";
 import { axios } from "../utils/axios.create";
 
 const LOG_PREFIX = "ProgramService :";
@@ -25,7 +25,7 @@ const create = async (data: MachineryIncomeResponse): Promise<MachineryIncomeRes
 
 const update = async (
     data: Partial<MachineryIncomeResponse>,
-    id?: string,
+    id?: number,
 ): Promise<MachineryIncomeResponse> => {
     return axios
         .put(`/machineryIncome/update/${id}`, data)
@@ -33,21 +33,40 @@ const update = async (
         .catch((err) => Promise.reject(err.response.data));
 };
 
-const deleteOne = async (params: ParamsDelete) => {
+const deleteOne = async (params: ParamsDeleteItem) => {
     return axios
         .delete(`/machineryIncome/delete/${params.id}`)
         .then((res) => {
             return res.data.body;
         })
         .catch((err) => {
-            console.error(LOG_PREFIX, err);
             return Promise.reject(err.response.data);
         });
 };
+const findByMachinery = async (id?: number): Promise<MachineryIncomeResponse[]> => {
+    return axios
+        .get(`/machineryIncome/findByMachinery/${id}`)
+        .then((res) => res.data)
+        .catch((err) => {
+            console.log(err.response.data)
+            throw new Error(err.response.data);
+        });
+};
 
+const findByModel = async (model: string): Promise<MachineryIncomeResponse[]> => {
+    return axios
+        .get(`/machineryIncome/findByMachineryModel/${model}`)
+        .then((res) => res.data)
+        .catch((err) => {
+            console.log(err.response.data)
+            throw new Error(err.response.data);
+        });
+};
 export const machineryIncomeService = {
     findAll,
     create,
     deleteOne,
-    update
+    update,
+    findByMachinery,
+    findByModel
 };
