@@ -14,6 +14,8 @@ import Accounting from "./pages/Accounting";
 import Login from "./pages/Login";
 import ProtectedRoute from "../proteger";
 import Rrhh from "./pages/Rrhh";
+import UserManagement from "./pages/UserManagement";
+import Income from "./pages/Income";
 
 export function App() {
   return (
@@ -40,7 +42,8 @@ export function App() {
                   <Route path="/gps-tracking" element={<GpsTracking />} />
                   <Route path="/accounting" element={<Accounting />} />
                   <Route path="/human-resources" element={<Rrhh />} />
-                  
+                  <Route path="/income" element={<Income />} />
+                  <Route path="/user-management" element={<UserManagement />} />
                 </Routes>
               </Layout>
               </ProtectedRoute>

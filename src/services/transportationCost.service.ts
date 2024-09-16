@@ -1,7 +1,6 @@
-import { TransportationResponse, ParamsDelete } from "../domain/machinery.interface";
+import { TransportationResponse, ParamsDelete, ParamsDeleteItem } from "../domain/machinery.interface";
 import { axios } from "../utils/axios.create";
 
-const LOG_PREFIX = "ProgramService :";
 
 const findAll = async (): Promise<TransportationResponse[]> => {
 	return axios
@@ -12,7 +11,15 @@ const findAll = async (): Promise<TransportationResponse[]> => {
 			throw new Error(err.response.data);
 		});
 };
-
+const findByMachinery = async (id?: number): Promise<TransportationResponse[]> => {
+	return axios
+		.get(`/transportationCost/findByMachinery/${id}`)
+		.then((res) => res.data)
+		.catch((err) => {
+			console.log(err.response.data)
+			throw new Error(err.response.data);
+		});
+};
 const create = async (data: TransportationResponse): Promise<TransportationResponse> => {
 	return axios
 		.post("/transportationCost/create", data)
@@ -33,15 +40,23 @@ const update = async (
 		.catch((err) => Promise.reject(err.response.data));
 };
 
-const deleteOne = async (params: ParamsDelete) => {
+const deleteOne = async (params: ParamsDeleteItem) => {
 	return axios
 		.delete(`/transportationCost/delete/${params.id}`)
 		.then((res) => {
 			return res.data.body;
 		})
 		.catch((err) => {
-			console.error(LOG_PREFIX, err);
 			return Promise.reject(err.response.data);
+		});
+};
+const findByModel = async (model: string): Promise<TransportationResponse[]> => {
+	return axios
+		.get(`/transportationCost/findByModel/${model}`)
+		.then((res) => res.data)
+		.catch((err) => {
+			console.log(err.response.data)
+			throw new Error(err.response.data);
 		});
 };
 
@@ -49,5 +64,9 @@ export const transportationCostService = {
 	findAll,
 	create,
 	deleteOne,
-	update
+	update,
+	findByMachinery,
+	findByModel
 };
+
+ 

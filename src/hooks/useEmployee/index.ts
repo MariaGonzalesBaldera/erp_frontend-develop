@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult, useQuery } from "@tanstack/react-query";
+import { useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanstack/react-query";
 import { employeeService } from "../../services/employee.service";
 import { IMachinery, EmployeeResponse } from "../../domain/machinery.interface";
 
@@ -13,32 +13,45 @@ export const useGetEmployeeList = () => {
 };
 
 export const useCreateEmployee = () => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (data: EmployeeResponse) => create(data),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["get-employee-searched"] });
+		},
 	});
 };
 
 export const useUpdateEmployee = ({
 	id,
 }: {
-	id?: string;
+	id?: number;
 }) => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (data: Partial<EmployeeResponse>) =>
-			update(data, id),
+			 update(data, id), 
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["get-employee-searched"] });
+		},
 	});
 };
 
 export const useDeleteEmployee = (): UseMutationResult<
 	IMachinery,
 	Error,
-	string,
+	number,
 	unknown
 > => {
-	const userQuery = useMutation({
-		mutationFn: async (id: string) => await deleteOne({ id }),
-	});
+	const queryClient = useQueryClient();
 
-	return userQuery;
+	return useMutation({
+		mutationFn: async (id: number) => await deleteOne({ id }),
+		onSuccess:()=>{
+			queryClient.invalidateQueries({
+				queryKey: ["get-document-searched"]
+			})
+		}
+	});
 };
 

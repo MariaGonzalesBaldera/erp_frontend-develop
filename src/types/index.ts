@@ -250,4 +250,24 @@ export interface ResponseByModel {
   updatedAt: string;
   heavyMachineryId: number
 }
- 
+
+export interface employeeItem {
+  id?: number,
+  firstName: string,
+  lastName: string,
+  address: string,
+  age?: number,
+  documentType: string,
+  documentNumber: string,
+  phoneNumber: string,
+  email: string,
+  dateOfBirth: string,
+  startDate: string,
+  position: string,
+  attendance: string,
+  salary: number,
+  overtimeHours: number,
+  performance: number,
+  createdAt?: string,
+  updatedAt?: string,
+}
