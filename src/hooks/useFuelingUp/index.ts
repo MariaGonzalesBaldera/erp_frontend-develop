@@ -14,7 +14,7 @@ export const useGetFuelingUpList = () => {
 
 export const useGetFuelingUpByModel = ({ model }: { model: string }) => {
 	return useQuery({
-		queryKey: ["get-fueling-searched-model",model],
+		queryKey: ["get-fueling-up-searched",model],
 		queryFn: () => findByModel(model),
 		enabled: !!model,
 	});

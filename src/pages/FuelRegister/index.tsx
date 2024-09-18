@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FuelLoadProps } from "../../types";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Grid, IconButton, Tooltip } from "@mui/material";
+import { CircularProgress, Grid, IconButton, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListIcon from "@mui/icons-material/List";
@@ -9,11 +9,8 @@ import { styleTableItem } from "../../style/StyleModal";
 import ModalEditFuelLoad from "../../components/ModalEditFuelLoad";
 import ModalFuelLoadDetail from "../../components/ModalFuelLoadDetail";
 import ConfirmModal from "../../components/ConfirmModal";
-import HeaderPage from "../../components/HeaderPage";
-import SearchInput from "../../components/SearchInput";
 
 import {
-  useGetFuelingUpList,
   useDeleteFuelingUp,
   useGetFuelingUpByModel,
 } from "../../hooks/useFuelingUp";
@@ -35,32 +32,31 @@ const FuelRegister: React.FC = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [valueDelete, setValueDelete] = useState(0);
   const [selectedRow, setSelectedRow] = useState<any>(0);
-
+  const [loading, setLoading] = useState(false);
   const [selectedValue, setSelectedValue] = useState<string>("oruga");
   const [documentsData, setDocumentsData] = useState<any[]>([]);
-
-  const { data: initialDocumentsData } = useGetFuelingUpList();
 
   const { data: searchedDocumentsData } = useGetFuelingUpByModel({
     model: selectedValue,
   });
- // Cargar datos iniciales cuando el componente carga
- React.useEffect(() => {
-  if (initialDocumentsData) {
-    setDocumentsData(initialDocumentsData);
-  }
-}, [initialDocumentsData]);
 
-React.useEffect(() => {
-  if (searchedDocumentsData) {
-    setDocumentsData(searchedDocumentsData);
-  }
-}, [searchedDocumentsData]);
+  React.useEffect(() => {
+    setLoading(true);
+    try {
+      if (searchedDocumentsData) {
+        setDocumentsData(searchedDocumentsData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [searchedDocumentsData]);
 
-const handleRadioChange = (value: string) => {
-  console.log(value);
-  setSelectedValue(value);
-};
+  const handleRadioChange = (value: string) => {
+    console.log(value);
+    setSelectedValue(value);
+  };
 
   const { mutateAsync: mutationDeleteId } = useDeleteFuelingUp();
 
@@ -68,7 +64,7 @@ const handleRadioChange = (value: string) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
- 
+
   const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 
   const handleOpenEdit = (row: FuelLoadProps) => {
@@ -112,7 +108,7 @@ const handleRadioChange = (value: string) => {
     },
     {
       field: "fuelingMileage",
-      headerName: "Combustible kilometraje",
+      headerName: "Millaje de Abastecimiento",
       flex: 1,
       minWidth: 120,
       align: "center",
@@ -120,7 +116,7 @@ const handleRadioChange = (value: string) => {
     },
     {
       field: "fuelingDate",
-      headerName: "Fecha abastecimiento de combustible",
+      headerName: "Fecha de Abastecimiento",
       flex: 1,
       minWidth: 150,
       align: "center",
@@ -173,7 +169,7 @@ const handleRadioChange = (value: string) => {
   ];
   return (
     <>
-       <Grid
+      <Grid
         container
         justifyContent={"space-between"}
         direction={{ xs: "column", sm: "row" }}
@@ -181,26 +177,33 @@ const handleRadioChange = (value: string) => {
         gap={1}
         className="p-2 border border-gray-400 bg-white mb-2"
       >
-        <Grid
-          container
-          xs="auto"
-          gap={2}
-          alignItems={"center"}
-          order={{ xs: 2, sm: 1 }}
-        >
+        <Grid container gap={2} alignItems={"center"} order={{ xs: 2, sm: 1 }}>
           <GroupRadioButton
             showTitle={false}
             selectedValue={selectedValue}
             onChange={handleRadioChange}
           />
         </Grid>
-        <Grid item xs="auto" order={{ xs: 1, sm: 3 }}>
+        <Grid order={{ xs: 1, sm: 3 }}>
           <ButtonDefault onClick={handleOpenNewModal} title="NUEVO REGISTRO" />
         </Grid>
       </Grid>
-      <div style={{ height: 400, width: "100%" }}>
+      {loading ? (
+        <Grid item xs={12} style={{ textAlign: "center" }}>
+          <CircularProgress /> {/* Indicador de carga */}
+        </Grid>
+      ) : (
+        <div style={{ height: 400, width: "100%" }}>
           {documentsData.length === 0 ? (
-            <div style={{ textAlign: "center", marginTop: "20px",alignContent:"center",border:"1px gray solid",height:"8rem" }}>
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: "20px",
+                alignContent: "center",
+                border: "1px gray solid",
+                height: "8rem",
+              }}
+            >
               No se encontraron documentos de {capitalizer(selectedValue)}
             </div>
           ) : (
@@ -213,6 +216,7 @@ const handleRadioChange = (value: string) => {
             />
           )}
         </div>
+      )}
 
       <ModalEditFuelLoad //boton de editar
         openModal={openEdit}
