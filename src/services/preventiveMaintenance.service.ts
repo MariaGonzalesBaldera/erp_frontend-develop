@@ -1,4 +1,4 @@
-import { ParamsDelete } from "../domain/machinery.interface";
+import { ParamsDelete, ParamsDeleteItem } from "../domain/machinery.interface";
 import { PreventMaintenanceItem, ResponseByModel } from "../types";
 import { axios } from "../utils/axios.create";
 
@@ -34,7 +34,7 @@ const create = async (data: PreventMaintenanceItem): Promise<PreventMaintenanceI
 
 const update = async (
 	data: Partial<PreventMaintenanceItem>,
-	id?: string,
+	id?: number,
 ): Promise<PreventMaintenanceItem> => {
 	return axios
 		.put(`/preventiveMaintenance/update/${id}`, data) 
@@ -42,7 +42,7 @@ const update = async (
 		.catch((err) => Promise.reject(err.response.data));
 };
 
-const deleteOne = async (params: ParamsDelete) => {
+const deleteOne = async (params: ParamsDeleteItem) => {
 	return axios
 		.delete(`/preventiveMaintenance/delete/${params.id}`)
 		.then((res) => {

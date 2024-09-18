@@ -1,13 +1,24 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { styleModalInspection } from "../../style/StyleModal";
-import { Box, Grid, Modal } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  MenuItem,
+  Modal,
+  TextField,
+} from "@mui/material";
 import { ModalEditDocumentProps } from "../../types";
 import ButtonDefault from "../ButtonDefault";
 import HeaderModal from "../HeaderModal";
 import DatePickerForm from "../DatePickerForm";
 import { useCreateDocument, useUpdateDocument } from "../../hooks/useDocuments";
-import { DocumentResponse } from "../../domain/machinery.interface";
-import { formatDateForAPI } from "../../utils/capitalize";
+import {
+  DocumentResponse,
+  MachineryResponse,
+} from "../../domain/machinery.interface";
+import { capitalizer, formatDateForAPI } from "../../utils/capitalize";
+import { useGetMachineryList } from "../../hooks/useMaquinaria";
 
 const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
   openModal,
@@ -16,11 +27,11 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
   mode,
 }) => {
   const createDocument = useCreateDocument();
-
   const updateMutation = useUpdateDocument({
     id: Number(data.id),
   });
-
+  const [selectedMachinery, setSelectedMachinery] = useState<number | "">("");
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     technicalReviewsStart: "",
     technicalReviewsEnd: "",
@@ -32,7 +43,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
     trekInsuranceEnd: "",
     operatingCertificateStart: "",
     operatingCertificateEnd: "",
-    heavyMachineryId:""
+    heavyMachineryId: "",
   });
   const [errors, setErrors] = useState({
     technicalReviewsStart: false,
@@ -45,6 +56,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
     trekInsuranceEnd: false,
     operatingCertificateStart: false,
     operatingCertificateEnd: false,
+    heavyMachineryId: false,
   });
   useEffect(() => {
     if (openModal && data) {
@@ -59,31 +71,30 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
         trekInsuranceEnd: data.trekInsuranceEnd || "",
         operatingCertificateStart: data.operatingCertificateStart || "",
         operatingCertificateEnd: data.operatingCertificateEnd || "",
-        heavyMachineryId: data.heavyMachineryId || ""
+        heavyMachineryId: data.heavyMachineryId+"" || "",
       });
     }
   }, [openModal, data]);
+  const handleChange = useCallback((name: string, date: string) => {
+    console.log("name", name);
+    console.log("date", date);
 
-  const handleChange = useCallback(
-    (e) => {
-      setFormData((prevData) => ({
-        ...prevData,
-        [e.target.name]: e.target.value,
-      }));
-    },
-    [setFormData]
-  );
-
-  const handleDateChange = useCallback((name: string, date: string) => {
     setFormData((prevData) => ({
       ...prevData,
       [name]: date,
     }));
+    if (date !== "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: false,
+      }));
+    }
   }, []);
 
   const handleSubmit = useCallback(
-    (e) => {
-      console.log("heavyMachineryId",formData.heavyMachineryId)
+    async (e) => {
+      console.log("selectedMachinery", selectedMachinery);
+      console.log("formData.heavyMachineryId", formData.heavyMachineryId);
       e.preventDefault();
       const newErrors = {
         technicalReviewsStart: formData.technicalReviewsStart === "",
@@ -96,40 +107,67 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
         trekInsuranceEnd: formData.trekInsuranceEnd === "",
         operatingCertificateStart: formData.operatingCertificateStart === "",
         operatingCertificateEnd: formData.operatingCertificateEnd === "",
-        
+        heavyMachineryId: mode === "create" && selectedMachinery === 0,
       };
       setErrors(newErrors);
       const hasErrors = Object.values(newErrors).some((error) => error);
       if (hasErrors) {
         return; // No proceder si hay errores
       }
-      let body = {
-        technicalReviewsStart: formatDateForAPI(formData.technicalReviewsStart),
-        technicalReviewsEnd: formatDateForAPI(formData.technicalReviewsEnd),
-        soatStart: formatDateForAPI(formData.soatStart),
-        soatEnd: formatDateForAPI(formData.soatEnd),
-        insuranceStart: formatDateForAPI(formData.insuranceStart),
-        insuranceEnd: formatDateForAPI(formData.insuranceEnd),
-        trekInsuranceStart: formatDateForAPI(formData.trekInsuranceStart),
-        trekInsuranceEnd: formatDateForAPI(formData.trekInsuranceEnd),
-        operatingCertificateStart: formatDateForAPI(
-          formData.operatingCertificateStart
-        ),
-        operatingCertificateEnd: formatDateForAPI(
-          formData.operatingCertificateEnd
-        ),
-        heavyMachineryId:formData.heavyMachineryId
-      };
-
-      if (mode === "create") {
-        onCreateDocument(body);
-      } else {
-        console.log("update",body.heavyMachineryId)
-        onUpdateDocument(body);
+      setLoading(true);
+      try {
+        let body;
+        if (mode === "create") {
+          body = {
+            technicalReviewsStart: formatDateForAPI(
+              formData.technicalReviewsStart
+            ),
+            technicalReviewsEnd: formatDateForAPI(formData.technicalReviewsEnd),
+            soatStart: formatDateForAPI(formData.soatStart),
+            soatEnd: formatDateForAPI(formData.soatEnd),
+            insuranceStart: formatDateForAPI(formData.insuranceStart),
+            insuranceEnd: formatDateForAPI(formData.insuranceEnd),
+            trekInsuranceStart: formatDateForAPI(formData.trekInsuranceStart),
+            trekInsuranceEnd: formatDateForAPI(formData.trekInsuranceEnd),
+            operatingCertificateStart: formatDateForAPI(
+              formData.operatingCertificateStart
+            ),
+            operatingCertificateEnd: formatDateForAPI(
+              formData.operatingCertificateEnd
+            ),
+            heavyMachineryId: selectedMachinery,
+          };
+          await onCreateDocument(body);
+        } else {
+          body = {
+            technicalReviewsStart: formatDateForAPI(
+              formData.technicalReviewsStart
+            ),
+            technicalReviewsEnd: formatDateForAPI(formData.technicalReviewsEnd),
+            soatStart: formatDateForAPI(formData.soatStart),
+            soatEnd: formatDateForAPI(formData.soatEnd),
+            insuranceStart: formatDateForAPI(formData.insuranceStart),
+            insuranceEnd: formatDateForAPI(formData.insuranceEnd),
+            trekInsuranceStart: formatDateForAPI(formData.trekInsuranceStart),
+            trekInsuranceEnd: formatDateForAPI(formData.trekInsuranceEnd),
+            operatingCertificateStart: formatDateForAPI(
+              formData.operatingCertificateStart
+            ),
+            operatingCertificateEnd: formatDateForAPI(
+              formData.operatingCertificateEnd
+            ),
+            heavyMachineryId: formData.heavyMachineryId,
+          };
+          await onUpdateDocument(body);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        setLoading(false); // Finalizar la carga
+        handleClose();
       }
-      handleClose();
     },
-    [formData, mode, useCreateDocument, handleClose]
+    [formData, mode, useCreateDocument, useUpdateDocument, handleClose]
   );
   const onCreateDocument = async (data: DocumentResponse) => {
     try {
@@ -148,6 +186,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
       console.log("Error-> " + error);
     }
   };
+
   const modalTitle =
     mode === "create"
       ? "CREAR NUEVO DOCUMENTO"
@@ -173,7 +212,38 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
       name: "operatingCertificateEnd",
     },
   ];
+  //recuperacion de maquinarias
+  const { data: machineryData, isLoading, error } = useGetMachineryList();
+  const [machineryItems, setMachineryItems] = useState<
+    { value: number; label: string }[]
+  >([]);
+  // Actualizar el estado cuando los datos de la API están disponibles
+  useEffect(() => {
+    if (machineryData && !isLoading && !error) {
+      const formattedItems = (machineryData || [])
+        .filter(
+          (machinery): machinery is MachineryResponse =>
+            machinery.id !== undefined
+        ) // Filtrar elementos con id definido
+        .map((machinery) => ({
+          value: machinery.id!,
+          label: `${machinery.id} - ${capitalizer(
+            machinery.model
+          )} - ${capitalizer(machinery.brand)}`,
+        }));
+      setMachineryItems(formattedItems);
+    }
+  }, [machineryData, isLoading, error]);
 
+  // Estado para manejar la selección del usuario
+
+  // Manejar el cambio de selección
+  const handleChangeMachinery = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSelectedMachinery(Number(event.target.value));
+    errors.heavyMachineryId = false;
+  };
   return (
     <Modal
       open={openModal}
@@ -187,26 +257,67 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
           id={data.id || ""}
           handleClose={handleClose}
         />
-        <Box component="form" onSubmit={handleSubmit}>
-          <div className="bg-background p-6 w-full max-w-2xl">
-            <div className="grid grid-cols-2 gap-4">
-              {fields.map((field) => (
-                <DatePickerForm
-                  key={field.name}
-                  dateValue={formData[field.name] || ""}
-                  labelValue={field.label}
-                  handleDateChange={(date) => handleDateChange(field.name, date)}
-                  nameValue={formData[field.name]}
-                />
-              ))}
-            </div>
-            <Grid container justifyContent="flex-end" spacing={2} mt={2}>
-              <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
-                <ButtonDefault title={buttonText} />
+        {loading ? (
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <CircularProgress /> {/* Indicador de carga */}
+          </Grid>
+        ) : (
+          <Box component="form" onSubmit={handleSubmit}>
+            <div className="bg-background p-6 w-full max-w-2xl">
+              <div className="grid grid-cols-2 gap-4">
+                {fields.map((field) => (
+                  <DatePickerForm
+                    key={field.name}
+                    dateValue={formData[field.name] || ""}
+                    labelValue={field.label}
+                    handleDateChange={(date) => handleChange(field.name, date)}
+                    nameValue={formData[field.name]}
+                    error={errors[formData[field.name]]}
+                    helperText={errors[formData[field.name]] ? "Campo requerido" : ""}
+                  />
+                ))}
+              </div>
+              {mode == "create" ? (
+                <Grid item xs={12} sm={6} className="pt-4">
+                  <div>
+                    {isLoading ? (
+                      <p>Cargando maquinaria...</p>
+                    ) : error ? (
+                      <p>Error al cargar la maquinaria</p>
+                    ) : (
+                      <TextField
+                        select
+                        size="small"
+                        label="Seleccione Maquinaria"
+                        value={selectedMachinery}
+                        onChange={handleChangeMachinery}
+                        name="heavyMachineryId"
+                        fullWidth
+                        error={errors.heavyMachineryId}
+                        helperText={
+                          errors.heavyMachineryId ? "Campo requerido" : ""
+                        }
+                      >
+                        {machineryItems.map((item) => (
+                          <MenuItem key={item.value} value={item.value}>
+                            {item.label}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    )}
+                  </div>
+                </Grid>
+              ) : (
+                ""
+              )}
+              <Grid container justifyContent="flex-end" spacing={2} mt={2}>
+                <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
+                  <ButtonDefault title={buttonText} />
+                </Grid>
               </Grid>
-            </Grid>
-          </div>
-        </Box>
+            </div>
+          </Box>
+        )}
       </Box>
     </Modal>
   );

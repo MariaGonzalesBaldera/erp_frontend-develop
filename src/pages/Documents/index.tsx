@@ -7,12 +7,11 @@ import ListIcon from "@mui/icons-material/List";
 import ConfirmModal from "../../components/ConfirmModal";
 import ModalDocumentDetail from "../../components/ModalDocumentDetail";
 import ModalEditDocument from "../../components/ModalEditDocument";
-import { Box, Grid, IconButton, Tooltip } from "@mui/material";
+import { Box, CircularProgress, Grid, IconButton, Tooltip } from "@mui/material";
 import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
 import GroupRadioButton from "../../components/GroupRadioButton";
 import ButtonDefault from "../../components/ButtonDefault";
 import {
-  useGetDocumentList,
   useDeleteDocument,
   useGetDocumentByModel,
 } from "../../hooks/useDocuments";
@@ -46,28 +45,26 @@ const Documents: React.FC = () => {
   const [selectedValue, setSelectedValue] = useState<string>("oruga");
   const { mutateAsync: mutationDeleteId } = useDeleteDocument();
   const [documentsData, setDocumentsData] = useState<any[]>([]);
-
-  const { data: initialDocumentsData } = useGetDocumentList();
+  const [loading, setLoading] = useState(false);
 
   const { data: searchedDocumentsData } = useGetDocumentByModel({
     model: selectedValue,
   });
 
-  // Cargar datos iniciales cuando el componente carga
   React.useEffect(() => {
-    if (initialDocumentsData) {
-      setDocumentsData(initialDocumentsData);
-    }
-  }, [initialDocumentsData]);
-
-  React.useEffect(() => {
-    if (searchedDocumentsData) {
-      setDocumentsData(searchedDocumentsData);
+    setLoading(true);
+    try {
+      if (searchedDocumentsData) {
+        setDocumentsData(searchedDocumentsData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
     }
   }, [searchedDocumentsData]);
 
   const handleRadioChange = (value: string) => {
-    console.log(value);
     setSelectedValue(value);
   };
 
@@ -79,7 +76,6 @@ const Documents: React.FC = () => {
   const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 
   const handleOpenEdit = (row: DocumentItem) => {
-    console.log("row: ", row);
     setSelectedRow(row);
     setOpenEdit(true);
   };
@@ -187,7 +183,6 @@ const Documents: React.FC = () => {
       >
         <Grid
           container
-          xs="auto"
           gap={2}
           alignItems={"center"}
           order={{ xs: 2, sm: 1 }}
@@ -198,26 +193,40 @@ const Documents: React.FC = () => {
             onChange={handleRadioChange}
           />
         </Grid>
-        <Grid item xs="auto" order={{ xs: 1, sm: 3 }}>
+        <Grid item order={{ xs: 1, sm: 3 }}>
           <ButtonDefault onClick={handleOpenNewModal} title="NUEVO DOCUMENTO" />
         </Grid>
       </Grid>
       <Grid sx={styleTableResponsive}>
-        <div style={{ height: 400, width: "100%" }}>
-          {documentsData.length === 0 ? (
-            <div style={{ textAlign: "center", marginTop: "20px",alignContent:"center",border:"1px gray solid",height:"8rem" }}>
-              No se encontraron documentos de {capitalizer(selectedValue)}
-            </div>
-          ) : (
-            <DataGrid
-              sx={styleTableItem}
-              className="truncate..."
-              hideFooter
-              rows={documentsData}
-              columns={columns}
-            />
-          )}
-        </div>
+        {loading ? (
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <CircularProgress /> {/* Indicador de carga */}
+          </Grid>
+        ) : (
+          <div style={{ height: 400, width: "100%" }}>
+            {documentsData.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  alignContent: "center",
+                  border: "1px gray solid",
+                  height: "8rem",
+                }}
+              >
+                No se encontraron documentos de {capitalizer(selectedValue)}
+              </div>
+            ) : (
+              <DataGrid
+                sx={styleTableItem}
+                className="truncate..."
+                hideFooter
+                rows={documentsData}
+                columns={columns}
+              />
+            )}
+          </div>
+        )}
 
         <ModalEditDocument //boton de editar
           openModal={openEdit}

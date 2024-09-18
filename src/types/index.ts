@@ -43,7 +43,7 @@ export interface MaquinariaDataItem {
 }
 
 export interface PreventMaintenanceItem {
-  id?: number;
+  id?: string;
   motorOil: boolean;
   oilFilters: boolean;
   fuelFilters: boolean;
@@ -58,7 +58,7 @@ export interface PreventMaintenanceItem {
   observations: string;
   createdAt?: string;
   updatedAt?: string;
-  heavyMachineryId?: number;
+  heavyMachineryId?: string;
 }
 
 export interface CorrectiveMaintananceItem {
