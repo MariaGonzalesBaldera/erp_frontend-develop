@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import { FuelLoadProps } from "../../types";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { CircularProgress, Grid, IconButton, Tooltip } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListIcon from "@mui/icons-material/List";
-import { styleTableItem } from "../../style/StyleModal";
+import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
 import ModalEditFuelLoad from "../../components/ModalEditFuelLoad";
 import ModalFuelLoadDetail from "../../components/ModalFuelLoadDetail";
 import ConfirmModal from "../../components/ConfirmModal";
@@ -19,13 +25,13 @@ import GroupRadioButton from "../../components/GroupRadioButton";
 import ButtonDefault from "../../components/ButtonDefault";
 
 const dataCreate = {
-  id: "",
+  id: 0,
   numberGallons: 0,
   fuelingMileage: "",
   fuelingDate: "",
   amountPaid: 0,
   invoiceNumber: "",
-  heavyMachineryId: "",
+  heavyMachineryId: 0,
 };
 const FuelRegister: React.FC = () => {
   const [openDetail, setOpenDetail] = useState(false);
@@ -168,9 +174,8 @@ const FuelRegister: React.FC = () => {
     },
   ];
   return (
-    <>
-    	
-	  <Grid
+    <Box>
+      <Grid
         container
         justifyContent={"space-between"}
         direction={{ xs: "column", sm: "row" }}
@@ -178,52 +183,48 @@ const FuelRegister: React.FC = () => {
         gap={1}
         className="p-2 border border-gray-400 bg-white mb-2"
       >
-        <Grid
-          container
-          xs="auto"
-          gap={2}
-          alignItems={"center"}
-          order={{ xs: 2, sm: 1 }}
-        >
+        <Grid item gap={2} alignItems={"center"}>
           <GroupRadioButton
             showTitle={false}
             selectedValue={selectedValue}
             onChange={handleRadioChange}
           />
         </Grid>
-        <Grid item xs="auto" order={{ xs: 1, sm: 3 }}>
+        <Grid>
           <ButtonDefault onClick={handleOpenNewModal} title="NUEVO REGISTRO" />
         </Grid>
       </Grid>
-      {loading ? (
-        <Grid item xs={12} style={{ textAlign: "center" }}>
-          <CircularProgress /> {/* Indicador de carga */}
-        </Grid>
-      ) : (
-        <div style={{ height: 400, width: "100%" }}>
-          {documentsData.length === 0 ? (
-            <div
-              style={{
-                textAlign: "center",
-                marginTop: "20px",
-                alignContent: "center",
-                border: "1px gray solid",
-                height: "8rem",
-              }}
-            >
-              No se encontraron documentos de {capitalizer(selectedValue)}
-            </div>
-          ) : (
-            <DataGrid
-              sx={styleTableItem}
-              className="truncate..."
-              hideFooter
-              rows={documentsData}
-              columns={columns}
-            />
-          )}
-        </div>
-      )}
+      <Grid sx={styleTableResponsive}>
+        {loading ? (
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <CircularProgress /> {/* Indicador de carga */}
+          </Grid>
+        ) : (
+          <div style={{ height: 400, width: "100%" }}>
+            {documentsData.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  alignContent: "center",
+                  border: "1px gray solid",
+                  height: "8rem",
+                }}
+              >
+                No se encontraron documentos de {capitalizer(selectedValue)}
+              </div>
+            ) : (
+              <DataGrid
+                sx={styleTableItem}
+                className="truncate..."
+                hideFooter
+                rows={documentsData}
+                columns={columns}
+              />
+            )}
+          </div>
+        )}
+      </Grid>
 
       <ModalEditFuelLoad //boton de editar
         openModal={openEdit}
@@ -250,7 +251,7 @@ const FuelRegister: React.FC = () => {
         data={dataCreate}
         mode="create"
       />
-    </>
+    </Box>
   );
 };
 

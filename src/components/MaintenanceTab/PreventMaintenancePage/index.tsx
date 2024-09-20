@@ -1,8 +1,6 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import { styleTableItem } from "../../../style/StyleModal";
-import ModalEditMaintenance from "../../ModalEditMaintenance";
-import ModalMoreDetail from "../../ModalMoreDetail";
 import ConfirmModal from "../../ConfirmModal";
 import { CircularProgress, Grid, IconButton, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
@@ -20,7 +18,7 @@ import ModalEditPrevent from "../../ModalEditPrevent";
 import ModalPreventDetail from "../../ModalPreventDetail";
 
 const dataCreate = {
-  id: "",
+  id: 0,
   motorOil: false,
   oilFilters: false,
   fuelFilters: false,
@@ -33,7 +31,7 @@ const dataCreate = {
   amountPaid: 0,
   invoiceNumber: "",
   observations: "",
-  heavyMachineryId: "",
+  heavyMachineryId: 0,
 };
 
 const PreventMaintenancePage: React.FC = ({}) => {

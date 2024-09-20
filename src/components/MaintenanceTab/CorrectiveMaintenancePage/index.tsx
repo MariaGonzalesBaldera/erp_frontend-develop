@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { useGetCorrectiveByModel, useGetCorrectiveList } from "../../../hooks/useCorrectiveMaintenance";
+import {
+  useDeleteCorrective,
+  useGetCorrectiveByModel,
+  useGetCorrectiveList,
+} from "../../../hooks/useCorrectiveMaintenance";
 import { CorrectiveMaintananceItem } from "../../../types";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Box, Grid, IconButton, Tooltip } from "@mui/material";
@@ -15,66 +19,60 @@ import { capitalizer } from "../../../utils/capitalize";
 import GroupRadioButton from "../../GroupRadioButton";
 
 const dataCreate = {
-  id: "",
+  id: 0,
   description: "",
-  maintenance_date: "",
-  amount_paid: "",
-  operator: "",
-  project_name: "",
+  maintenanceDate: "",
+  amountPaid: 0,
+  invoiceNumber: "",
+  operatorName: "",
+  projectName: "",
   observations: "",
-  driving_start: "",
-  driving_end: "",
-  heavyMachineryId: "",
+  drivingStart: "",
+  drivingEnd: "",
+  heavyMachineryId: 0,
 };
 
 const CorrectiveMaintenancePage = ({}) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
-
+  const [valueDelete, setValueDelete] = useState(0);
   const [selectedRow, setSelectedRow] = useState<any>(0);
   const [openModalNew, setOpenModalNew] = React.useState(false);
 
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
   const [selectedValue, setSelectedValue] = useState<string>("oruga");
+  const { mutateAsync: mutationDeleteId } = useDeleteCorrective();
   const [documentsData, setDocumentsData] = useState<any[]>([]);
-
-  const { data: initialDocumentsData } = useGetCorrectiveList();
+  const [loading, setLoading] = useState(false);
 
   const { data: searchedDocumentsData } = useGetCorrectiveByModel({
     model: selectedValue,
   });
 
-
-
   React.useEffect(() => {
-    if (initialDocumentsData) {
-      setDocumentsData(initialDocumentsData);
-    }
-  }, [initialDocumentsData]);
-
-  React.useEffect(() => {
-    if (searchedDocumentsData) {
-      setDocumentsData(searchedDocumentsData);
+    setLoading(true);
+    try {
+      if (searchedDocumentsData) {
+        setDocumentsData(searchedDocumentsData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
     }
   }, [searchedDocumentsData]);
 
   const handleRadioChange = (value: string) => {
-    console.log(value);
     setSelectedValue(value);
   };
-
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
 
-  const handleOpenDelete = () => {
-    setOpenDelete(true);
-  };
-  const handleCloseConfirmModal = () => setOpenDelete(false);
+  const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 
   const handleOpenEdit = (row: CorrectiveMaintananceItem) => {
     setSelectedRow(row);
@@ -83,6 +81,17 @@ const CorrectiveMaintenancePage = ({}) => {
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
 
+  const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
+  const handleOpenConfirmModal = () => setOpenModalConfirm(true);
+
+  const handleDelete = async () => {
+    try {
+      await mutationDeleteId(valueDelete);
+      console.log("Documento eliminado exitosamente");
+    } catch (error) {
+      console.log("Error al eliminar documento: ", error);
+    }
+  };
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -147,7 +156,10 @@ const CorrectiveMaintenancePage = ({}) => {
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
-              onClick={() => handleOpenDelete()}
+              onClick={() => {
+                setValueDelete(Number(params.id));
+                handleOpenConfirmModal();
+              }}
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -223,9 +235,10 @@ const CorrectiveMaintenancePage = ({}) => {
       />
 
       <ConfirmModal //boton de eliminar
-        onConfirm={openDelete}
+        onConfirm={openModalConfirm}
         onCancel={handleCloseConfirmModal}
-        id={1}
+        onConfirmAction={handleDelete}
+        id={Number(valueDelete)}
       />
       <ModalEditMaintenance //boton de crear
         openModal={openModalNew}
