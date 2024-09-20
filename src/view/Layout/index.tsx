@@ -114,9 +114,13 @@ const LINKS = [
 ];
 const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
   const navigate = useNavigate();
-  const theme = useAppTheme();
   const [open, setOpen] = useState(true);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  
+  ///validacion de uusers
+  const [username, setUsername] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -132,11 +136,7 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
   const isTabletOrMobile = useMediaQuery(themeNew.breakpoints.down("md"));
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("username");
-    localStorage.removeItem("role");
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken"); // Si tienes un refreshToken también
+    localStorage.removeItem("authData");
 
     navigate("/login");
   };
@@ -156,18 +156,20 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
     setOpen(!isTabletOrMobile);
   }, [isTabletOrMobile]);
 
-  ///validacion de uusers
-  const [username, setUsername] = useState<string | null>(null);
-  const [role, setRole] = useState<string | null>(null);
+  React.useEffect(() => {
+    const authData = localStorage.getItem("authData");
+    
+    if (authData) {
+      const parsedData = JSON.parse(authData);
+      setUsername(parsedData.username);
+      setRole(parsedData.role);
+    } else {
+      navigate("/login");
+    }
 
-  useEffect(() => {
-    // Recuperar los datos de localStorage al montar el componente
-    const storedUsername = localStorage.getItem("username");
-    const storedRole = localStorage.getItem("role");
+    setOpen(!isTabletOrMobile);
+  }, [isTabletOrMobile, navigate]);
 
-    setUsername(storedUsername);
-    setRole(storedRole);
-  }, []);
   const filteredItems =
     role === "ADMINISTRATOR"
       ? menuItems

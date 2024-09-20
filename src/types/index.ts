@@ -130,7 +130,7 @@ export interface MachineryInspectionItem {
   heavyMachineryId: string;
 }
 export interface DocumentItem {
-  id: string;
+  id: number;
   technicalReviewsStart: string;
   technicalReviewsEnd: string;
   soatStart: string;
@@ -143,7 +143,7 @@ export interface DocumentItem {
   operatingCertificateEnd: string;
   createdAt?: string;
   updatedAt?: string;
-  heavyMachineryId: string;
+  heavyMachineryId?: number;
 }
 
 export interface FuelLoadProps {

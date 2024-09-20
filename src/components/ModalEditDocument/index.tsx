@@ -30,7 +30,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
   const updateMutation = useUpdateDocument({
     id: Number(data.id),
   });
-  const [selectedMachinery, setSelectedMachinery] = useState<number | "">("");
+  const [selectedMachinery, setSelectedMachinery] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     technicalReviewsStart: "",
@@ -43,7 +43,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
     trekInsuranceEnd: "",
     operatingCertificateStart: "",
     operatingCertificateEnd: "",
-    heavyMachineryId: "",
+    heavyMachineryId: 0,
   });
   const [errors, setErrors] = useState({
     technicalReviewsStart: false,
@@ -58,6 +58,18 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
     operatingCertificateEnd: false,
     heavyMachineryId: false,
   });
+  const handleChangeMachinery = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const selectedValue = Number(event.target.value);
+    formData.heavyMachineryId = selectedValue;
+    setSelectedMachinery(selectedValue);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      heavyMachineryId: false, // Limpia el error si se selecciona una opción válida
+    }));
+  };
+
   useEffect(() => {
     if (openModal && data) {
       setFormData({
@@ -71,14 +83,12 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
         trekInsuranceEnd: data.trekInsuranceEnd || "",
         operatingCertificateStart: data.operatingCertificateStart || "",
         operatingCertificateEnd: data.operatingCertificateEnd || "",
-        heavyMachineryId: data.heavyMachineryId+"" || "",
+        heavyMachineryId: data.heavyMachineryId || 0,
       });
+      setSelectedMachinery(data.heavyMachineryId || 0);
     }
   }, [openModal, data]);
   const handleChange = useCallback((name: string, date: string) => {
-    console.log("name", name);
-    console.log("date", date);
-
     setFormData((prevData) => ({
       ...prevData,
       [name]: date,
@@ -93,9 +103,9 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
 
   const handleSubmit = useCallback(
     async (e) => {
-      console.log("selectedMachinery", selectedMachinery);
-      console.log("formData.heavyMachineryId", formData.heavyMachineryId);
       e.preventDefault();
+      console.log("selectedMachinery entrada ", selectedMachinery);
+
       const newErrors = {
         technicalReviewsStart: formData.technicalReviewsStart === "",
         technicalReviewsEnd: formData.technicalReviewsEnd === "",
@@ -107,8 +117,9 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
         trekInsuranceEnd: formData.trekInsuranceEnd === "",
         operatingCertificateStart: formData.operatingCertificateStart === "",
         operatingCertificateEnd: formData.operatingCertificateEnd === "",
-        heavyMachineryId: mode === "create" && selectedMachinery === 0,
+        heavyMachineryId: mode === "create" && !selectedMachinery,
       };
+      console.log("selectedMachinery", selectedMachinery);
       setErrors(newErrors);
       const hasErrors = Object.values(newErrors).some((error) => error);
       if (hasErrors) {
@@ -119,43 +130,13 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
         let body;
         if (mode === "create") {
           body = {
-            technicalReviewsStart: formatDateForAPI(
-              formData.technicalReviewsStart
-            ),
-            technicalReviewsEnd: formatDateForAPI(formData.technicalReviewsEnd),
-            soatStart: formatDateForAPI(formData.soatStart),
-            soatEnd: formatDateForAPI(formData.soatEnd),
-            insuranceStart: formatDateForAPI(formData.insuranceStart),
-            insuranceEnd: formatDateForAPI(formData.insuranceEnd),
-            trekInsuranceStart: formatDateForAPI(formData.trekInsuranceStart),
-            trekInsuranceEnd: formatDateForAPI(formData.trekInsuranceEnd),
-            operatingCertificateStart: formatDateForAPI(
-              formData.operatingCertificateStart
-            ),
-            operatingCertificateEnd: formatDateForAPI(
-              formData.operatingCertificateEnd
-            ),
-            heavyMachineryId: selectedMachinery,
+            ...formData,
+            heavyMachineryId: selectedMachinery, // Usa el valor actualizado de selectedMachinery
           };
           await onCreateDocument(body);
         } else {
           body = {
-            technicalReviewsStart: formatDateForAPI(
-              formData.technicalReviewsStart
-            ),
-            technicalReviewsEnd: formatDateForAPI(formData.technicalReviewsEnd),
-            soatStart: formatDateForAPI(formData.soatStart),
-            soatEnd: formatDateForAPI(formData.soatEnd),
-            insuranceStart: formatDateForAPI(formData.insuranceStart),
-            insuranceEnd: formatDateForAPI(formData.insuranceEnd),
-            trekInsuranceStart: formatDateForAPI(formData.trekInsuranceStart),
-            trekInsuranceEnd: formatDateForAPI(formData.trekInsuranceEnd),
-            operatingCertificateStart: formatDateForAPI(
-              formData.operatingCertificateStart
-            ),
-            operatingCertificateEnd: formatDateForAPI(
-              formData.operatingCertificateEnd
-            ),
+            ...formData,
             heavyMachineryId: formData.heavyMachineryId,
           };
           await onUpdateDocument(body);
@@ -163,16 +144,22 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
       } catch (error) {
         console.error("Error:", error);
       } finally {
-        setLoading(false); // Finalizar la carga
+        setLoading(false);
         handleClose();
       }
     },
-    [formData, mode, useCreateDocument, useUpdateDocument, handleClose]
+    [
+      formData,
+      mode,
+      selectedMachinery,
+      useCreateDocument,
+      useUpdateDocument,
+      handleClose,
+    ]
   );
   const onCreateDocument = async (data: DocumentResponse) => {
     try {
       const response = await createDocument.mutateAsync(data);
-      console.log(response);
     } catch (error) {
       console.log("Error-> " + error);
     }
@@ -238,12 +225,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
   // Estado para manejar la selección del usuario
 
   // Manejar el cambio de selección
-  const handleChangeMachinery = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSelectedMachinery(Number(event.target.value));
-    errors.heavyMachineryId = false;
-  };
+
   return (
     <Modal
       open={openModal}
@@ -254,7 +236,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
       <Box sx={styleModalInspection}>
         <HeaderModal
           titleHeader={modalTitle}
-          id={data.id || ""}
+          id={data.id + ""}
           handleClose={handleClose}
         />
         {loading ? (
@@ -272,8 +254,8 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
                     labelValue={field.label}
                     handleDateChange={(date) => handleChange(field.name, date)}
                     nameValue={formData[field.name]}
-                    error={errors[formData[field.name]]}
-                    helperText={errors[formData[field.name]] ? "Campo requerido" : ""}
+                    error={errors[field.name]}
+                    helperText={errors[field.name] ? "Campo requerido" : ""}
                   />
                 ))}
               </div>

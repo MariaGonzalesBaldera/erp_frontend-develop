@@ -1,19 +1,11 @@
-import { Box, Grid, Typography } from "@mui/material";
-import React, { useCallback, useState } from "react";
-import GroupRadioButton from "../../GroupRadioButton";
-import ButtonIconSearch from "../../ButtonIconSearch";
-import DatePickerForm from "../../DatePickerForm";
-import { GoogleMap, useJsApiLoader, MarkerF, Polyline } from "@react-google-maps/api";
-const containerStyle = {
-  width: "400px",
-  height: "400px",
-};
-//-11.878685838684715, -77.12696870963856
-const center = {
-  lat: -11.878685838684715,
-  lng: -77.12696870963856,
-  label: "1",
-};
+import { useEffect } from "react";
+import { Box, Grid, MenuItem, TextField, Typography } from "@mui/material";
+import React, { useState } from "react";
+import GoogleMapPolyline from "./maps";
+import { useGetMachineryList } from "../../../hooks/useMaquinaria";
+import { MachineryResponse } from "../../../domain/machinery.interface";
+import { capitalizer } from "../../../utils/capitalize";
+import ButtonDefault from "../../ButtonDefault";
 
 const points = [
   {
@@ -42,28 +34,15 @@ const points = [
     label: "5",
   },
 ];
-
 const ActualGps: React.FC = () => {
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: "AIzaSyDnKHdX9gAmZQjGgCefXHxmZwjxRYTFxsw",
-  });
-
-  const [map, setMap] = React.useState(null);
+  // const { isLoaded } = useJsApiLoader({
+  //   id: "google-map-script",
+  //   googleMapsApiKey: "AIzaSyDnKHdX9gAmZQjGgCefXHxmZwjxRYTFxsw",
+  // });
+  const [selectedMachinery, setSelectedMachinery] = useState<number | "">("");
   const [showMessage, setShowMessage] = useState<boolean>(true); // Estado para manejar la visibilidad del mensaje
   const [searchResult, setSearchResult] = useState<any>(null); // Estado para manejar los resultados de búsqueda
 
-  const onLoad = React.useCallback(function callback(map) {
-    // This is just an example of getting and using the map instance!!! don't just blindly copy!
-    const bounds = new window.google.maps.LatLngBounds(center);
-    map.fitBounds(bounds);
-
-    setMap(map);
-  }, []);
-
-  const onUnmount = React.useCallback(function callback(map) {
-    setMap(null);
-  }, []);
   const handleSearchClick = () => {
     setShowMessage(false); // Oculta el mensaje cuando se realiza la búsqueda
     setSearchResult({
@@ -71,27 +50,76 @@ const ActualGps: React.FC = () => {
         startTime: "08:00 AM",
         endTime: "05:00 PM",
         kilometers: "120 km",
-        hoursWorked: "9 horas",
+        hoursWorked: "3 horas",
       },
       points,
     });
+  };
+  const someCoords = [
+    { lat: 32.321, lng: -64.757 },
+    { lat: 25.774, lng: -80.19 },
+  ];
+  const flightPlanCoordinates = [
+    { lat: -11.878685838684715, lng: -77.12696870963856 },
+    { lat: -11.882381541347911, lng: -77.12632497952517 },
+    { lat: -11.884859280404177, lng: -77.12645372555548 },
+    { lat: -11.88966699365415, lng: -77.12585909858042 },
+  ];
+  //recuperacion de maquinarias
+  const { data: machineryData, isLoading, error } = useGetMachineryList();
+  const [machineryItems, setMachineryItems] = useState<
+    { value: number; label: string }[]
+  >([]);
+  useEffect(() => {
+    if (machineryData && !isLoading && !error) {
+      const formattedItems = (machineryData || [])
+        .filter(
+          (machinery): machinery is MachineryResponse =>
+            machinery.id !== undefined
+        ) // Filtrar elementos con id definido
+        .map((machinery) => ({
+          value: machinery.id!,
+          label: `${machinery.id} - ${capitalizer(
+            machinery.model
+          )} - ${capitalizer(machinery.brand)}`,
+        }));
+      setMachineryItems(formattedItems);
+    }
+  }, [machineryData, isLoading, error]);
+
+  const handleChangeMachinery = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSelectedMachinery(Number(event.target.value));
   };
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-6xl mx-auto">
       <div className="col-span-1 md:col-span-1 border rounded-md border-gray-400 flex items-start justify-start p-2">
         <Grid container justifyItems="center" justifyContent="center">
-          <GroupRadioButton showTitle />
+          <Box className="mt-2 mb-3" sx={{textAlign:"center", color:"#1e1b4b"}}>
+            <Typography variant="button">
+              {"SELECCIONE MAQUINARIA PARA VER SU RUTA"}
+            </Typography>
+          </Box>
           <Grid item xs={12} className="pt-2">
-            <DatePickerForm
-              key={"filter-day"}
-              dateValue={""}
-              labelValue="Fecha"
-              handleDateChange={() => console.log("first")}
-              nameValue="end-day"
-            />
+            <TextField
+              select
+              size="small"
+              label="Seleccione Maquinaria"
+              value={selectedMachinery}
+              onChange={handleChangeMachinery}
+              name="heavyMachineryId"
+              fullWidth
+            >
+              {machineryItems.map((item) => (
+                <MenuItem key={item.value} value={item.value}>
+                  {item.label}
+                </MenuItem>
+              ))}
+            </TextField>{" "}
           </Grid>
           <Grid item xs={12} className="pt-2">
-            <ButtonIconSearch onClick={handleSearchClick} />
+            <ButtonDefault title="Buscar" onClick={handleSearchClick} />
           </Grid>
 
           <Grid item xs={12}>
@@ -136,60 +164,11 @@ const ActualGps: React.FC = () => {
         {showMessage ? (
           <Box> </Box>
         ) : (
-          <div className="w-full h-full pb-[56.25%] relative">
-            {isLoaded ? (
-              <GoogleMap
-                mapContainerStyle={{ height: "400px" }}
-                center={center}
-                zoom={15}
-                onLoad={onLoad}
-                onUnmount={onUnmount}
-                options={{
-                  streetViewControl: false,
-                  mapTypeControl: false,
-                }}
-              >
-                <Polyline
-                  key={"AIzaSyDnKHdX9gAmZQjGgCefXHxmZwjxRYTFxsw"}
-                  path={points}
-                  options={{
-                    strokeColor: "#00FF00", // Color verde
-                    strokeOpacity: 3,
-                    strokeWeight: 3, // Aumentado el grosor para mejor visibilidad
-                  }}
-                />
-                <></>
-              </GoogleMap>
-            ) : (
-              <></>
-            )}
+          <div className="card">
+            <GoogleMapPolyline />
           </div>
         )}
       </div>
-      {/* {isLoaded ? (
-              <GoogleMap
-                mapContainerStyle={{ height: "400px" }}
-                center={center}
-                zoom={15}
-                onLoad={onLoad}
-                onUnmount={onUnmount}
-                options={{
-                  streetViewControl: false,
-                  mapTypeControl: false,
-                }}
-              >
-                {points.map((point, i) => (
-                  <MarkerF
-                    key={i}
-                    position={{ lat: point.lat, lng: point.lng }}
-                    label={point.label}
-                  />
-                ))}
-                <></>
-              </GoogleMap>
-            ) : (
-              <></>
-            )} */}
     </div>
   );
 };

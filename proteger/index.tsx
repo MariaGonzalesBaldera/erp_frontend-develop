@@ -2,9 +2,11 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-  const token = localStorage.getItem("accessToken");
+  // Obtener el objeto authData de localStorage
+  const authData = JSON.parse(localStorage.getItem("authData") || '{}');
 
-  if (!token) {
+  // Verificar si el accessToken existe en authData
+  if (!authData?.accessToken) {
     // Redirigir al login si no hay token
     return <Navigate to="/login" />;
   }
@@ -12,5 +14,6 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   // Mostrar el contenido protegido si el token existe
   return children;
 };
+
 
 export default ProtectedRoute;

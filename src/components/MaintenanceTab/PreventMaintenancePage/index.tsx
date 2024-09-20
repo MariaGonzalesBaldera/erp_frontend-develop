@@ -17,6 +17,7 @@ import ButtonDefault from "../../ButtonDefault";
 import GroupRadioButton from "../../GroupRadioButton";
 import { capitalizer } from "../../../utils/capitalize";
 import ModalEditPrevent from "../../ModalEditPrevent";
+import ModalPreventDetail from "../../ModalPreventDetail";
 
 const dataCreate = {
   id: "",
@@ -239,7 +240,7 @@ const PreventMaintenancePage: React.FC = ({}) => {
         mode="update"
       />
 
-      <ModalMoreDetail //boton de detalle
+      <ModalPreventDetail //boton de detalle
         openModal={openDetail}
         handleClose={handleClose}
         data={selectedRow}

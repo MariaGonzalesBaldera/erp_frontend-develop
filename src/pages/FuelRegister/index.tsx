@@ -169,7 +169,8 @@ const FuelRegister: React.FC = () => {
   ];
   return (
     <>
-      <Grid
+    	
+	  <Grid
         container
         justifyContent={"space-between"}
         direction={{ xs: "column", sm: "row" }}
@@ -177,14 +178,20 @@ const FuelRegister: React.FC = () => {
         gap={1}
         className="p-2 border border-gray-400 bg-white mb-2"
       >
-        <Grid container gap={2} alignItems={"center"} order={{ xs: 2, sm: 1 }}>
+        <Grid
+          container
+          xs="auto"
+          gap={2}
+          alignItems={"center"}
+          order={{ xs: 2, sm: 1 }}
+        >
           <GroupRadioButton
             showTitle={false}
             selectedValue={selectedValue}
             onChange={handleRadioChange}
           />
         </Grid>
-        <Grid order={{ xs: 1, sm: 3 }}>
+        <Grid item xs="auto" order={{ xs: 1, sm: 3 }}>
           <ButtonDefault onClick={handleOpenNewModal} title="NUEVO REGISTRO" />
         </Grid>
       </Grid>

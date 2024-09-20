@@ -18,7 +18,7 @@ import {
 import { capitalizer } from "../../utils/capitalize";
 
 const dataCreate = {
-  id: "",
+  id: 0,
   technicalReviewsStart: "",
   technicalReviewsEnd: "",
   soatStart: "",
@@ -29,7 +29,7 @@ const dataCreate = {
   trekInsuranceEnd: "",
   operatingCertificateStart: "",
   operatingCertificateEnd: "",
-  heavyMachineryId: "",
+  heavyMachineryId: 0,
 };
 const Documents: React.FC = () => {
   const [openDetail, setOpenDetail] = useState(false);
@@ -173,7 +173,7 @@ const Documents: React.FC = () => {
 
   return (
     <Box>
-      <Grid
+     <Grid
         container
         justifyContent={"space-between"}
         direction={{ xs: "column", sm: "row" }}
@@ -182,10 +182,9 @@ const Documents: React.FC = () => {
         className="p-2 border border-gray-400 bg-white mb-2"
       >
         <Grid
-          container
+          item
           gap={2}
           alignItems={"center"}
-          order={{ xs: 2, sm: 1 }}
         >
           <GroupRadioButton
             showTitle={false}
@@ -193,7 +192,7 @@ const Documents: React.FC = () => {
             onChange={handleRadioChange}
           />
         </Grid>
-        <Grid item order={{ xs: 1, sm: 3 }}>
+        <Grid >
           <ButtonDefault onClick={handleOpenNewModal} title="NUEVO DOCUMENTO" />
         </Grid>
       </Grid>
