@@ -31,7 +31,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
   mode,
 }) => {
   const createMachinery = useCreateMachinery();
-
+  const [loading, setLoading] = useState(false);
   const updateBeneficiaryMutation = useUpdateMachinery({
     id: data.id?.toString(),
   });
@@ -118,30 +118,40 @@ const ModalForm: React.FC<ModalFormProps> = ({
       if (hasErrors) {
         return; // No proceder si hay errores
       }
-      let body;
-      if (mode === "create") {
-        body = {
-          brand: formData.brand,
-          model: formData.model,
-          modelYear: formData.modelYear,
-          acquisitionDate: formatDateForAPI(formData.acquisitionDate),
-          netLoad: formData.netLoad,
-          fuelType: formData.fuelType,
-        };
-        console.log("Creating new record:", body);
-        onCreateMachinery(body);
-      } else {
-        body = {
-          brand: formData.brand,
-          model: formData.model,
-          modelYear: formData.modelYear,
-          acquisitionDate: formatDateForAPI(formData.acquisitionDate),
-          netLoad: formData.netLoad,
-          fuelType: formData.fuelType,
-        };
-        onUpdateMachinery(body);
+      setLoading(true);
+      try{
+        let body;
+        if (mode === "create") {
+          body = {
+            brand: formData.brand,
+            model: formData.model,
+            modelYear: formData.modelYear,
+            acquisitionDate: formatDateForAPI(formData.acquisitionDate),
+            netLoad: formData.netLoad,
+            fuelType: formData.fuelType,
+          };
+          console.log("Creating new record:", body);
+          onCreateMachinery(body);
+        } else {
+          body = {
+            brand: formData.brand,
+            model: formData.model,
+            modelYear: formData.modelYear,
+            acquisitionDate: formatDateForAPI(formData.acquisitionDate),
+            netLoad: formData.netLoad,
+            fuelType: formData.fuelType,
+          };
+          onUpdateMachinery(body);
+        }
+      }catch(e){
+        console.log("error")
+      }finally{
+        setLoading(false); // Finalizar la carga
+        handleClose();
       }
-      handleClose();
+
+
+
     },
     [formData, mode, useCreateMachinery, handleClose]
   );

@@ -35,22 +35,23 @@ const Login: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    localStorage.removeItem("authData");
     try {
       const data = { username: usernameValue, password };
-
       const response = await authentication(data);
 
-      const { accessToken, user } = response;
+      const { accessToken, refreshToken, user } = response;
       const { username, role } = user;
 
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("username");
-      localStorage.removeItem("role");
-
-
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("username", user.username);
-      localStorage.setItem("role", user.role);
+      // Crear un objeto con todos los datos que quieres almacenar
+      const authData = {
+        accessToken,
+        refreshToken,
+        username,
+        role,
+      };
+      localStorage.setItem("authData", JSON.stringify(authData));
+      console.log(JSON.stringify(authData))
       navigate("/dashboard", { state: { username, role } });
 
     } catch (err: any) {
@@ -61,6 +62,7 @@ const Login: React.FC = () => {
       setOpenSnackbar(true);
     }
   };
+
   const handleCloseSnackbar = (
     event?: React.SyntheticEvent | Event,
     reason?: string

@@ -1,40 +1,79 @@
 import axios from "axios";
 
 const instance = axios.create({
-	baseURL: import.meta.env.VITE_BACKEND_URL, //`
+	baseURL: import.meta.env.VITE_BACKEND_URL,
 	headers: {
 		"Content-Type": "application/json",
 	},
 });
 
+let isRefreshing = false;
+let refreshSubscribers = [];
 
-// Interceptor para agregar el token a cada solicitud
+const onRrefreshed = (newToken) => {
+	refreshSubscribers.forEach((callback) => callback(newToken));
+	refreshSubscribers = [];
+};
+
+const addRefreshSubscriber = (callback) => {
+	refreshSubscribers.push(callback);
+};
+
 instance.interceptors.request.use(
 	(config) => {
-	  const token = localStorage.getItem("accessToken");
+	  const authData = JSON.parse(localStorage.getItem("authData") || '{}');
+	  const token = authData.accessToken;
+  
 	  if (token) {
 		config.headers["Authorization"] = `Bearer ${token}`;
 	  }
 	  return config;
 	},
-	(error) => {
-	  return Promise.reject(error);
-	}
+	(error) => Promise.reject(error)
   );
   
-  // Manejar errores de respuesta
   instance.interceptors.response.use(
 	(response) => response,
-	(error) => {
-	  const { status, data } = error.response || {};
+	async (error) => {
+	  const { config, response } = error;
+	  const originalRequest = config;
   
-	  if (status === 401 && data?.message === "El token ha expirado") {
-		// Aquí podrías redirigir al login o refrescar el token
-		window.location.href = "/login";
+	  if (response?.status === 401 && response?.data?.message === "El token ha expirado") {
+		if (!isRefreshing) {
+		  isRefreshing = true;
+		  try {
+			// Obtener refreshToken desde el objeto authData
+			const authData = JSON.parse(localStorage.getItem("authData") || '{}');
+			const refreshToken = authData.refreshToken;
+  
+			const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/refresh`, {
+			  refreshToken,
+			});
+  
+			const { accessToken } = data;
+  
+			// Actualizar el objeto authData con el nuevo accessToken
+			const updatedAuthData = { ...authData, accessToken };
+			localStorage.setItem("authData", JSON.stringify(updatedAuthData));
+			isRefreshing = false;
+			onRrefreshed(accessToken);
+		  } catch (refreshError) {
+			localStorage.removeItem("authData");
+			window.location.href = "/login";
+			return Promise.reject(refreshError);
+		  }
+		}
+  
+		return new Promise((resolve) => {
+		  addRefreshSubscriber((newToken) => {
+			originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
+			resolve(axios(originalRequest));
+		  });
+		});
 	  }
   
 	  return Promise.reject(error);
 	}
   );
   
-  export { instance as axios };
+export { instance as axios };

@@ -62,7 +62,7 @@ const findByModel = async (model: string): Promise<ResponseByModel[]> => {
 		});
 };
 
-export const documentsService = {
+export const documentsService = 	{
 	findAll,
 	create,
 	deleteOne,

@@ -1,4 +1,10 @@
-import { Grid, IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
+import {
+  Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import ModalMoreDetailInspection from "../../components/ModalMoreDetailInspection";
@@ -410,7 +416,7 @@ const Inspections: React.FC = () => {
   const [openModalNew, setOpenModalNew] = React.useState(false);
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
-  
+
   const handleRadioChange = (value: string) => {
     console.log(value);
     setSelectedValue(value);
@@ -492,7 +498,7 @@ const Inspections: React.FC = () => {
 
   return (
     <>
-           <Grid
+      <Grid
         container
         justifyContent={"space-between"}
         direction={{ xs: "column", sm: "row" }}
@@ -517,15 +523,15 @@ const Inspections: React.FC = () => {
           <ButtonDefault onClick={handleOpenNewModal} title="NUEVO DOCUMENTO" />
         </Grid>
       </Grid>
-        <Grid  style={{ height: 400}}>
-          <DataGrid
-            sx={styleTableItem}
-            className="truncate..."
-            hideFooter
-            rows={rows}
-            columns={columns}
-            getRowId={(row) => row.heavyMachineryId}
-          />
+      <Grid style={{ height: 400 }}>
+        <DataGrid
+          sx={styleTableItem}
+          className="truncate..."
+          hideFooter
+          rows={rows}
+          columns={columns}
+          getRowId={(row) => row.heavyMachineryId}
+        />
       </Grid>
       <ModalEditInspector //boton de editar
         openModal={openEdit}
