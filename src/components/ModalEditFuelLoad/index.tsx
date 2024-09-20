@@ -31,18 +31,17 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
 }) => {
   const createFuelingUp = useCreateFuelingUp();
   const updateMutation = useUpdateFuelingUp({
-    id: Number(data.id),
+    id: data.id,
   });
   const [selectedMachinery, setSelectedMachinery] = useState<number | "">("");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    id: "",
     numberGallons: 0,
     fuelingMileage: "",
     fuelingDate: "",
     amountPaid: 0,
     invoiceNumber: "",
-    heavyMachineryId: "",
+    heavyMachineryId: 0,
   });
   const [errors, setErrors] = useState({
     numberGallons: false,
@@ -56,13 +55,12 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
   useEffect(() => {
     if (openModal && data) {
       setFormData({
-        id: data.id || "",
         numberGallons: data.numberGallons || 0,
         fuelingMileage: data.fuelingMileage || "",
         fuelingDate: data.fuelingDate || "",
         amountPaid: data.amountPaid || 0,
         invoiceNumber: data.invoiceNumber || "",
-        heavyMachineryId: data.heavyMachineryId + "" || "",
+        heavyMachineryId: data.heavyMachineryId || 0,
       });
     }
   }, [openModal, data]);
@@ -106,7 +104,7 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
         fuelingDate: formData.fuelingDate === "",
         amountPaid: formData.amountPaid === 0,
         invoiceNumber: formData.invoiceNumber === "",
-        heavyMachineryId: mode === "create" && selectedMachinery === 0,
+        heavyMachineryId: mode === "create" && !selectedMachinery,
       };
 
       setErrors(newErrors);
@@ -121,34 +119,25 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
         let body;
         if (mode === "create") {
           body = {
-            numberGallons: formData.numberGallons,
-            fuelingMileage: formData.fuelingMileage,
-            fuelingDate: formData.fuelingDate,
-            amountPaid: formData.amountPaid,
-            invoiceNumber: formData.invoiceNumber,
-            heavyMachineryId: selectedMachinery,
+            ...formData,
+            heavyMachineryId: selectedMachinery, // Usa el valor actualizado de selectedMachinery
           };
-          console.log("body.heavyMachineryId ",body.heavyMachineryId)
-          await onCreateFuelingUp(body); // Llamada para crear
+          await onCreateFuelingUp(body);
         } else {
           body = {
-            numberGallons: formData.numberGallons,
-            fuelingMileage: formData.fuelingMileage,
-            fuelingDate: formData.fuelingDate,
-            amountPaid: formData.amountPaid,
-            invoiceNumber: formData.invoiceNumber,
+            ...formData,
             heavyMachineryId: formData.heavyMachineryId,
           };
-          await onUpdateFuelingUp(body); // Llamada para actualizar
+          await onUpdateFuelingUp(body);
         }
       } catch (error) {
         console.error("Error:", error);
       } finally {
-        setLoading(false); // Finalizar la carga
-        handleClose(); // Cerrar el modal
+        setLoading(false);
+        handleClose();
       }
     },
-    [formData, mode, useCreateFuelingUp, useUpdateFuelingUp, handleClose]  );
+    [formData, mode, selectedMachinery,useCreateFuelingUp, useUpdateFuelingUp, handleClose]  );
 
   const onCreateFuelingUp = async (data: FuelingUpResponse) => {
     try {
@@ -213,10 +202,9 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
       aria-describedby="modal-modal-description"
     >
       <Box sx={styleModalInspection}>
-
         <HeaderModal
           titleHeader={modalTitle}
-          id={formData.id || ""} // Display the ID if available
+          id={""} // Display the ID if available
           handleClose={handleClose}
         />
         <Box className="p-5">

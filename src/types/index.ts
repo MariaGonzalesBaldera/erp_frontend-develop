@@ -43,7 +43,7 @@ export interface MaquinariaDataItem {
 }
 
 export interface PreventMaintenanceItem {
-  id?: string;
+  id?: number;
   motorOil: boolean;
   oilFilters: boolean;
   fuelFilters: boolean;
@@ -58,7 +58,7 @@ export interface PreventMaintenanceItem {
   observations: string;
   createdAt?: string;
   updatedAt?: string;
-  heavyMachineryId?: string;
+  heavyMachineryId?: number;
 }
 
 export interface CorrectiveMaintananceItem {
@@ -74,7 +74,7 @@ export interface CorrectiveMaintananceItem {
   drivingEnd: string;
   createdAt?: string;
   updatedAt?: string;
-  heavyMachineryId?: string
+  heavyMachineryId?: number
 }
 
 export interface MachineryInspectionItem {
@@ -147,7 +147,7 @@ export interface DocumentItem {
 }
 
 export interface FuelLoadProps {
-  id: string;
+  id: number;
   numberGallons: number;
   fuelingMileage: string;
   fuelingDate: string;
@@ -155,7 +155,7 @@ export interface FuelLoadProps {
   invoiceNumber: string;
   createdAt?: string;
   updatedAt?: string;
-  heavyMachineryId: string;
+  heavyMachineryId?: number;
 }
 
 export interface TransportationCost {
@@ -203,7 +203,7 @@ export interface CorrectiveMaintenanceProps {
 export interface ModalEditMaintenanceProps {
   openModal: boolean;
   handleClose: () => void;
-  data: PreventMaintenanceItem;
+  data: CorrectiveMaintananceItem;
   mode: string;
 }
 

@@ -36,12 +36,11 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
 }) => {
   const createPreventive = useCreatePreventiveMaintenance();
   const updateMutation = useUpdatePreventiveMaintenance({
-    id: Number(data.id),
+    id: data.id,
   });
   const [selectedMachinery, setSelectedMachinery] = useState<number | "">("");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    id: "",
     motorOil: false,
     oilFilters: false,
     fuelFilters: false,
@@ -54,7 +53,7 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
     amountPaid: 0,
     invoiceNumber: "",
     observations: "",
-    heavyMachineryId: "",
+    heavyMachineryId: 0,
   });
   const [errors, setErrors] = useState({
     periodType: false,
@@ -65,16 +64,25 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
     invoiceNumber: false,
     heavyMachineryId: false,
   });
-
+  const handleChangeMachinery = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const selectedValue = Number(event.target.value);
+    formData.heavyMachineryId = selectedValue;
+    setSelectedMachinery(selectedValue);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      heavyMachineryId: false, // Limpia el error si se selecciona una opción válida
+    }));
+  };
   useEffect(() => {
     if (openModal && data) {
       setFormData({
-        id: data.id || "",
-        motorOil: data.motorOil ,
-        oilFilters: data.oilFilters ,
-        fuelFilters: data.fuelFilters ,
-        airFilters: data.airFilters ,
-        transmissionOil: data.transmissionOil ,
+        motorOil: data.motorOil,
+        oilFilters: data.oilFilters,
+        fuelFilters: data.fuelFilters,
+        airFilters: data.airFilters,
+        transmissionOil: data.transmissionOil,
         periodType: data.periodType || "",
         maintenancePeriod: data.maintenancePeriod || "",
         maintenanceDate: data.maintenanceDate || "",
@@ -82,7 +90,7 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
         amountPaid: data.amountPaid || 0,
         invoiceNumber: data.invoiceNumber || "",
         observations: data.observations || "",
-        heavyMachineryId: data.heavyMachineryId+"" || "",
+        heavyMachineryId: data.heavyMachineryId || 0,
       });
     }
   }, [openModal, data]);
@@ -111,7 +119,7 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
         nextMaintenancePeriod: formData.nextMaintenancePeriod === "",
         amountPaid: formData.amountPaid === 0,
         invoiceNumber: formData.invoiceNumber === "",
-        heavyMachineryId: mode === "create" && selectedMachinery === 0,
+        heavyMachineryId: mode === "create" && !selectedMachinery,
       };
 
       setErrors(newErrors);
@@ -128,38 +136,28 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
         let body;
         if (mode === "create") {
           body = {
-            periodType: formData.periodType,
-            maintenancePeriod: formData.maintenancePeriod,
-            maintenanceDate: formData.maintenanceDate,
-            nextMaintenancePeriod: formData.nextMaintenancePeriod,
-            amountPaid: formData.amountPaid,
-            invoiceNumber: formData.invoiceNumber,
-            heavyMachineryId: selectedMachinery,
+            ...formData,
+            heavyMachineryId: selectedMachinery, // Usa el valor actualizado de selectedMachinery
           };
-          console.log("body.heavyMachineryId ", body.heavyMachineryId);
-          await onCreatePrevent(body); // Llamada para crear
+          await onCreatePrevent(body);
         } else {
           body = {
-            periodType: formData.periodType,
-            maintenancePeriod: formData.maintenancePeriod,
-            maintenanceDate: formData.maintenanceDate,
-            nextMaintenancePeriod: formData.nextMaintenancePeriod,
-            amountPaid: formData.amountPaid,
-            invoiceNumber: formData.invoiceNumber,
+            ...formData,
             heavyMachineryId: formData.heavyMachineryId,
           };
-          await onUpdatePrevent(body); // Llamada para actualizar
+          await onUpdatePrevent(body);
         }
       } catch (error) {
         console.error("Error:", error);
       } finally {
-        setLoading(false); // Finalizar la carga
-        handleClose(); // Cerrar el modal
+        setLoading(false);
+        handleClose();
       }
     },
     [
       formData,
       mode,
+      selectedMachinery,
       useCreatePreventiveMaintenance,
       useUpdatePreventiveMaintenance,
       handleClose,
@@ -210,12 +208,6 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
     }
   }, [machineryData, isLoading, error]);
 
-  const handleChangeMachinery = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSelectedMachinery(Number(event.target.value));
-    // errors.heavyMachineryId = false;
-  };
   return (
     <Modal
       open={openModal}
@@ -226,22 +218,18 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
       <Box sx={styleModalInspection}>
         <HeaderModal
           titleHeader={modalTitle}
-          id={formData.id + "" || ""} // Display the ID if available
+          id={""} // Display the ID if available
           handleClose={handleClose}
         />
         <Box className="p-5">
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{ mt: 2 }}
-          >
-            {loading ? 
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+            {loading ? (
               <Grid item xs={12} style={{ textAlign: "center" }}>
                 <CircularProgress /> {/* Indicador de carga */}
               </Grid>
-             : 
+            ) : (
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={12} >
+                <Grid item xs={12} sm={12}>
                   {[
                     "motorOil",
                     "oilFilters",
@@ -270,7 +258,8 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
                     "invoiceNumber",
                     "observations",
                   ].map((item) => (
-                    <TextField sx={{paddingBottom:1}}
+                    <TextField
+                      sx={{ paddingBottom: 1 }}
                       key={item}
                       fullWidth
                       size="small"
@@ -278,30 +267,42 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
                       name={item}
                       value={formData[item as keyof typeof formData]}
                       onChange={handleChange}
+                      error={errors[item as keyof typeof formData]}
+                      helperText={
+                        errors[item as keyof typeof formData]
+                          ? "Campo requerido"
+                          : ""
+                      }
                     />
                   ))}
 
                   {/* Date Input */}
-                  <TextField sx={{paddingBottom:1}}
+                  <TextField
+                    sx={{ paddingBottom: 1 }}
                     fullWidth
-                    label="Maintenance Date"
+                    label="Fecha de mantenimiento"
                     name="maintenanceDate"
                     type="date"
                     size="small"
                     value={formData.maintenanceDate}
                     onChange={handleChange}
                     InputLabelProps={{ shrink: true }}
+                    error={errors.maintenanceDate}
+                    helperText={errors.maintenanceDate ? "Campo requerido" : ""}
                   />
 
                   {/* Number Input */}
-                  <TextField sx={{paddingBottom:1}}
+                  <TextField
+                    sx={{ paddingBottom: 1 }}
                     fullWidth
-                    label="Amount Paid"
+                    label="Monto pagado"
                     name="amountPaid"
                     type="number"
                     size="small"
                     value={formData.amountPaid}
                     onChange={handleChange}
+                    error={errors.amountPaid}
+                    helperText={errors.amountPaid ? "Campo requerido" : ""}
                   />
                   {mode === "create" ? (
                     <div>
@@ -318,10 +319,10 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
                           onChange={handleChangeMachinery}
                           name="heavyMachineryId"
                           fullWidth
-                          //   error={errors.heavyMachineryId}
-                          //   helperText={
-                          //     errors.heavyMachineryId ? "Campo requerido" : ""
-                          //   }
+                          error={errors.heavyMachineryId}
+                          helperText={
+                            errors.heavyMachineryId ? "Campo requerido" : ""
+                          }
                         >
                           {machineryItems.map((item) => (
                             <MenuItem key={item.value} value={item.value}>
@@ -340,7 +341,7 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
                   <ButtonDefault title={buttonText} />
                 </Grid>
               </Grid>
-            }
+            )}
           </Box>
         </Box>
       </Box>

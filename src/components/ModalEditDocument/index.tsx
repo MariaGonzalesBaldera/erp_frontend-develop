@@ -17,7 +17,7 @@ import {
   DocumentResponse,
   MachineryResponse,
 } from "../../domain/machinery.interface";
-import { capitalizer, formatDateForAPI } from "../../utils/capitalize";
+import { capitalizer } from "../../utils/capitalize";
 import { useGetMachineryList } from "../../hooks/useMaquinaria";
 
 const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
@@ -28,7 +28,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
 }) => {
   const createDocument = useCreateDocument();
   const updateMutation = useUpdateDocument({
-    id: Number(data.id),
+    id:data.id,
   });
   const [selectedMachinery, setSelectedMachinery] = useState<number>(0);
   const [loading, setLoading] = useState(false);
@@ -104,8 +104,6 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      console.log("selectedMachinery entrada ", selectedMachinery);
-
       const newErrors = {
         technicalReviewsStart: formData.technicalReviewsStart === "",
         technicalReviewsEnd: formData.technicalReviewsEnd === "",
@@ -119,7 +117,6 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
         operatingCertificateEnd: formData.operatingCertificateEnd === "",
         heavyMachineryId: mode === "create" && !selectedMachinery,
       };
-      console.log("selectedMachinery", selectedMachinery);
       setErrors(newErrors);
       const hasErrors = Object.values(newErrors).some((error) => error);
       if (hasErrors) {
