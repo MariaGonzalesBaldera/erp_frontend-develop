@@ -1,6 +1,7 @@
 import { useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanstack/react-query";
 import { employeeService } from "../../services/employee.service";
-import { IMachinery, EmployeeResponse } from "../../domain/machinery.interface";
+import { IMachinery } from "../../domain/machinery.interface";
+import { employeeItem } from "../../types";
 
 const { findAll,create,deleteOne, update } = employeeService ; 
 
@@ -15,7 +16,7 @@ export const useGetEmployeeList = () => {
 export const useCreateEmployee = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (data: EmployeeResponse) => create(data),
+		mutationFn: (data: employeeItem) => create(data),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["get-employee-searched"] });
 		},
@@ -29,7 +30,7 @@ export const useUpdateEmployee = ({
 }) => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (data: Partial<EmployeeResponse>) =>
+		mutationFn: (data: Partial<employeeItem>) =>
 			 update(data, id), 
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["get-employee-searched"] });

@@ -183,11 +183,7 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
         }));
       setMachineryItems(formattedItems);
     }
-  }, [machineryData, isLoading, error]);
-
-  // Estado para manejar la selección del usuario
-
-  // Manejar el cambio de selección
+  }, [machineryData, isLoading, error]); 
   const handleChangeMachinery = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {

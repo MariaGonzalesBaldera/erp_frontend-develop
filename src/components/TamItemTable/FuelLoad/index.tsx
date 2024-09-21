@@ -8,12 +8,12 @@ import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
 import { styleTableItem } from "../../../style/StyleModal";
 import ModalEditFuelLoad from "../../ModalEditFuelLoad";
-import ModalFuelLoadDetail from "../../ModalFuelLoadDetail";
-import dayjs from "dayjs";
 import {
   useDeleteFuelingUp,
   useGetFuelingUpByMachinery,
 } from "../../../hooks/useFuelingUp";
+import ModalDetailGeneric from "../../ModalDetailGeneric";
+import { formatDayMonthYear } from "../../../utils/capitalize";
 
 interface FuelLoadPropsItem {
   idMachinery: number;
@@ -29,7 +29,7 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
     id: idMachinery,
   });
   console.log("DATA " + machineryData);
- 
+
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
   const handleOpen = (row: any) => {
@@ -38,7 +38,8 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
   };
 
   const handleCloseConfirmModal = () => {
-    setOpenModalConfirm(false)};
+    setOpenModalConfirm(false);
+  };
 
   const handleOpenEdit = (row: FuelLoadProps) => {
     setSelectedRow(row);
@@ -87,7 +88,7 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
       minWidth: 150,
       align: "center",
       headerAlign: "center",
-      renderCell: (params) => dayjs(params.value).format("DD-MM-YYYY"),
+      renderCell: (params) => formatDayMonthYear(params.value),
     },
     {
       field: "actions",
@@ -113,7 +114,6 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
             <IconButton
               color="warning"
               onClick={() => handleOpen(params.row)}
-
               aria-label="Ver detalles"
             >
               <ListIcon />
@@ -122,10 +122,11 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
-              onClick={()=>{
-                setValueDelete(Number(params.id))
-                handleOpenConfirmModal()
-              }}              aria-label="ELiminar"
+              onClick={() => {
+                setValueDelete(Number(params.id));
+                handleOpenConfirmModal();
+              }}
+              aria-label="ELiminar"
             >
               <DeleteIcon />
             </IconButton>
@@ -133,6 +134,17 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
         </>
       ),
     },
+  ];
+  const fieldsDetail = [
+    { title: "Número de galones", value: selectedRow.numberGallons },
+    { title: "Combustible kilometraje", value: selectedRow.fuelingMileage },
+    {
+      title: "Fecha de kilometraje",
+      value: formatDayMonthYear(selectedRow.fuelingDate),
+    },
+    { title: "Cantidad Pagada", value: selectedRow.amountPaid },
+    { title: "Número de factura", value: selectedRow.invoiceNumber },
+    { title: "Código de la maquinaria", value: selectedRow.heavyMachineryId },
   ];
   return (
     <>
@@ -152,11 +164,12 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
         data={selectedRow}
         mode="update"
       />
-
-      <ModalFuelLoadDetail //boton de detalle
+      <ModalDetailGeneric //boton de detalle
         openModal={openDetail}
         handleClose={handleClose}
         data={selectedRow}
+        fields={fieldsDetail}
+        title="DETALLE DEL REGISTRO"
       />
 
       <ConfirmModal //boton de eliminar
@@ -164,7 +177,6 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
         onCancel={handleCloseConfirmModal}
         onConfirmAction={handleDelete}
         id={Number(valueDelete)}
-
       />
     </>
   );

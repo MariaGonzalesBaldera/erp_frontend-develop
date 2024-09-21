@@ -13,17 +13,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ListIcon from "@mui/icons-material/List";
 import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
 import ModalEditFuelLoad from "../../components/ModalEditFuelLoad";
-import ModalFuelLoadDetail from "../../components/ModalFuelLoadDetail";
 import ConfirmModal from "../../components/ConfirmModal";
 
 import {
   useDeleteFuelingUp,
   useGetFuelingUpByModel,
 } from "../../hooks/useFuelingUp";
-import { capitalizer } from "../../utils/capitalize";
+import { capitalizer, formatDayMonthYear } from "../../utils/capitalize";
 import GroupRadioButton from "../../components/GroupRadioButton";
 import ButtonDefault from "../../components/ButtonDefault";
-import dayjs from "dayjs";
+import ModalDetailGeneric from "../../components/ModalDetailGeneric";
 
 const dataCreate = {
   id: 0,
@@ -128,7 +127,7 @@ const FuelRegister: React.FC = () => {
       minWidth: 150,
       align: "center",
       headerAlign: "center",
-      renderCell: (params) => dayjs(params.value).format('DD-MM-YYYY'),
+      renderCell: (params) => formatDayMonthYear(params.value),
     },
     {
       field: "actions",
@@ -174,6 +173,17 @@ const FuelRegister: React.FC = () => {
         </>
       ),
     },
+  ];
+  const fieldsDetail = [
+    { title: "Número de galones", value: selectedRow.numberGallons },
+    { title: "Combustible kilometraje", value: selectedRow.fuelingMileage },
+    {
+      title: "Fecha de kilometraje",
+      value: formatDayMonthYear(selectedRow.fuelingDate),
+    },
+    { title: "Cantidad Pagada", value: selectedRow.amountPaid },
+    { title: "Número de factura", value: selectedRow.invoiceNumber },
+    { title: "Código de la maquinaria", value: selectedRow.heavyMachineryId },
   ];
   return (
     <Box>
@@ -227,20 +237,19 @@ const FuelRegister: React.FC = () => {
           </div>
         )}
       </Grid>
-
       <ModalEditFuelLoad //boton de editar
         openModal={openEdit}
         handleClose={handleCloseEdit}
         data={selectedRow}
         mode="update"
       />
-
-      <ModalFuelLoadDetail //boton de detalle
+      <ModalDetailGeneric //boton de detalle
         openModal={openDetail}
         handleClose={handleClose}
         data={selectedRow}
+        fields={fieldsDetail}
+        title="DETALLE DEL REGISTRO"
       />
-
       <ConfirmModal //boton de eliminar
         onConfirm={openModalConfirm}
         onCancel={handleCloseConfirmModal}

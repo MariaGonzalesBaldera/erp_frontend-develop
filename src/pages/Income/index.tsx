@@ -13,9 +13,9 @@ import ListIcon from "@mui/icons-material/List";
 import GroupRadioButton from "../../components/GroupRadioButton";
 import ButtonDefault from "../../components/ButtonDefault";
 import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
-import { capitalizer } from "../../utils/capitalize";
+import { capitalizer, formatDayMonthYear } from "../../utils/capitalize";
 import ConfirmModal from "../../components/ConfirmModal";
-import dayjs from "dayjs";
+import ModalDetailGeneric from "../../components/ModalDetailGeneric";
 
 const dataCreate = {
   id: 0,
@@ -118,7 +118,7 @@ const Income: React.FC = () => {
       minWidth: 120,
       align: "center",
       headerAlign: "center",
-      renderCell: (params) => dayjs(params.value).format("DD-MM-YYYY"),
+      renderCell: (params) => formatDayMonthYear(params.value),
     },
     {
       field: "hoursOperated",
@@ -173,7 +173,16 @@ const Income: React.FC = () => {
       ),
     },
   ];
+  const fieldsDetail = [
+    {title:"Fecha de transacción",value:formatDayMonthYear(selectedRow.transactionDate)},
+    {title:"Horas de funcionamiento",value:selectedRow.hoursOperated},
+    {title:"Tarifa por hora",value:selectedRow.hourlyRate},
+    {title:"Ingreso total",value:selectedRow.totalIncome},
+    {title:"Número de factura",value:selectedRow.invoiceNumber},
+    {title:"Nombre del proyecto",value:selectedRow.projectName},
+    {title:"Código de la maquinaria",value:selectedRow.heavyMachineryId},
 
+  ];
   return (
     <Box>
       <Grid
@@ -231,14 +240,14 @@ const Income: React.FC = () => {
           handleClose={handleCloseEdit}
           data={selectedRow}
           mode="update"
-        />
-
-        <ModalDocumentDetail //boton de detalle
+        /> */}
+        <ModalDetailGeneric //boton de detalle
           openModal={openDetail}
           handleClose={handleClose}
           data={selectedRow}
-        /> */}
-
+          fields={fieldsDetail}
+          title="DETALLE DEL INGRESO"
+        />
         <ConfirmModal //boton de eliminar
           onConfirm={openModalConfirm}
           onCancel={handleCloseConfirmModal}

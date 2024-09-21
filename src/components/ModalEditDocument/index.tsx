@@ -17,7 +17,7 @@ import {
   DocumentResponse,
   MachineryResponse,
 } from "../../domain/machinery.interface";
-import { capitalizer } from "../../utils/capitalize";
+import { capitalizer, formatDateForAPI } from "../../utils/capitalize";
 import { useGetMachineryList } from "../../hooks/useMaquinaria";
 
 const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
@@ -85,10 +85,10 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
         operatingCertificateEnd: data.operatingCertificateEnd || "",
         heavyMachineryId: data.heavyMachineryId || 0,
       });
-      setSelectedMachinery(data.heavyMachineryId || 0);
     }
   }, [openModal, data]);
   const handleChange = useCallback((name: string, date: string) => {
+    console.log(name +"-  "+ date)
     setFormData((prevData) => ({
       ...prevData,
       [name]: date,
@@ -136,6 +136,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
             ...formData,
             heavyMachineryId: formData.heavyMachineryId,
           };
+          console.log("body",body)
           await onUpdateDocument(body);
         }
       } catch (error) {
@@ -218,11 +219,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
       setMachineryItems(formattedItems);
     }
   }, [machineryData, isLoading, error]);
-
-  // Estado para manejar la selección del usuario
-
-  // Manejar el cambio de selección
-
+ 
   return (
     <Modal
       open={openModal}
@@ -249,7 +246,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
                     key={field.name}
                     dateValue={formData[field.name] || ""}
                     labelValue={field.label}
-                    handleDateChange={(date) => handleChange(field.name, date)}
+                    handleDateChange={(date) => handleChange(field.name, formatDateForAPI(date))}
                     nameValue={formData[field.name]}
                     error={errors[field.name]}
                     helperText={errors[field.name] ? "Campo requerido" : ""}
