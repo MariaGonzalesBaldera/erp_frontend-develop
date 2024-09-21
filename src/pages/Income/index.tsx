@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   useDeleteIncome,
   useGetIncomeByModel,
-  useGetIncomeList,
 } from "../../hooks/useIncome";
 import { MachineryIncomeResponse } from "../../domain/machinery.interface";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
@@ -16,6 +15,7 @@ import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
 import { capitalizer, formatDayMonthYear } from "../../utils/capitalize";
 import ConfirmModal from "../../components/ConfirmModal";
 import ModalDetailGeneric from "../../components/ModalDetailGeneric";
+import ModalIcomeEdit from "../../components/ModalIcomeEdit";
 
 const dataCreate = {
   id: 0,
@@ -25,8 +25,6 @@ const dataCreate = {
   totalIncome: 0,
   invoiceNumber: "",
   projectName: "",
-  createdAt: "",
-  updatedAt: "",
   heavyMachineryId: 0,
 };
 
@@ -44,20 +42,10 @@ const Income: React.FC = () => {
   const [selectedValue, setSelectedValue] = useState<string>("oruga");
   const { mutateAsync: mutationDeleteId } = useDeleteIncome();
   const [documentsData, setDocumentsData] = useState<any[]>([]);
-
-  const { data: initialDocumentsData } = useGetIncomeList();
-
   const { data: searchedDocumentsData } = useGetIncomeByModel({
     model: selectedValue,
   });
-
-  // Cargar datos iniciales cuando el componente carga
-  React.useEffect(() => {
-    if (initialDocumentsData) {
-      setDocumentsData(initialDocumentsData);
-    }
-  }, [initialDocumentsData]);
-
+  
   React.useEffect(() => {
     if (searchedDocumentsData) {
       setDocumentsData(searchedDocumentsData);
@@ -235,12 +223,12 @@ const Income: React.FC = () => {
           )}
         </div>
 
-        {/* <ModalEditDocument //boton de editar
+        <ModalIcomeEdit //boton de editar
           openModal={openEdit}
           handleClose={handleCloseEdit}
           data={selectedRow}
           mode="update"
-        /> */}
+        />
         <ModalDetailGeneric //boton de detalle
           openModal={openDetail}
           handleClose={handleClose}
@@ -255,12 +243,12 @@ const Income: React.FC = () => {
           id={Number(valueDelete)}
         />
       </Grid>
-      {/* <ModalEditDocument ///crear
+      <ModalIcomeEdit ///crear
         openModal={openModalNew}
         handleClose={handleCloseNewModal}
         data={dataCreate}
         mode="create"
-      /> */}
+      />
     </Box>
   );
 };

@@ -29,7 +29,7 @@ export const useGetIncomeByMachinery = ({ id }: { id: number }) => {
 };
 export const useGetIncomeByModel = ({ model }: { model: string }) => {
   return useQuery({
-    queryKey: ["get-income-searched-model", model],
+    queryKey: ["get-income-searched", model],
     queryFn: () => findByModel(model),
     enabled: !!model,
   });
