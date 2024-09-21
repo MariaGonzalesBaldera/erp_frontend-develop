@@ -10,7 +10,15 @@ const findAll = async (): Promise<FuelingUpResponse[]> => {
 			throw new Error(err.response?.data.message || "Error al obtener los datos");
 		});
 };
-
+const findByMachinery = async (id?: number): Promise<FuelingUpResponse[]> => {
+	return axios
+		.get(`/fuelingUp/findByMachinery/${id}`)
+		.then((res) => res.data)
+		.catch((err) => {
+			console.log(err.response.data)
+			throw new Error(err.response.data);
+		});
+};
 const create = async (data: FuelingUpResponse): Promise<FuelingUpResponse> => {
 	return axios
 		.post("/fuelingUp/create", data)
@@ -55,5 +63,6 @@ export const fuelingUpService = {
 	create,
 	deleteOne,
 	update,
-	findByModel
+	findByModel,
+	findByMachinery
 };

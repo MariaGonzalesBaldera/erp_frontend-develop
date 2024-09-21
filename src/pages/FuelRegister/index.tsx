@@ -23,6 +23,7 @@ import {
 import { capitalizer } from "../../utils/capitalize";
 import GroupRadioButton from "../../components/GroupRadioButton";
 import ButtonDefault from "../../components/ButtonDefault";
+import dayjs from "dayjs";
 
 const dataCreate = {
   id: 0,
@@ -127,6 +128,7 @@ const FuelRegister: React.FC = () => {
       minWidth: 150,
       align: "center",
       headerAlign: "center",
+      renderCell: (params) => dayjs(params.value).format('DD-MM-YYYY'),
     },
     {
       field: "actions",

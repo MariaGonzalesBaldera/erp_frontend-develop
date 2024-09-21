@@ -125,9 +125,9 @@ export interface MachineryInspectionItem {
   residentEngineer: string;
   ssoma: string;
   observations: string;
-  createdAt: string;
-  updatedAt: string;
-  heavyMachineryId: string;
+  createdAt?: string;
+  updatedAt?: string;
+  heavyMachineryId?: number;
 }
 export interface DocumentItem {
   id: number;

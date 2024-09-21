@@ -54,10 +54,10 @@ const TabDocuments: React.FC<TabDocumentsProps> = ({idMachinery}) => {
         <CorrectiveMaintenance idMachinery={idMachinery} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <InspectionMachinery />
+        <InspectionMachinery idMachinery={idMachinery} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <FuelLoad />
+        <FuelLoad idMachinery={idMachinery} />
       </CustomTabPanel>
     </Grid>
   );

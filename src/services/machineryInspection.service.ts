@@ -11,7 +11,15 @@ const findAll = async (): Promise<InspectionResponse[]> => {
       throw new Error(err.response?.data.message || "Error al obtener los datos");
 		});
 };
-
+const findByMachinery = async (id?: number): Promise<InspectionResponse[]> => {
+	return axios
+		.get(`/machineryInspection/findByMachinery/${id}`)
+		.then((res) => res.data)
+		.catch((err) => {
+			console.log(err.response.data)
+			throw new Error(err.response.data);
+		});
+};
 const create = async (data: InspectionResponse): Promise<InspectionResponse> => {
 	return axios
 		.post("/machineryInspection/create", data)
@@ -24,7 +32,7 @@ const create = async (data: InspectionResponse): Promise<InspectionResponse> => 
 
 const update = async (
 	data: Partial<InspectionResponse>,
-	id?: string,
+	id?: number,
 ): Promise<InspectionResponse> => {
 	return axios
 		.put(`/machineryInspection/update/${id}`, data) 
@@ -43,9 +51,22 @@ const deleteOne = async (params: ParamsDeleteItem) => {
 		});
 };
 
+const findByModel = async (model: string): Promise<InspectionResponse[]> => {
+	return axios
+		.get(`/machineryInspection/findByMachineryModel/${model}`)
+		.then((res) => res.data)
+		.catch((err) => {
+			console.log(err.response.data)
+			throw new Error(err.response.data);
+		});
+};
+
 export const InspectionService = {
 	findAll,
 	create,
 	deleteOne,
-	update
+	update,
+	findByMachinery,
+	findByModel
+
 };

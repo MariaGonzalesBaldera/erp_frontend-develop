@@ -142,7 +142,7 @@ export interface EmailSendRequest {
 }
 
 export interface InspectionResponse {
-  id: string,
+  id?: number,
   projectName: string,
   unitData: string,
   activity: string,
@@ -192,7 +192,7 @@ export interface InspectionResponse {
   observations: string,
   createdAt?: string,
   updatedAt?: string,
-  heavyMachineryId?: string
+  heavyMachineryId?: number
 }
 
 export interface AccountingResponse {

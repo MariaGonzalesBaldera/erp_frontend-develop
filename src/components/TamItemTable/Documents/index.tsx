@@ -1,4 +1,4 @@
-import { IconButton, Tooltip } from "@mui/material";
+import { Grid, IconButton, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import { DocumentItem } from "../../../types";
@@ -8,8 +8,9 @@ import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
 import ModalDocumentDetail from "../../ModalDocumentDetail";
 import ModalEditDocument from "../../ModalEditDocument";
-import { styleTableItem } from "../../../style/StyleModal";
+import { styleTableItem, styleTableResponsive } from "../../../style/StyleModal";
 import {useDeleteDocument, useGetDocumentByMachinery} from '../../../hooks/useDocuments'
+import dayjs from "dayjs";
 
 interface DocumentsProps{
   idMachinery:number;
@@ -72,6 +73,7 @@ const Documents: React.FC<DocumentsProps> = ({idMachinery}) => {
       minWidth: 200,
       align: "center",
       headerAlign: "center",
+      renderCell: (params) => dayjs(params.value).format('DD-MM-YYYY'),
     },
     {
       field: "technicalReviewsEnd",
@@ -80,6 +82,8 @@ const Documents: React.FC<DocumentsProps> = ({idMachinery}) => {
       minWidth: 120,
       align: "center",
       headerAlign: "center",
+      renderCell: (params) => dayjs(params.value).format('DD-MM-YYYY'),
+
     },
     {
       field: "soatStart",
@@ -88,6 +92,8 @@ const Documents: React.FC<DocumentsProps> = ({idMachinery}) => {
       minWidth: 150,
       align: "center",
       headerAlign: "center",
+      renderCell: (params) => dayjs(params.value).format('DD-MM-YYYY'),
+
     },
     {
       field: "actions",
@@ -136,6 +142,8 @@ const Documents: React.FC<DocumentsProps> = ({idMachinery}) => {
   ];
   return (
     <>
+      <Grid sx={styleTableResponsive}>
+
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           sx={styleTableItem}
@@ -145,6 +153,7 @@ const Documents: React.FC<DocumentsProps> = ({idMachinery}) => {
           columns={columns}
         />
       </div>
+      </Grid>
 
       <ModalEditDocument //boton de editar
         openModal={openEdit}
