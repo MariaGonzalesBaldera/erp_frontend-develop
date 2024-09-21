@@ -16,6 +16,7 @@ import {
   useGetDocumentByModel,
 } from "../../hooks/useDocuments";
 import { capitalizer } from "../../utils/capitalize";
+import dayjs from "dayjs";
 
 const dataCreate = {
   id: 0,
@@ -108,6 +109,7 @@ const Documents: React.FC = () => {
       minWidth: 200,
       align: "center",
       headerAlign: "center",
+      renderCell: (params) => dayjs(params.value).format('DD-MM-YYYY'),
     },
     {
       field: "technicalReviewsEnd",
@@ -116,6 +118,7 @@ const Documents: React.FC = () => {
       minWidth: 120,
       align: "center",
       headerAlign: "center",
+      renderCell: (params) => dayjs(params.value).format('DD-MM-YYYY'),
     },
     {
       field: "soatStart",
@@ -124,6 +127,7 @@ const Documents: React.FC = () => {
       minWidth: 150,
       align: "center",
       headerAlign: "center",
+      renderCell: (params) => dayjs(params.value).format('DD-MM-YYYY'),
     },
     {
       field: "actions",

@@ -1,70 +1,77 @@
-import { Box, Grid, IconButton, Tooltip } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
-import ModalMoreDetail from "../../ModalMoreDetail";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmModal from "../../ConfirmModal";
-import ModalEditMaintenance from "../../ModalEditMaintenance";
 import {
   PreventMaintenanceItem,
   PreventMaintenanceProps,
 } from "../../../types";
 import ListIcon from "@mui/icons-material/List";
 import { styleTableItem } from "../../../style/StyleModal";
-import { useGetPreventiveByMachinery } from "../../../hooks/usePreventiveMaintenance";
-
-const dataCreate = {
-  id: "",
-  motorOil: false,
-  oilFilters: false,
-  fuelFilters: false,
-  airFilters: false,
-  transmissionOil: false,
-  periodType: "",
-  maintenancePeriod: "",
-  maintenanceDate: "",
-  nextMaintenancePeriod: "",
-  amountPaid: "",
-  invoiceNumber: "",
-  observations: "",
-  heavyMachineryId: "",
-};
+import { useDeletePreventiveMaintenance, useGetPreventiveByMachinery } from "../../../hooks/usePreventiveMaintenance";
+import ModalPreventDetail from "../../ModalPreventDetail";
+import ModalEditPrevent from "../../ModalEditPrevent";
 
 const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
   idMachinery,
 }) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
 
-  const [openModalNew, setOpenModalNew] = React.useState(false);
-  const handleOpenNewModal = () => setOpenModalNew(true);
-  const handleCloseNewModal = () => setOpenModalNew(false);
+  const [preventData, setDocumentsData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [valueDelete, setValueDelete] = useState(0);
 
-  const { data: preventData } = useGetPreventiveByMachinery({
+  const { data: searchedDocumentsData } = useGetPreventiveByMachinery({
     id: idMachinery,
   });
-  console.log("DATA " + JSON.stringify(preventData, null, 2));
-
+  React.useEffect(() => {
+    setLoading(true);
+    try {
+      if (searchedDocumentsData) {
+        setDocumentsData(searchedDocumentsData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [searchedDocumentsData]);
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
-
-  const handleOpenDelete = () => {
-    setOpenDelete(true);
-  };
-  const handleCloseConfirmModal = () => setOpenDelete(false);
+  const { mutateAsync: mutationDeleteId } = useDeletePreventiveMaintenance();
+ 
+  const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 
   const handleOpenEdit = (row: PreventMaintenanceItem) => {
     setSelectedRow(row);
     setOpenEdit(true);
   };
+  const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
+
+  const handleOpenConfirmModal = () => setOpenModalConfirm(true);
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
+  const handleDelete = async () => {
+    try {
+      await mutationDeleteId(valueDelete);
+      console.log("Documento eliminado exitosamente");
+    } catch (error) {
+      console.log("Error al eliminar documento: ", error);
+    }
+  };
 
   const columns: GridColDef[] = [
     {
@@ -132,7 +139,10 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
-              onClick={() => handleOpenDelete()}
+              onClick={() => {
+                setValueDelete(Number(params.id));
+                handleOpenConfirmModal();
+              }}
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -145,61 +155,54 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
 
   return (
     <>
-      {/* {mode == "page" ? (
-        <Grid container spacing={2} alignItems="center" sx={{ pb: 1 }}>
-          <Grid item xs={12} md={6}>
-            <SearchInput title="Ingresa el código de la maquinaria" />
-          </Grid>
-
-          <Grid
-            item
-            xs={12}
-            md={6}
-            sx={{ textAlign: { xs: "start", md: "end" } }}
-          >
-            <ButtonDefault
-              onClick={handleOpenNewModal}
-              title="Agregar mantenimiento"
-            />
-          </Grid>
+      {loading ? (
+        <Grid item xs={12} style={{ textAlign: "center" }}>
+          <CircularProgress /> {/* Indicador de carga */}
         </Grid>
       ) : (
-        <></>
+        <div style={{ height: 400, width: "100%" }}>
+          {preventData.length === 0 ? (
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: "20px",
+                alignContent: "center",
+                border: "1px gray solid",
+                height: "8rem",
+              }}
+            >
+              No se encontraron documentos de registro
+            </div>
+          ) : (
+            <DataGrid
+              sx={styleTableItem}
+              className="truncate..."
+              hideFooter
+              rows={preventData}
+              columns={columns}
+            />
+          )}
+        </div>
       )}
-       */}
-      <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          sx={styleTableItem}
-          className="truncate..."
-          hideFooter
-          rows={preventData || []}
-          columns={columns}
-        />
-      </div>
 
-      <ModalEditMaintenance //boton de editar
+      <ModalEditPrevent //boton de editar
         openModal={openEdit}
         handleClose={handleCloseEdit}
         data={selectedRow}
         mode="update"
       />
 
-      <ModalMoreDetail //boton de detalle
+      <ModalPreventDetail //boton de detalle
         openModal={openDetail}
         handleClose={handleClose}
         data={selectedRow}
       />
 
       <ConfirmModal //boton de eliminar
-        onConfirm={openDelete}
+        onConfirm={openModalConfirm}
         onCancel={handleCloseConfirmModal}
-        id={selectedRow.id}
-      />
-      <ModalEditMaintenance //boton de crear
-        openModal={openModalNew}
-        handleClose={handleCloseNewModal}
-        data={dataCreate}
-        mode="create"
+        onConfirmAction={handleDelete}
+        id={Number(valueDelete)}
       />
     </>
   );

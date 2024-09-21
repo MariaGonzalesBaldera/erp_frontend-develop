@@ -48,7 +48,7 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
   };
   const getImage = () => {
     switch (data.model) {
-      case "eetroexcavadora":
+      case "retroexcavadora":
         return retroexcavadora;
       case "oruga":
         return oruga;
@@ -94,8 +94,7 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
         className="w-45 mx-auto shadow-lg"
         sx={{
           border: "1px #b6b5c4 solid",
-          background: colorsCard(index), //"#302d82"//"linear-gradient(to bottom, #7988ff ,#fff)", //  #14109f
-          //borderBottom:"4px # 0e0a5c solid"
+          background: colorsCard(index), 
         }}
       >
         <CardMedia
