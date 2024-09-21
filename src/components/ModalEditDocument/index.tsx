@@ -88,7 +88,6 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
     }
   }, [openModal, data]);
   const handleChange = useCallback((name: string, date: string) => {
-    console.log(name +"-  "+ date)
     setFormData((prevData) => ({
       ...prevData,
       [name]: date,
