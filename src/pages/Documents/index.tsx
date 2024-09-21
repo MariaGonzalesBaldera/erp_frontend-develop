@@ -1,13 +1,18 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import React, { useCallback, useState } from "react";
+import React, {  useState } from "react";
 import { DocumentItem } from "../../types";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListIcon from "@mui/icons-material/List";
 import ConfirmModal from "../../components/ConfirmModal";
-import ModalDocumentDetail from "../../components/ModalDocumentDetail";
 import ModalEditDocument from "../../components/ModalEditDocument";
-import { Box, CircularProgress, Grid, IconButton, Tooltip } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
 import GroupRadioButton from "../../components/GroupRadioButton";
 import ButtonDefault from "../../components/ButtonDefault";
@@ -15,8 +20,8 @@ import {
   useDeleteDocument,
   useGetDocumentByModel,
 } from "../../hooks/useDocuments";
-import { capitalizer } from "../../utils/capitalize";
-import dayjs from "dayjs";
+import { capitalizer, formatDayMonthYear } from "../../utils/capitalize";
+import ModalDetailGeneric from "../../components/ModalDetailGeneric";
 
 const dataCreate = {
   id: 0,
@@ -109,7 +114,7 @@ const Documents: React.FC = () => {
       minWidth: 200,
       align: "center",
       headerAlign: "center",
-      renderCell: (params) => dayjs(params.value).format('DD-MM-YYYY'),
+      renderCell: (params) => formatDayMonthYear(params.value),
     },
     {
       field: "technicalReviewsEnd",
@@ -118,7 +123,7 @@ const Documents: React.FC = () => {
       minWidth: 120,
       align: "center",
       headerAlign: "center",
-      renderCell: (params) => dayjs(params.value).format('DD-MM-YYYY'),
+      renderCell: (params) => formatDayMonthYear(params.value),
     },
     {
       field: "soatStart",
@@ -127,7 +132,7 @@ const Documents: React.FC = () => {
       minWidth: 150,
       align: "center",
       headerAlign: "center",
-      renderCell: (params) => dayjs(params.value).format('DD-MM-YYYY'),
+      renderCell: (params) => formatDayMonthYear(params.value),
     },
     {
       field: "actions",
@@ -174,10 +179,46 @@ const Documents: React.FC = () => {
       ),
     },
   ];
-
+  const fieldsDetail = [
+    {
+      title: "Inicio de revisiones técnicas",
+      value: formatDayMonthYear(selectedRow.technicalReviewsStart),
+    },
+    {
+      title: "Fin de revisiones técnicas",
+      value: formatDayMonthYear(selectedRow.technicalReviewsEnd),
+    },
+    { title: "Inicio SOAT", value: formatDayMonthYear(selectedRow.soatStart) },
+    { title: "Fin SOAT", value: formatDayMonthYear(selectedRow.soatEnd) },
+    {
+      title: "Inicio seguro",
+      value: formatDayMonthYear(selectedRow.insuranceStart),
+    },
+    {
+      title: "Fin seguro",
+      value: formatDayMonthYear(selectedRow.insuranceEnd),
+    },
+    {
+      title: "Inicio de seguro de viaje",
+      value: formatDayMonthYear(selectedRow.trekInsuranceStart),
+    },
+    {
+      title: "Fin de seguro de viaje",
+      value: formatDayMonthYear(selectedRow.trekInsuranceEnd),
+    },
+    {
+      title: "Inicio del certificado de funcionamiento",
+      value: formatDayMonthYear(selectedRow.operatingCertificateStart),
+    },
+    {
+      title: "Fin del certificado de funcionamiento",
+      value: formatDayMonthYear(selectedRow.operatingCertificateEnd),
+    },
+    { title: "Código de la maquinaria", value: selectedRow.heavyMachineryId },
+  ];
   return (
     <Box>
-     <Grid
+      <Grid
         container
         justifyContent={"space-between"}
         direction={{ xs: "column", sm: "row" }}
@@ -185,18 +226,14 @@ const Documents: React.FC = () => {
         gap={1}
         className="p-2 border border-gray-400 bg-white mb-2"
       >
-        <Grid
-          item
-          gap={2}
-          alignItems={"center"}
-        >
+        <Grid item gap={2} alignItems={"center"}>
           <GroupRadioButton
             showTitle={false}
             selectedValue={selectedValue}
             onChange={handleRadioChange}
           />
         </Grid>
-        <Grid >
+        <Grid>
           <ButtonDefault onClick={handleOpenNewModal} title="NUEVO DOCUMENTO" />
         </Grid>
       </Grid>
@@ -238,12 +275,13 @@ const Documents: React.FC = () => {
           mode="update"
         />
 
-        <ModalDocumentDetail //boton de detalle
+        <ModalDetailGeneric //boton de detalle
           openModal={openDetail}
           handleClose={handleClose}
           data={selectedRow}
+          fields={fieldsDetail}
+          title="DETALLE DEL DOCUMENTO"
         />
-
         <ConfirmModal //boton de eliminar
           onConfirm={openModalConfirm}
           onCancel={handleCloseConfirmModal}

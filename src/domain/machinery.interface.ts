@@ -29,7 +29,7 @@ export interface DocumentResponse {
   operatingCertificateEnd: string;
   createdAt?: string;
   updatedAt?: string;
-  heavyMachineryId?: string;
+  heavyMachineryId?: number;
 }
 
 export type ParamsDelete = {
