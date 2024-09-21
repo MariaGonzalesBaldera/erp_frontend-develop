@@ -1,25 +1,30 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import React, { useCallback, useState } from "react";
+import React, {  useState } from "react";
 import { DocumentItem } from "../../types";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ConfirmModal from "../../components/ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
-import ModalDocumentDetail from "../../components/ModalDocumentDetail";
+import ConfirmModal from "../../components/ConfirmModal";
 import ModalEditDocument from "../../components/ModalEditDocument";
-import { Box, Grid, IconButton, Tooltip } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
 import GroupRadioButton from "../../components/GroupRadioButton";
 import ButtonDefault from "../../components/ButtonDefault";
 import {
-  useGetDocumentList,
   useDeleteDocument,
   useGetDocumentByModel,
 } from "../../hooks/useDocuments";
-import { capitalizer } from "../../utils/capitalize";
+import { capitalizer, formatDayMonthYear } from "../../utils/capitalize";
+import ModalDetailGeneric from "../../components/ModalDetailGeneric";
 
 const dataCreate = {
-  id: "",
+  id: 0,
   technicalReviewsStart: "",
   technicalReviewsEnd: "",
   soatStart: "",
@@ -30,7 +35,7 @@ const dataCreate = {
   trekInsuranceEnd: "",
   operatingCertificateStart: "",
   operatingCertificateEnd: "",
-  heavyMachineryId: "",
+  heavyMachineryId: 0,
 };
 const Documents: React.FC = () => {
   const [openDetail, setOpenDetail] = useState(false);
@@ -46,28 +51,26 @@ const Documents: React.FC = () => {
   const [selectedValue, setSelectedValue] = useState<string>("oruga");
   const { mutateAsync: mutationDeleteId } = useDeleteDocument();
   const [documentsData, setDocumentsData] = useState<any[]>([]);
-
-  const { data: initialDocumentsData } = useGetDocumentList();
+  const [loading, setLoading] = useState(false);
 
   const { data: searchedDocumentsData } = useGetDocumentByModel({
     model: selectedValue,
   });
 
-  // Cargar datos iniciales cuando el componente carga
   React.useEffect(() => {
-    if (initialDocumentsData) {
-      setDocumentsData(initialDocumentsData);
-    }
-  }, [initialDocumentsData]);
-
-  React.useEffect(() => {
-    if (searchedDocumentsData) {
-      setDocumentsData(searchedDocumentsData);
+    setLoading(true);
+    try {
+      if (searchedDocumentsData) {
+        setDocumentsData(searchedDocumentsData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
     }
   }, [searchedDocumentsData]);
 
   const handleRadioChange = (value: string) => {
-    console.log(value);
     setSelectedValue(value);
   };
 
@@ -79,7 +82,6 @@ const Documents: React.FC = () => {
   const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 
   const handleOpenEdit = (row: DocumentItem) => {
-    console.log("row: ", row);
     setSelectedRow(row);
     setOpenEdit(true);
   };
@@ -112,6 +114,7 @@ const Documents: React.FC = () => {
       minWidth: 200,
       align: "center",
       headerAlign: "center",
+      renderCell: (params) => formatDayMonthYear(params.value),
     },
     {
       field: "technicalReviewsEnd",
@@ -120,6 +123,7 @@ const Documents: React.FC = () => {
       minWidth: 120,
       align: "center",
       headerAlign: "center",
+      renderCell: (params) => formatDayMonthYear(params.value),
     },
     {
       field: "soatStart",
@@ -128,6 +132,7 @@ const Documents: React.FC = () => {
       minWidth: 150,
       align: "center",
       headerAlign: "center",
+      renderCell: (params) => formatDayMonthYear(params.value),
     },
     {
       field: "actions",
@@ -174,7 +179,43 @@ const Documents: React.FC = () => {
       ),
     },
   ];
-
+  const fieldsDetail = [
+    {
+      title: "Inicio de revisiones técnicas",
+      value: formatDayMonthYear(selectedRow.technicalReviewsStart),
+    },
+    {
+      title: "Fin de revisiones técnicas",
+      value: formatDayMonthYear(selectedRow.technicalReviewsEnd),
+    },
+    { title: "Inicio SOAT", value: formatDayMonthYear(selectedRow.soatStart) },
+    { title: "Fin SOAT", value: formatDayMonthYear(selectedRow.soatEnd) },
+    {
+      title: "Inicio seguro",
+      value: formatDayMonthYear(selectedRow.insuranceStart),
+    },
+    {
+      title: "Fin seguro",
+      value: formatDayMonthYear(selectedRow.insuranceEnd),
+    },
+    {
+      title: "Inicio de seguro de viaje",
+      value: formatDayMonthYear(selectedRow.trekInsuranceStart),
+    },
+    {
+      title: "Fin de seguro de viaje",
+      value: formatDayMonthYear(selectedRow.trekInsuranceEnd),
+    },
+    {
+      title: "Inicio del certificado de funcionamiento",
+      value: formatDayMonthYear(selectedRow.operatingCertificateStart),
+    },
+    {
+      title: "Fin del certificado de funcionamiento",
+      value: formatDayMonthYear(selectedRow.operatingCertificateEnd),
+    },
+    { title: "Código de la maquinaria", value: selectedRow.heavyMachineryId },
+  ];
   return (
     <Box>
       <Grid
@@ -185,39 +226,47 @@ const Documents: React.FC = () => {
         gap={1}
         className="p-2 border border-gray-400 bg-white mb-2"
       >
-        <Grid
-          container
-          xs="auto"
-          gap={2}
-          alignItems={"center"}
-          order={{ xs: 2, sm: 1 }}
-        >
+        <Grid item gap={2} alignItems={"center"}>
           <GroupRadioButton
             showTitle={false}
             selectedValue={selectedValue}
             onChange={handleRadioChange}
           />
         </Grid>
-        <Grid item xs="auto" order={{ xs: 1, sm: 3 }}>
+        <Grid>
           <ButtonDefault onClick={handleOpenNewModal} title="NUEVO DOCUMENTO" />
         </Grid>
       </Grid>
       <Grid sx={styleTableResponsive}>
-        <div style={{ height: 400, width: "100%" }}>
-          {documentsData.length === 0 ? (
-            <div style={{ textAlign: "center", marginTop: "20px",alignContent:"center",border:"1px gray solid",height:"8rem" }}>
-              No se encontraron documentos de {capitalizer(selectedValue)}
-            </div>
-          ) : (
-            <DataGrid
-              sx={styleTableItem}
-              className="truncate..."
-              hideFooter
-              rows={documentsData}
-              columns={columns}
-            />
-          )}
-        </div>
+        {loading ? (
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <CircularProgress /> {/* Indicador de carga */}
+          </Grid>
+        ) : (
+          <div style={{ height: 400, width: "100%" }}>
+            {documentsData.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  alignContent: "center",
+                  border: "1px gray solid",
+                  height: "8rem",
+                }}
+              >
+                No se encontraron documentos de {capitalizer(selectedValue)}
+              </div>
+            ) : (
+              <DataGrid
+                sx={styleTableItem}
+                className="truncate..."
+                hideFooter
+                rows={documentsData}
+                columns={columns}
+              />
+            )}
+          </div>
+        )}
 
         <ModalEditDocument //boton de editar
           openModal={openEdit}
@@ -226,12 +275,13 @@ const Documents: React.FC = () => {
           mode="update"
         />
 
-        <ModalDocumentDetail //boton de detalle
+        <ModalDetailGeneric //boton de detalle
           openModal={openDetail}
           handleClose={handleClose}
           data={selectedRow}
+          fields={fieldsDetail}
+          title="DETALLE DEL DOCUMENTO"
         />
-
         <ConfirmModal //boton de eliminar
           onConfirm={openModalConfirm}
           onCancel={handleCloseConfirmModal}

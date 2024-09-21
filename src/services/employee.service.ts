@@ -1,10 +1,11 @@
 
-import { EmployeeResponse, ParamsDelete } from "../domain/machinery.interface";
+import {  ParamsDelete, ParamsDeleteItem } from "../domain/machinery.interface";
+import { employeeItem } from "../types";
 import { axios } from "../utils/axios.create";
 
 const LOG_PREFIX = "ProgramService :";
 
-const findAll = async (): Promise<EmployeeResponse[]> => {
+const findAll = async (): Promise<employeeItem[]> => {
 	return axios
 		.get("/employee")
 		.then((res) => res.data)
@@ -14,7 +15,7 @@ const findAll = async (): Promise<EmployeeResponse[]> => {
 		});
 };
 
-const create = async (data: EmployeeResponse): Promise<EmployeeResponse> => {
+const create = async (data: employeeItem): Promise<employeeItem> => {
 	return axios
 		.post("/employee/create", data)
 		.then((res) => res.data.body)
@@ -25,23 +26,22 @@ const create = async (data: EmployeeResponse): Promise<EmployeeResponse> => {
 };
 
 const update = async (
-	data: Partial<EmployeeResponse>,
-	id?: string,
-): Promise<EmployeeResponse> => {
+	data: Partial<employeeItem>,
+	id?: number,
+): Promise<employeeItem> => {
 	return axios
 		.put(`/employee/update/${id}`, data) 
 		.then((res) => res.data.body)
 		.catch((err) => Promise.reject(err.response.data));
 };
 
-const deleteOne = async (params: ParamsDelete) => {
+const deleteOne = async (params: ParamsDeleteItem) => {
 	return axios
 		.delete(`/employee/delete/${params.id}`)
 		.then((res) => {
 			return res.data.body;
 		})
 		.catch((err) => {
-			console.error(LOG_PREFIX, err);
 			return Promise.reject(err.response.data);
 		});
 };

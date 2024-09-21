@@ -6,66 +6,57 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
-import ModalDocumentDetail from "../../ModalDocumentDetail";
-import ModalEditDocument from "../../ModalEditDocument";
 import { styleTableItem } from "../../../style/StyleModal";
 import ModalEditFuelLoad from "../../ModalEditFuelLoad";
-import ModalFuelLoadDetail from "../../ModalFuelLoadDetail";
+import {
+  useDeleteFuelingUp,
+  useGetFuelingUpByMachinery,
+} from "../../../hooks/useFuelingUp";
+import ModalDetailGeneric from "../../ModalDetailGeneric";
+import { formatDayMonthYear } from "../../../utils/capitalize";
 
-const rows = [
-  {
-    id: "1",
-    numberGallons: 150.5,
-    fuelingMileage: "45789",
-    fuelingDate: "2024-08-15",
-    amountPaid: 575.75,
-    invoiceNumber: "INV-20240815-001",
-    heavyMachineryId: "HM-982374",
-  },
-  {
-    id: "2",
-    numberGallons: 220.3,
-    fuelingMileage: "58342",
-    fuelingDate: "2024-08-10",
-    amountPaid: 845.9,
-    invoiceNumber: "INV-20240810-002",
-    heavyMachineryId: "HM-782341",
-  },
-  {
-    id: "3",
-    numberGallons: 175.0,
-    fuelingMileage: "62450",
-    fuelingDate: "2024-08-20",
-    amountPaid: 690.25,
-    invoiceNumber: "INV-20240820-003",
-    heavyMachineryId: "HM-182345",
-  },
-];
-
-const FuelLoad: React.FC = () => {
+interface FuelLoadPropsItem {
+  idMachinery: number;
+}
+const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
+  const { mutateAsync: mutationDeleteId } = useDeleteFuelingUp();
+  const [valueDelete, setValueDelete] = useState(0);
+  const { data: machineryData } = useGetFuelingUpByMachinery({
+    id: idMachinery,
+  });
+  console.log("DATA " + machineryData);
 
+  const handleClose = () => setOpenDetail(false);
+  const handleCloseEdit = () => setOpenEdit(false);
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
 
-  const handleOpenDelete = () => {
-    setOpenDelete(true);
+  const handleCloseConfirmModal = () => {
+    setOpenModalConfirm(false);
   };
-  const handleCloseConfirmModal = () => setOpenDelete(false);
 
   const handleOpenEdit = (row: FuelLoadProps) => {
     setSelectedRow(row);
     setOpenEdit(true);
   };
-  const handleClose = () => setOpenDetail(false);
-  const handleCloseEdit = () => setOpenEdit(false);
 
+  const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
+  const handleOpenConfirmModal = () => setOpenModalConfirm(true);
+
+  const handleDelete = async () => {
+    try {
+      await mutationDeleteId(Number(valueDelete));
+      console.log("Documento eliminado exitosamente");
+    } catch (error) {
+      console.log("Error al eliminar documento: ", error);
+    }
+  };
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -97,6 +88,7 @@ const FuelLoad: React.FC = () => {
       minWidth: 150,
       align: "center",
       headerAlign: "center",
+      renderCell: (params) => formatDayMonthYear(params.value),
     },
     {
       field: "actions",
@@ -130,7 +122,10 @@ const FuelLoad: React.FC = () => {
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
-              onClick={() => handleOpenDelete()}
+              onClick={() => {
+                setValueDelete(Number(params.id));
+                handleOpenConfirmModal();
+              }}
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -140,6 +135,17 @@ const FuelLoad: React.FC = () => {
       ),
     },
   ];
+  const fieldsDetail = [
+    { title: "Número de galones", value: selectedRow.numberGallons },
+    { title: "Combustible kilometraje", value: selectedRow.fuelingMileage },
+    {
+      title: "Fecha de kilometraje",
+      value: formatDayMonthYear(selectedRow.fuelingDate),
+    },
+    { title: "Cantidad Pagada", value: selectedRow.amountPaid },
+    { title: "Número de factura", value: selectedRow.invoiceNumber },
+    { title: "Código de la maquinaria", value: selectedRow.heavyMachineryId },
+  ];
   return (
     <>
       <div style={{ height: 400, width: "100%" }}>
@@ -147,7 +153,7 @@ const FuelLoad: React.FC = () => {
           sx={styleTableItem}
           className="truncate..."
           hideFooter
-          rows={rows}
+          rows={machineryData || []}
           columns={columns}
         />
       </div>
@@ -158,17 +164,19 @@ const FuelLoad: React.FC = () => {
         data={selectedRow}
         mode="update"
       />
-
-      <ModalFuelLoadDetail //boton de detalle
+      <ModalDetailGeneric //boton de detalle
         openModal={openDetail}
         handleClose={handleClose}
         data={selectedRow}
+        fields={fieldsDetail}
+        title="DETALLE DEL REGISTRO"
       />
 
       <ConfirmModal //boton de eliminar
-        onConfirm={openDelete}
+        onConfirm={openModalConfirm}
         onCancel={handleCloseConfirmModal}
-        id={1}
+        onConfirmAction={handleDelete}
+        id={Number(valueDelete)}
       />
     </>
   );

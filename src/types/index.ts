@@ -74,7 +74,7 @@ export interface CorrectiveMaintananceItem {
   drivingEnd: string;
   createdAt?: string;
   updatedAt?: string;
-  heavyMachineryId?: string
+  heavyMachineryId?: number
 }
 
 export interface MachineryInspectionItem {
@@ -125,12 +125,12 @@ export interface MachineryInspectionItem {
   residentEngineer: string;
   ssoma: string;
   observations: string;
-  createdAt: string;
-  updatedAt: string;
-  heavyMachineryId: string;
+  createdAt?: string;
+  updatedAt?: string;
+  heavyMachineryId?: number;
 }
 export interface DocumentItem {
-  id: string;
+  id: number;
   technicalReviewsStart: string;
   technicalReviewsEnd: string;
   soatStart: string;
@@ -143,11 +143,11 @@ export interface DocumentItem {
   operatingCertificateEnd: string;
   createdAt?: string;
   updatedAt?: string;
-  heavyMachineryId: string;
+  heavyMachineryId?: number;
 }
 
 export interface FuelLoadProps {
-  id: string;
+  id: number;
   numberGallons: number;
   fuelingMileage: string;
   fuelingDate: string;
@@ -155,7 +155,7 @@ export interface FuelLoadProps {
   invoiceNumber: string;
   createdAt?: string;
   updatedAt?: string;
-  heavyMachineryId: string;
+  heavyMachineryId?: number;
 }
 
 export interface TransportationCost {
@@ -203,7 +203,7 @@ export interface CorrectiveMaintenanceProps {
 export interface ModalEditMaintenanceProps {
   openModal: boolean;
   handleClose: () => void;
-  data: PreventMaintenanceItem;
+  data: CorrectiveMaintananceItem;
   mode: string;
 }
 
@@ -250,4 +250,24 @@ export interface ResponseByModel {
   updatedAt: string;
   heavyMachineryId: number
 }
- 
+
+export interface employeeItem {
+  id?: number,
+  firstName: string,
+  lastName: string,
+  address: string,
+  age?: number,
+  documentType: string,
+  documentNumber: string,
+  phoneNumber: string,
+  email: string,
+  dateOfBirth: string,
+  startDate: string,
+  position: string,
+  attendance: string,
+  salary: number,
+  overtimeHours: number,
+  performance: number,
+  createdAt?: string,
+  updatedAt?: string,
+}

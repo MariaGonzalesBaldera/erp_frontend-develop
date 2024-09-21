@@ -1,9 +1,12 @@
 import { SearchSharp } from "@mui/icons-material";
 import { Box, Grid, TextField } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import themeNew from "../../utils/theme";
+interface ButtonIconSearchProps {
+  onClick?: () => void; // Define la propiedad onClick como opcional
+}
+const ButtonIconSearch: React.FC<ButtonIconSearchProps> = ({onClick}) => {
 
-const ButtonIconSearch: React.FC = () => {
   return (
     <Grid item xs={12}sm={12} >
     <Box  display="flex" justifyContent={"start"}>
@@ -35,6 +38,7 @@ const ButtonIconSearch: React.FC = () => {
             backgroundColor: themeNew.palette.primary.main,
           },
         }}
+          onClick={onClick}
       />
     </Box>
   </Grid>

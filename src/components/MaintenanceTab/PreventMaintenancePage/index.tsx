@@ -1,23 +1,24 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import { styleTableItem } from "../../../style/StyleModal";
-import ModalEditMaintenance from "../../ModalEditMaintenance";
-import ModalMoreDetail from "../../ModalMoreDetail";
 import ConfirmModal from "../../ConfirmModal";
-import { Grid, IconButton, Tooltip } from "@mui/material";
+import { CircularProgress, Grid, IconButton, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListIcon from "@mui/icons-material/List";
 import { PreventMaintenanceItem } from "../../../types";
-import { useGetPreventiveByModel, useGetPreventiveMaintenanceList } from "../../../hooks/usePreventiveMaintenance";
+import {
+  useGetPreventiveByModel,
+  useDeletePreventiveMaintenance,
+} from "../../../hooks/usePreventiveMaintenance";
 import ButtonDefault from "../../ButtonDefault";
-import SearchInput from "../../SearchInput";
 import GroupRadioButton from "../../GroupRadioButton";
 import { capitalizer } from "../../../utils/capitalize";
-import { useGetDocumentByModel } from "../../../hooks/useDocuments";
+import ModalEditPrevent from "../../ModalEditPrevent";
+import ModalPreventDetail from "../../ModalPreventDetail";
 
 const dataCreate = {
-  id: "",
+  id: 0,
   motorOil: false,
   oilFilters: false,
   fuelFilters: false,
@@ -27,55 +28,47 @@ const dataCreate = {
   maintenancePeriod: "",
   maintenanceDate: "",
   nextMaintenancePeriod: "",
-  amountPaid: "",
+  amountPaid: 0,
   invoiceNumber: "",
   observations: "",
-  heavyMachineryId: "",
+  heavyMachineryId: 0,
 };
 
 const PreventMaintenancePage: React.FC = ({}) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
+  const [valueDelete, setValueDelete] = useState(0);
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
-
-  const [openModalNew, setOpenModalNew] = React.useState(false);
-  const handleOpenNewModal = () => setOpenModalNew(true);
-  const handleCloseNewModal = () => setOpenModalNew(false);
+  const [loading, setLoading] = useState(false);
   const [selectedValue, setSelectedValue] = useState<string>("oruga");
   const [preventData, setDocumentsData] = useState<any[]>([]);
-  const { data: initialpreventData } = useGetPreventiveMaintenanceList();
   const { data: searchedDocumentsData } = useGetPreventiveByModel({
     model: selectedValue,
   });
-  // Cargar datos iniciales cuando el componente carga
-  React.useEffect(() => {
-    if (initialpreventData) {
-      setDocumentsData(initialpreventData);
-    }
-  }, [initialpreventData]);
 
   React.useEffect(() => {
-    if (searchedDocumentsData) {
-      setDocumentsData(searchedDocumentsData);
+    setLoading(true);
+    try {
+      if (searchedDocumentsData) {
+        setDocumentsData(searchedDocumentsData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
     }
   }, [searchedDocumentsData]);
   const handleRadioChange = (value: string) => {
-    console.log(value);
     setSelectedValue(value);
   };
-
+  const { mutateAsync: mutationDeleteId } = useDeletePreventiveMaintenance();
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
-
-  const handleOpenDelete = () => {
-    setOpenDelete(true);
-  };
-  const handleCloseConfirmModal = () => setOpenDelete(false);
+  const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 
   const handleOpenEdit = (row: PreventMaintenanceItem) => {
     setSelectedRow(row);
@@ -83,6 +76,22 @@ const PreventMaintenancePage: React.FC = ({}) => {
   };
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
+
+  const [openModalNew, setOpenModalNew] = React.useState(false);
+  const handleOpenNewModal = () => setOpenModalNew(true);
+  const handleCloseNewModal = () => setOpenModalNew(false);
+
+  const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
+  const handleOpenConfirmModal = () => setOpenModalConfirm(true);
+
+  const handleDelete = async () => {
+    try {
+      await mutationDeleteId(valueDelete);
+      console.log("Documento eliminado exitosamente");
+    } catch (error) {
+      console.log("Error al eliminar documento: ", error);
+    }
+  };
 
   const columns: GridColDef[] = [
     {
@@ -150,7 +159,10 @@ const PreventMaintenancePage: React.FC = ({}) => {
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
-              onClick={() => handleOpenDelete()}
+              onClick={() => {
+                setValueDelete(Number(params.id));
+                handleOpenConfirmModal();
+              }}
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -184,54 +196,61 @@ const PreventMaintenancePage: React.FC = ({}) => {
             onChange={handleRadioChange}
           />
         </Grid>
-        <Grid item xs="auto" order={{ xs: 1, sm: 3 }}>
+        <Grid item order={{ xs: 1, sm: 3 }}>
           <ButtonDefault onClick={handleOpenNewModal} title="NUEVO DOCUMENTO" />
         </Grid>
       </Grid>
 
-      <div style={{ height: 400, width: "100%" }}>
-        {preventData.length === 0 ? (
-          <div
-            style={{
-              textAlign: "center",
-              marginTop: "20px",
-              alignContent: "center",
-              border: "1px gray solid",
-              height: "8rem",
-            }}
-          >
-            No se encontraron documentos de {capitalizer(selectedValue)}
-          </div>
-        ) : (
-          <DataGrid
-            sx={styleTableItem}
-            className="truncate..."
-            hideFooter
-            rows={preventData}
-            columns={columns}
-          />
-        )}
-      </div>
+      {loading ? (
+        <Grid item xs={12} style={{ textAlign: "center" }}>
+          <CircularProgress /> {/* Indicador de carga */}
+        </Grid>
+      ) : (
+        <div style={{ height: 400, width: "100%" }}>
+          {preventData.length === 0 ? (
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: "20px",
+                alignContent: "center",
+                border: "1px gray solid",
+                height: "8rem",
+              }}
+            >
+              No se encontraron documentos de {capitalizer(selectedValue)}
+            </div>
+          ) : (
+            <DataGrid
+              sx={styleTableItem}
+              className="truncate..."
+              hideFooter
+              rows={preventData}
+              columns={columns}
+            />
+          )}
+        </div>
+      )}
 
-      <ModalEditMaintenance //boton de editar
+      <ModalEditPrevent //boton de editar
         openModal={openEdit}
         handleClose={handleCloseEdit}
         data={selectedRow}
         mode="update"
       />
 
-      <ModalMoreDetail //boton de detalle
+      <ModalPreventDetail //boton de detalle
         openModal={openDetail}
         handleClose={handleClose}
         data={selectedRow}
       />
 
       <ConfirmModal //boton de eliminar
-        onConfirm={openDelete}
+        onConfirm={openModalConfirm}
         onCancel={handleCloseConfirmModal}
-        id={selectedRow.id}
+        onConfirmAction={handleDelete}
+        id={Number(valueDelete)}
       />
-      <ModalEditMaintenance //boton de crear
+      <ModalEditPrevent //boton de crear
         openModal={openModalNew}
         handleClose={handleCloseNewModal}
         data={dataCreate}

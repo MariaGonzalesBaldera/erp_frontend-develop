@@ -24,6 +24,7 @@ import { Link, useNavigate } from "react-router-dom";
 import LocalGasStationOutlinedIcon from "@mui/icons-material/LocalGasStationOutlined";
 import {
   AssignmentOutlined,
+  BorderColorOutlined,
   CheckBoxOutlined,
   DriveEtaOutlined,
   EngineeringOutlined,
@@ -33,6 +34,7 @@ import {
   PeopleAltOutlined,
 } from "@mui/icons-material";
 import { capitalizer } from "../../utils/capitalize";
+import InfoModal from "../../components/InfoModal";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
@@ -95,7 +97,8 @@ const ICONS = [
   <LocalGasStationOutlinedIcon />,
   <LocationOnOutlined />,
   <LibraryBooksOutlined />,
-  <PeopleAltOutlined />,
+  <BorderColorOutlined />,
+  <PeopleAltOutlined />
 ];
 const LINKS = [
   "/dashboard",
@@ -106,13 +109,18 @@ const LINKS = [
   "/fuel-register",
   "/gps-tracking",
   "/accounting",
+  "/income",
   "/human-resources",
 ];
 const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
   const navigate = useNavigate();
-  const theme = useAppTheme();
   const [open, setOpen] = useState(true);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  
+  ///validacion de uusers
+  const [username, setUsername] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -128,11 +136,7 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
   const isTabletOrMobile = useMediaQuery(themeNew.breakpoints.down("md"));
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("username");
-    localStorage.removeItem("role");
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken"); // Si tienes un refreshToken también
+    localStorage.removeItem("authData");
 
     navigate("/login");
   };
@@ -145,25 +149,42 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
     { text: "Registro de combustible", link: LINKS[5], icon: ICONS[5] },
     { text: "Seguimiento GPS", link: LINKS[6], icon: ICONS[6] },
     { text: "Contabilidad", link: LINKS[7], icon: ICONS[7] },
-    { text: "RRHH", link: LINKS[8], icon: ICONS[8] },
+    { text: "Ingresos", link: LINKS[8], icon: ICONS[8] },
+    { text: "RRHH", link: LINKS[9], icon: ICONS[9] },
   ];
   React.useEffect(() => {
     setOpen(!isTabletOrMobile);
   }, [isTabletOrMobile]);
 
-  ///validacion de uusers
-  const [username, setUsername] = useState<string | null>(null);
-  const [role, setRole] = useState<string | null>(null);
+  React.useEffect(() => {
+    const authData = localStorage.getItem("authData");
+    
+    if (authData) {
+      const parsedData = JSON.parse(authData);
+      setUsername(parsedData.username);
+      setRole(parsedData.role);
+    } else {
+      navigate("/login");
+    }
 
-  useEffect(() => {
-    // Recuperar los datos de localStorage al montar el componente
-    const storedUsername = localStorage.getItem("username");
-    const storedRole = localStorage.getItem("role");
+    setOpen(!isTabletOrMobile);
+  }, [isTabletOrMobile, navigate]);
 
-    setUsername(storedUsername);
-    setRole(storedRole);
-  }, []);
-  const filteredItems = role === "ADMINISTRATOR" ? menuItems : menuItems.filter(item => item.text !== "RRHH" && item.text !== "Contabilidad");
+  const filteredItems =
+    role === "ADMINISTRATOR"
+      ? menuItems
+      : menuItems.filter(
+          (item) => item.text !== "RRHH" && item.text !== "Contabilidad"
+        );
+
+  //modal ayuda
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -213,9 +234,11 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
                 <div className="flex items-start w-full p-3">
                   <div className="flex flex-col pr-6 flex-1 justify-start items-end">
                     <span className="text-base text-primary font-bold">
-                      {capitalizer(username+"")}
+                      {capitalizer(username + "")}
                     </span>
-                    <span className="text-xs text-secondary">{role=="USER"?"Usuario":"Admin"}</span>
+                    <span className="text-xs text-secondary">
+                      {role == "USER" ? "Usuario" : "Admin"}
+                    </span>
                   </div>
                   <KeyboardArrowDownIcon className="text-dark" />
                 </div>
@@ -239,17 +262,30 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
               onClose={handleCloseUserMenu}
               data-testid="user-menu"
             >
+              {role === "ADMINISTRATOR" ? (
+                <MenuItem
+                  sx={{ justifyContent: "end" }}
+                  key={0}
+                  onClick={() => {
+                    location.replace("/user-management");
+                  }}
+                  data-testid="menu-item"
+                >
+                  <Typography textAlign="center">Gestión de Usuario</Typography>
+                </MenuItem>
+              ) : (
+                <MenuItem
+                  sx={{ justifyContent: "end" }}
+                  key={0}
+                  onClick={handleOpenModal}
+                  data-testid="menu-item"
+                >
+                  <Typography textAlign="center">Ayuda</Typography>
+                </MenuItem>
+              )}
+
               <MenuItem
                 sx={{ justifyContent: "end" }}
-                key={0}
-                onClick={() => {
-                  location.replace("/help-and-support");
-                }}
-                data-testid="menu-item"
-              >
-                <Typography textAlign="center">Ayuda</Typography>
-              </MenuItem>
-              <MenuItem
                 key={1}
                 onClick={handleLogout}
                 data-testid="menu-item-logout"
@@ -269,7 +305,7 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
               flexDirection: "column",
               backgroundColor: themeNew.palette.primary.main,
               height: "100vh",
-              gap: "1rem",
+              gap: "0rem",
               overflow: "hidden",
             },
           }}
@@ -278,7 +314,7 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
           open={open}
           data-testid="drawer"
         >
-          <div className="flex justify-center w-80 h-10"></div>
+          <div className="flex justify-center w-80 h-0"></div>
           <List className="px-2.5">
             {filteredItems.map((item, index) => (
               <Link
@@ -327,6 +363,11 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
               </Link>
             ))}
           </List>
+          <InfoModal
+            open={isModalOpen}
+            onClose={handleCloseModal}
+            userName={username || ""} // Puedes pasar el nombre del usuario dinámicamente
+          />
         </Drawer>
         <Main open={open}>{children}</Main>
       </Box>

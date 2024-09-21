@@ -20,7 +20,7 @@ export const useGetDocumentByMachinery = ({ id }: { id: number }) => {
 };
 export const useGetDocumentByModel = ({ model }: { model: string }) => {
 	return useQuery({
-		queryKey: ["get-document-searched-model",model],
+		queryKey: ["get-document-searched",model],
 		queryFn: () => findByModel(model),
 		enabled: !!model,
 	});

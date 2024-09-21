@@ -1,5 +1,12 @@
-import { Box, Button, Modal, Typography } from "@mui/material";
-import React from "react";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Modal,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
 import themeNew from "../../utils/theme";
 
 interface ConfirmModalProps {
@@ -17,13 +24,17 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   const handleClose = () => {
     if (onCancel) onCancel();
   };
+  const [loading, setLoading] = useState(false);
 
   const handleConfirm = async () => {
     try {
+      setLoading(true);
       await onConfirmAction();
-      handleClose();
     } catch (error) {
       console.log("Error al ejecutar la acción: ", error);
+    } finally {
+      setLoading(false); // Finalizar la carga
+      handleClose();
     }
   };
 
@@ -48,28 +59,41 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
             p: 4,
           }}
         >
-          <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
-            Mensaje de Confirmación
-          </Typography>
-          <Typography id="modal-description" sx={{ mb: 3 }}>
-            ¿Está seguro(a) que eliminará la maquinaria {id}?
-          </Typography>
-          <Box display="flex" justifyContent="flex-end" gap={2}>
-            <Button
-              variant="outlined"
-              sx={{
-                border: `1px ${themeNew.palette.primary.main} solid`,
-                color: themeNew.palette.primary.main,
-              }}
-              color="primary"
-              onClick={handleConfirm}
-            >
-              Confirmar
-            </Button>
-            <Button variant="outlined" color="error" onClick={handleClose}>
-              Cancelar
-            </Button>
-          </Box>
+          {loading ? (
+            <Grid item xs={12} style={{ textAlign: "center" }}>
+              <CircularProgress /> {/* Indicador de carga */}
+            </Grid>
+          ) : (
+            <>
+              <Typography
+                id="modal-title"
+                variant="h6"
+                component="h2"
+                gutterBottom
+              >
+                Mensaje de Confirmación
+              </Typography>
+              <Typography id="modal-description" sx={{ mb: 3 }}>
+                ¿Está seguro(a) que eliminará la maquinaria {id}?
+              </Typography>
+              <Box display="flex" justifyContent="flex-end" gap={2}>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    border: `1px ${themeNew.palette.primary.main} solid`,
+                    color: themeNew.palette.primary.main,
+                  }}
+                  color="primary"
+                  onClick={handleConfirm}
+                >
+                  Confirmar
+                </Button>
+                <Button variant="outlined" color="error" onClick={handleClose}>
+                  Cancelar
+                </Button>
+              </Box>
+            </>
+          )}
         </Box>
       </Modal>
     </>

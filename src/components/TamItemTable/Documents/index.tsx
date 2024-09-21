@@ -1,4 +1,4 @@
-import { IconButton, Tooltip } from "@mui/material";
+import { Grid, IconButton, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import { DocumentItem } from "../../../types";
@@ -6,16 +6,23 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
-import ModalDocumentDetail from "../../ModalDocumentDetail";
 import ModalEditDocument from "../../ModalEditDocument";
-import { styleTableItem } from "../../../style/StyleModal";
-import {useDeleteDocument, useGetDocumentByMachinery} from '../../../hooks/useDocuments'
+import {
+  styleTableItem,
+  styleTableResponsive,
+} from "../../../style/StyleModal";
+import {
+  useDeleteDocument,
+  useGetDocumentByMachinery,
+} from "../../../hooks/useDocuments";
+import ModalDetailGeneric from "../../ModalDetailGeneric";
+import { formatDayMonthYear } from "../../../utils/capitalize";
 
-interface DocumentsProps{
-  idMachinery:number;
+interface DocumentsProps {
+  idMachinery: number;
 }
 
-const Documents: React.FC<DocumentsProps> = ({idMachinery}) => {
+const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
 
@@ -23,11 +30,10 @@ const Documents: React.FC<DocumentsProps> = ({idMachinery}) => {
   const { mutateAsync: mutationDeleteId } = useDeleteDocument();
   const [valueDelete, setValueDelete] = useState(0);
 
-  const {
-  	data: machineryData,
-  } = useGetDocumentByMachinery({id: idMachinery});
-  console.log("DATA "+machineryData)
-
+  const { data: machineryData } = useGetDocumentByMachinery({
+    id: idMachinery,
+  });
+  console.log("DATA " + machineryData);
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
@@ -35,7 +41,8 @@ const Documents: React.FC<DocumentsProps> = ({idMachinery}) => {
   };
 
   const handleCloseConfirmModal = () => {
-    setOpenModalConfirm(false)};
+    setOpenModalConfirm(false);
+  };
 
   const handleOpenEdit = (row: DocumentItem) => {
     setSelectedRow(row);
@@ -56,7 +63,6 @@ const Documents: React.FC<DocumentsProps> = ({idMachinery}) => {
     }
   };
 
-
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -72,6 +78,7 @@ const Documents: React.FC<DocumentsProps> = ({idMachinery}) => {
       minWidth: 200,
       align: "center",
       headerAlign: "center",
+      renderCell: (params) => formatDayMonthYear(params.value),
     },
     {
       field: "technicalReviewsEnd",
@@ -80,6 +87,7 @@ const Documents: React.FC<DocumentsProps> = ({idMachinery}) => {
       minWidth: 120,
       align: "center",
       headerAlign: "center",
+      renderCell: (params) => formatDayMonthYear(params.value),
     },
     {
       field: "soatStart",
@@ -88,6 +96,7 @@ const Documents: React.FC<DocumentsProps> = ({idMachinery}) => {
       minWidth: 150,
       align: "center",
       headerAlign: "center",
+      renderCell: (params) => formatDayMonthYear(params.value),
     },
     {
       field: "actions",
@@ -121,9 +130,9 @@ const Documents: React.FC<DocumentsProps> = ({idMachinery}) => {
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
-              onClick={()=>{
-                setValueDelete(Number(params.id))
-                handleOpenConfirmModal()
+              onClick={() => {
+                setValueDelete(Number(params.id));
+                handleOpenConfirmModal();
               }}
               aria-label="ELiminar"
             >
@@ -134,17 +143,56 @@ const Documents: React.FC<DocumentsProps> = ({idMachinery}) => {
       ),
     },
   ];
+  const fieldsDetail = [
+    {
+      title: "Inicio de revisiones técnicas",
+      value: formatDayMonthYear(selectedRow.technicalReviewsStart),
+    },
+    {
+      title: "Fin de revisiones técnicas",
+      value: formatDayMonthYear(selectedRow.technicalReviewsEnd),
+    },
+    { title: "Inicio SOAT", value: formatDayMonthYear(selectedRow.soatStart) },
+    { title: "Fin SOAT", value: formatDayMonthYear(selectedRow.soatEnd) },
+    {
+      title: "Inicio seguro",
+      value: formatDayMonthYear(selectedRow.insuranceStart),
+    },
+    {
+      title: "Fin seguro",
+      value: formatDayMonthYear(selectedRow.insuranceEnd),
+    },
+    {
+      title: "Inicio de seguro de viaje",
+      value: formatDayMonthYear(selectedRow.trekInsuranceStart),
+    },
+    {
+      title: "Fin de seguro de viaje",
+      value: formatDayMonthYear(selectedRow.trekInsuranceEnd),
+    },
+    {
+      title: "Inicio del certificado de funcionamiento",
+      value: formatDayMonthYear(selectedRow.operatingCertificateStart),
+    },
+    {
+      title: "Fin del certificado de funcionamiento",
+      value: formatDayMonthYear(selectedRow.operatingCertificateEnd),
+    },
+    { title: "Código de la maquinaria", value: selectedRow.heavyMachineryId },
+  ];
   return (
     <>
-      <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          sx={styleTableItem}
-          className="truncate..."
-          hideFooter
-          rows={machineryData || []}
-          columns={columns}
-        />
-      </div>
+      <Grid sx={styleTableResponsive}>
+        <div style={{ height: 400, width: "100%" }}>
+          <DataGrid
+            sx={styleTableItem}
+            className="truncate..."
+            hideFooter
+            rows={machineryData || []}
+            columns={columns}
+          />
+        </div>
+      </Grid>
 
       <ModalEditDocument //boton de editar
         openModal={openEdit}
@@ -152,11 +200,12 @@ const Documents: React.FC<DocumentsProps> = ({idMachinery}) => {
         data={selectedRow}
         mode="update"
       />
-
-      <ModalDocumentDetail //boton de detalle
+      <ModalDetailGeneric //boton de detalle
         openModal={openDetail}
         handleClose={handleClose}
         data={selectedRow}
+        fields={fieldsDetail}
+        title="DETALLE DEL DOCUMENTO"
       />
 
       <ConfirmModal //boton de eliminar

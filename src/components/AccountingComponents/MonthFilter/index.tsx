@@ -1,10 +1,8 @@
 import {
   Box,
   Grid,
-  IconButton,
   MenuItem,
   TextField,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -15,9 +13,9 @@ import {
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useGetAccountingList } from "../../../hooks/userAcccounting";
 import { AccountingResponse } from "../../../domain/machinery.interface";
-import { SearchSharp } from "@mui/icons-material";
 import themeNew from "../../../utils/theme";
 import { getMonthName } from "../../../utils/capitalize";
+import { SearchSharp } from "@mui/icons-material";
 
 const MonthItem = [
   { value: "01", label: "Enero" },
@@ -34,49 +32,53 @@ const MonthItem = [
   { value: "12", label: "Diciembre" },
 ];
 function MonthFilter() {
- // Obtener el mes y año actual
- const currentDate = new Date();
- const currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0");
- const currentYear = currentDate.getFullYear();
+  // Obtener el mes y año actual
+  const currentDate = new Date();
+  const currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0");
+  const currentYear = currentDate.getFullYear();
 
- // Estados para el mes y el año seleccionados
- const [selectedMonth, setSelectedMonth] = useState(currentMonth);
- const [selectedYear, setSelectedYear] = useState(currentYear.toString());
- const [searchDate, setSearchDate] = useState(`${currentYear}-${currentMonth}-01`);
+  // Estados para el mes y el año seleccionados
+  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+  const [selectedYear, setSelectedYear] = useState(currentYear.toString());
+  const [searchDate, setSearchDate] = useState(
+    `${currentYear}-${currentMonth}-01`
+  );
 
- // Estado para los datos con 'id'
- const [rowsWithIds, setRowsWithIds] = useState<AccountingResponse[]>([]);
+  // Estado para los datos con 'id'
+  const [rowsWithIds, setRowsWithIds] = useState<AccountingResponse[]>([]);
 
- // Obtener los datos iniciales con el hook personalizado
- const { data: listData, refetch } = useGetAccountingList({ searchMonth: searchDate });
+  // Obtener los datos iniciales con el hook personalizado
+  const { data: listData, refetch } = useGetAccountingList({
+    searchMonth: searchDate,
+  });
 
- // Efecto para actualizar los datos con ID único
- useEffect(() => {
-   if (listData) {
-     const dataWithIds = listData.map((item, index) => ({
-       ...item,
-       id: index + 1, // Agregar ID numérico único
-     }));
-     setRowsWithIds(dataWithIds);
-   }
- }, [listData]);
+  // Efecto para actualizar los datos con ID único
+  useEffect(() => {
+    if (listData) {
+      const dataWithIds = listData.map((item, index) => ({
+        ...item,
+        id: index + 1, // Agregar ID numérico único
+      }));
+      setRowsWithIds(dataWithIds);
+    }
+  }, [listData]);
 
- // Manejar cambios en el TextField del mes
- const handleChangeMonth = (event: React.ChangeEvent<HTMLInputElement>) => {
-   setSelectedMonth(event.target.value);
- };
+  // Manejar cambios en el TextField del mes
+  const handleChangeMonth = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedMonth(event.target.value);
+  };
 
- // Manejar cambios en el TextField del año
- const handleChangeYear = (event: React.ChangeEvent<HTMLInputElement>) => {
-   setSelectedYear(event.target.value);
- };
+  // Manejar cambios en el TextField del año
+  const handleChangeYear = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedYear(event.target.value);
+  };
 
- // Manejar la búsqueda al hacer clic en el botón
- const handleSearch = () => {
-   const newDate = `${selectedYear}-${selectedMonth}-01`; // Formato YYYY-MM-01
-   setSearchDate(newDate); // Actualizar la fecha de búsqueda
-   refetch(); // Refrescar los datos de la búsqueda
- };
+  // Manejar la búsqueda al hacer clic en el botón
+  const handleSearch = () => {
+    const newDate = `${selectedYear}-${selectedMonth}-01`; // Formato YYYY-MM-01
+    setSearchDate(newDate); // Actualizar la fecha de búsqueda
+    refetch(); // Refrescar los datos de la búsqueda
+  };
 
   const columns: GridColDef[] = [
     {
@@ -122,7 +124,6 @@ function MonthFilter() {
       ),
       align: "center",
       headerAlign: "center",
-      
     },
   ];
   return (
@@ -199,41 +200,30 @@ function MonthFilter() {
         <Typography variant="button">{"DETALLE"}</Typography>
         <>
           <Grid sx={styleTableResponsive}>
-            <div style={{ height: 400, width: "100%" }}>
-              <DataGrid
-                sx={styleTableItem}
-                className="truncate..."
-                hideFooter
-                rows={rowsWithIds || []}
-                columns={columns}
-              />
-            </div>
-
-            {/* <ModalEditDocument //boton de editar
-          openModal={openEdit}
-          handleClose={handleCloseEdit}
-          data={selectedRow}
-          mode="update"
-        />
-
-        <ModalDocumentDetail //boton de detalle
-          openModal={openDetail}
-          handleClose={handleClose}
-          data={selectedRow}
-        />
-
-        <ConfirmModal //boton de eliminar
-          onConfirm={openDelete}
-          onCancel={handleCloseConfirmModal}
-          id={1}
-        /> */}
+            {rowsWithIds.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  alignContent: "center",
+                  border: "1px gray solid",
+                  height: "8rem",
+                }}
+              >
+                No se encontraron registros
+              </div>
+            ) : (
+              <div style={{ height: 400, width: "100%" }}>
+                <DataGrid
+                  sx={styleTableItem}
+                  className="truncate..."
+                  hideFooter
+                  rows={rowsWithIds || []}
+                  columns={columns}
+                />
+              </div>
+            )}
           </Grid>
-          {/* <ModalEditDocument ///crear
-        openModal={openModalNew}
-        handleClose={handleCloseNewModal}
-        data={dataCreate}
-        mode="create"
-      /> */}
         </>
       </Box>
     </div>

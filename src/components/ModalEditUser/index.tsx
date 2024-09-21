@@ -123,6 +123,10 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
     },
     [formData, mode, useCreateUser, useUpdateUser, handleClose]
   );
+  const handleOpenChangePass = () => {
+    setOpenChangeModal(true);
+    handleClose();
+  };
   const onCreateUser = async (data: UserRequest) => {
     try {
       const response = await createUser.mutateAsync(data);
@@ -139,12 +143,6 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
       console.log("Error-> " + error);
     }
   };
-
-  const handleOpenChangePass = () => {
-    setOpenChangeModal(true);
-    handleClose();
-  };
-
   const modalTitle =
     mode === "create" ? "CREAR USUARIO" : "EDITAR DETALLE DE LA USUARIO";
 
