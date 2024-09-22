@@ -17,6 +17,7 @@ import React, { useState } from "react";
 import themeNew from "../../utils/theme";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../../services/auth.service";
+import ReusableSnackbar from "../../components/ReusableSnackbar";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const Login: React.FC = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     localStorage.removeItem("authData");
     try {
       const data = { username: usernameValue, password };
@@ -43,7 +44,6 @@ const Login: React.FC = () => {
       const { accessToken, refreshToken, user } = response;
       const { username, role } = user;
 
-      // Crear un objeto con todos los datos que quieres almacenar
       const authData = {
         accessToken,
         refreshToken,
@@ -51,9 +51,7 @@ const Login: React.FC = () => {
         role,
       };
       localStorage.setItem("authData", JSON.stringify(authData));
-      console.log(JSON.stringify(authData))
       navigate("/dashboard", { state: { username, role } });
-
     } catch (err: any) {
       const errorMessage =
         err.response?.data?.message ||
@@ -152,19 +150,12 @@ const Login: React.FC = () => {
           </Typography>
         </CardActions>
       </Card>
-      <Snackbar
+      <ReusableSnackbar
+        severity={"error"}
+        message={error}
         open={openSnackbar}
-        autoHideDuration={6000}
         onClose={handleCloseSnackbar}
-      >
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity="error"
-          sx={{ width: "100%" }}
-        >
-          {error} {/* Mostrar el mensaje de error */}
-        </Alert>
-      </Snackbar>
+      />
     </Box>
   );
 };
