@@ -18,6 +18,7 @@ import ButtonDefault from "../../components/ButtonDefault";
 import { useDeleteInspection, useGetInspectionByModel } from "../../hooks/useMachineryInspection";
 import GroupRadioButton from "../../components/GroupRadioButton";
 import { capitalizer } from "../../utils/capitalize";
+import { InspectionResponse } from "../../domain/machinery.interface";
 
 const dataCreate = {
   projectName: "",
@@ -97,6 +98,7 @@ const Inspections: React.FC = () => {
   const handleCloseNewModal = () => setOpenModalNew(false);
   const [valueDelete, setValueDelete] = useState(0);
   const { mutateAsync: mutationDeleteId } = useDeleteInspection();
+  const [rowsWithIds, setRowsWithIds] = useState<InspectionResponse[]>([]);
 
   const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
   const handleOpenConfirmModal = () => setOpenModalConfirm(true);
@@ -110,7 +112,13 @@ const Inspections: React.FC = () => {
     setLoading(true);
     try {
       if (searchedDocumentsData) {
-        setDocumentsData(searchedDocumentsData);
+        const dataWithIds = searchedDocumentsData.map((item, index) => ({
+          ...item,
+          id: index + 1, // Agregar ID numérico único
+        }));
+        setRowsWithIds(dataWithIds);
+
+        setDocumentsData(dataWithIds);
       }
     } catch (error) {
       console.error("Error:", error);

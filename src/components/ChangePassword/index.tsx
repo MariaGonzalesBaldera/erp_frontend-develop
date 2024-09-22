@@ -11,7 +11,7 @@ interface ChangePasswordProps {
   openModal: boolean;
   handleClose: () => void;
   id: number;
-  handleSwitchModal?: ()=>void
+  handleSwitchModal?: () => void;
 }
 
 const ChangePassword: React.FC<ChangePasswordProps> = ({
@@ -21,6 +21,8 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
 }) => {
   const [error, setError] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [sevetityValues, setSevetityValues] = useState("");
+
   const modalTitle = "CAMBIAR CONTRASEÑA";
 
   const [formData, setFormData] = useState({
@@ -51,7 +53,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
       }));
     }
   }, []);
- 
+
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -78,14 +80,19 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
   );
   const onChangePass = async (data: NewPasswordRequest) => {
     try {
-      console.log(data)
       mutate(data, {
         onSuccess: (response) => {
-          console.log("Contraseña cambiada exitosamente", response);
+          setSevetityValues("success");
+          setError("Clave cambiada exitosamente");
+          setOpenSnackbar(true);
+          setTimeout(() => {
+            handleClose();
+          }, 2300);
         },
         onError: (error) => {
-            setError(error.message);
-            setOpenSnackbar(true);
+          setSevetityValues("error");
+          setError(error.message);
+          setOpenSnackbar(true);
         },
       });
     } catch (error) {
@@ -104,9 +111,10 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
   useEffect(() => {
     if (openModal) {
       setFormData({
-        currentPassword: '',
-        newPassword: '',
+        currentPassword: "",
+        newPassword: "",
       });
+      setOpenSnackbar(false);
       setErrors({
         currentPassword: false,
         newPassword: false,
@@ -165,11 +173,11 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
           </Grid>
         </Box>
         <ReusableSnackbar
-        severity={"error"}
-        message={error}
-        open={openSnackbar}
-        onClose={handleCloseSnackbar}
-      />
+          severity={sevetityValues}
+          message={error}
+          open={openSnackbar}
+          onClose={handleCloseSnackbar}
+        />
       </Box>
     </Modal>
   );

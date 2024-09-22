@@ -1,12 +1,19 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { UserItem, UserRequest } from "../../types";
-import { Box, Button, Grid, MenuItem, Modal, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  MenuItem,
+  Modal,
+  TextField,
+} from "@mui/material";
 import { styleModalInspection } from "../../style/StyleModal";
 import HeaderModal from "../HeaderModal";
 import ButtonDefault from "../ButtonDefault";
 import { validateEmail } from "../../utils/capitalize";
 import { useCreateUser, useUpdateUser } from "../../hooks/useAuthentication";
-import ChangePassword from "../ChangePassword";
 interface ModalEditUserProps {
   openModal: boolean;
   handleClose: () => void;
@@ -25,13 +32,10 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
   handleClose,
   data,
   mode,
-  onChangePassword
+  onChangePassword,
 }) => {
   const createUser = useCreateUser();
-  const [openChangeModal, setOpenChangeModal] = useState(false);
-  const handleCloseChangeModal = () => {
-    setOpenChangeModal(false);
-  };
+  const [loading, setLoading] = useState(false);
   const updateMutation = useUpdateUser({
     id: Number(data.id),
   });
@@ -100,33 +104,36 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
 
       const hasErrors = Object.values(newErrors).some((error) => error);
       if (hasErrors) {
-        return; // No proceder si hay errores
+        return;
       }
+      setLoading(true);
+      try {
+        const body = {
+          userDTO: {
+            username: formData.username,
+            firstname: formData.firstname,
+            lastname: formData.lastname,
+            email: formData.email,
+            role: formData.role,
+          },
+          password: formData.password,
+        };
 
-      const body = {
-        userDTO: {
-          username: formData.username,
-          firstname: formData.firstname,
-          lastname: formData.lastname,
-          email: formData.email,
-          role: formData.role,
-        },
-        password: formData.password,
-      };
-
-      if (mode === "create") {
-        onCreateUser(body);
-      } else {
-        onUpdateUser(body.userDTO); // Solo se envían los datos del usuario al actualizar
+        if (mode === "create") {
+          onCreateUser(body);
+        } else {
+          onUpdateUser(body.userDTO); // Solo se envían los datos del usuario al actualizar
+        }
+      } catch (e) {
+        console.error("Error:", e);
+      } finally {
+        setLoading(false);
+        handleClose();
       }
-      handleClose();
     },
     [formData, mode, useCreateUser, useUpdateUser, handleClose]
   );
-  const handleOpenChangePass = () => {
-    setOpenChangeModal(true);
-    handleClose();
-  };
+
   const onCreateUser = async (data: UserRequest) => {
     try {
       const response = await createUser.mutateAsync(data);
@@ -162,106 +169,114 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
           handleClose={handleClose}
         />
 
-        <Box
-          component="form"
-          onSubmit={handleSubmit}
-          className="bg-background p-6 w-full max-w-6xl mx-auto"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Campos de texto */}
-            <TextField
-              label="Usuario"
-              variant="outlined"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              fullWidth
-              size="small"
-              error={errors.username}
-              helperText={errors.username ? "Campo requerido" : ""}
-            />
-            <TextField
-              label="Primer Nombre"
-              variant="outlined"
-              name="firstname"
-              value={formData.firstname}
-              onChange={handleChange}
-              fullWidth
-              size="small"
-              error={errors.firstname}
-              helperText={errors.firstname ? "Campo requerido" : ""}
-            />
-            <TextField
-              label="Apellido"
-              variant="outlined"
-              name="lastname"
-              value={formData.lastname}
-              onChange={handleChange}
-              fullWidth
-              size="small"
-              error={errors.lastname}
-              helperText={errors.lastname ? "Campo requerido" : ""}
-            />
-            <TextField
-              label="Correo"
-              variant="outlined"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              fullWidth
-              size="small"
-              error={errors.email}
-              helperText={errors.email ? "Ingrese un correo válido" : ""}
-            />
-            <TextField
-              size="small"
-              id="outlined-select-currency"
-              label="Rol"
-              select
-              variant="outlined"
-              fullWidth
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              error={errors.role}
-              helperText={errors.role ? "Campo requerido" : ""}
-            >
-              {RoleItem.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            {mode == "create" ? (
-              <TextField
-                label="Contraseña"
-                variant="outlined"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                fullWidth
-                size="small"
-                error={errors.password}
-                helperText={errors.password ? "Campo requerido" : ""}
-              />
+        <Box  className="p-5">
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            sx={{ mt: 2 }}
+          >
+            {loading ? (
+              <Grid item xs={12} style={{ textAlign: "center" }}>
+                <CircularProgress /> {/* Indicador de carga */}
+              </Grid>
             ) : (
-              <Button
-                onClick={onChangePassword}
-                sx={{ border: "1px gray solid" }}
-              >
-                Cambiar clave
-              </Button>
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Campos de texto */}
+                  <TextField
+                    label="Usuario"
+                    variant="outlined"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    fullWidth
+                    size="small"
+                    error={errors.username}
+                    helperText={errors.username ? "Campo requerido" : ""}
+                  />
+                  <TextField
+                    label="Primer Nombre"
+                    variant="outlined"
+                    name="firstname"
+                    value={formData.firstname}
+                    onChange={handleChange}
+                    fullWidth
+                    size="small"
+                    error={errors.firstname}
+                    helperText={errors.firstname ? "Campo requerido" : ""}
+                  />
+                  <TextField
+                    label="Apellido"
+                    variant="outlined"
+                    name="lastname"
+                    value={formData.lastname}
+                    onChange={handleChange}
+                    fullWidth
+                    size="small"
+                    error={errors.lastname}
+                    helperText={errors.lastname ? "Campo requerido" : ""}
+                  />
+                  <TextField
+                    label="Correo"
+                    variant="outlined"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    fullWidth
+                    size="small"
+                    error={errors.email}
+                    helperText={errors.email ? "Ingrese un correo válido" : ""}
+                  />
+                  <TextField
+                    size="small"
+                    id="outlined-select-currency"
+                    label="Rol"
+                    select
+                    variant="outlined"
+                    fullWidth
+                    name="role"
+                    value={formData.role}
+                    onChange={handleChange}
+                    error={errors.role}
+                    helperText={errors.role ? "Campo requerido" : ""}
+                  >
+                    {RoleItem.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  {mode == "create" ? (
+                    <TextField
+                      label="Contraseña"
+                      variant="outlined"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      fullWidth
+                      size="small"
+                      error={errors.password}
+                      helperText={errors.password ? "Campo requerido" : ""}
+                    />
+                  ) : (
+                    <Button
+                      onClick={onChangePassword}
+                      sx={{ border: "1px gray solid" }}
+                    >
+                      Cambiar clave
+                    </Button>
+                  )}
+                </div>
+
+                <Grid container justifyContent="flex-end" spacing={2} mt={2}>
+                  <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
+                    <ButtonDefault title={buttonText} />
+                  </Grid>
+                </Grid>
+              </>
             )}
-          </div>
-
-          <Grid container justifyContent="flex-end" spacing={2} mt={2}>
-            <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
-              <ButtonDefault title={buttonText} />
-            </Grid>
-          </Grid>
+          </Box>
         </Box>
-
-       
       </Box>
     </Modal>
   );
