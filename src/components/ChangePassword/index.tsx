@@ -1,10 +1,11 @@
 import { Box, Grid, Modal, TextField } from "@mui/material";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { styleModalInspection } from "../../style/StyleModal";
 import HeaderModal from "../HeaderModal";
 import ButtonDefault from "../ButtonDefault";
 import { useChangePassword } from "../../hooks/useAuthentication";
 import { NewPasswordRequest } from "../../types";
+import ReusableSnackbar from "../ReusableSnackbar";
 
 interface ChangePasswordProps {
   openModal: boolean;
@@ -18,7 +19,8 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
   handleClose,
   id,
 }) => {
- 
+  const [error, setError] = useState("");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const modalTitle = "CAMBIAR CONTRASEÑA";
 
   const [formData, setFormData] = useState({
@@ -49,12 +51,10 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
       }));
     }
   }, []);
-
+ 
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
-
-      // Validar el formulario
       const newErrors = {
         currentPassword: formData.currentPassword === "",
         newPassword: formData.newPassword === "",
@@ -72,7 +72,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
       };
 
       onChangePass(data);
-      handleClose();
+      //handleClose();
     },
     [formData, handleClose]
   );
@@ -84,14 +84,35 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
           console.log("Contraseña cambiada exitosamente", response);
         },
         onError: (error) => {
-          console.log("Error al cambiar la contraseña: ", error.message);
+            setError(error.message);
+            setOpenSnackbar(true);
         },
       });
     } catch (error) {
       console.log("Error-> " + JSON.stringify(error.message));
     }
   };
-
+  const handleCloseSnackbar = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+  useEffect(() => {
+    if (openModal) {
+      setFormData({
+        currentPassword: '',
+        newPassword: '',
+      });
+      setErrors({
+        currentPassword: false,
+        newPassword: false,
+      });
+    }
+  }, [openModal]);
   return (
     <Modal
       open={openModal}
@@ -143,6 +164,12 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
             </Grid>
           </Grid>
         </Box>
+        <ReusableSnackbar
+        severity={"error"}
+        message={error}
+        open={openSnackbar}
+        onClose={handleCloseSnackbar}
+      />
       </Box>
     </Modal>
   );
