@@ -9,8 +9,6 @@ import {
   IconButton,
   Box,
   InputAdornment,
-  Snackbar,
-  Alert,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React, { useState } from "react";
@@ -28,14 +26,31 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
-
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    // Resetear los errores
+    setUsernameError("");
+    setPasswordError("");
+
+    // Validación de los campos
+    if (!usernameValue) {
+      setUsernameError("El usuario es obligatorio");
+    }
+
+    if (!password) {
+      setPasswordError("La contraseña es obligatoria");
+    }
+
+    // Si hay algún error, no continuar con el login
+    if (!usernameValue || !password) {
+      return;
+    }
     localStorage.removeItem("authData");
     try {
       const data = { username: usernameValue, password };
@@ -95,6 +110,8 @@ const Login: React.FC = () => {
               placeholder="Ingresa tu usuario"
               value={usernameValue}
               onChange={(e) => setUsernameValue(e.target.value)}
+              error={!!usernameError}
+              helperText={usernameError}
             />
             <TextField
               fullWidth
@@ -104,6 +121,8 @@ const Login: React.FC = () => {
               placeholder="Ingresa tu contraseña"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              error={!!passwordError}
+              helperText={passwordError} 
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
