@@ -20,7 +20,7 @@ import { formatDayMonthYear } from "../../../utils/capitalize";
 
 interface DocumentsProps {
   idMachinery: number;
-}
+} 
 
 const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
   const [openDetail, setOpenDetail] = useState(false);
@@ -29,11 +29,24 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
   const [selectedRow, setSelectedRow] = useState<any>(0);
   const { mutateAsync: mutationDeleteId } = useDeleteDocument();
   const [valueDelete, setValueDelete] = useState(0);
+  const [documentsData, setDocumentsData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const { data: machineryData } = useGetDocumentByMachinery({
     id: idMachinery,
   });
-  console.log("DATA " + machineryData);
+  React.useEffect(() => {
+    setLoading(true);
+    try {
+      if (machineryData) {
+        setDocumentsData(machineryData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [machineryData]);
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
@@ -184,13 +197,27 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
     <>
       <Grid sx={styleTableResponsive}>
         <div style={{ height: 400, width: "100%" }}>
-          <DataGrid
-            sx={styleTableItem}
-            className="truncate..."
-            hideFooter
-            rows={machineryData || []}
-            columns={columns}
-          />
+        {documentsData.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  alignContent: "center",
+                  border: "1px gray solid",
+                  height: "8rem",
+                }}
+              >
+                No se encontraron registro
+              </div>
+            ) : (
+              <DataGrid
+                sx={styleTableItem}
+                className="truncate..."
+                hideFooter
+                rows={documentsData}
+                columns={columns}
+              />
+            )}
         </div>
       </Grid>
 

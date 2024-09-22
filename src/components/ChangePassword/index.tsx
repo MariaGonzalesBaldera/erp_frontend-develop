@@ -10,6 +10,7 @@ interface ChangePasswordProps {
   openModal: boolean;
   handleClose: () => void;
   id: number;
+  handleSwitchModal?: ()=>void
 }
 
 const ChangePassword: React.FC<ChangePasswordProps> = ({
@@ -17,14 +18,17 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
   handleClose,
   id,
 }) => {
-  const updateMutation = useChangePassword({
-    id: id,
-  });
+ 
   const modalTitle = "CAMBIAR CONTRASEÑA";
 
   const [formData, setFormData] = useState({
     currentPassword: "",
     newPassword: "",
+  });
+  const { mutate } = useChangePassword({
+    id: id,
+    currentPassword: formData.currentPassword,
+    newPassword: formData.newPassword,
   });
   const [errors, setErrors] = useState({
     currentPassword: false,
@@ -49,6 +53,8 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
+
+      // Validar el formulario
       const newErrors = {
         currentPassword: formData.currentPassword === "",
         newPassword: formData.newPassword === "",
@@ -64,17 +70,25 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
         currentPassword: formData.currentPassword,
         newPassword: formData.newPassword,
       };
+
       onChangePass(data);
       handleClose();
     },
-    [formData, useChangePassword, handleClose]
+    [formData, handleClose]
   );
   const onChangePass = async (data: NewPasswordRequest) => {
     try {
-      const response = await updateMutation.mutateAsync(data);
-      console.log(response);
+      console.log(data)
+      mutate(data, {
+        onSuccess: (response) => {
+          console.log("Contraseña cambiada exitosamente", response);
+        },
+        onError: (error) => {
+          console.log("Error al cambiar la contraseña: ", error.message);
+        },
+      });
     } catch (error) {
-      console.log("Error-> " + error);
+      console.log("Error-> " + JSON.stringify(error.message));
     }
   };
 

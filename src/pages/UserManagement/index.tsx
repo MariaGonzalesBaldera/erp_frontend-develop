@@ -3,14 +3,15 @@ import { UserItem } from "../../types";
 import { useDeleteUser, useGetUserList } from "../../hooks/useAuthentication";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import HeaderPage from "../../components/HeaderPage";
-import { Grid, IconButton, Tooltip } from "@mui/material";
-import { styleTableItem } from "../../style/StyleModal";
+import { CircularProgress, Grid, IconButton, Tooltip } from "@mui/material";
+import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
 import ModalEditUser from "../../components/ModalEditUser";
 import ModalDetailUser from "../../components/ModalDetailUser";
 import ConfirmModal from "../../components/ConfirmModal";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListIcon from "@mui/icons-material/List";
+import ChangePassword from "../../components/ChangePassword";
 
 const dataCreate = {
     id: 0,
@@ -30,12 +31,25 @@ const UserManagement: React.FC = () => {
     const [openModalNew, setOpenModalNew] = React.useState(false);
     const handleOpenNewModal = () => setOpenModalNew(true);
     const handleCloseNewModal = () => setOpenModalNew(false);
+  const [documentsData, setDocumentsData] = useState<any[]>([]);
   
     const { mutateAsync: mutationDeleteId } = useDeleteUser();
+    const [loading, setLoading] = useState(false);
   
     const { data: userData } = useGetUserList();
-    console.log("DATA " + userData);
-  
+    React.useEffect(() => {
+      setLoading(true);
+      try {
+        if (userData) {
+          setDocumentsData(userData);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        setLoading(false);
+      }
+    }, [userData]);
+
     const handleOpen = (row: any) => {
       setSelectedRow(row);
       setOpenDetail(true);
@@ -154,52 +168,57 @@ const UserManagement: React.FC = () => {
           ),
         },
       ];
-    
+      const [openChangePassword, setOpenChangePassword] = useState<boolean>(false);
+      const handleCloseChangePassword = (): void => setOpenChangePassword(false);
+
+      const handleOpenChangePassword = (): void => {
+        setOpenEdit(false); // Cerrar ModalEditUser
+        setOpenChangePassword(true); // Abrir ModalChangePassword
+      };
     return (
         <>
           <HeaderPage
             title="LISTA DE USUARIOS"
             titleButton="NUEVO USUARIO"
             handleOpen={handleOpenNewModal}
-          />
-          {/* <Grid
-            container
-            gap={2}
-            alignItems={"center"}
-            order={{ xs: 2, sm: 1 }}
-          >
-            <SearchInput title="Ingresa el código de usuario" />
-            <SearchSharp
-              sx={{
-                border: `1px ${themeNew.palette.primary.main} solid`,
-                width: 45,
-                height: 40,
-                padding: 0.8,
-                cursor: "pointer",
-                borderRadius: 1,
-                "&:hover": {
-                  color: "#e2e0ff",
-                  backgroundColor: themeNew.palette.primary.main,
-                },
-              }}
-              onClick={() => console.log("first")}
-            />
-          </Grid> */}
-    
-          <Grid style={{ height: 400,marginTop:"1rem" }}>
-            <DataGrid
-              sx={styleTableItem}
-              className="truncate..."
-              hideFooter
-              rows={userData || []}
-              columns={columns}
-            />
+          /> 
+    <Grid sx={styleTableResponsive}>
+        {loading ? (
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <CircularProgress /> {/* Indicador de carga */}
           </Grid>
+        ) : (
+          <div style={{ height: 400, width: "100%" }}>
+            {documentsData.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  alignContent: "center",
+                  border: "1px gray solid",
+                  height: "8rem",
+                }}
+              >
+                No se encontraron registros
+              </div>
+            ) : (
+              <DataGrid
+                sx={styleTableItem}
+                className="truncate..."
+                hideFooter
+                rows={documentsData}
+                columns={columns}
+              />
+            )}
+          </div>
+        )}
+      </Grid> 
           <ModalEditUser //boton de editar
             openModal={openEdit}
             handleClose={handleCloseEdit}
             data={selectedRow}
             mode="update"
+            onChangePassword={handleOpenChangePassword} 
           />
     
           <ModalDetailUser //boton de detalle
@@ -219,6 +238,11 @@ const UserManagement: React.FC = () => {
             data={dataCreate}
             mode="create"
           />
+           <ChangePassword
+          openModal={openChangePassword}
+          handleClose={handleCloseChangePassword}
+          id={selectedRow.id}
+        />
         </>
       );};
 
