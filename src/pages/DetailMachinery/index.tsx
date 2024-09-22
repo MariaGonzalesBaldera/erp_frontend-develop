@@ -48,7 +48,11 @@ function DetailMachinery() {
         />
       </Box>
       <Grid className="mt-4">
+<<<<<<< HEAD
         <TabDocuments />
+=======
+        <TabDocuments idMachinery={maquina.id} />
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
       </Grid>
     </>
   );

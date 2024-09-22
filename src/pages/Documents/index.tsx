@@ -1,4 +1,5 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+<<<<<<< HEAD
 import React, { useState } from "react";
 import { DocumentItem } from "../../types";
 import EditIcon from "@mui/icons-material/Edit";
@@ -59,6 +60,34 @@ const rows = [
 ];
 const dataCreate = {
   id: "",
+=======
+import React, {  useState } from "react";
+import { DocumentItem } from "../../types";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ListIcon from "@mui/icons-material/List";
+import ConfirmModal from "../../components/ConfirmModal";
+import ModalEditDocument from "../../components/ModalEditDocument";
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
+import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
+import GroupRadioButton from "../../components/GroupRadioButton";
+import ButtonDefault from "../../components/ButtonDefault";
+import {
+  useDeleteDocument,
+  useGetDocumentByModel,
+} from "../../hooks/useDocuments";
+import { capitalizer, formatDayMonthYear } from "../../utils/capitalize";
+import ModalDetailGeneric from "../../components/ModalDetailGeneric";
+
+const dataCreate = {
+  id: 0,
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   technicalReviewsStart: "",
   technicalReviewsEnd: "",
   soatStart: "",
@@ -69,11 +98,16 @@ const dataCreate = {
   trekInsuranceEnd: "",
   operatingCertificateStart: "",
   operatingCertificateEnd: "",
+<<<<<<< HEAD
   heavyMachineryId: "",
+=======
+  heavyMachineryId: 0,
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 };
 const Documents: React.FC = () => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+<<<<<<< HEAD
   const [openDelete, setOpenDelete] = useState(false);
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
@@ -82,15 +116,55 @@ const Documents: React.FC = () => {
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
 
+=======
+  const [valueDelete, setValueDelete] = useState(0);
+  const [selectedRow, setSelectedRow] = useState<any>(0);
+
+  const [openModalNew, setOpenModalNew] = React.useState(false);
+
+  const handleOpenNewModal = () => setOpenModalNew(true);
+  const handleCloseNewModal = () => setOpenModalNew(false);
+
+  const [selectedValue, setSelectedValue] = useState<string>("oruga");
+  const { mutateAsync: mutationDeleteId } = useDeleteDocument();
+  const [documentsData, setDocumentsData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const { data: searchedDocumentsData } = useGetDocumentByModel({
+    model: selectedValue,
+  });
+
+  React.useEffect(() => {
+    setLoading(true);
+    try {
+      if (searchedDocumentsData) {
+        setDocumentsData(searchedDocumentsData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [searchedDocumentsData]);
+
+  const handleRadioChange = (value: string) => {
+    setSelectedValue(value);
+  };
+
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
 
+<<<<<<< HEAD
   const handleOpenDelete = () => {
     setOpenDelete(true);
   };
   const handleCloseConfirmModal = () => setOpenDelete(false);
+=======
+  const handleCloseConfirmModal = () => setOpenModalConfirm(false);
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
   const handleOpenEdit = (row: DocumentItem) => {
     setSelectedRow(row);
@@ -99,6 +173,20 @@ const Documents: React.FC = () => {
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
 
+<<<<<<< HEAD
+=======
+  const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
+  const handleOpenConfirmModal = () => setOpenModalConfirm(true);
+
+  const handleDelete = async () => {
+    try {
+      await mutationDeleteId(valueDelete);
+      console.log("Documento eliminado exitosamente");
+    } catch (error) {
+      console.log("Error al eliminar documento: ", error);
+    }
+  };
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -114,6 +202,10 @@ const Documents: React.FC = () => {
       minWidth: 200,
       align: "center",
       headerAlign: "center",
+<<<<<<< HEAD
+=======
+      renderCell: (params) => formatDayMonthYear(params.value),
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
     },
     {
       field: "technicalReviewsEnd",
@@ -122,6 +214,10 @@ const Documents: React.FC = () => {
       minWidth: 120,
       align: "center",
       headerAlign: "center",
+<<<<<<< HEAD
+=======
+      renderCell: (params) => formatDayMonthYear(params.value),
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
     },
     {
       field: "soatStart",
@@ -130,6 +226,10 @@ const Documents: React.FC = () => {
       minWidth: 150,
       align: "center",
       headerAlign: "center",
+<<<<<<< HEAD
+=======
+      renderCell: (params) => formatDayMonthYear(params.value),
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
     },
     {
       field: "actions",
@@ -163,7 +263,14 @@ const Documents: React.FC = () => {
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
+<<<<<<< HEAD
               onClick={() => handleOpenDelete()}
+=======
+              onClick={() => {
+                setValueDelete(Number(params.id));
+                handleOpenConfirmModal();
+              }}
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -173,6 +280,7 @@ const Documents: React.FC = () => {
       ),
     },
   ];
+<<<<<<< HEAD
   return (
     <Box> 
         <Grid
@@ -207,6 +315,96 @@ const Documents: React.FC = () => {
             columns={columns}
           />
         </div>
+=======
+  const fieldsDetail = [
+    {
+      title: "Inicio de revisiones técnicas",
+      value: formatDayMonthYear(selectedRow.technicalReviewsStart),
+    },
+    {
+      title: "Fin de revisiones técnicas",
+      value: formatDayMonthYear(selectedRow.technicalReviewsEnd),
+    },
+    { title: "Inicio SOAT", value: formatDayMonthYear(selectedRow.soatStart) },
+    { title: "Fin SOAT", value: formatDayMonthYear(selectedRow.soatEnd) },
+    {
+      title: "Inicio seguro",
+      value: formatDayMonthYear(selectedRow.insuranceStart),
+    },
+    {
+      title: "Fin seguro",
+      value: formatDayMonthYear(selectedRow.insuranceEnd),
+    },
+    {
+      title: "Inicio de seguro de viaje",
+      value: formatDayMonthYear(selectedRow.trekInsuranceStart),
+    },
+    {
+      title: "Fin de seguro de viaje",
+      value: formatDayMonthYear(selectedRow.trekInsuranceEnd),
+    },
+    {
+      title: "Inicio del certificado de funcionamiento",
+      value: formatDayMonthYear(selectedRow.operatingCertificateStart),
+    },
+    {
+      title: "Fin del certificado de funcionamiento",
+      value: formatDayMonthYear(selectedRow.operatingCertificateEnd),
+    },
+    { title: "Código de la maquinaria", value: selectedRow.heavyMachineryId },
+  ];
+  return (
+    <Box>
+      <Grid
+        container
+        justifyContent={"space-between"}
+        direction={{ xs: "column", sm: "row" }}
+        alignItems={{ xs: "start", sm: "center" }}
+        gap={1}
+        className="p-2 border border-gray-400 bg-white mb-2"
+      >
+        <Grid item gap={2} alignItems={"center"}>
+          <GroupRadioButton
+            showTitle={false}
+            selectedValue={selectedValue}
+            onChange={handleRadioChange}
+          />
+        </Grid>
+        <Grid>
+          <ButtonDefault onClick={handleOpenNewModal} title="NUEVO DOCUMENTO" />
+        </Grid>
+      </Grid>
+      <Grid sx={styleTableResponsive}>
+        {loading ? (
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <CircularProgress /> {/* Indicador de carga */}
+          </Grid>
+        ) : (
+          <div style={{ height: 400, width: "100%" }}>
+            {documentsData.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  alignContent: "center",
+                  border: "1px gray solid",
+                  height: "8rem",
+                }}
+              >
+                No se encontraron documentos de {capitalizer(selectedValue)}
+              </div>
+            ) : (
+              <DataGrid
+                sx={styleTableItem}
+                className="truncate..."
+                hideFooter
+                rows={documentsData}
+                columns={columns}
+              />
+            )}
+          </div>
+        )}
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
         <ModalEditDocument //boton de editar
           openModal={openEdit}
@@ -215,6 +413,7 @@ const Documents: React.FC = () => {
           mode="update"
         />
 
+<<<<<<< HEAD
         <ModalDocumentDetail //boton de detalle
           openModal={openDetail}
           handleClose={handleClose}
@@ -225,6 +424,20 @@ const Documents: React.FC = () => {
           onConfirm={openDelete}
           onCancel={handleCloseConfirmModal}
           id={1}
+=======
+        <ModalDetailGeneric //boton de detalle
+          openModal={openDetail}
+          handleClose={handleClose}
+          data={selectedRow}
+          fields={fieldsDetail}
+          title="DETALLE DEL DOCUMENTO"
+        />
+        <ConfirmModal //boton de eliminar
+          onConfirm={openModalConfirm}
+          onCancel={handleCloseConfirmModal}
+          onConfirmAction={handleDelete}
+          id={Number(valueDelete)}
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
         />
       </Grid>
       <ModalEditDocument ///crear

@@ -1,5 +1,17 @@
+<<<<<<< HEAD
 import { Box, Button, Modal, Typography } from "@mui/material";
 import React from "react";
+=======
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Modal,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 import themeNew from "../../utils/theme";
 
 interface ConfirmModalProps {
@@ -14,6 +26,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   onConfirmAction,
   id,
 }) => {
+<<<<<<< HEAD
 
   const handleClose = () => {
     if (onCancel) onCancel();
@@ -28,6 +41,25 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
     }
   };
 
+=======
+  const handleClose = () => {
+    if (onCancel) onCancel();
+  };
+  const [loading, setLoading] = useState(false);
+
+  const handleConfirm = async () => {
+    try {
+      setLoading(true);
+      await onConfirmAction();
+    } catch (error) {
+      console.log("Error al ejecutar la acción: ", error);
+    } finally {
+      setLoading(false); // Finalizar la carga
+      handleClose();
+    }
+  };
+
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   return (
     <>
       <Modal
@@ -49,6 +81,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
             p: 4,
           }}
         >
+<<<<<<< HEAD
           <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
             Mensaje de Confirmación
           </Typography>
@@ -71,10 +104,51 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
               Cancelar
             </Button>
           </Box>
+=======
+          {loading ? (
+            <Grid item xs={12} style={{ textAlign: "center" }}>
+              <CircularProgress /> {/* Indicador de carga */}
+            </Grid>
+          ) : (
+            <>
+              <Typography
+                id="modal-title"
+                variant="h6"
+                component="h2"
+                gutterBottom
+              >
+                Mensaje de Confirmación
+              </Typography>
+              <Typography id="modal-description" sx={{ mb: 3 }}>
+                ¿Está seguro(a) que eliminará la maquinaria {id}?
+              </Typography>
+              <Box display="flex" justifyContent="flex-end" gap={2}>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    border: `1px ${themeNew.palette.primary.main} solid`,
+                    color: themeNew.palette.primary.main,
+                  }}
+                  color="primary"
+                  onClick={handleConfirm}
+                >
+                  Confirmar
+                </Button>
+                <Button variant="outlined" color="error" onClick={handleClose}>
+                  Cancelar
+                </Button>
+              </Box>
+            </>
+          )}
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
         </Box>
       </Modal>
     </>
   );
 };
 
+<<<<<<< HEAD
 export default ConfirmModal;
+=======
+export default ConfirmModal;
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f

@@ -6,9 +6,14 @@ import {
   styleTableResponsive,
   styleTabsBackground,
 } from "../../style/StyleModal";
+<<<<<<< HEAD
 import PreventMaintenance from "../../components/TamItemTable/PreventMaintenance";
 import CorrectiveMaintenance from "../../components/TamItemTable/CorrectiveMaintenance";
 import SearchInput from "../../components/SearchInput";
+=======
+import PreventMaintenancePage from "../../components/MaintenanceTab/PreventMaintenancePage";
+import CorrectiveMaintenancePage from "../../components/MaintenanceTab/CorrectiveMaintenancePage";
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
 const Maintenance: React.FC = () => {
   const [value, setValue] = React.useState(0);
@@ -30,10 +35,17 @@ const Maintenance: React.FC = () => {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
+<<<<<<< HEAD
         <PreventMaintenance mode="page" />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <CorrectiveMaintenance mode="page" />
+=======
+        <PreventMaintenancePage  />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        <CorrectiveMaintenancePage />
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
       </CustomTabPanel>
     </Grid>
   );

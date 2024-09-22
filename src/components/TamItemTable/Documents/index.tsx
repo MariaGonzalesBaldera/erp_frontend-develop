@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { IconButton, Tooltip } from "@mui/material";
+=======
+import { Grid, IconButton, Tooltip } from "@mui/material";
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import { DocumentItem } from "../../../types";
@@ -6,6 +10,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
+<<<<<<< HEAD
 import ModalDocumentDetail from "../../ModalDocumentDetail";
 import ModalEditDocument from "../../ModalEditDocument";
 import { styleTableItem } from "../../../style/StyleModal";
@@ -61,16 +66,65 @@ const Documents: React.FC = () => {
   const [openDelete, setOpenDelete] = useState(false);
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
+=======
+import ModalEditDocument from "../../ModalEditDocument";
+import {
+  styleTableItem,
+  styleTableResponsive,
+} from "../../../style/StyleModal";
+import {
+  useDeleteDocument,
+  useGetDocumentByMachinery,
+} from "../../../hooks/useDocuments";
+import ModalDetailGeneric from "../../ModalDetailGeneric";
+import { formatDayMonthYear } from "../../../utils/capitalize";
+
+interface DocumentsProps {
+  idMachinery: number;
+} 
+
+const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
+  const [openDetail, setOpenDetail] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+
+  const [selectedRow, setSelectedRow] = useState<any>(0);
+  const { mutateAsync: mutationDeleteId } = useDeleteDocument();
+  const [valueDelete, setValueDelete] = useState(0);
+  const [documentsData, setDocumentsData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const { data: machineryData } = useGetDocumentByMachinery({
+    id: idMachinery,
+  });
+  React.useEffect(() => {
+    setLoading(true);
+    try {
+      if (machineryData) {
+        setDocumentsData(machineryData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [machineryData]);
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
 
+<<<<<<< HEAD
   const handleOpenDelete = () => {
     setOpenDelete(true);
   };
   const handleCloseConfirmModal = () => setOpenDelete(false);
+=======
+  const handleCloseConfirmModal = () => {
+    setOpenModalConfirm(false);
+  };
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
   const handleOpenEdit = (row: DocumentItem) => {
     setSelectedRow(row);
@@ -79,6 +133,21 @@ const Documents: React.FC = () => {
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
 
+<<<<<<< HEAD
+=======
+  const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
+  const handleOpenConfirmModal = () => setOpenModalConfirm(true);
+
+  const handleDelete = async () => {
+    try {
+      await mutationDeleteId(Number(valueDelete));
+      console.log("Documento eliminado exitosamente");
+    } catch (error) {
+      console.log("Error al eliminar documento: ", error);
+    }
+  };
+
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -94,6 +163,10 @@ const Documents: React.FC = () => {
       minWidth: 200,
       align: "center",
       headerAlign: "center",
+<<<<<<< HEAD
+=======
+      renderCell: (params) => formatDayMonthYear(params.value),
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
     },
     {
       field: "technicalReviewsEnd",
@@ -102,6 +175,10 @@ const Documents: React.FC = () => {
       minWidth: 120,
       align: "center",
       headerAlign: "center",
+<<<<<<< HEAD
+=======
+      renderCell: (params) => formatDayMonthYear(params.value),
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
     },
     {
       field: "soatStart",
@@ -110,6 +187,10 @@ const Documents: React.FC = () => {
       minWidth: 150,
       align: "center",
       headerAlign: "center",
+<<<<<<< HEAD
+=======
+      renderCell: (params) => formatDayMonthYear(params.value),
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
     },
     {
       field: "actions",
@@ -143,7 +224,14 @@ const Documents: React.FC = () => {
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
+<<<<<<< HEAD
               onClick={() => handleOpenDelete()}
+=======
+              onClick={() => {
+                setValueDelete(Number(params.id));
+                handleOpenConfirmModal();
+              }}
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -153,6 +241,7 @@ const Documents: React.FC = () => {
       ),
     },
   ];
+<<<<<<< HEAD
   return (
     <>
       <div style={{ height: 400, width: "100%" }}>
@@ -164,6 +253,72 @@ const Documents: React.FC = () => {
           columns={columns}
         />
       </div>
+=======
+  const fieldsDetail = [
+    {
+      title: "Inicio de revisiones técnicas",
+      value: formatDayMonthYear(selectedRow.technicalReviewsStart),
+    },
+    {
+      title: "Fin de revisiones técnicas",
+      value: formatDayMonthYear(selectedRow.technicalReviewsEnd),
+    },
+    { title: "Inicio SOAT", value: formatDayMonthYear(selectedRow.soatStart) },
+    { title: "Fin SOAT", value: formatDayMonthYear(selectedRow.soatEnd) },
+    {
+      title: "Inicio seguro",
+      value: formatDayMonthYear(selectedRow.insuranceStart),
+    },
+    {
+      title: "Fin seguro",
+      value: formatDayMonthYear(selectedRow.insuranceEnd),
+    },
+    {
+      title: "Inicio de seguro de viaje",
+      value: formatDayMonthYear(selectedRow.trekInsuranceStart),
+    },
+    {
+      title: "Fin de seguro de viaje",
+      value: formatDayMonthYear(selectedRow.trekInsuranceEnd),
+    },
+    {
+      title: "Inicio del certificado de funcionamiento",
+      value: formatDayMonthYear(selectedRow.operatingCertificateStart),
+    },
+    {
+      title: "Fin del certificado de funcionamiento",
+      value: formatDayMonthYear(selectedRow.operatingCertificateEnd),
+    },
+    { title: "Código de la maquinaria", value: selectedRow.heavyMachineryId },
+  ];
+  return (
+    <>
+      <Grid sx={styleTableResponsive}>
+        <div style={{ height: 400, width: "100%" }}>
+        {documentsData.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  alignContent: "center",
+                  border: "1px gray solid",
+                  height: "8rem",
+                }}
+              >
+                No se encontraron registro
+              </div>
+            ) : (
+              <DataGrid
+                sx={styleTableItem}
+                className="truncate..."
+                hideFooter
+                rows={documentsData}
+                columns={columns}
+              />
+            )}
+        </div>
+      </Grid>
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
       <ModalEditDocument //boton de editar
         openModal={openEdit}
@@ -171,6 +326,7 @@ const Documents: React.FC = () => {
         data={selectedRow}
         mode="update"
       />
+<<<<<<< HEAD
 
       <ModalDocumentDetail //boton de detalle
         openModal={openDetail}
@@ -182,6 +338,21 @@ const Documents: React.FC = () => {
         onConfirm={openDelete}
         onCancel={handleCloseConfirmModal}
         id={1}
+=======
+      <ModalDetailGeneric //boton de detalle
+        openModal={openDetail}
+        handleClose={handleClose}
+        data={selectedRow}
+        fields={fieldsDetail}
+        title="DETALLE DEL DOCUMENTO"
+      />
+
+      <ConfirmModal //boton de eliminar
+        onConfirm={openModalConfirm}
+        onCancel={handleCloseConfirmModal}
+        onConfirmAction={handleDelete}
+        id={Number(valueDelete)}
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
       />
     </>
   );

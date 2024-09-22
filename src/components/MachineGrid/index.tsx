@@ -9,7 +9,11 @@ interface MachineGridProps {
 }
 
 const MachineGrid: React.FC<MachineGridProps> = ({ model, data }) => {
+<<<<<<< HEAD
   const filteredData = data.filter((item) => item.model === model);
+=======
+  const filteredData = Array.isArray(data) ? data.filter((item) => item.model === model) : [];
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
   return (
     <Grid container spacing={2}>

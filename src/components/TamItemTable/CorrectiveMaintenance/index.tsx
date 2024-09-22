@@ -11,6 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ModalEditMaintenance from "../../ModalEditMaintenance";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
+<<<<<<< HEAD
 import ButtonDefault from "../../ButtonDefault";
 import { styleTableItem } from "../../../style/StyleModal";
 import SearchInput from "../../SearchInput";
@@ -83,6 +84,11 @@ const rows = [
     driving_end: "12:30 am",
   },
 ];
+=======
+import { styleTableItem } from "../../../style/StyleModal";
+import { useDeleteCorrective, useGetCorrectiveByMachinery } from "../../../hooks/useCorrectiveMaintenance";
+
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 const dataCreate = {
   id: "",
   description: "",
@@ -96,6 +102,7 @@ const dataCreate = {
   heavyMachineryId: "",
 };
 const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
+<<<<<<< HEAD
   mode,
 }) => {
   const [openDetail, setOpenDetail] = useState(false);
@@ -107,16 +114,50 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
   const [openModalNew, setOpenModalNew] = React.useState(false);
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
+=======
+  idMachinery,
+}) => {
+  const [openDetail, setOpenDetail] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [valueDelete, setValueDelete] = useState(0);
+  const [selectedRow, setSelectedRow] = useState<any>(0);
+  const [openModalNew, setOpenModalNew] = React.useState(false);
+  const handleCloseNewModal = () => setOpenModalNew(false);
+  const { mutateAsync: mutationDeleteId } = useDeleteCorrective();
+  const [documentsData, setDocumentsData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const { data: correctiveData } = useGetCorrectiveByMachinery({
+    id: idMachinery,
+  });
+
+  React.useEffect(() => {
+    setLoading(true);
+    try {
+      if (correctiveData) {
+        setDocumentsData(correctiveData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [correctiveData]);
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
+<<<<<<< HEAD
 
   const handleOpenDelete = () => {
     setOpenDelete(true);
   };
   const handleCloseConfirmModal = () => setOpenDelete(false);
+=======
+ 
+  const handleCloseConfirmModal = () => setOpenModalConfirm(false);
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
   const handleOpenEdit = (row: CorrectiveMaintananceItem) => {
     setSelectedRow(row);
@@ -124,7 +165,20 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
   };
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
+<<<<<<< HEAD
 
+=======
+  const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
+  const handleOpenConfirmModal = () => setOpenModalConfirm(true);
+  const handleDelete = async () => {
+    try {
+      await mutationDeleteId(valueDelete);
+      console.log("Documento eliminado exitosamente");
+    } catch (error) {
+      console.log("Error al eliminar documento: ", error);
+    }
+  };
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -134,7 +188,11 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
       headerAlign: "center",
     },
     {
+<<<<<<< HEAD
       field: "operator",
+=======
+      field: "operatorName",
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
       headerName: "Operador",
       flex: 1,
       minWidth: 150,
@@ -150,7 +208,11 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
       headerAlign: "center",
     },
     {
+<<<<<<< HEAD
       field: "project_name",
+=======
+      field: "projectName",
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
       headerName: "Nombre del proyecto",
       flex: 1,
       minWidth: 150,
@@ -189,7 +251,14 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
+<<<<<<< HEAD
               onClick={() => handleOpenDelete()}
+=======
+              onClick={() => {
+                setValueDelete(Number(params.id));
+                handleOpenConfirmModal();
+              }}
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -202,6 +271,7 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
 
   return (
     <>
+<<<<<<< HEAD
       {mode == "page" ? (
         <Grid container spacing={2} alignItems="center" sx={{ pb: 1 }}>
         {/* SearchInput */}
@@ -228,6 +298,30 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
           rows={rows}
           columns={columns}
         />
+=======
+      <div style={{ height: 400, width: "100%" }}>
+        {documentsData.length === 0 ? (
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: "20px",
+              alignContent: "center",
+              border: "1px gray solid",
+              height: "8rem",
+            }}
+          >
+            No se encontraron documentos registros
+          </div>
+        ) : (
+          <DataGrid
+            sx={styleTableItem}
+            className="truncate..."
+            hideFooter
+            rows={documentsData}
+            columns={columns}
+          />
+        )}
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
       </div>
 
       <ModalEditMaintenance //boton de editar
@@ -244,6 +338,7 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
       />
 
       <ConfirmModal //boton de eliminar
+<<<<<<< HEAD
         onConfirm={openDelete}
         onCancel={handleCloseConfirmModal}
         id={1}
@@ -254,6 +349,13 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
         data={dataCreate}
         mode="create"
       />
+=======
+        onConfirm={openModalConfirm}
+        onCancel={handleCloseConfirmModal}
+        onConfirmAction={handleDelete}
+        id={Number(valueDelete)}
+      /> 
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
     </>
   );
 };

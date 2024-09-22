@@ -10,7 +10,11 @@ import {
   useUpdateMachinery,
 } from "../../hooks/useMaquinaria";
 import { MachineryResponse } from "../../domain/machinery.interface";
+<<<<<<< HEAD
 import dayjs from "dayjs";
+=======
+import { formatDateForAPI } from "../../utils/capitalize";
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
 const fuelTypeItem = [
   { value: "gas", label: "Gas" },
@@ -31,6 +35,13 @@ const ModalForm: React.FC<ModalFormProps> = ({
   mode,
 }) => {
   const createMachinery = useCreateMachinery();
+<<<<<<< HEAD
+=======
+  const [loading, setLoading] = useState(false);
+  const updateBeneficiaryMutation = useUpdateMachinery({
+    id: data.id?.toString(),
+  });
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
   const [formData, setFormData] = useState({
     brand: "",
@@ -63,10 +74,13 @@ const ModalForm: React.FC<ModalFormProps> = ({
     }
   }, [openModal, data]);
 
+<<<<<<< HEAD
   const updateBeneficiaryMutation = useUpdateMachinery({
     id: data.id?.toString(),
   });
 
+=======
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
 
@@ -118,6 +132,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
       if (hasErrors) {
         return; // No proceder si hay errores
       }
+<<<<<<< HEAD
       let body;
       if (mode === "create") {
         body = {
@@ -149,6 +164,45 @@ const ModalForm: React.FC<ModalFormProps> = ({
   const modalTitle =
     mode === "create" ? "NUEVA MAQUINARIA" : "ACTUALIZAR DATOS DE MAQUINARIA";
 
+=======
+      setLoading(true);
+      try{
+        let body;
+        if (mode === "create") {
+          body = {
+            brand: formData.brand,
+            model: formData.model,
+            modelYear: formData.modelYear,
+            acquisitionDate: formatDateForAPI(formData.acquisitionDate),
+            netLoad: formData.netLoad,
+            fuelType: formData.fuelType,
+          };
+          console.log("Creating new record:", body);
+          onCreateMachinery(body);
+        } else {
+          body = {
+            brand: formData.brand,
+            model: formData.model,
+            modelYear: formData.modelYear,
+            acquisitionDate: formatDateForAPI(formData.acquisitionDate),
+            netLoad: formData.netLoad,
+            fuelType: formData.fuelType,
+          };
+          onUpdateMachinery(body);
+        }
+      }catch(e){
+        console.log("error")
+      }finally{
+        setLoading(false); // Finalizar la carga
+        handleClose();
+      }
+
+
+
+    },
+    [formData, mode, useCreateMachinery, handleClose]
+  );
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   const onCreateMachinery = async (data: MachineryResponse) => {
     try {
       const response = await createMachinery.mutateAsync(data);
@@ -166,9 +220,16 @@ const ModalForm: React.FC<ModalFormProps> = ({
       console.log("Error-> " + error);
     }
   };
+<<<<<<< HEAD
   const formatDateForAPI = (date) => {
     return date ? dayjs(date).format("YYYY-MM-DD") : "";
   };
+=======
+  const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
+  const modalTitle =
+    mode === "create" ? "NUEVA MAQUINARIA" : "ACTUALIZAR DATOS DE MAQUINARIA";
+
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   return (
     <Modal
       open={openModal}
@@ -258,7 +319,13 @@ const ModalForm: React.FC<ModalFormProps> = ({
                   error={errors.netLoad}
                   helperText={errors.netLoad ? "Este campo es requerido" : ""}
                   InputProps={{
+<<<<<<< HEAD
                     endAdornment: <span className="text-icon-primary">Toneladas</span>,
+=======
+                    endAdornment: (
+                      <span className="text-icon-primary">Toneladas</span>
+                    ),
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
                   }}
                 />
               </Grid>

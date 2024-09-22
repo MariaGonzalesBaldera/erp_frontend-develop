@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { IconButton, Tooltip } from "@mui/material";
+=======
+import { CircularProgress, Grid, IconButton, Tooltip } from "@mui/material";
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import { FuelLoadProps } from "../../../types";
@@ -6,6 +10,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
+<<<<<<< HEAD
 import ModalDocumentDetail from "../../ModalDocumentDetail";
 import ModalEditDocument from "../../ModalEditDocument";
 import { styleTableItem } from "../../../style/StyleModal";
@@ -49,23 +54,87 @@ const FuelLoad: React.FC = () => {
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
 
+=======
+import { styleTableItem, styleTableResponsive } from "../../../style/StyleModal";
+import ModalEditFuelLoad from "../../ModalEditFuelLoad";
+import {
+  useDeleteFuelingUp,
+  useGetFuelingUpByMachinery,
+} from "../../../hooks/useFuelingUp";
+import ModalDetailGeneric from "../../ModalDetailGeneric";
+import { formatDayMonthYear } from "../../../utils/capitalize";
+
+interface FuelLoadPropsItem {
+  idMachinery: number;
+}
+const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
+  const [openDetail, setOpenDetail] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+
+  const [selectedRow, setSelectedRow] = useState<any>(0);
+  const { mutateAsync: mutationDeleteId } = useDeleteFuelingUp();
+  const [valueDelete, setValueDelete] = useState(0);
+  const [documentsData, setDocumentsData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const { data: machineryData } = useGetFuelingUpByMachinery({
+    id: idMachinery,
+  });
+  React.useEffect(() => {
+    setLoading(true);
+    try {
+      if (machineryData) {
+        setDocumentsData(machineryData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [machineryData]);
+  console.log("DATA " + machineryData);
+
+  const handleClose = () => setOpenDetail(false);
+  const handleCloseEdit = () => setOpenEdit(false);
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
 
+<<<<<<< HEAD
   const handleOpenDelete = () => {
     setOpenDelete(true);
   };
   const handleCloseConfirmModal = () => setOpenDelete(false);
+=======
+  const handleCloseConfirmModal = () => {
+    setOpenModalConfirm(false);
+  };
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
   const handleOpenEdit = (row: FuelLoadProps) => {
     setSelectedRow(row);
     setOpenEdit(true);
   };
+<<<<<<< HEAD
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
 
+=======
+
+  const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
+  const handleOpenConfirmModal = () => setOpenModalConfirm(true);
+
+  const handleDelete = async () => {
+    try {
+      await mutationDeleteId(Number(valueDelete));
+      console.log("Documento eliminado exitosamente");
+    } catch (error) {
+      console.log("Error al eliminar documento: ", error);
+    }
+  };
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -97,6 +166,10 @@ const FuelLoad: React.FC = () => {
       minWidth: 150,
       align: "center",
       headerAlign: "center",
+<<<<<<< HEAD
+=======
+      renderCell: (params) => formatDayMonthYear(params.value),
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
     },
     {
       field: "actions",
@@ -130,7 +203,14 @@ const FuelLoad: React.FC = () => {
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
+<<<<<<< HEAD
               onClick={() => handleOpenDelete()}
+=======
+              onClick={() => {
+                setValueDelete(Number(params.id));
+                handleOpenConfirmModal();
+              }}
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -140,6 +220,7 @@ const FuelLoad: React.FC = () => {
       ),
     },
   ];
+<<<<<<< HEAD
   return (
     <>
       <div style={{ height: 400, width: "100%" }}>
@@ -151,6 +232,50 @@ const FuelLoad: React.FC = () => {
           columns={columns}
         />
       </div>
+=======
+  const fieldsDetail = [
+    { title: "Número de galones", value: selectedRow.numberGallons },
+    { title: "Combustible kilometraje", value: selectedRow.fuelingMileage },
+    {
+      title: "Fecha de kilometraje",
+      value: formatDayMonthYear(selectedRow.fuelingDate),
+    },
+    { title: "Cantidad Pagada", value: selectedRow.amountPaid },
+    { title: "Número de factura", value: selectedRow.invoiceNumber },
+    { title: "Código de la maquinaria", value: selectedRow.heavyMachineryId },
+  ];
+  return (
+    <Grid sx={styleTableResponsive}>
+     {loading ? (
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <CircularProgress /> {/* Indicador de carga */}
+          </Grid>
+        ) : (
+          <div style={{ height: 400, width: "100%" }}>
+            {documentsData.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  alignContent: "center",
+                  border: "1px gray solid",
+                  height: "8rem",
+                }}
+              >
+                No se encontraron registros
+              </div>
+            ) : (
+              <DataGrid
+                sx={styleTableItem}
+                className="truncate..."
+                hideFooter
+                rows={documentsData}
+                columns={columns}
+              />
+            )}
+          </div>
+        )}
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
       <ModalEditFuelLoad //boton de editar
         openModal={openEdit}
@@ -158,6 +283,7 @@ const FuelLoad: React.FC = () => {
         data={selectedRow}
         mode="update"
       />
+<<<<<<< HEAD
 
       <ModalFuelLoadDetail //boton de detalle
         openModal={openDetail}
@@ -171,6 +297,23 @@ const FuelLoad: React.FC = () => {
         id={1}
       />
     </>
+=======
+      <ModalDetailGeneric //boton de detalle
+        openModal={openDetail}
+        handleClose={handleClose}
+        data={selectedRow}
+        fields={fieldsDetail}
+        title="DETALLE DEL REGISTRO"
+      />
+
+      <ConfirmModal //boton de eliminar
+        onConfirm={openModalConfirm}
+        onCancel={handleCloseConfirmModal}
+        onConfirmAction={handleDelete}
+        id={Number(valueDelete)}
+      />
+    </Grid>
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   );
 };
 

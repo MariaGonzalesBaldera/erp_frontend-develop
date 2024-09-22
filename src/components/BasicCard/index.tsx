@@ -48,7 +48,11 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
   };
   const getImage = () => {
     switch (data.model) {
+<<<<<<< HEAD
       case "eetroexcavadora":
+=======
+      case "retroexcavadora":
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
         return retroexcavadora;
       case "oruga":
         return oruga;
@@ -79,12 +83,20 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
     const colorsItem = ["#383977", "#6374ae"];
     return colorsItem[index % colorsItem.length];
   };
+<<<<<<< HEAD
   const handleDeleteMachinery = async () => {
+=======
+  const handleDelete = async () => {
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
     try {
       await mutationDeleteId(Number(data.id+""));
       console.log("Maquinaria eliminada exitosamente");
     } catch (error) {
+<<<<<<< HEAD
       console.log("Error al eliminar maquinaria: ", error);
+=======
+      console.log("Error al eliminar maquinaria ");
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
     }
   };
 
@@ -94,8 +106,12 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
         className="w-45 mx-auto shadow-lg"
         sx={{
           border: "1px #b6b5c4 solid",
+<<<<<<< HEAD
           background: colorsCard(index), //"#302d82"//"linear-gradient(to bottom, #7988ff ,#fff)", //  #14109f
           //borderBottom:"4px # 0e0a5c solid"
+=======
+          background: colorsCard(index), 
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
         }}
       >
         <CardMedia
@@ -174,7 +190,11 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
         <ConfirmModal
           onConfirm={openModalConfirm}
           onCancel={handleCloseConfirmModal}
+<<<<<<< HEAD
           onConfirmAction={handleDeleteMachinery} 
+=======
+          onConfirmAction={handleDelete} 
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
           id={Number(data.id+"")}
         />
         <ModalForm

@@ -12,7 +12,15 @@ import {
 } from "../../style/StyleModal";
 import FuelLoad from "../TamItemTable/FuelLoad";
 
+<<<<<<< HEAD
 const TabDocuments: React.FC = () => {
+=======
+interface TabDocumentsProps{
+  idMachinery:number
+}
+
+const TabDocuments: React.FC<TabDocumentsProps> = ({idMachinery}) => {
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -41,6 +49,7 @@ const TabDocuments: React.FC = () => {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
+<<<<<<< HEAD
         <Documents />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
@@ -54,6 +63,21 @@ const TabDocuments: React.FC = () => {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
         <FuelLoad />
+=======
+        <Documents idMachinery={idMachinery} />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        <PreventMaintenance idMachinery={idMachinery} />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+        <CorrectiveMaintenance idMachinery={idMachinery} />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={3}>
+        <InspectionMachinery idMachinery={idMachinery} />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={4}>
+        <FuelLoad idMachinery={idMachinery} />
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
       </CustomTabPanel>
     </Grid>
   );

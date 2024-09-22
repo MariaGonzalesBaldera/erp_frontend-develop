@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from "react";
+import React, { FC, ReactNode, useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -17,6 +17,7 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
+<<<<<<< HEAD
 import PeopleAlt from "@mui/material/Button";
 
 import themeNew, { useAppTheme } from "../../utils/theme";
@@ -25,6 +26,16 @@ import { Link } from "react-router-dom";
 import LocalGasStationOutlinedIcon from "@mui/icons-material/LocalGasStationOutlined";
 import {
   AssignmentOutlined,
+=======
+
+import themeNew, { useAppTheme } from "../../utils/theme";
+import { ListItemButton, ListItemIcon, useMediaQuery } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import LocalGasStationOutlinedIcon from "@mui/icons-material/LocalGasStationOutlined";
+import {
+  AssignmentOutlined,
+  BorderColorOutlined,
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   CheckBoxOutlined,
   DriveEtaOutlined,
   EngineeringOutlined,
@@ -33,6 +44,11 @@ import {
   LocationOnOutlined,
   PeopleAltOutlined,
 } from "@mui/icons-material";
+<<<<<<< HEAD
+=======
+import { capitalizer } from "../../utils/capitalize";
+import InfoModal from "../../components/InfoModal";
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
@@ -95,7 +111,12 @@ const ICONS = [
   <LocalGasStationOutlinedIcon />,
   <LocationOnOutlined />,
   <LibraryBooksOutlined />,
+<<<<<<< HEAD
   <PeopleAltOutlined />,
+=======
+  <BorderColorOutlined />,
+  <PeopleAltOutlined />
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 ];
 const LINKS = [
   "/dashboard",
@@ -106,12 +127,21 @@ const LINKS = [
   "/fuel-register",
   "/gps-tracking",
   "/accounting",
+<<<<<<< HEAD
+=======
+  "/income",
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   "/human-resources",
 ];
 const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
-  const theme = useAppTheme();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  
+  ///validacion de uusers
+  const [username, setUsername] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -126,9 +156,57 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
 
   const isTabletOrMobile = useMediaQuery(themeNew.breakpoints.down("md"));
 
+  const handleLogout = () => {
+    localStorage.removeItem("authData");
+
+    navigate("/login");
+  };
+  const menuItems = [
+    { text: "Inicio", link: LINKS[0], icon: ICONS[0] },
+    { text: "Maquinarias", link: LINKS[1], icon: ICONS[1] },
+    { text: "Documentos", link: LINKS[2], icon: ICONS[2] },
+    { text: "Mantenimiento", link: LINKS[3], icon: ICONS[3] },
+    { text: "Inspecciones", link: LINKS[4], icon: ICONS[4] },
+    { text: "Registro de combustible", link: LINKS[5], icon: ICONS[5] },
+    { text: "Seguimiento GPS", link: LINKS[6], icon: ICONS[6] },
+    { text: "Contabilidad", link: LINKS[7], icon: ICONS[7] },
+    { text: "Ingresos", link: LINKS[8], icon: ICONS[8] },
+    { text: "RRHH", link: LINKS[9], icon: ICONS[9] },
+  ];
   React.useEffect(() => {
     setOpen(!isTabletOrMobile);
   }, [isTabletOrMobile]);
+
+  React.useEffect(() => {
+    const authData = localStorage.getItem("authData");
+    
+    if (authData) {
+      const parsedData = JSON.parse(authData);
+      setUsername(parsedData.username);
+      setRole(parsedData.role);
+    } else {
+      navigate("/login");
+    }
+
+    setOpen(!isTabletOrMobile);
+  }, [isTabletOrMobile, navigate]);
+
+  const filteredItems =
+    role === "ADMINISTRATOR"
+      ? menuItems
+      : menuItems.filter(
+          (item) => item.text !== "RRHH" && item.text !== "Contabilidad"
+        );
+
+  //modal ayuda
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <>
       <Box
@@ -177,9 +255,11 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
                 <div className="flex items-start w-full p-3">
                   <div className="flex flex-col pr-6 flex-1 justify-start items-end">
                     <span className="text-base text-primary font-bold">
-                      {"Luis Perez"}
+                      {capitalizer(username + "")}
                     </span>
-                    <span className="text-xs text-secondary">{"Admin"}</span>
+                    <span className="text-xs text-secondary">
+                      {role == "USER" ? "Usuario" : "Admin"}
+                    </span>
                   </div>
                   <KeyboardArrowDownIcon className="text-dark" />
                 </div>
@@ -203,8 +283,31 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
               onClose={handleCloseUserMenu}
               data-testid="user-menu"
             >
+              {role === "ADMINISTRATOR" ? (
+                <MenuItem
+                  sx={{ justifyContent: "end" }}
+                  key={0}
+                  onClick={() => {
+                    location.replace("/user-management");
+                  }}
+                  data-testid="menu-item"
+                >
+                  <Typography textAlign="center">Gestión de Usuario</Typography>
+                </MenuItem>
+              ) : (
+                <MenuItem
+                  sx={{ justifyContent: "end" }}
+                  key={0}
+                  onClick={handleOpenModal}
+                  data-testid="menu-item"
+                >
+                  <Typography textAlign="center">Ayuda</Typography>
+                </MenuItem>
+              )}
+
               <MenuItem
                 sx={{ justifyContent: "end" }}
+<<<<<<< HEAD
                 key={0}
                 onClick={() => {
                   location.replace("/help-and-support");
@@ -214,8 +317,10 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
                 <Typography textAlign="center">Ayuda</Typography>
               </MenuItem>
               <MenuItem
+=======
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
                 key={1}
-                onClick={() => console.log("back")}
+                onClick={handleLogout}
                 data-testid="menu-item-logout"
               >
                 <Typography textAlign="center">Cerrar Sessión</Typography>
@@ -233,7 +338,7 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
               flexDirection: "column",
               backgroundColor: themeNew.palette.primary.main,
               height: "100vh",
-              gap: "1rem",
+              gap: "0rem",
               overflow: "hidden",
             },
           }}
@@ -242,9 +347,9 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
           open={open}
           data-testid="drawer"
         >
-          <div className="flex justify-center w-80 h-10"></div>
-          {/* TODO: Read the route param to set active or open item on menu */}
+          <div className="flex justify-center w-80 h-0"></div>
           <List className="px-2.5">
+<<<<<<< HEAD
             {[
               "Inicio",
               "Maquinarias",
@@ -256,22 +361,33 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
               "Contabilidad",
               "RRHH",
             ].map((text, index) => (
+=======
+            {filteredItems.map((item, index) => (
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
               <Link
-                key={LINKS[index] + "_key"}
-                to={LINKS[index]}
+                key={item.link + "_key"}
+                to={item.link}
                 style={{ textDecoration: "none" }}
-                onClick={() => setSelectedLink(LINKS[index])}
+                onClick={() => setSelectedLink(item.link)}
               >
                 <ListItem
-                  key={LINKS[index] + "_item"}
+                  key={item.link + "_item"}
                   disablePadding
                   sx={{
                     backgroundColor:
+<<<<<<< HEAD
                       selectedLink === LINKS[index]
                         ? themeNew.palette.secondary.main
                         : themeNew.palette.primary.main,
                     color:
                       selectedLink === LINKS[index]
+=======
+                      selectedLink === item.link
+                        ? themeNew.palette.secondary.main
+                        : themeNew.palette.primary.main,
+                    color:
+                      selectedLink === item.link
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
                         ? themeNew.palette.secondary.main
                         : themeNew.palette.primary.main,
                   }}
@@ -281,18 +397,26 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
                       sx={{
                         minWidth: "40px",
                         color:
+<<<<<<< HEAD
                           selectedLink === LINKS[index]
+=======
+                          selectedLink === item.link
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
                             ? themeNew.palette.primary.main
                             : themeNew.palette.secondary.main,
                       }}
                     >
-                      {ICONS[index]}
+                      {item.icon}
                     </ListItemIcon>
                     <ListItemText
-                      primary={text}
+                      primary={item.text}
                       sx={{
                         color:
+<<<<<<< HEAD
                           selectedLink === LINKS[index]
+=======
+                          selectedLink === item.link
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
                             ? themeNew.palette.primary.main
                             : themeNew.palette.secondary.main,
                       }}
@@ -302,6 +426,11 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
               </Link>
             ))}
           </List>
+          <InfoModal
+            open={isModalOpen}
+            onClose={handleCloseModal}
+            userName={username || ""} // Puedes pasar el nombre del usuario dinámicamente
+          />
         </Drawer>
         <Main open={open}>{children}</Main>
       </Box>

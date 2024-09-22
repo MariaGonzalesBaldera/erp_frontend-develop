@@ -1,4 +1,13 @@
+<<<<<<< HEAD
 import { Grid, IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
+=======
+import {
+  CircularProgress,
+  Grid,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import ModalMoreDetailInspection from "../../components/ModalMoreDetailInspection";
@@ -8,6 +17,7 @@ import ListIcon from "@mui/icons-material/List";
 import { MachineryInspectionItem } from "../../types";
 import ConfirmModal from "../../components/ConfirmModal";
 import ModalEditInspector from "../../components/ModalEditInspector";
+<<<<<<< HEAD
 import HeaderPage from "../../components/HeaderPage";
 import { styleTableItem } from "../../style/StyleModal";
 import SearchInput from "../../components/SearchInput";
@@ -326,6 +336,14 @@ const rows = [
     heavyMachineryId: "HM-006",
   },
 ];
+=======
+import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
+import ButtonDefault from "../../components/ButtonDefault";
+import { useDeleteInspection, useGetInspectionByModel } from "../../hooks/useMachineryInspection";
+import GroupRadioButton from "../../components/GroupRadioButton";
+import { capitalizer } from "../../utils/capitalize";
+import { InspectionResponse } from "../../domain/machinery.interface";
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
 const dataCreate = {
   projectName: "",
@@ -377,25 +395,39 @@ const dataCreate = {
   observations: "",
   createdAt: "",
   updatedAt: "",
+<<<<<<< HEAD
   heavyMachineryId: "",
+=======
+  heavyMachineryId: 0,
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 };
 
 const Inspections: React.FC = () => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+<<<<<<< HEAD
   const [openDelete, setOpenDelete] = useState(false);
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
+=======
+
+  const [selectedRow, setSelectedRow] = useState<any>(0);
+  const [selectedValue, setSelectedValue] = useState<string>("oruga");
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
+<<<<<<< HEAD
 
   const handleOpenDelete = () => {
     setOpenDelete(true);
   };
   const handleCloseConfirmModal = () => setOpenDelete(false);
+=======
+  const handleCloseConfirmModal = () => setOpenModalConfirm(false);
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
   const handleOpenEdit = (row: MachineryInspectionItem) => {
     setSelectedRow(row);
@@ -407,7 +439,53 @@ const Inspections: React.FC = () => {
   const [openModalNew, setOpenModalNew] = React.useState(false);
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
+<<<<<<< HEAD
 
+=======
+  const [valueDelete, setValueDelete] = useState(0);
+  const { mutateAsync: mutationDeleteId } = useDeleteInspection();
+  const [rowsWithIds, setRowsWithIds] = useState<InspectionResponse[]>([]);
+
+  const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
+  const handleOpenConfirmModal = () => setOpenModalConfirm(true);
+  const [documentsData, setDocumentsData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const { data: searchedDocumentsData } = useGetInspectionByModel({
+    model: selectedValue,
+  });
+
+  React.useEffect(() => {
+    setLoading(true);
+    try {
+      if (searchedDocumentsData) {
+        const dataWithIds = searchedDocumentsData.map((item, index) => ({
+          ...item,
+          id: index + 1, // Agregar ID numérico único
+        }));
+        setRowsWithIds(dataWithIds);
+
+        setDocumentsData(dataWithIds);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [searchedDocumentsData]);
+ 
+  const handleRadioChange = (value: string) => {
+    console.log(value);
+    setSelectedValue(value);
+  };
+  const handleDelete = async () => {
+    try {
+      await mutationDeleteId(valueDelete);
+      console.log("Documento eliminado exitosamente");
+    } catch (error) {
+      console.log("Error al eliminar documento: ", error);
+    }
+  };
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   const columns: GridColDef[] = [
     {
       field: "heavyMachineryId",
@@ -472,7 +550,14 @@ const Inspections: React.FC = () => {
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
+<<<<<<< HEAD
               onClick={() => handleOpenDelete()}
+=======
+              onClick={() => {
+                setValueDelete(Number(params.id));
+                handleOpenConfirmModal();
+              }}
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -485,6 +570,7 @@ const Inspections: React.FC = () => {
 
   return (
     <>
+<<<<<<< HEAD
       <HeaderPage
         title="LISTA DE INSPECCIONES"
         titleButton="NUEVA INSPECCIÓN"
@@ -502,6 +588,68 @@ const Inspections: React.FC = () => {
             getRowId={(row) => row.heavyMachineryId}
           />
       </Grid>
+=======
+      <Grid
+        container
+        justifyContent={"space-between"}
+        direction={{ xs: "column", sm: "row" }}
+        alignItems={{ xs: "start", sm: "center" }}
+        gap={1}
+        className="p-2 border border-gray-400 bg-white mb-2"
+      >
+        <Grid
+          container
+          xs="auto"
+          gap={2}
+          alignItems={"center"}
+          order={{ xs: 2, sm: 1 }}
+        >
+          <GroupRadioButton
+            showTitle={false}
+            selectedValue={selectedValue}
+            onChange={handleRadioChange}
+          />
+        </Grid>
+        <Grid item xs="auto" order={{ xs: 1, sm: 3 }}>
+          <ButtonDefault onClick={handleOpenNewModal} title="NUEVO DOCUMENTO" />
+        </Grid>
+      </Grid>
+
+
+      <Grid sx={styleTableResponsive}>
+      {loading ? (
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <CircularProgress /> {/* Indicador de carga */}
+          </Grid>
+        ) : (
+          <div style={{ height: 400, width: "100%" }}>
+            {documentsData.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  alignContent: "center",
+                  border: "1px gray solid",
+                  height: "8rem",
+                }}
+              >
+                No se encontraron documentos de {capitalizer(selectedValue)}
+              </div>
+            ) : (
+              <DataGrid
+                sx={styleTableItem}
+                className="truncate..."
+                hideFooter
+                rows={documentsData}
+                columns={columns}
+              />
+            )}
+          </div>
+        )}
+      </Grid>
+
+
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
       <ModalEditInspector //boton de editar
         openModal={openEdit}
         handleClose={handleCloseEdit}
@@ -515,11 +663,20 @@ const Inspections: React.FC = () => {
         data={selectedRow}
       />
       <ConfirmModal //boton de eliminar
+<<<<<<< HEAD
         onConfirm={openDelete}
         onCancel={handleCloseConfirmModal}
         id={1}
       />
       <ModalEditInspector //boton de editar
+=======
+        onConfirm={openModalConfirm}
+        onCancel={handleCloseConfirmModal}
+        onConfirmAction={handleDelete}
+        id={Number(valueDelete)}
+      />
+      <ModalEditInspector //boton de crear
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
         openModal={openModalNew}
         handleClose={handleCloseNewModal}
         data={dataCreate}

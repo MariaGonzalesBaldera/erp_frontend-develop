@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 import { IconButton, Tooltip } from "@mui/material";
+=======
+import { CircularProgress, Grid, IconButton, Tooltip } from "@mui/material";
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import ModalMoreDetailInspection from "../../ModalMoreDetailInspection";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+<<<<<<< HEAD
 import { MachineryInspectionItem } from "../../../types";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
@@ -331,24 +336,94 @@ const InspectionMachinery: React.FC = () => {
   const [openDelete, setOpenDelete] = useState(false);
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
+=======
+import ConfirmModal from "../../ConfirmModal";
+import ListIcon from "@mui/icons-material/List";
+import ModalEditInspector from "../../ModalEditInspector";
+import {
+  styleTableItem,
+  styleTableResponsive,
+} from "../../../style/StyleModal";
+import {
+  useDeleteInspection,
+  useGetInspectionByMachinery,
+} from "../../../hooks/useMachineryInspection";
+import { InspectionResponse } from "../../../domain/machinery.interface";
+
+interface InspectionMachineryProps {
+  idMachinery: number;
+}
+const InspectionMachinery: React.FC<InspectionMachineryProps> = ({
+  idMachinery,
+}) => {
+  const [openDetail, setOpenDetail] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [valueDelete, setValueDelete] = useState(0);
+  const { mutateAsync: mutationDeleteId } = useDeleteInspection();
+  const [documentsData, setDocumentsData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const [selectedRow, setSelectedRow] = useState<any>(0);
+  const { data: machineryData } = useGetInspectionByMachinery({
+    id: idMachinery,
+  });
+ 
+
+  React.useEffect(() => {
+    setLoading(true);
+    try {
+      if (machineryData) {
+        setDocumentsData(machineryData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [machineryData]);
+
+
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
 
+<<<<<<< HEAD
   const handleOpenDelete = () => {
     setOpenDelete(true);
   };
   const handleCloseConfirmModal = () => setOpenDelete(false);
 
   const handleOpenEdit = (row: MachineryInspectionItem) => {
+=======
+  const handleCloseConfirmModal = () => {
+    setOpenModalConfirm(false);
+  };
+
+  const handleOpenEdit = (row: InspectionResponse) => {
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
     setSelectedRow(row);
     setOpenEdit(true);
   };
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
 
+<<<<<<< HEAD
+=======
+  const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
+  const handleOpenConfirmModal = () => setOpenModalConfirm(true);
+
+  const handleDelete = async () => {
+    try {
+      await mutationDeleteId(Number(valueDelete));
+      console.log("Documento eliminado exitosamente");
+    } catch (error) {
+      console.log("Error al eliminar documento: ", error);
+    }
+  };
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
   const columns: GridColDef[] = [
     {
       field: "heavyMachineryId",
@@ -413,7 +488,14 @@ const InspectionMachinery: React.FC = () => {
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
+<<<<<<< HEAD
               onClick={() => handleOpenDelete()}
+=======
+              onClick={() => {
+                setValueDelete(Number(params.id));
+                handleOpenConfirmModal();
+              }}
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -426,6 +508,7 @@ const InspectionMachinery: React.FC = () => {
 
   return (
     <>
+<<<<<<< HEAD
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           sx={styleTableItem}
@@ -436,10 +519,47 @@ const InspectionMachinery: React.FC = () => {
           getRowId={(row) => row.heavyMachineryId}
         />
       </div>
+=======
+      <Grid sx={styleTableResponsive}>
+      {loading ? (
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <CircularProgress /> {/* Indicador de carga */}
+          </Grid>
+        ) : (
+          <div style={{ height: 400, width: "100%" }}>
+            {documentsData.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  alignContent: "center",
+                  border: "1px gray solid",
+                  height: "8rem",
+                }}
+              >
+                No se encontraron registros
+              </div>
+            ) : (
+              <DataGrid
+                sx={styleTableItem}
+                className="truncate..."
+                hideFooter
+                rows={documentsData}
+                columns={columns}
+              />
+            )}
+          </div>
+        )}
+      </Grid>
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
       <ModalEditInspector //boton de editar
         openModal={openEdit}
         handleClose={handleCloseEdit}
         data={selectedRow}
+<<<<<<< HEAD
+=======
+        mode="update"
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
       />
 
       <ModalMoreDetailInspection //boton de detalle
@@ -448,9 +568,16 @@ const InspectionMachinery: React.FC = () => {
         data={selectedRow}
       />
       <ConfirmModal //boton de eliminar
+<<<<<<< HEAD
         onConfirm={openDelete}
         onCancel={handleCloseConfirmModal}
         id={1}
+=======
+        onConfirm={openModalConfirm}
+        onCancel={handleCloseConfirmModal}
+        onConfirmAction={handleDelete}
+        id={Number(valueDelete)}
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
       />
     </>
   );

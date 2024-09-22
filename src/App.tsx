@@ -12,6 +12,13 @@ import FuelRegister from "./pages/FuelRegister";
 import GpsTracking from "./pages/GpsTracking";
 import Accounting from "./pages/Accounting";
 import Login from "./pages/Login";
+<<<<<<< HEAD
+=======
+import ProtectedRoute from "../proteger";
+import Rrhh from "./pages/Rrhh";
+import UserManagement from "./pages/UserManagement";
+import Income from "./pages/Income";
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
 export function App() {
   return (
@@ -25,6 +32,10 @@ export function App() {
           <Route
             path="/*"
             element={
+<<<<<<< HEAD
+=======
+              <ProtectedRoute>
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
               <Layout>
                 <Routes>
                   <Route path="/dashboard" element={<Dashboard />} />
@@ -36,8 +47,17 @@ export function App() {
                   <Route path="/fuel-register" element={<FuelRegister />} />
                   <Route path="/gps-tracking" element={<GpsTracking />} />
                   <Route path="/accounting" element={<Accounting />} />
+<<<<<<< HEAD
                 </Routes>
               </Layout>
+=======
+                  <Route path="/human-resources" element={<Rrhh />} />
+                  <Route path="/income" element={<Income />} />
+                  <Route path="/user-management" element={<UserManagement />} />
+                </Routes>
+              </Layout>
+              </ProtectedRoute>
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
             }
           />
         </Routes>

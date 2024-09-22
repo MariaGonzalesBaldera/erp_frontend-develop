@@ -11,23 +11,79 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import React from "react";
-import ButtonDefault from "../../components/ButtonDefault";
+import React, { useState } from "react";
 import themeNew from "../../utils/theme";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { authService } from "../../services/auth.service";
+import ReusableSnackbar from "../../components/ReusableSnackbar";
 
-function Login() {
-  const navigate = useNavigate(); 
+const Login: React.FC = () => {
+  const navigate = useNavigate();
+  const { authentication } = authService;
+  const [showPassword, setShowPassword] = useState(false);
 
-  const [showPassword, setShowPassword] = React.useState(false);
-
+  const [usernameValue, setUsernameValue] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  const handleLogin = () => {
-    // Aquí puedes agregar lógica adicional, como autenticación.
-    // Redirige al dashboard.
-    navigate("/dashboard");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // Resetear los errores
+    setUsernameError("");
+    setPasswordError("");
+
+    // Validación de los campos
+    if (!usernameValue) {
+      setUsernameError("El usuario es obligatorio");
+    }
+
+    if (!password) {
+      setPasswordError("La contraseña es obligatoria");
+    }
+
+    // Si hay algún error, no continuar con el login
+    if (!usernameValue || !password) {
+      return;
+    }
+    localStorage.removeItem("authData");
+    try {
+      const data = { username: usernameValue, password };
+      const response = await authentication(data);
+
+      const { accessToken, refreshToken, user } = response;
+      const { username, role } = user;
+
+      const authData = {
+        accessToken,
+        refreshToken,
+        username,
+        role,
+      };
+      localStorage.setItem("authData", JSON.stringify(authData));
+      navigate("/dashboard", { state: { username, role } });
+    } catch (err: any) {
+      const errorMessage =
+        err.response?.data?.message ||
+        "Error en el login. Verifica tus credenciales.";
+      setError(errorMessage); // Almacenar el mensaje de error
+      setOpenSnackbar(true);
+    }
+  };
+
+  const handleCloseSnackbar = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
   };
   return (
     <Box
@@ -52,6 +108,10 @@ function Login() {
               label="Usuario"
               variant="outlined"
               placeholder="Ingresa tu usuario"
+              value={usernameValue}
+              onChange={(e) => setUsernameValue(e.target.value)}
+              error={!!usernameError}
+              helperText={usernameError}
             />
             <TextField
               fullWidth
@@ -59,6 +119,10 @@ function Login() {
               variant="outlined"
               type={showPassword ? "text" : "password"}
               placeholder="Ingresa tu contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              error={!!passwordError}
+              helperText={passwordError} 
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -78,6 +142,7 @@ function Login() {
         </CardContent>
         <CardActions className="flex flex-col space-y-2 px-4">
           <Button
+            component="form"
             variant="contained"
             sx={{
               backgroundColor: "#1e1b4b",
@@ -104,8 +169,14 @@ function Login() {
           </Typography>
         </CardActions>
       </Card>
+      <ReusableSnackbar
+        severity={"error"}
+        message={error}
+        open={openSnackbar}
+        onClose={handleCloseSnackbar}
+      />
     </Box>
   );
-}
+};
 
 export default Login;

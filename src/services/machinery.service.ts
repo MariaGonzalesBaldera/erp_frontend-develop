@@ -1,7 +1,13 @@
+<<<<<<< HEAD
 import { MachineryResponse, ParamsDelete, ParamsDeleteItem } from "../domain/machinery.interface";
 import { axios } from "../utils/axios.create";
 
 const LOG_PREFIX = "ProgramService :";
+=======
+import { MachineryResponse, ParamsDeleteItem } from "../domain/machinery.interface";
+import { axios } from "../utils/axios.create";
+
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 
 const findAll = async (): Promise<MachineryResponse[]> => {
 	return axios
@@ -40,7 +46,10 @@ const deleteOne = async (params: ParamsDeleteItem) => {
 			return res.data.body;
 		})
 		.catch((err) => {
+<<<<<<< HEAD
 			console.error(LOG_PREFIX, err);
+=======
+>>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
 			return Promise.reject(err.response.data);
 		});
 };
