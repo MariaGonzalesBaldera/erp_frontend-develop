@@ -84,7 +84,7 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
       await mutationDeleteId(Number(data.id+""));
       console.log("Maquinaria eliminada exitosamente");
     } catch (error) {
-      console.log("Error al eliminar maquinaria: ", error);
+      console.log("Error al eliminar maquinaria ");
     }
   };
 
