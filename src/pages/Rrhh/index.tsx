@@ -203,7 +203,7 @@ const Rrhh: React.FC = () => {
   return (
     <>
       <HeaderPage
-        title="LISTA DE USUARIOS"
+        title="LISTA DE TRABAJADORES"
         titleButton="NUEVO USUARIO"
         handleOpen={handleOpenNewModal}
       />
