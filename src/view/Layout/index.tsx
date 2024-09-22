@@ -267,7 +267,7 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
                   sx={{ justifyContent: "end" }}
                   key={0}
                   onClick={() => {
-                    location.replace("/user-management");
+                    navigate("/user-management");
                   }}
                   data-testid="menu-item"
                 >
