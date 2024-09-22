@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { IconButton, Tooltip } from "@mui/material";
 =======
 import { CircularProgress, Grid, IconButton, Tooltip } from "@mui/material";
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+import { CircularProgress, Grid, IconButton, Tooltip } from "@mui/material";
+>>>>>>> feature/addAuthProcess
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import { FuelLoadProps } from "../../../types";
@@ -10,6 +14,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
+<<<<<<< HEAD
 <<<<<<< HEAD
 import ModalDocumentDetail from "../../ModalDocumentDetail";
 import ModalEditDocument from "../../ModalEditDocument";
@@ -55,6 +60,8 @@ const FuelLoad: React.FC = () => {
   const [selectedRow, setSelectedRow] = useState<any>(0);
 
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import { styleTableItem, styleTableResponsive } from "../../../style/StyleModal";
 import ModalEditFuelLoad from "../../ModalEditFuelLoad";
 import {
@@ -96,12 +103,16 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
 
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   const handleOpenDelete = () => {
     setOpenDelete(true);
@@ -112,16 +123,24 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
     setOpenModalConfirm(false);
   };
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+  const handleCloseConfirmModal = () => {
+    setOpenModalConfirm(false);
+  };
+>>>>>>> feature/addAuthProcess
 
   const handleOpenEdit = (row: FuelLoadProps) => {
     setSelectedRow(row);
     setOpenEdit(true);
   };
 <<<<<<< HEAD
+<<<<<<< HEAD
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
 
 =======
+=======
+>>>>>>> feature/addAuthProcess
 
   const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
   const handleOpenConfirmModal = () => setOpenModalConfirm(true);
@@ -134,7 +153,10 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
       console.log("Error al eliminar documento: ", error);
     }
   };
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -167,9 +189,13 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
       align: "center",
       headerAlign: "center",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       renderCell: (params) => formatDayMonthYear(params.value),
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+      renderCell: (params) => formatDayMonthYear(params.value),
+>>>>>>> feature/addAuthProcess
     },
     {
       field: "actions",
@@ -204,13 +230,19 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
             <IconButton
               color="error"
 <<<<<<< HEAD
+<<<<<<< HEAD
               onClick={() => handleOpenDelete()}
 =======
+=======
+>>>>>>> feature/addAuthProcess
               onClick={() => {
                 setValueDelete(Number(params.id));
                 handleOpenConfirmModal();
               }}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -220,6 +252,7 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
       ),
     },
   ];
+<<<<<<< HEAD
 <<<<<<< HEAD
   return (
     <>
@@ -233,6 +266,8 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
         />
       </div>
 =======
+=======
+>>>>>>> feature/addAuthProcess
   const fieldsDetail = [
     { title: "Número de galones", value: selectedRow.numberGallons },
     { title: "Combustible kilometraje", value: selectedRow.fuelingMileage },
@@ -275,7 +310,10 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
             )}
           </div>
         )}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 
       <ModalEditFuelLoad //boton de editar
         openModal={openEdit}
@@ -283,6 +321,7 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
         data={selectedRow}
         mode="update"
       />
+<<<<<<< HEAD
 <<<<<<< HEAD
 
       <ModalFuelLoadDetail //boton de detalle
@@ -298,6 +337,8 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
       />
     </>
 =======
+=======
+>>>>>>> feature/addAuthProcess
       <ModalDetailGeneric //boton de detalle
         openModal={openDetail}
         handleClose={handleClose}
@@ -313,7 +354,10 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
         id={Number(valueDelete)}
       />
     </Grid>
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
   );
 };
 

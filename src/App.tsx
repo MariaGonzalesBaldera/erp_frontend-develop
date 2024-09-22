@@ -13,12 +13,18 @@ import GpsTracking from "./pages/GpsTracking";
 import Accounting from "./pages/Accounting";
 import Login from "./pages/Login";
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import ProtectedRoute from "../proteger";
 import Rrhh from "./pages/Rrhh";
 import UserManagement from "./pages/UserManagement";
 import Income from "./pages/Income";
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 
 export function App() {
   return (
@@ -33,9 +39,13 @@ export function App() {
             path="/*"
             element={
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
               <ProtectedRoute>
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+              <ProtectedRoute>
+>>>>>>> feature/addAuthProcess
               <Layout>
                 <Routes>
                   <Route path="/dashboard" element={<Dashboard />} />
@@ -48,16 +58,22 @@ export function App() {
                   <Route path="/gps-tracking" element={<GpsTracking />} />
                   <Route path="/accounting" element={<Accounting />} />
 <<<<<<< HEAD
+<<<<<<< HEAD
                 </Routes>
               </Layout>
 =======
+=======
+>>>>>>> feature/addAuthProcess
                   <Route path="/human-resources" element={<Rrhh />} />
                   <Route path="/income" element={<Income />} />
                   <Route path="/user-management" element={<UserManagement />} />
                 </Routes>
               </Layout>
               </ProtectedRoute>
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
             }
           />
         </Routes>

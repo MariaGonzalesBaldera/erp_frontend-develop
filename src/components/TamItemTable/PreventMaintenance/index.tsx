@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Box, Grid, IconButton, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
@@ -8,6 +9,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmModal from "../../ConfirmModal";
 import ModalEditMaintenance from "../../ModalEditMaintenance";
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import {
   Box,
   CircularProgress,
@@ -20,12 +23,16 @@ import React, { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmModal from "../../ConfirmModal";
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 import {
   PreventMaintenanceItem,
   PreventMaintenanceProps,
 } from "../../../types";
 import ListIcon from "@mui/icons-material/List";
+<<<<<<< HEAD
 <<<<<<< HEAD
 import ButtonDefault from "../../ButtonDefault";
 import { styleTableItem } from "../../../style/StyleModal";
@@ -125,6 +132,8 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({ mode }) => {
   const handleCloseNewModal = () => setOpenModalNew(false);
 
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import { styleTableItem } from "../../../style/StyleModal";
 import { useDeletePreventiveMaintenance, useGetPreventiveByMachinery } from "../../../hooks/usePreventiveMaintenance";
 import ModalPreventDetail from "../../ModalPreventDetail";
@@ -157,11 +166,15 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
       setLoading(false);
     }
   }, [searchedDocumentsData]);
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
+<<<<<<< HEAD
 <<<<<<< HEAD
 
   const handleOpenDelete = () => {
@@ -173,15 +186,23 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
  
   const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+  const { mutateAsync: mutationDeleteId } = useDeletePreventiveMaintenance();
+ 
+  const handleCloseConfirmModal = () => setOpenModalConfirm(false);
+>>>>>>> feature/addAuthProcess
 
   const handleOpenEdit = (row: PreventMaintenanceItem) => {
     setSelectedRow(row);
     setOpenEdit(true);
   };
 <<<<<<< HEAD
+<<<<<<< HEAD
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
 =======
+=======
+>>>>>>> feature/addAuthProcess
   const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
 
   const handleOpenConfirmModal = () => setOpenModalConfirm(true);
@@ -195,7 +216,10 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
       console.log("Error al eliminar documento: ", error);
     }
   };
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 
   const columns: GridColDef[] = [
     {
@@ -207,12 +231,17 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
       field: "operator",
       headerName: "Operador",
 =======
       field: "periodType",
       headerName: "Tipo de período",
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+      field: "periodType",
+      headerName: "Tipo de período",
+>>>>>>> feature/addAuthProcess
       flex: 1,
       minWidth: 150,
       align: "center",
@@ -220,12 +249,17 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
       field: "description",
       headerName: "Descripción",
 =======
       field: "maintenancePeriod",
       headerName: "Período de mantenimiento",
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+      field: "maintenancePeriod",
+      headerName: "Período de mantenimiento",
+>>>>>>> feature/addAuthProcess
       flex: 1,
       minWidth: 120,
       align: "center",
@@ -233,12 +267,17 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
       field: "project_name",
       headerName: "Nombre del proyecto",
 =======
       field: "amountPaid",
       headerName: "Importe pagado",
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+      field: "amountPaid",
+      headerName: "Importe pagado",
+>>>>>>> feature/addAuthProcess
       flex: 1,
       minWidth: 150,
 
@@ -279,13 +318,19 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
             <IconButton
               color="error"
 <<<<<<< HEAD
+<<<<<<< HEAD
               onClick={() => handleOpenDelete()}
 =======
+=======
+>>>>>>> feature/addAuthProcess
               onClick={() => {
                 setValueDelete(Number(params.id));
                 handleOpenConfirmModal();
               }}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -298,6 +343,7 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
 
   return (
     <>
+<<<<<<< HEAD
 <<<<<<< HEAD
       {mode == "page" ? (
          <Grid container spacing={2} alignItems="center" sx={{ pb: 1 }}>
@@ -329,6 +375,8 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
 
       <ModalEditMaintenance //boton de editar
 =======
+=======
+>>>>>>> feature/addAuthProcess
       {loading ? (
         <Grid item xs={12} style={{ textAlign: "center" }}>
           <CircularProgress /> {/* Indicador de carga */}
@@ -360,7 +408,10 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
       )}
 
       <ModalEditPrevent //boton de editar
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
         openModal={openEdit}
         handleClose={handleCloseEdit}
         data={selectedRow}
@@ -368,16 +419,21 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
       />
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       <ModalMoreDetail //boton de detalle
 =======
       <ModalPreventDetail //boton de detalle
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+      <ModalPreventDetail //boton de detalle
+>>>>>>> feature/addAuthProcess
         openModal={openDetail}
         handleClose={handleClose}
         data={selectedRow}
       />
 
       <ConfirmModal //boton de eliminar
+<<<<<<< HEAD
 <<<<<<< HEAD
         onConfirm={openDelete}
         onCancel={handleCloseConfirmModal}
@@ -389,11 +445,16 @@ const PreventMaintenance: React.FC<PreventMaintenanceProps> = ({
         data={dataCreate}
         mode="create"
 =======
+=======
+>>>>>>> feature/addAuthProcess
         onConfirm={openModalConfirm}
         onCancel={handleCloseConfirmModal}
         onConfirmAction={handleDelete}
         id={Number(valueDelete)}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
       />
     </>
   );

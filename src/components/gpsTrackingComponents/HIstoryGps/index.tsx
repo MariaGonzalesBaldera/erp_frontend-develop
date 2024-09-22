@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 import DatePickerForm from "../../DatePickerForm";
@@ -15,6 +16,8 @@ const HistoryGps: React.FC = () => {
             <ButtonIconSearch />
           </Box>
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import { Box, Grid, MenuItem, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import DatePickerForm from "../../DatePickerForm";
@@ -140,7 +143,10 @@ const HistoryGps: React.FC = () => {
               ))}
             </TextField>{" "}
           </Grid>
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
           <Grid item xs={12}>
             <DatePickerForm
               key={"filter-day"}
@@ -151,17 +157,24 @@ const HistoryGps: React.FC = () => {
             />
           </Grid>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> feature/addAuthProcess
           <Grid item xs={12} className="pt-2">
             <ButtonDefault title="Buscar" onClick={handleSearchClick} />
           </Grid>
 
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
           <Grid item xs={12}>
             <Box
               sx={{ backgroundColor: "#e2e0ff", color: "#1e1b4b" }}
               className="border border-gray-300 p-4 rounded-md mt-2"
             >
+<<<<<<< HEAD
 <<<<<<< HEAD
                <Typography variant="h6" gutterBottom>
                 Detalles de la Operación
@@ -179,6 +192,8 @@ const HistoryGps: React.FC = () => {
                 <strong>Horas Trabajadas: </strong>9 horas
               </Typography>
 =======
+=======
+>>>>>>> feature/addAuthProcess
               <Typography variant="h6" gutterBottom>
                 Detalles de la Operación
               </Typography>
@@ -208,12 +223,16 @@ const HistoryGps: React.FC = () => {
                   </>
                 )
               )}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
             </Box>
           </Grid>
         </Grid>
       </div>
       <div className="col-span-1 md:col-span-2 border flex items-center justify-start p-0">
+<<<<<<< HEAD
 <<<<<<< HEAD
         <div className="w-full h-full pb-[56.25%] relative">
           {" "}
@@ -225,6 +244,8 @@ const HistoryGps: React.FC = () => {
           ></iframe>
         </div>
 =======
+=======
+>>>>>>> feature/addAuthProcess
         {showMessage ? (
           <Box> </Box>
         ) : (
@@ -232,7 +253,10 @@ const HistoryGps: React.FC = () => {
             <GoogleMapPolyline />
           </div>
         )}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
       </div>
     </div>
   );

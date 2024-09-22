@@ -1,6 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 ///falta validar api
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import { useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanstack/react-query";
 import { InspectionService } from "../../services/machineryInspection.service";
 import { IMachinery, InspectionResponse } from "../../domain/machinery.interface";
@@ -72,4 +75,7 @@ export const useDeleteInspection = (): UseMutationResult<
 
 };
 
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess

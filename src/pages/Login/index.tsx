@@ -9,6 +9,7 @@ import {
   IconButton,
   Box,
   InputAdornment,
+  CircularProgress,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React, { useState } from "react";
@@ -28,29 +29,25 @@ const Login: React.FC = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [isLoading, setIsLoading] = useState(false); 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Resetear los errores
     setUsernameError("");
     setPasswordError("");
-
-    // Validación de los campos
     if (!usernameValue) {
       setUsernameError("El usuario es obligatorio");
     }
-
     if (!password) {
       setPasswordError("La contraseña es obligatoria");
     }
-
-    // Si hay algún error, no continuar con el login
     if (!usernameValue || !password) {
       return;
     }
+    setIsLoading(true);
     localStorage.removeItem("authData");
     try {
       const data = { username: usernameValue, password };
@@ -73,6 +70,8 @@ const Login: React.FC = () => {
         "Error en el login. Verifica tus credenciales.";
       setError(errorMessage); // Almacenar el mensaje de error
       setOpenSnackbar(true);
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -141,7 +140,10 @@ const Login: React.FC = () => {
           </div>
         </CardContent>
         <CardActions className="flex flex-col space-y-2 px-4">
-          <Button
+        {isLoading ? (
+        <CircularProgress />
+      ) : (
+        <Button
             component="form"
             variant="contained"
             sx={{
@@ -157,6 +159,8 @@ const Login: React.FC = () => {
           >
             Iniciar Sesión
           </Button>
+      )}
+          
           <Typography
             variant="body2"
             color="textSecondary"

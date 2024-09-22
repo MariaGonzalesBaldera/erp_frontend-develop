@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export function capitalizer(str:string) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -9,6 +10,8 @@ export const formatDayMonthYear = (fecha: string): string => {
     return dayjs(fecha).format("DD-MM-YYYY");
   };
 =======
+=======
+>>>>>>> feature/addAuthProcess
 export function capitalizer(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -45,5 +48,9 @@ export function calcularEdad(fechaNacimiento: string): number {
     edad--;
   }
   return edad;
+<<<<<<< HEAD
 }
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+}
+>>>>>>> feature/addAuthProcess

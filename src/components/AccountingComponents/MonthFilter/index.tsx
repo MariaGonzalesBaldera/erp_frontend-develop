@@ -2,23 +2,30 @@ import {
   Box,
   Grid,
 <<<<<<< HEAD
+<<<<<<< HEAD
   IconButton,
   Tooltip,
   Typography,
 } from "@mui/material";
 import React from "react";
 =======
+=======
+>>>>>>> feature/addAuthProcess
   MenuItem,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 import {
   styleTableItem,
   styleTableResponsive,
 } from "../../../style/StyleModal";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+<<<<<<< HEAD
 <<<<<<< HEAD
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -61,6 +68,8 @@ const rows = [
 ];
 function MonthFilter() {
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import { useGetAccountingList } from "../../../hooks/userAcccounting";
 import { AccountingResponse } from "../../../domain/machinery.interface";
 import themeNew from "../../../utils/theme";
@@ -130,7 +139,10 @@ function MonthFilter() {
     refetch(); // Refrescar los datos de la búsqueda
   };
 
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -164,6 +176,7 @@ function MonthFilter() {
       headerAlign: "center",
     },
     {
+<<<<<<< HEAD
 <<<<<<< HEAD
       field: "actions",
       headerName: "Acciones",
@@ -205,6 +218,8 @@ function MonthFilter() {
         </>
       ),
 =======
+=======
+>>>>>>> feature/addAuthProcess
       field: "Fecha",
       headerName: "Mes y año",
       flex: 1,
@@ -216,14 +231,20 @@ function MonthFilter() {
       ),
       align: "center",
       headerAlign: "center",
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
     },
   ];
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto">
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> feature/addAuthProcess
         <div className="col-span- md:col-span-2 flex items-center justify-start">
           <TextField
             size="small"
@@ -274,7 +295,10 @@ function MonthFilter() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto">
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
         <div className="col-span-1 md:col-span-1 border flex items-center justify-start p-2">
           <span className="text-1xl ">Total 1:&nbsp;</span>
           <span className="text-1xl font-semibold">00.000</span>
@@ -296,6 +320,7 @@ function MonthFilter() {
         <Typography variant="button">{"DETALLE"}</Typography>
         <>
           <Grid sx={styleTableResponsive}>
+<<<<<<< HEAD
 <<<<<<< HEAD
             <div style={{ height: 400, width: "100%" }}>
               <DataGrid
@@ -333,6 +358,8 @@ function MonthFilter() {
         mode="create"
       /> */}
 =======
+=======
+>>>>>>> feature/addAuthProcess
             {rowsWithIds.length === 0 ? (
               <div
                 style={{
@@ -357,7 +384,10 @@ function MonthFilter() {
               </div>
             )}
           </Grid>
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
         </>
       </Box>
     </div>

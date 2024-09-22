@@ -1,7 +1,10 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Box, Button, Modal, Typography } from "@mui/material";
 import React from "react";
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import {
   Box,
   Button,
@@ -11,7 +14,10 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 import themeNew from "../../utils/theme";
 
 interface ConfirmModalProps {
@@ -26,6 +32,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   onConfirmAction,
   id,
 }) => {
+<<<<<<< HEAD
 <<<<<<< HEAD
 
   const handleClose = () => {
@@ -42,6 +49,8 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   };
 
 =======
+=======
+>>>>>>> feature/addAuthProcess
   const handleClose = () => {
     if (onCancel) onCancel();
   };
@@ -59,7 +68,10 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
     }
   };
 
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
   return (
     <>
       <Modal
@@ -81,6 +93,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
             p: 4,
           }}
         >
+<<<<<<< HEAD
 <<<<<<< HEAD
           <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
             Mensaje de Confirmación
@@ -105,6 +118,8 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
             </Button>
           </Box>
 =======
+=======
+>>>>>>> feature/addAuthProcess
           {loading ? (
             <Grid item xs={12} style={{ textAlign: "center" }}>
               <CircularProgress /> {/* Indicador de carga */}
@@ -140,7 +155,10 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
               </Box>
             </>
           )}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
         </Box>
       </Modal>
     </>
@@ -148,7 +166,11 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export default ConfirmModal;
 =======
 export default ConfirmModal;
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+export default ConfirmModal;
+>>>>>>> feature/addAuthProcess

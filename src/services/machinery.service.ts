@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { MachineryResponse, ParamsDelete, ParamsDeleteItem } from "../domain/machinery.interface";
 import { axios } from "../utils/axios.create";
 
@@ -8,6 +9,11 @@ import { MachineryResponse, ParamsDeleteItem } from "../domain/machinery.interfa
 import { axios } from "../utils/axios.create";
 
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+import { MachineryResponse, ParamsDeleteItem } from "../domain/machinery.interface";
+import { axios } from "../utils/axios.create";
+
+>>>>>>> feature/addAuthProcess
 
 const findAll = async (): Promise<MachineryResponse[]> => {
 	return axios
@@ -47,9 +53,12 @@ const deleteOne = async (params: ParamsDeleteItem) => {
 		})
 		.catch((err) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
 			console.error(LOG_PREFIX, err);
 =======
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 			return Promise.reject(err.response.data);
 		});
 };

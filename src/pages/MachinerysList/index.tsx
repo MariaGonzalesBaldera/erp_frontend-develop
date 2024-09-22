@@ -9,6 +9,7 @@ import { a11yProps, CustomTabPanel, styleTabsBackground } from "../../style/Styl
 import { useGetMachineryList } from "../../hooks/useMaquinaria";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 const handleChange = (e) => {
   console.log("first");
 };
@@ -18,6 +19,8 @@ const handleSubmit = (e) => {
  
 =======
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 const dataMaquinaria = {
   id: 0,
   brand: "",

@@ -49,10 +49,14 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
   const getImage = () => {
     switch (data.model) {
 <<<<<<< HEAD
+<<<<<<< HEAD
       case "eetroexcavadora":
 =======
       case "retroexcavadora":
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+      case "retroexcavadora":
+>>>>>>> feature/addAuthProcess
         return retroexcavadora;
       case "oruga":
         return oruga;
@@ -84,19 +88,27 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
     return colorsItem[index % colorsItem.length];
   };
 <<<<<<< HEAD
+<<<<<<< HEAD
   const handleDeleteMachinery = async () => {
 =======
   const handleDelete = async () => {
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+  const handleDelete = async () => {
+>>>>>>> feature/addAuthProcess
     try {
       await mutationDeleteId(Number(data.id+""));
       console.log("Maquinaria eliminada exitosamente");
     } catch (error) {
 <<<<<<< HEAD
+<<<<<<< HEAD
       console.log("Error al eliminar maquinaria: ", error);
 =======
       console.log("Error al eliminar maquinaria ");
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+      console.log("Error al eliminar maquinaria ");
+>>>>>>> feature/addAuthProcess
     }
   };
 
@@ -107,11 +119,15 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
         sx={{
           border: "1px #b6b5c4 solid",
 <<<<<<< HEAD
+<<<<<<< HEAD
           background: colorsCard(index), //"#302d82"//"linear-gradient(to bottom, #7988ff ,#fff)", //  #14109f
           //borderBottom:"4px # 0e0a5c solid"
 =======
           background: colorsCard(index), 
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+          background: colorsCard(index), 
+>>>>>>> feature/addAuthProcess
         }}
       >
         <CardMedia
@@ -191,10 +207,14 @@ const BasicCard: React.FC<BasicCardProps> = ({ data, index }) => {
           onConfirm={openModalConfirm}
           onCancel={handleCloseConfirmModal}
 <<<<<<< HEAD
+<<<<<<< HEAD
           onConfirmAction={handleDeleteMachinery} 
 =======
           onConfirmAction={handleDelete} 
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+          onConfirmAction={handleDelete} 
+>>>>>>> feature/addAuthProcess
           id={Number(data.id+"")}
         />
         <ModalForm

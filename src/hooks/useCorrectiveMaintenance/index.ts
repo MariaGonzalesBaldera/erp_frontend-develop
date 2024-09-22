@@ -1,6 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 //falta arreglar el api
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import { useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CorrectiveMaintananceService } from "../../services/correctiveMaintenance.service";
 import { IMachinery } from "../../domain/machinery.interface";
@@ -71,4 +74,7 @@ export const useDeleteCorrective = (): UseMutationResult<
 
 };
 
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess

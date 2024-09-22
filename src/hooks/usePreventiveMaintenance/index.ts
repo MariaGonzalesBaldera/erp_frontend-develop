@@ -1,17 +1,23 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { useMutation, UseMutationResult, useQuery } from "@tanstack/react-query";
 import { preventiveMaintenanceService } from "../../services/preventiveMaintenance.service";
 import { IMachinery, PreventiveMaintenanceResponse } from "../../domain/machinery.interface";
 
 const { findAll,create,deleteOne, update } = preventiveMaintenanceService; 
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import { useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanstack/react-query";
 import { preventiveMaintenanceService } from "../../services/preventiveMaintenance.service";
 import { IMachinery } from "../../domain/machinery.interface";
 import { PreventMaintenanceItem } from "../../types";
 
 const { findAll,create,deleteOne, update,findByMachinery,findByModel } = preventiveMaintenanceService; 
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 
 
 export const useGetPreventiveMaintenanceList = () => {
@@ -22,10 +28,13 @@ export const useGetPreventiveMaintenanceList = () => {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export const useCreatePreventiveMaintenance = () => {
 	return useMutation({
 		mutationFn: (data: PreventiveMaintenanceResponse) => create(data),
 =======
+=======
+>>>>>>> feature/addAuthProcess
 export const useGetPreventiveByMachinery = ({ id }: { id: number }) => {
 	return useQuery({
 		queryKey: ["get-preventive-maintenance-searched",id],
@@ -47,7 +56,10 @@ export const useCreatePreventiveMaintenance = () => {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["get-preventive-maintenance-searched"] });
 		},
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 	});
 };
 
@@ -55,12 +67,15 @@ export const useUpdatePreventiveMaintenance = ({
 	id,
 }: {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	id?: string;
 }) => {
 	return useMutation({
 		mutationFn: (data: Partial<PreventiveMaintenanceResponse>) =>
 			update(data, id),
 =======
+=======
+>>>>>>> feature/addAuthProcess
 	id?: number;
 }) => {
 	const queryClient = useQueryClient();
@@ -70,13 +85,17 @@ export const useUpdatePreventiveMaintenance = ({
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["get-preventive-maintenance-searched"] });
 		  },
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 	});
 };
 
 export const useDeletePreventiveMaintenance = (): UseMutationResult<
 	IMachinery,
 	Error,
+<<<<<<< HEAD
 <<<<<<< HEAD
 	string,
 	unknown
@@ -87,6 +106,8 @@ export const useDeletePreventiveMaintenance = (): UseMutationResult<
 
 	return userQuery;
 =======
+=======
+>>>>>>> feature/addAuthProcess
 	number,
 	unknown
 > => {
@@ -98,6 +119,9 @@ export const useDeletePreventiveMaintenance = (): UseMutationResult<
       queryClient.invalidateQueries({ queryKey: ["get-preventive-maintenance-searched"] });
     },
   });
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 };
 

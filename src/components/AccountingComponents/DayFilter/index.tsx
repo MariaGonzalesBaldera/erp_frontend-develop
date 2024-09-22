@@ -1,15 +1,21 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import React, { useCallback } from "react";
 =======
 import { Box, Grid, Typography } from "@mui/material";
 import React, {  useEffect, useState } from "react";
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+import { Box, Grid, Typography } from "@mui/material";
+import React, {  useEffect, useState } from "react";
+>>>>>>> feature/addAuthProcess
 import {
   styleTableItem,
   styleTableResponsive,
 } from "../../../style/StyleModal";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+<<<<<<< HEAD
 <<<<<<< HEAD
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -66,6 +72,8 @@ function DayFilter() {
   const handleChange = useCallback((e) => {}, []);
 
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import DatePickerForm from "../../DatePickerForm";
 import { SearchSharp } from "@mui/icons-material";
 import themeNew from "../../../utils/theme";
@@ -120,7 +128,10 @@ function DayFilter() {
     });
     refetch();
   };
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -154,6 +165,7 @@ function DayFilter() {
       headerAlign: "center",
     },
     {
+<<<<<<< HEAD
 <<<<<<< HEAD
       field: "actions",
       headerName: "Acciones",
@@ -195,6 +207,8 @@ function DayFilter() {
         </>
       ),
 =======
+=======
+>>>>>>> feature/addAuthProcess
       field: "Fecha",
       headerName: "Mes y año",
       flex: 1,
@@ -206,7 +220,10 @@ function DayFilter() {
       ),
       align: "center",
       headerAlign: "center",
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
     },
   ];
   return (
@@ -215,20 +232,27 @@ function DayFilter() {
         <div className="col-span-1 md:col-span-1 flex items-center justify-start">
           <DatePickerForm
 <<<<<<< HEAD
+<<<<<<< HEAD
             key={"initial-day"}
             dateValue={""}
             labelValue="Inicio de busqueda"
             handleDateChange={handleChange}
 =======
+=======
+>>>>>>> feature/addAuthProcess
             key="initial-day"
             dateValue={initialDay}
             labelValue="Inicio de búsqueda"
             handleDateChange={(date) => handleChange(date, "initial-day")}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
             nameValue="initial-day"
           />
         </div>
         <div className="col-span-1 md:col-span-1 flex items-center justify-start">
+<<<<<<< HEAD
 <<<<<<< HEAD
         <DatePickerForm
             key={"end-day"}
@@ -239,6 +263,8 @@ function DayFilter() {
           />
         </div>
 =======
+=======
+>>>>>>> feature/addAuthProcess
           <DatePickerForm
             key="end-day"
             dateValue={endDay}
@@ -263,7 +289,10 @@ function DayFilter() {
             },
           }}
         />
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
       </div>
 
       <div className="grid border grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto">
@@ -289,6 +318,7 @@ function DayFilter() {
         <>
           <Grid sx={styleTableResponsive}>
             <div style={{ height: 400, width: "100%" }}>
+<<<<<<< HEAD
 <<<<<<< HEAD
               <DataGrid
                 sx={styleTableItem}
@@ -325,6 +355,8 @@ function DayFilter() {
         mode="create"
       /> */}
 =======
+=======
+>>>>>>> feature/addAuthProcess
               {rowsWithIds.length === 0 ? (
                 <div
                   style={{
@@ -348,7 +380,10 @@ function DayFilter() {
               )}
             </div>
           </Grid>
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
         </>
       </Box>
     </div>

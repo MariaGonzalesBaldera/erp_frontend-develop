@@ -2,15 +2,20 @@ import axios from "axios";
 
 const instance = axios.create({
 <<<<<<< HEAD
+<<<<<<< HEAD
 	baseURL: import.meta.env.VITE_BACKEND_URL, //`
 =======
 	baseURL: import.meta.env.VITE_BACKEND_URL,
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+	baseURL: import.meta.env.VITE_BACKEND_URL,
+>>>>>>> feature/addAuthProcess
 	headers: {
 		"Content-Type": "application/json",
 	},
 });
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 instance.interceptors.response.use(
 	(response) => {
@@ -47,6 +52,8 @@ instance.interceptors.response.use(
   );
 export { instance as axios };  
 =======
+=======
+>>>>>>> feature/addAuthProcess
 let isRefreshing = false;
 let refreshSubscribers = [];
 
@@ -121,5 +128,9 @@ instance.interceptors.response.use(
 	}
 );
 
+<<<<<<< HEAD
 export { instance as axios };
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+export { instance as axios };
+>>>>>>> feature/addAuthProcess

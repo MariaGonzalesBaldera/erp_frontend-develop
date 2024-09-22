@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { styleModalInspection } from "../../style/StyleModal";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Box, Grid, Modal } from "@mui/material";
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import {
   Box,
   CircularProgress,
@@ -11,13 +14,19 @@ import {
   Modal,
   TextField,
 } from "@mui/material";
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 import { ModalEditDocumentProps } from "../../types";
 import ButtonDefault from "../ButtonDefault";
 import HeaderModal from "../HeaderModal";
 import DatePickerForm from "../DatePickerForm";
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import { useCreateDocument, useUpdateDocument } from "../../hooks/useDocuments";
 import {
   DocumentResponse,
@@ -25,7 +34,10 @@ import {
 } from "../../domain/machinery.interface";
 import { capitalizer, formatDateForAPI } from "../../utils/capitalize";
 import { useGetMachineryList } from "../../hooks/useMaquinaria";
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 
 const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
   openModal,
@@ -34,14 +46,20 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
   mode,
 }) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> feature/addAuthProcess
   const createDocument = useCreateDocument();
   const updateMutation = useUpdateDocument({
     id:data.id,
   });
   const [selectedMachinery, setSelectedMachinery] = useState<number>(0);
   const [loading, setLoading] = useState(false);
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
   const [formData, setFormData] = useState({
     technicalReviewsStart: "",
     technicalReviewsEnd: "",
@@ -54,11 +72,14 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
     operatingCertificateStart: "",
     operatingCertificateEnd: "",
 <<<<<<< HEAD
+<<<<<<< HEAD
   });
 
   useEffect(() => {
     if (openModal) {
 =======
+=======
+>>>>>>> feature/addAuthProcess
     heavyMachineryId: 0,
   });
   const [errors, setErrors] = useState({
@@ -88,7 +109,10 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
 
   useEffect(() => {
     if (openModal && data) {
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
       setFormData({
         technicalReviewsStart: data.technicalReviewsStart || "",
         technicalReviewsEnd: data.technicalReviewsEnd || "",
@@ -100,6 +124,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
         trekInsuranceEnd: data.trekInsuranceEnd || "",
         operatingCertificateStart: data.operatingCertificateStart || "",
         operatingCertificateEnd: data.operatingCertificateEnd || "",
+<<<<<<< HEAD
 <<<<<<< HEAD
       });
     }
@@ -140,6 +165,8 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
     [formData, mode, handleClose]
   );
 =======
+=======
+>>>>>>> feature/addAuthProcess
         heavyMachineryId: data.heavyMachineryId || 0,
       });
     }
@@ -227,7 +254,10 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
       console.log("Error-> " + error);
     }
   };
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 
   const modalTitle =
     mode === "create"
@@ -255,8 +285,11 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
     },
   ];
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
+=======
+>>>>>>> feature/addAuthProcess
   //recuperacion de maquinarias
   const { data: machineryData, isLoading, error } = useGetMachineryList();
   const [machineryItems, setMachineryItems] = useState<
@@ -280,7 +313,10 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
     }
   }, [machineryData, isLoading, error]);
  
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
   return (
     <Modal
       open={openModal}
@@ -291,6 +327,7 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
       <Box sx={styleModalInspection}>
         <HeaderModal
           titleHeader={modalTitle}
+<<<<<<< HEAD
 <<<<<<< HEAD
           id={data.id || ""}
           handleClose={handleClose}
@@ -316,6 +353,8 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
           </div>
         </Box>
 =======
+=======
+>>>>>>> feature/addAuthProcess
           id={data.id + ""}
           handleClose={handleClose}
         />
@@ -380,7 +419,10 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
             </div>
           </Box>
         )}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
       </Box>
     </Modal>
   );

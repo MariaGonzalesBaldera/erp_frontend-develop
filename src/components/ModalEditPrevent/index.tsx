@@ -7,6 +7,7 @@ import {
   MenuItem,
   Modal,
   TextField,
+  Typography,
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { styleModalInspection } from "../../style/StyleModal";
@@ -180,9 +181,22 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
       console.log("Error-> " + error);
     }
   };
-
+  const checkboxLabels = {
+    motorOil: "Aceite de Motor",
+    oilFilters: "Filtros de Aceite",
+    fuelFilters: "Filtros de Combustible",
+    airFilters: "Filtros de Aire",
+    transmissionOil: "Aceite de Transmisión",
+  };
+  const textInputLabels = {
+    periodType: "Tipo de Período",
+    maintenancePeriod: "Período de Mantenimiento",
+    nextMaintenancePeriod: "Próximo Período de Mantenimiento",
+    invoiceNumber: "Número de Factura",
+    observations: "Observaciones",
+  };
   const modalTitle =
-    mode === "create" ? "CREAR NUEVO REGISTRO" : "EDITAR REGISTRO";
+    mode === "create" ? "NUEVO MANTENIMIENTO" : "EDITAR REGISTRO";
 
   const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
   const { data: machineryData, isLoading, error } = useGetMachineryList(); // Llamar a la API
@@ -221,8 +235,8 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
           id={""} // Display the ID if available
           handleClose={handleClose}
         />
-        <Box className="p-5">
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+        <Box className="pb-5 pl-5 pr-5 pt-1">
+          <Box component="form" onSubmit={handleSubmit}>
             {loading ? (
               <Grid item xs={12} style={{ textAlign: "center" }}>
                 <CircularProgress /> {/* Indicador de carga */}
@@ -230,13 +244,7 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
             ) : (
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12}>
-                  {[
-                    "motorOil",
-                    "oilFilters",
-                    "fuelFilters",
-                    "airFilters",
-                    "transmissionOil",
-                  ].map((item) => (
+                  {Object.keys(checkboxLabels).map((item) => (
                     <FormControlLabel
                       key={item}
                       control={
@@ -246,7 +254,9 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
                           name={item}
                         />
                       }
-                      label={item.replace(/([A-Z])/g, " $1")}
+                      label={
+                        checkboxLabels[item as keyof typeof checkboxLabels]
+                      } // Mostrar el título en español
                     />
                   ))}
 
@@ -263,7 +273,9 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
                       key={item}
                       fullWidth
                       size="small"
-                      label={item.replace(/([A-Z])/g, " $1")}
+                      label={
+                        textInputLabels[item as keyof typeof textInputLabels]
+                      } // Mostrar el título en español
                       name={item}
                       value={formData[item as keyof typeof formData]}
                       onChange={handleChange}

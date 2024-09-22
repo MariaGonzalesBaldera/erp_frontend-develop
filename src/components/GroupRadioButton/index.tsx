@@ -6,6 +6,7 @@ import {
   RadioGroup,
 } from "@mui/material";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React from "react";
 
 const GroupRadioButton: React.FC = () => {
@@ -81,6 +82,8 @@ const GroupRadioButton: React.FC = () => {
     </FormControl>
   );
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import React, { useState } from "react";
 
 interface GroupRadioButtonProps {
@@ -173,7 +176,10 @@ const GroupRadioButton: React.FC<GroupRadioButtonProps> = ({ showTitle,selectedV
         </RadioGroup>
       </FormControl>
     );
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 };
 
 export default GroupRadioButton;

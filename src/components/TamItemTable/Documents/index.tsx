@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { IconButton, Tooltip } from "@mui/material";
 =======
 import { Grid, IconButton, Tooltip } from "@mui/material";
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+import { Grid, IconButton, Tooltip } from "@mui/material";
+>>>>>>> feature/addAuthProcess
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import { DocumentItem } from "../../../types";
@@ -10,6 +14,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
+<<<<<<< HEAD
 <<<<<<< HEAD
 import ModalDocumentDetail from "../../ModalDocumentDetail";
 import ModalEditDocument from "../../ModalEditDocument";
@@ -67,6 +72,8 @@ const Documents: React.FC = () => {
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import ModalEditDocument from "../../ModalEditDocument";
 import {
   styleTableItem,
@@ -108,13 +115,17 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
       setLoading(false);
     }
   }, [machineryData]);
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   const handleOpenDelete = () => {
     setOpenDelete(true);
@@ -125,6 +136,11 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
     setOpenModalConfirm(false);
   };
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+  const handleCloseConfirmModal = () => {
+    setOpenModalConfirm(false);
+  };
+>>>>>>> feature/addAuthProcess
 
   const handleOpenEdit = (row: DocumentItem) => {
     setSelectedRow(row);
@@ -134,7 +150,10 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
   const handleCloseEdit = () => setOpenEdit(false);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> feature/addAuthProcess
   const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
   const handleOpenConfirmModal = () => setOpenModalConfirm(true);
 
@@ -147,7 +166,10 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
     }
   };
 
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -164,9 +186,13 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
       align: "center",
       headerAlign: "center",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       renderCell: (params) => formatDayMonthYear(params.value),
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+      renderCell: (params) => formatDayMonthYear(params.value),
+>>>>>>> feature/addAuthProcess
     },
     {
       field: "technicalReviewsEnd",
@@ -176,9 +202,13 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
       align: "center",
       headerAlign: "center",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       renderCell: (params) => formatDayMonthYear(params.value),
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+      renderCell: (params) => formatDayMonthYear(params.value),
+>>>>>>> feature/addAuthProcess
     },
     {
       field: "soatStart",
@@ -188,9 +218,13 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
       align: "center",
       headerAlign: "center",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       renderCell: (params) => formatDayMonthYear(params.value),
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+      renderCell: (params) => formatDayMonthYear(params.value),
+>>>>>>> feature/addAuthProcess
     },
     {
       field: "actions",
@@ -225,13 +259,19 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
             <IconButton
               color="error"
 <<<<<<< HEAD
+<<<<<<< HEAD
               onClick={() => handleOpenDelete()}
 =======
+=======
+>>>>>>> feature/addAuthProcess
               onClick={() => {
                 setValueDelete(Number(params.id));
                 handleOpenConfirmModal();
               }}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -241,6 +281,7 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
       ),
     },
   ];
+<<<<<<< HEAD
 <<<<<<< HEAD
   return (
     <>
@@ -254,6 +295,8 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
         />
       </div>
 =======
+=======
+>>>>>>> feature/addAuthProcess
   const fieldsDetail = [
     {
       title: "Inicio de revisiones técnicas",
@@ -318,7 +361,10 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
             )}
         </div>
       </Grid>
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 
       <ModalEditDocument //boton de editar
         openModal={openEdit}
@@ -326,6 +372,7 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
         data={selectedRow}
         mode="update"
       />
+<<<<<<< HEAD
 <<<<<<< HEAD
 
       <ModalDocumentDetail //boton de detalle
@@ -339,6 +386,8 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
         onCancel={handleCloseConfirmModal}
         id={1}
 =======
+=======
+>>>>>>> feature/addAuthProcess
       <ModalDetailGeneric //boton de detalle
         openModal={openDetail}
         handleClose={handleClose}
@@ -352,7 +401,10 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
         onCancel={handleCloseConfirmModal}
         onConfirmAction={handleDelete}
         id={Number(valueDelete)}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
       />
     </>
   );

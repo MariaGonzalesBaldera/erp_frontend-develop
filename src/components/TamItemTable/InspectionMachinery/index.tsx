@@ -1,13 +1,18 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { IconButton, Tooltip } from "@mui/material";
 =======
 import { CircularProgress, Grid, IconButton, Tooltip } from "@mui/material";
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+import { CircularProgress, Grid, IconButton, Tooltip } from "@mui/material";
+>>>>>>> feature/addAuthProcess
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import ModalMoreDetailInspection from "../../ModalMoreDetailInspection";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+<<<<<<< HEAD
 <<<<<<< HEAD
 import { MachineryInspectionItem } from "../../../types";
 import ConfirmModal from "../../ConfirmModal";
@@ -337,6 +342,8 @@ const InspectionMachinery: React.FC = () => {
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
 import ModalEditInspector from "../../ModalEditInspector";
@@ -383,13 +390,17 @@ const InspectionMachinery: React.FC<InspectionMachineryProps> = ({
   }, [machineryData]);
 
 
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   const handleOpenDelete = () => {
     setOpenDelete(true);
@@ -398,12 +409,17 @@ const InspectionMachinery: React.FC<InspectionMachineryProps> = ({
 
   const handleOpenEdit = (row: MachineryInspectionItem) => {
 =======
+=======
+>>>>>>> feature/addAuthProcess
   const handleCloseConfirmModal = () => {
     setOpenModalConfirm(false);
   };
 
   const handleOpenEdit = (row: InspectionResponse) => {
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
     setSelectedRow(row);
     setOpenEdit(true);
   };
@@ -411,7 +427,10 @@ const InspectionMachinery: React.FC<InspectionMachineryProps> = ({
   const handleCloseEdit = () => setOpenEdit(false);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> feature/addAuthProcess
   const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
   const handleOpenConfirmModal = () => setOpenModalConfirm(true);
 
@@ -423,7 +442,10 @@ const InspectionMachinery: React.FC<InspectionMachineryProps> = ({
       console.log("Error al eliminar documento: ", error);
     }
   };
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
   const columns: GridColDef[] = [
     {
       field: "heavyMachineryId",
@@ -489,13 +511,19 @@ const InspectionMachinery: React.FC<InspectionMachineryProps> = ({
             <IconButton
               color="error"
 <<<<<<< HEAD
+<<<<<<< HEAD
               onClick={() => handleOpenDelete()}
 =======
+=======
+>>>>>>> feature/addAuthProcess
               onClick={() => {
                 setValueDelete(Number(params.id));
                 handleOpenConfirmModal();
               }}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -509,6 +537,7 @@ const InspectionMachinery: React.FC<InspectionMachineryProps> = ({
   return (
     <>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           sx={styleTableItem}
@@ -520,6 +549,8 @@ const InspectionMachinery: React.FC<InspectionMachineryProps> = ({
         />
       </div>
 =======
+=======
+>>>>>>> feature/addAuthProcess
       <Grid sx={styleTableResponsive}>
       {loading ? (
           <Grid item xs={12} style={{ textAlign: "center" }}>
@@ -551,15 +582,22 @@ const InspectionMachinery: React.FC<InspectionMachineryProps> = ({
           </div>
         )}
       </Grid>
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
       <ModalEditInspector //boton de editar
         openModal={openEdit}
         handleClose={handleCloseEdit}
         data={selectedRow}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         mode="update"
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+        mode="update"
+>>>>>>> feature/addAuthProcess
       />
 
       <ModalMoreDetailInspection //boton de detalle
@@ -569,15 +607,21 @@ const InspectionMachinery: React.FC<InspectionMachineryProps> = ({
       />
       <ConfirmModal //boton de eliminar
 <<<<<<< HEAD
+<<<<<<< HEAD
         onConfirm={openDelete}
         onCancel={handleCloseConfirmModal}
         id={1}
 =======
+=======
+>>>>>>> feature/addAuthProcess
         onConfirm={openModalConfirm}
         onCancel={handleCloseConfirmModal}
         onConfirmAction={handleDelete}
         id={Number(valueDelete)}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
       />
     </>
   );

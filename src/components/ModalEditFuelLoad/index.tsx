@@ -1,8 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FuelLoadProps } from "../../types";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Box, Grid, Modal, TextField } from "@mui/material";
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import {
   Box,
   CircularProgress,
@@ -11,13 +14,19 @@ import {
   Modal,
   TextField,
 } from "@mui/material";
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 import { styleModalInspection } from "../../style/StyleModal";
 import HeaderModal from "../HeaderModal";
 import DatePickerForm from "../DatePickerForm";
 import ButtonDefault from "../ButtonDefault";
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import { useGetMachineryList } from "../../hooks/useMaquinaria";
 import {
   useCreateFuelingUp,
@@ -28,7 +37,10 @@ import {
   MachineryResponse,
 } from "../../domain/machinery.interface";
 import { capitalizer } from "../../utils/capitalize";
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 
 interface ModalEditFuelLoadProps {
   openModal: boolean;
@@ -44,9 +56,12 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
   mode,
 }) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
   const [formData, setFormData] = useState({
     id: "",
 =======
+=======
+>>>>>>> feature/addAuthProcess
   const createFuelingUp = useCreateFuelingUp();
   const updateMutation = useUpdateFuelingUp({
     id: data.id,
@@ -54,12 +69,16 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
   const [selectedMachinery, setSelectedMachinery] = useState<number | "">("");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
     numberGallons: 0,
     fuelingMileage: "",
     fuelingDate: "",
     amountPaid: 0,
     invoiceNumber: "",
+<<<<<<< HEAD
 <<<<<<< HEAD
     createdAt: "",
     updatedAt: "",
@@ -70,6 +89,8 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
       setFormData({
         id: data.id || "",
 =======
+=======
+>>>>>>> feature/addAuthProcess
     heavyMachineryId: 0,
   });
   const [errors, setErrors] = useState({
@@ -84,12 +105,16 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
   useEffect(() => {
     if (openModal && data) {
       setFormData({
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
         numberGallons: data.numberGallons || 0,
         fuelingMileage: data.fuelingMileage || "",
         fuelingDate: data.fuelingDate || "",
         amountPaid: data.amountPaid || 0,
         invoiceNumber: data.invoiceNumber || "",
+<<<<<<< HEAD
 <<<<<<< HEAD
         createdAt: data.createdAt || "",
         updatedAt: data.updatedAt || "",
@@ -131,6 +156,8 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
   );
 
 =======
+=======
+>>>>>>> feature/addAuthProcess
         heavyMachineryId: data.heavyMachineryId || 0,
       });
     }
@@ -237,14 +264,20 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
     }
   };
 
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
   const modalTitle =
     mode === "create" ? "CREAR NUEVO REGISTRO" : "EDITAR REGISTRO";
 
   const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> feature/addAuthProcess
   //recuperacion de maquinarias
   const { data: machineryData, isLoading, error } = useGetMachineryList(); // Llamar a la API
   const [machineryItems, setMachineryItems] = useState<
@@ -274,7 +307,10 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
     setSelectedMachinery(Number(event.target.value));
     errors.heavyMachineryId = false;
   };
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
   return (
     <Modal
       open={openModal}
@@ -286,14 +322,19 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
         <HeaderModal
           titleHeader={modalTitle}
 <<<<<<< HEAD
+<<<<<<< HEAD
           id={formData.id || "#"} // Display the ID if available
 =======
           id={""} // Display the ID if available
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+          id={""} // Display the ID if available
+>>>>>>> feature/addAuthProcess
           handleClose={handleClose}
         />
         <Box className="p-5">
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+<<<<<<< HEAD
 <<<<<<< HEAD
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -354,6 +395,8 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
               </Grid>
             </Grid>
 =======
+=======
+>>>>>>> feature/addAuthProcess
             {loading ? (
               <Grid item xs={12} style={{ textAlign: "center" }}>
                 <CircularProgress /> {/* Indicador de carga */}
@@ -458,7 +501,10 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
                 </Grid>
               </Grid>
             )}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
           </Box>
         </Box>
       </Box>

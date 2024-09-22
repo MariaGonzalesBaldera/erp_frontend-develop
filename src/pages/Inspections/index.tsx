@@ -1,13 +1,19 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Grid, IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import {
   CircularProgress,
   Grid,
   IconButton,
   Tooltip,
 } from "@mui/material";
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import ModalMoreDetailInspection from "../../components/ModalMoreDetailInspection";
@@ -17,6 +23,7 @@ import ListIcon from "@mui/icons-material/List";
 import { MachineryInspectionItem } from "../../types";
 import ConfirmModal from "../../components/ConfirmModal";
 import ModalEditInspector from "../../components/ModalEditInspector";
+<<<<<<< HEAD
 <<<<<<< HEAD
 import HeaderPage from "../../components/HeaderPage";
 import { styleTableItem } from "../../style/StyleModal";
@@ -337,13 +344,18 @@ const rows = [
   },
 ];
 =======
+=======
+>>>>>>> feature/addAuthProcess
 import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
 import ButtonDefault from "../../components/ButtonDefault";
 import { useDeleteInspection, useGetInspectionByModel } from "../../hooks/useMachineryInspection";
 import GroupRadioButton from "../../components/GroupRadioButton";
 import { capitalizer } from "../../utils/capitalize";
 import { InspectionResponse } from "../../domain/machinery.interface";
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 
 const dataCreate = {
   projectName: "",
@@ -396,15 +408,20 @@ const dataCreate = {
   createdAt: "",
   updatedAt: "",
 <<<<<<< HEAD
+<<<<<<< HEAD
   heavyMachineryId: "",
 =======
   heavyMachineryId: 0,
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+  heavyMachineryId: 0,
+>>>>>>> feature/addAuthProcess
 };
 
 const Inspections: React.FC = () => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+<<<<<<< HEAD
 <<<<<<< HEAD
   const [openDelete, setOpenDelete] = useState(false);
 
@@ -414,11 +431,17 @@ const Inspections: React.FC = () => {
   const [selectedRow, setSelectedRow] = useState<any>(0);
   const [selectedValue, setSelectedValue] = useState<string>("oruga");
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+
+  const [selectedRow, setSelectedRow] = useState<any>(0);
+  const [selectedValue, setSelectedValue] = useState<string>("oruga");
+>>>>>>> feature/addAuthProcess
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
+<<<<<<< HEAD
 <<<<<<< HEAD
 
   const handleOpenDelete = () => {
@@ -428,6 +451,9 @@ const Inspections: React.FC = () => {
 =======
   const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+  const handleCloseConfirmModal = () => setOpenModalConfirm(false);
+>>>>>>> feature/addAuthProcess
 
   const handleOpenEdit = (row: MachineryInspectionItem) => {
     setSelectedRow(row);
@@ -440,8 +466,11 @@ const Inspections: React.FC = () => {
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
+=======
+>>>>>>> feature/addAuthProcess
   const [valueDelete, setValueDelete] = useState(0);
   const { mutateAsync: mutationDeleteId } = useDeleteInspection();
   const [rowsWithIds, setRowsWithIds] = useState<InspectionResponse[]>([]);
@@ -485,7 +514,10 @@ const Inspections: React.FC = () => {
       console.log("Error al eliminar documento: ", error);
     }
   };
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
   const columns: GridColDef[] = [
     {
       field: "heavyMachineryId",
@@ -551,13 +583,19 @@ const Inspections: React.FC = () => {
             <IconButton
               color="error"
 <<<<<<< HEAD
+<<<<<<< HEAD
               onClick={() => handleOpenDelete()}
 =======
+=======
+>>>>>>> feature/addAuthProcess
               onClick={() => {
                 setValueDelete(Number(params.id));
                 handleOpenConfirmModal();
               }}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -570,6 +608,7 @@ const Inspections: React.FC = () => {
 
   return (
     <>
+<<<<<<< HEAD
 <<<<<<< HEAD
       <HeaderPage
         title="LISTA DE INSPECCIONES"
@@ -589,6 +628,8 @@ const Inspections: React.FC = () => {
           />
       </Grid>
 =======
+=======
+>>>>>>> feature/addAuthProcess
       <Grid
         container
         justifyContent={"space-between"}
@@ -649,7 +690,10 @@ const Inspections: React.FC = () => {
       </Grid>
 
 
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
       <ModalEditInspector //boton de editar
         openModal={openEdit}
         handleClose={handleCloseEdit}
@@ -664,19 +708,25 @@ const Inspections: React.FC = () => {
       />
       <ConfirmModal //boton de eliminar
 <<<<<<< HEAD
+<<<<<<< HEAD
         onConfirm={openDelete}
         onCancel={handleCloseConfirmModal}
         id={1}
       />
       <ModalEditInspector //boton de editar
 =======
+=======
+>>>>>>> feature/addAuthProcess
         onConfirm={openModalConfirm}
         onCancel={handleCloseConfirmModal}
         onConfirmAction={handleDelete}
         id={Number(valueDelete)}
       />
       <ModalEditInspector //boton de crear
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
         openModal={openModalNew}
         handleClose={handleCloseNewModal}
         data={dataCreate}

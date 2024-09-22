@@ -12,6 +12,7 @@ import ModalEditMaintenance from "../../ModalEditMaintenance";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import ButtonDefault from "../../ButtonDefault";
 import { styleTableItem } from "../../../style/StyleModal";
 import SearchInput from "../../SearchInput";
@@ -89,6 +90,11 @@ import { styleTableItem } from "../../../style/StyleModal";
 import { useDeleteCorrective, useGetCorrectiveByMachinery } from "../../../hooks/useCorrectiveMaintenance";
 
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+import { styleTableItem } from "../../../style/StyleModal";
+import { useDeleteCorrective, useGetCorrectiveByMachinery } from "../../../hooks/useCorrectiveMaintenance";
+
+>>>>>>> feature/addAuthProcess
 const dataCreate = {
   id: "",
   description: "",
@@ -103,6 +109,7 @@ const dataCreate = {
 };
 const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
 <<<<<<< HEAD
+<<<<<<< HEAD
   mode,
 }) => {
   const [openDetail, setOpenDetail] = useState(false);
@@ -115,6 +122,8 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
 =======
+=======
+>>>>>>> feature/addAuthProcess
   idMachinery,
 }) => {
   const [openDetail, setOpenDetail] = useState(false);
@@ -142,12 +151,16 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
       setLoading(false);
     }
   }, [correctiveData]);
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
+<<<<<<< HEAD
 <<<<<<< HEAD
 
   const handleOpenDelete = () => {
@@ -158,6 +171,10 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
  
   const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+ 
+  const handleCloseConfirmModal = () => setOpenModalConfirm(false);
+>>>>>>> feature/addAuthProcess
 
   const handleOpenEdit = (row: CorrectiveMaintananceItem) => {
     setSelectedRow(row);
@@ -166,8 +183,11 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
+=======
+>>>>>>> feature/addAuthProcess
   const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
   const handleOpenConfirmModal = () => setOpenModalConfirm(true);
   const handleDelete = async () => {
@@ -178,7 +198,10 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
       console.log("Error al eliminar documento: ", error);
     }
   };
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -189,10 +212,14 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
       field: "operator",
 =======
       field: "operatorName",
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+      field: "operatorName",
+>>>>>>> feature/addAuthProcess
       headerName: "Operador",
       flex: 1,
       minWidth: 150,
@@ -209,10 +236,14 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
       field: "project_name",
 =======
       field: "projectName",
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+      field: "projectName",
+>>>>>>> feature/addAuthProcess
       headerName: "Nombre del proyecto",
       flex: 1,
       minWidth: 150,
@@ -252,13 +283,19 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
             <IconButton
               color="error"
 <<<<<<< HEAD
+<<<<<<< HEAD
               onClick={() => handleOpenDelete()}
 =======
+=======
+>>>>>>> feature/addAuthProcess
               onClick={() => {
                 setValueDelete(Number(params.id));
                 handleOpenConfirmModal();
               }}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -271,6 +308,7 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
 
   return (
     <>
+<<<<<<< HEAD
 <<<<<<< HEAD
       {mode == "page" ? (
         <Grid container spacing={2} alignItems="center" sx={{ pb: 1 }}>
@@ -299,6 +337,8 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
           columns={columns}
         />
 =======
+=======
+>>>>>>> feature/addAuthProcess
       <div style={{ height: 400, width: "100%" }}>
         {documentsData.length === 0 ? (
           <div
@@ -321,7 +361,10 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
             columns={columns}
           />
         )}
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
       </div>
 
       <ModalEditMaintenance //boton de editar
@@ -339,6 +382,7 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
 
       <ConfirmModal //boton de eliminar
 <<<<<<< HEAD
+<<<<<<< HEAD
         onConfirm={openDelete}
         onCancel={handleCloseConfirmModal}
         id={1}
@@ -350,12 +394,17 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
         mode="create"
       />
 =======
+=======
+>>>>>>> feature/addAuthProcess
         onConfirm={openModalConfirm}
         onCancel={handleCloseConfirmModal}
         onConfirmAction={handleDelete}
         id={Number(valueDelete)}
       /> 
+<<<<<<< HEAD
 >>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
+=======
+>>>>>>> feature/addAuthProcess
     </>
   );
 };
