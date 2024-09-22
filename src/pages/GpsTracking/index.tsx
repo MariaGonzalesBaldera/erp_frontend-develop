@@ -1,8 +1,6 @@
 import { Box, Grid, Tab, Tabs } from "@mui/material";
 import React from "react";
 import { a11yProps, CustomTabPanel, styleTableResponsive, styleTabsBackground } from "../../style/StyleModal";
-import MonthFilter from "../../components/AccountingComponents/MonthFilter";
-import DayFilter from "../../components/AccountingComponents/DayFilter";
 import ActualGps from "../../components/gpsTrackingComponents/ActualGps";
 import HistoryGps from "../../components/gpsTrackingComponents/HIstoryGps";
 

@@ -85,7 +85,7 @@ export interface MachineryTypeResponse {
 }
 
 export interface MachineryIncomeResponse {
-  id?: string,
+  id?: number,
   transactionDate: string,
   hoursOperated: number,
   hourlyRate: number,
@@ -94,7 +94,7 @@ export interface MachineryIncomeResponse {
   projectName: string,
   createdAt?: string,
   updatedAt?: string,
-  heavyMachineryId?: string
+  heavyMachineryId?: number
 }
 
 export interface FuelingUpResponse {

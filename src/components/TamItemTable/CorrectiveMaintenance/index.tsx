@@ -12,7 +12,7 @@ import ModalEditMaintenance from "../../ModalEditMaintenance";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
 import { styleTableItem } from "../../../style/StyleModal";
-import {useGetCorrectiveByMachinery} from '../../../hooks/useCorrectiveMaintenance'
+import { useDeleteCorrective, useGetCorrectiveByMachinery } from "../../../hooks/useCorrectiveMaintenance";
 
 const dataCreate = {
   id: "",
@@ -31,28 +31,36 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
 }) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
-
+  const [valueDelete, setValueDelete] = useState(0);
   const [selectedRow, setSelectedRow] = useState<any>(0);
-
   const [openModalNew, setOpenModalNew] = React.useState(false);
-  const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
+  const { mutateAsync: mutationDeleteId } = useDeleteCorrective();
+  const [documentsData, setDocumentsData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const { data: correctiveData } = useGetCorrectiveByMachinery({
+    id: idMachinery,
+  });
 
-  const {
-  	data: correctiveData,
-  } = useGetCorrectiveByMachinery({id: idMachinery});
-  console.log("DATA "+correctiveData)
+  React.useEffect(() => {
+    setLoading(true);
+    try {
+      if (correctiveData) {
+        setDocumentsData(correctiveData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [correctiveData]);
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
-
-  const handleOpenDelete = () => {
-    setOpenDelete(true);
-  };
-  const handleCloseConfirmModal = () => setOpenDelete(false);
+ 
+  const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 
   const handleOpenEdit = (row: CorrectiveMaintananceItem) => {
     setSelectedRow(row);
@@ -60,7 +68,16 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
   };
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
-
+  const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
+  const handleOpenConfirmModal = () => setOpenModalConfirm(true);
+  const handleDelete = async () => {
+    try {
+      await mutationDeleteId(valueDelete);
+      console.log("Documento eliminado exitosamente");
+    } catch (error) {
+      console.log("Error al eliminar documento: ", error);
+    }
+  };
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -125,7 +142,10 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
-              onClick={() => handleOpenDelete()}
+              onClick={() => {
+                setValueDelete(Number(params.id));
+                handleOpenConfirmModal();
+              }}
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -138,35 +158,28 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
 
   return (
     <>
-      {/* {mode == "page" ? (
-        <Grid container spacing={2} alignItems="center" sx={{ pb: 1 }}>
-          <Grid item xs={12} md={6}>
-            <SearchInput title="Ingresa el código de la maquinaria" />
-          </Grid>
-
-          <Grid
-            item
-            xs={12}
-            md={6}
-            sx={{ textAlign: { xs: "start", md: "end" } }}
-          >
-            <ButtonDefault
-              onClick={handleOpenNewModal}
-              title="Agregar mantenimiento"
-            />
-          </Grid>
-        </Grid>
-      ) : (
-        <></>
-      )} */}
       <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          sx={styleTableItem}
-          className="truncate..."
-          hideFooter
-          rows={correctiveData || []}
-          columns={columns}
-        />
+        {documentsData.length === 0 ? (
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: "20px",
+              alignContent: "center",
+              border: "1px gray solid",
+              height: "8rem",
+            }}
+          >
+            No se encontraron documentos registros
+          </div>
+        ) : (
+          <DataGrid
+            sx={styleTableItem}
+            className="truncate..."
+            hideFooter
+            rows={documentsData}
+            columns={columns}
+          />
+        )}
       </div>
 
       <ModalEditMaintenance //boton de editar
@@ -183,16 +196,11 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
       />
 
       <ConfirmModal //boton de eliminar
-        onConfirm={openDelete}
+        onConfirm={openModalConfirm}
         onCancel={handleCloseConfirmModal}
-        id={1}
-      />
-      <ModalEditMaintenance //boton de crear
-        openModal={openModalNew}
-        handleClose={handleCloseNewModal}
-        data={dataCreate}
-        mode="create"
-      />
+        onConfirmAction={handleDelete}
+        id={Number(valueDelete)}
+      /> 
     </>
   );
 };

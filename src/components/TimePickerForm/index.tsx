@@ -8,22 +8,31 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 interface TimePickerFormProps {
   timeValue: string; //dayjs(formData.driving_end, "h:mm A")
-  nameValue: string; //"driving_end"
-  label: string; //"Fin de conduccion"
+  nameValue: string;
+  handleTimeChange: (date: any, nameValue: any) => void;
+  label: string;
+  error?: boolean;
+  helperText?: string;
 }
-
 const TimePickerForm: React.FC<TimePickerFormProps> = ({
   timeValue,
   nameValue,
+  handleTimeChange,
   label,
+  error,
+  helperText,
 }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={["TimePicker"]}>
-        <TimePicker //onChange={handleChange}
+        <TimePicker
           name={nameValue}
           label={label}
-          value={dayjs(timeValue, "h:mm A")}
+          onChange={(newTime) => handleTimeChange(newTime, nameValue)} // Pasamos newTime y nameValue al handleTimeChange
+          value={dayjs(timeValue, "HH:mm")} // Formato 24 horas o "h:mm A" para AM/PM
+          slotProps={{
+            textField: { error, helperText, size: "small", fullWidth: true },
+          }}
           viewRenderers={{
             hours: renderTimeViewClock,
             minutes: renderTimeViewClock,

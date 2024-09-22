@@ -54,13 +54,17 @@ export const useDeleteUser = (): UseMutationResult<
 
 export const useChangePassword = ({
   id,
+  currentPassword,
+  newPassword,
 }: {
   id: number;
+  currentPassword: string; 
+  newPassword: string; 
 }) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: Partial<NewPasswordRequest>) =>
-      updatePassword(data, id),
+      updatePassword(data, id, currentPassword, newPassword),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["get-user-searched"] });
     },
