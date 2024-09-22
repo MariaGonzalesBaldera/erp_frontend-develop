@@ -1,23 +1,8 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { useMutation, UseMutationResult, useQuery } from "@tanstack/react-query";
-import { documentsService } from "../../services/documents.service";
-import { IMachinery, DocumentResponse } from "../../domain/machinery.interface";
-
-const { findAll,create,deleteOne, update } = documentsService ; 
-
-=======
-=======
->>>>>>> feature/addAuthProcess
 import { useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanstack/react-query";
 import { documentsService } from "../../services/documents.service";
 import { IMachinery, DocumentResponse } from "../../domain/machinery.interface";
 
 const { findAll,create,deleteOne, update,findByMachinery ,findByModel} = documentsService ; 
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
 
 export const useGetDocumentList = () => {
 	return useQuery({
@@ -26,14 +11,6 @@ export const useGetDocumentList = () => {
 	});
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-export const useCreateDocument = () => {
-	return useMutation({
-		mutationFn: (data: DocumentResponse) => create(data),
-=======
-=======
->>>>>>> feature/addAuthProcess
 export const useGetDocumentByMachinery = ({ id }: { id: number }) => {
 	return useQuery({
 		queryKey: ["get-document-searched",id],
@@ -56,26 +33,12 @@ export const useCreateDocument = () => {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["get-document-searched"] });
 		},
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
 	});
 };
 
 export const useUpdateDocument = ({
 	id,
 }: {
-<<<<<<< HEAD
-<<<<<<< HEAD
-	id?: string;
-}) => {
-	return useMutation({
-		mutationFn: (data: Partial<DocumentResponse>) =>
-			update(data, id),
-=======
-=======
->>>>>>> feature/addAuthProcess
 	id?: number;
 }) => {
   const queryClient = useQueryClient();
@@ -85,29 +48,12 @@ export const useUpdateDocument = ({
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["get-document-searched"] });
 		},
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
 	});
 };
 
 export const useDeleteDocument = (): UseMutationResult<
 	IMachinery,
 	Error,
-<<<<<<< HEAD
-<<<<<<< HEAD
-	string,
-	unknown
-> => {
-	const userQuery = useMutation({
-		mutationFn: async (id: string) => await deleteOne({ id }),
-	});
-
-	return userQuery;
-=======
-=======
->>>>>>> feature/addAuthProcess
 	number,
 	unknown
 > => {
@@ -122,9 +68,5 @@ export const useDeleteDocument = (): UseMutationResult<
 		}
 	});
 
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
 };
 

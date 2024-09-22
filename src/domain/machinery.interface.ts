@@ -1,13 +1,5 @@
 export interface MachineryResponse {
-<<<<<<< HEAD
-<<<<<<< HEAD
-  id?: number;
-=======
   id: number | undefined;
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-  id: number | undefined;
->>>>>>> feature/addAuthProcess
   brand: string;
   model: string;
   modelYear: string;
@@ -18,13 +10,6 @@ export interface MachineryResponse {
   updatedAt?: string;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-export interface DocumentResponse {
-  id?: string;
-=======
-=======
->>>>>>> feature/addAuthProcess
 export interface CredentialsBody {
   username: string;
   password: string;
@@ -32,10 +17,6 @@ export interface CredentialsBody {
 
 export interface DocumentResponse {
   id?: number;
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
   technicalReviewsStart: string;
   technicalReviewsEnd: string;
   soatStart: string;
@@ -48,15 +29,7 @@ export interface DocumentResponse {
   operatingCertificateEnd: string;
   createdAt?: string;
   updatedAt?: string;
-<<<<<<< HEAD
-<<<<<<< HEAD
-  heavyMachineryId?: string;
-=======
   heavyMachineryId?: number;
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-  heavyMachineryId?: number;
->>>>>>> feature/addAuthProcess
 }
 
 export type ParamsDelete = {
@@ -112,15 +85,7 @@ export interface MachineryTypeResponse {
 }
 
 export interface MachineryIncomeResponse {
-<<<<<<< HEAD
-<<<<<<< HEAD
-  id?: string,
-=======
   id?: number,
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-  id?: number,
->>>>>>> feature/addAuthProcess
   transactionDate: string,
   hoursOperated: number,
   hourlyRate: number,
@@ -129,28 +94,12 @@ export interface MachineryIncomeResponse {
   projectName: string,
   createdAt?: string,
   updatedAt?: string,
-<<<<<<< HEAD
-<<<<<<< HEAD
-  heavyMachineryId?: string
-=======
   heavyMachineryId?: number
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-  heavyMachineryId?: number
->>>>>>> feature/addAuthProcess
 }
 
 export interface FuelingUpResponse {
   id?: string,
-<<<<<<< HEAD
-<<<<<<< HEAD
-  numberGallons: string,
-=======
   numberGallons: number,
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-  numberGallons: number,
->>>>>>> feature/addAuthProcess
   fuelingMileage: string,
   fuelingDate: string,
   amountPaid: number,
@@ -191,11 +140,6 @@ export interface EmailSendRequest {
   drivingEnd: Date;
   imagenesEvidencia: string[];
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> feature/addAuthProcess
 
 export interface InspectionResponse {
   id?: number,
@@ -258,9 +202,4 @@ export interface AccountingResponse {
   originDescription: string,
   transactionType: string,
   amountPaid: number
-<<<<<<< HEAD
 }
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-}
->>>>>>> feature/addAuthProcess

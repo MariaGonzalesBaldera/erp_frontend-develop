@@ -1,19 +1,9 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { Grid, IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
-=======
-=======
->>>>>>> feature/addAuthProcess
 import {
   CircularProgress,
   Grid,
   IconButton,
   Tooltip,
 } from "@mui/material";
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import ModalMoreDetailInspection from "../../components/ModalMoreDetailInspection";
@@ -23,339 +13,12 @@ import ListIcon from "@mui/icons-material/List";
 import { MachineryInspectionItem } from "../../types";
 import ConfirmModal from "../../components/ConfirmModal";
 import ModalEditInspector from "../../components/ModalEditInspector";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import HeaderPage from "../../components/HeaderPage";
-import { styleTableItem } from "../../style/StyleModal";
-import SearchInput from "../../components/SearchInput";
-
-const rows = [
-  {
-    projectName: "Proyecto B",
-    unitData: "Bulldozer D8T",
-    activity: "Nivelación de terreno",
-    location: "Arequipa, Perú",
-    registrationDate: "2024-08-02",
-    frontLights: false,
-    rearLights: true,
-    directionalLights: true,
-    rolloverProtection: true,
-    seatbelt: false,
-    bucketConditionAndOperation: true,
-    seatCondition: true,
-    windows: false,
-    cabin: true,
-    reverseAlarm: true,
-    accessLadderAndSupports: true,
-    mirrors: true,
-    horn: true,
-    controlLevers: false,
-    pedals: true,
-    liftCylinders: true,
-    articulationCylinders: true,
-    doorConditionWithLock: false,
-    battery: true,
-    electricalInstallation: true,
-    steering: true,
-    engine: true,
-    radiator: true,
-    indicators: false,
-    brakingSystem: true,
-    oilCooler: true,
-    hydraulicSystemBlock: true,
-    hoses: true,
-    belts: true,
-    electricalSystem: true,
-    swingMechanism: false,
-    swingMechanismBrake: true,
-    armLiftControls: false,
-    rightTrack: true,
-    leftTrack: true,
-    spillKit: true,
-    fireExtinguisher20Lbs: true,
-    safetyCones: true,
-    operator: "Luis Fernández",
-    residentEngineer: "María Torres Maldonado Silva",
-    ssoma: "Jorge Quispe",
-    observations: "Falta reemplazar luces frontales y cinturón de seguridad",
-    createdAt: "2024-08-02",
-    updatedAt: "2024-08-02",
-    heavyMachineryId: "HM-001",
-  },
-  {
-    projectName: "Proyecto B",
-    unitData: "Bulldozer D8T",
-    activity: "Nivelación de terreno",
-    location: "Arequipa, Perú",
-    registrationDate: "2024-08-02",
-    frontLights: false,
-    rearLights: true,
-    directionalLights: true,
-    rolloverProtection: true,
-    seatbelt: false,
-    bucketConditionAndOperation: true,
-    seatCondition: true,
-    windows: false,
-    cabin: true,
-    reverseAlarm: true,
-    accessLadderAndSupports: true,
-    mirrors: true,
-    horn: true,
-    controlLevers: true,
-    pedals: true,
-    liftCylinders: true,
-    articulationCylinders: true,
-    doorConditionWithLock: true,
-    battery: true,
-    electricalInstallation: true,
-    steering: true,
-    engine: true,
-    radiator: true,
-    indicators: true,
-    brakingSystem: true,
-    oilCooler: true,
-    hydraulicSystemBlock: true,
-    hoses: true,
-    belts: true,
-    electricalSystem: true,
-    swingMechanism: true,
-    swingMechanismBrake: true,
-    armLiftControls: true,
-    rightTrack: true,
-    leftTrack: true,
-    spillKit: true,
-    fireExtinguisher20Lbs: true,
-    safetyCones: true,
-    operator: "Luis Fernández",
-    residentEngineer: "María Torres",
-    ssoma: "Jorge Quispe",
-    observations: "Falta reemplazar luces frontales y cinturón de seguridad",
-    createdAt: "2024-08-02",
-    updatedAt: "2024-08-02",
-    heavyMachineryId: "HM-002",
-  },
-  {
-    projectName: "Proyecto C",
-    unitData: "Retroexcavadora 416F2",
-    activity: "Excavación de zanjas",
-    location: "Cusco, Perú",
-    registrationDate: "2024-08-03",
-    frontLights: true,
-    rearLights: true,
-    directionalLights: false,
-    rolloverProtection: true,
-    seatbelt: true,
-    bucketConditionAndOperation: true,
-    seatCondition: true,
-    windows: true,
-    cabin: false,
-    reverseAlarm: false,
-    accessLadderAndSupports: true,
-    mirrors: true,
-    horn: true,
-    controlLevers: true,
-    pedals: true,
-    liftCylinders: true,
-    articulationCylinders: true,
-    doorConditionWithLock: true,
-    battery: true,
-    electricalInstallation: true,
-    steering: true,
-    engine: true,
-    radiator: true,
-    indicators: true,
-    brakingSystem: true,
-    oilCooler: true,
-    hydraulicSystemBlock: true,
-    hoses: true,
-    belts: true,
-    electricalSystem: true,
-    swingMechanism: true,
-    swingMechanismBrake: true,
-    armLiftControls: true,
-    rightTrack: false,
-    leftTrack: false,
-    spillKit: true,
-    fireExtinguisher20Lbs: false,
-    safetyCones: true,
-    operator: "Pedro Castillo",
-    residentEngineer: "Lucía Ramírez",
-    ssoma: "Fernando Morales",
-    observations: "Reemplazar extintor y revisar alarmas de retroceso",
-    createdAt: "2024-08-03",
-    updatedAt: "2024-08-03",
-    heavyMachineryId: "HM-003",
-  },
-  {
-    projectName: "Proyecto D",
-    unitData: "Cargador Frontal 950GC",
-    activity: "Carga de material",
-    location: "Trujillo, Perú",
-    registrationDate: "2024-08-04",
-    frontLights: true,
-    rearLights: false,
-    directionalLights: true,
-    rolloverProtection: true,
-    seatbelt: true,
-    bucketConditionAndOperation: false,
-    seatCondition: true,
-    windows: true,
-    cabin: true,
-    reverseAlarm: true,
-    accessLadderAndSupports: true,
-    mirrors: true,
-    horn: true,
-    controlLevers: true,
-    pedals: true,
-    liftCylinders: true,
-    articulationCylinders: true,
-    doorConditionWithLock: true,
-    battery: true,
-    electricalInstallation: true,
-    steering: true,
-    engine: true,
-    radiator: true,
-    indicators: true,
-    brakingSystem: true,
-    oilCooler: true,
-    hydraulicSystemBlock: true,
-    hoses: true,
-    belts: true,
-    electricalSystem: true,
-    swingMechanism: true,
-    swingMechanismBrake: true,
-    armLiftControls: true,
-    rightTrack: true,
-    leftTrack: true,
-    spillKit: true,
-    fireExtinguisher20Lbs: true,
-    safetyCones: true,
-    operator: "Mario Rojas",
-    residentEngineer: "Patricia Vega",
-    ssoma: "Sara Quinteros",
-    observations: "Revisar condición del balde",
-    createdAt: "2024-08-04",
-    updatedAt: "2024-08-04",
-    heavyMachineryId: "HM-004",
-  },
-  {
-    projectName: "Proyecto E",
-    unitData: "Grúa RT765",
-    activity: "Movimiento de cargas pesadas",
-    location: "Piura, Perú",
-    registrationDate: "2024-08-05",
-    frontLights: true,
-    rearLights: true,
-    directionalLights: true,
-    rolloverProtection: true,
-    seatbelt: true,
-    bucketConditionAndOperation: true,
-    seatCondition: false,
-    windows: true,
-    cabin: true,
-    reverseAlarm: true,
-    accessLadderAndSupports: true,
-    mirrors: true,
-    horn: true,
-    controlLevers: true,
-    pedals: true,
-    liftCylinders: true,
-    articulationCylinders: true,
-    doorConditionWithLock: true,
-    battery: true,
-    electricalInstallation: true,
-    steering: true,
-    engine: true,
-    radiator: true,
-    indicators: true,
-    brakingSystem: true,
-    oilCooler: true,
-    hydraulicSystemBlock: true,
-    hoses: true,
-    belts: true,
-    electricalSystem: true,
-    swingMechanism: true,
-    swingMechanismBrake: true,
-    armLiftControls: true,
-    rightTrack: true,
-    leftTrack: true,
-    spillKit: true,
-    fireExtinguisher20Lbs: true,
-    safetyCones: true,
-    operator: "Rafael Díaz",
-    residentEngineer: "Laura Herrera",
-    ssoma: "Alberto Pérez",
-    observations: "Reemplazar asiento del operador",
-    createdAt: "2024-08-05",
-    updatedAt: "2024-08-05",
-    heavyMachineryId: "HM-005",
-  },
-  {
-    projectName: "Proyecto F",
-    unitData: "Camión Volquete",
-    activity: "Transporte de material",
-    location: "Chiclayo, Perú",
-    registrationDate: "2024-08-06",
-    frontLights: false,
-    rearLights: true,
-    directionalLights: false,
-    rolloverProtection: true,
-    seatbelt: true,
-    bucketConditionAndOperation: true,
-    seatCondition: true,
-    windows: false,
-    cabin: true,
-    reverseAlarm: true,
-    accessLadderAndSupports: true,
-    mirrors: true,
-    horn: true,
-    controlLevers: true,
-    pedals: true,
-    liftCylinders: true,
-    articulationCylinders: true,
-    doorConditionWithLock: true,
-    battery: true,
-    electricalInstallation: true,
-    steering: true,
-    engine: true,
-    radiator: true,
-    indicators: true,
-    brakingSystem: true,
-    oilCooler: true,
-    hydraulicSystemBlock: true,
-    hoses: true,
-    belts: true,
-    electricalSystem: true,
-    swingMechanism: true,
-    swingMechanismBrake: true,
-    armLiftControls: true,
-    rightTrack: true,
-    leftTrack: true,
-    spillKit: true,
-    fireExtinguisher20Lbs: false,
-    safetyCones: true,
-    operator: "Andrés Zambrano",
-    residentEngineer: "Diana Montenegro",
-    ssoma: "Javier Rivera",
-    observations: "Revisar luces direccionales y extintor",
-    createdAt: "2024-08-06",
-    updatedAt: "2024-08-06",
-    heavyMachineryId: "HM-006",
-  },
-];
-=======
-=======
->>>>>>> feature/addAuthProcess
 import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
 import ButtonDefault from "../../components/ButtonDefault";
 import { useDeleteInspection, useGetInspectionByModel } from "../../hooks/useMachineryInspection";
 import GroupRadioButton from "../../components/GroupRadioButton";
 import { capitalizer } from "../../utils/capitalize";
 import { InspectionResponse } from "../../domain/machinery.interface";
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
 
 const dataCreate = {
   projectName: "",
@@ -407,53 +70,21 @@ const dataCreate = {
   observations: "",
   createdAt: "",
   updatedAt: "",
-<<<<<<< HEAD
-<<<<<<< HEAD
-  heavyMachineryId: "",
-=======
   heavyMachineryId: 0,
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-  heavyMachineryId: 0,
->>>>>>> feature/addAuthProcess
 };
 
 const Inspections: React.FC = () => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-<<<<<<< HEAD
-<<<<<<< HEAD
-  const [openDelete, setOpenDelete] = useState(false);
-
-  const [selectedRow, setSelectedRow] = useState<any>(0);
-=======
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
   const [selectedValue, setSelectedValue] = useState<string>("oruga");
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-
-  const [selectedRow, setSelectedRow] = useState<any>(0);
-  const [selectedValue, setSelectedValue] = useState<string>("oruga");
->>>>>>> feature/addAuthProcess
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
     setOpenDetail(true);
   };
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-  const handleOpenDelete = () => {
-    setOpenDelete(true);
-  };
-  const handleCloseConfirmModal = () => setOpenDelete(false);
-=======
   const handleCloseConfirmModal = () => setOpenModalConfirm(false);
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-  const handleCloseConfirmModal = () => setOpenModalConfirm(false);
->>>>>>> feature/addAuthProcess
 
   const handleOpenEdit = (row: MachineryInspectionItem) => {
     setSelectedRow(row);
@@ -465,12 +96,6 @@ const Inspections: React.FC = () => {
   const [openModalNew, setOpenModalNew] = React.useState(false);
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
-=======
->>>>>>> feature/addAuthProcess
   const [valueDelete, setValueDelete] = useState(0);
   const { mutateAsync: mutationDeleteId } = useDeleteInspection();
   const [rowsWithIds, setRowsWithIds] = useState<InspectionResponse[]>([]);
@@ -514,10 +139,6 @@ const Inspections: React.FC = () => {
       console.log("Error al eliminar documento: ", error);
     }
   };
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
   const columns: GridColDef[] = [
     {
       field: "heavyMachineryId",
@@ -582,20 +203,10 @@ const Inspections: React.FC = () => {
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
-<<<<<<< HEAD
-<<<<<<< HEAD
-              onClick={() => handleOpenDelete()}
-=======
-=======
->>>>>>> feature/addAuthProcess
               onClick={() => {
                 setValueDelete(Number(params.id));
                 handleOpenConfirmModal();
               }}
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
               aria-label="ELiminar"
             >
               <DeleteIcon />
@@ -608,28 +219,6 @@ const Inspections: React.FC = () => {
 
   return (
     <>
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <HeaderPage
-        title="LISTA DE INSPECCIONES"
-        titleButton="NUEVA INSPECCIÓN"
-        handleOpen={handleOpenNewModal}
-      />
-
-      <SearchInput />
-        <Grid  style={{ height: 400}}>
-          <DataGrid
-            sx={styleTableItem}
-            className="truncate..."
-            hideFooter
-            rows={rows}
-            columns={columns}
-            getRowId={(row) => row.heavyMachineryId}
-          />
-      </Grid>
-=======
-=======
->>>>>>> feature/addAuthProcess
       <Grid
         container
         justifyContent={"space-between"}
@@ -690,10 +279,6 @@ const Inspections: React.FC = () => {
       </Grid>
 
 
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
       <ModalEditInspector //boton de editar
         openModal={openEdit}
         handleClose={handleCloseEdit}
@@ -707,26 +292,12 @@ const Inspections: React.FC = () => {
         data={selectedRow}
       />
       <ConfirmModal //boton de eliminar
-<<<<<<< HEAD
-<<<<<<< HEAD
-        onConfirm={openDelete}
-        onCancel={handleCloseConfirmModal}
-        id={1}
-      />
-      <ModalEditInspector //boton de editar
-=======
-=======
->>>>>>> feature/addAuthProcess
         onConfirm={openModalConfirm}
         onCancel={handleCloseConfirmModal}
         onConfirmAction={handleDelete}
         id={Number(valueDelete)}
       />
       <ModalEditInspector //boton de crear
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
         openModal={openModalNew}
         handleClose={handleCloseNewModal}
         data={dataCreate}

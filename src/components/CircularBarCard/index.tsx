@@ -10,15 +10,7 @@ import React from "react";
 import themeNew from "../../utils/theme";
 
 interface CircularBarCardProps {
-<<<<<<< HEAD
-<<<<<<< HEAD
-  title:string;
-=======
   title: string;
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-  title: string;
->>>>>>> feature/addAuthProcess
   percentage: number;
   color: string;
 }
@@ -32,15 +24,6 @@ const CircularBarCard: React.FC<CircularBarCardProps> = ({
     <Card sx={{ textAlign: "center" }}>
       <CardContent>
         <Typography
-<<<<<<< HEAD
-<<<<<<< HEAD
-          sx={{ backgroundColor: themeNew.palette.primary.main, 
-            color: "white",
-            fontSize:16,fontWeight:"bold",
-          borderRadius:1 }}
-=======
-=======
->>>>>>> feature/addAuthProcess
           sx={{
             backgroundColor: themeNew.palette.primary.main,
             color: "white",
@@ -48,10 +31,6 @@ const CircularBarCard: React.FC<CircularBarCardProps> = ({
             fontWeight: "bold",
             borderRadius: 1,
           }}
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
           component="div"
           gutterBottom
         >

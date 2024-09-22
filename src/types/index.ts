@@ -2,11 +2,6 @@ import { useState } from "react";
 import { MachineryResponse } from "../domain/machinery.interface";
 
 //types data
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> feature/addAuthProcess
 
 export interface UserItem {
   id?: number;
@@ -35,10 +30,6 @@ export interface UserRequest {
   password: string,
 }
 
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
 export interface MaquinariaDataItem {
   id: number;
   brand: string;
@@ -52,28 +43,6 @@ export interface MaquinariaDataItem {
 }
 
 export interface PreventMaintenanceItem {
-<<<<<<< HEAD
-<<<<<<< HEAD
-  id: string;
-  description: string;
-  maintenance_date: string; ///filtro
-  amount_paid: string;
-  operator: string;
-  project_name: string;
-  observations: string;
-  driving_start: string;
-  driving_end: string;
-  heavyMachineryId: String;
-}
-
-export interface CorrectiveMaintananceItem {
-  id: String;
-  description: string;
-  maintenanceDate: string;
-  amountPaid: string;
-=======
-=======
->>>>>>> feature/addAuthProcess
   id?: number;
   motorOil: boolean;
   oilFilters: boolean;
@@ -98,28 +67,14 @@ export interface CorrectiveMaintananceItem {
   maintenanceDate: string;
   amountPaid: number;
   invoiceNumber: string;
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
   operatorName: string;
   projectName: string;
   observations: string;
   drivingStart: string;
   drivingEnd: string;
-<<<<<<< HEAD
-<<<<<<< HEAD
-  heavyMachineryId: String;
-=======
   createdAt?: string;
   updatedAt?: string;
   heavyMachineryId?: number
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-  createdAt?: string;
-  updatedAt?: string;
-  heavyMachineryId?: number
->>>>>>> feature/addAuthProcess
 }
 
 export interface MachineryInspectionItem {
@@ -170,27 +125,12 @@ export interface MachineryInspectionItem {
   residentEngineer: string;
   ssoma: string;
   observations: string;
-<<<<<<< HEAD
-<<<<<<< HEAD
-  createdAt: string;
-  updatedAt: string;
-  heavyMachineryId: string;
-}
-export interface DocumentItem {
-  id: string;
-=======
-=======
->>>>>>> feature/addAuthProcess
   createdAt?: string;
   updatedAt?: string;
   heavyMachineryId?: number;
 }
 export interface DocumentItem {
   id: number;
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
   technicalReviewsStart: string;
   technicalReviewsEnd: string;
   soatStart: string;
@@ -203,25 +143,11 @@ export interface DocumentItem {
   operatingCertificateEnd: string;
   createdAt?: string;
   updatedAt?: string;
-<<<<<<< HEAD
-<<<<<<< HEAD
-  heavyMachineryId: string;
-}
-
-export interface FuelLoadProps {
-  id: string;
-=======
-=======
->>>>>>> feature/addAuthProcess
   heavyMachineryId?: number;
 }
 
 export interface FuelLoadProps {
   id: number;
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
   numberGallons: number;
   fuelingMileage: string;
   fuelingDate: string;
@@ -229,15 +155,7 @@ export interface FuelLoadProps {
   invoiceNumber: string;
   createdAt?: string;
   updatedAt?: string;
-<<<<<<< HEAD
-<<<<<<< HEAD
-  heavyMachineryId: string;
-=======
   heavyMachineryId?: number;
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-  heavyMachineryId?: number;
->>>>>>> feature/addAuthProcess
 }
 
 export interface TransportationCost {
@@ -275,39 +193,17 @@ export interface MaintenanceProps {
 }
 
 export interface PreventMaintenanceProps {
-<<<<<<< HEAD
-<<<<<<< HEAD
-  mode: string
-}
-
-export interface CorrectiveMaintenanceProps {
-  mode: string
-=======
-=======
->>>>>>> feature/addAuthProcess
   idMachinery: number;
 }
 
 export interface CorrectiveMaintenanceProps {
   idMachinery: number;
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
 }
 
 export interface ModalEditMaintenanceProps {
   openModal: boolean;
   handleClose: () => void;
-<<<<<<< HEAD
-<<<<<<< HEAD
-  data: PreventMaintenanceItem;
-=======
   data: CorrectiveMaintananceItem;
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-  data: CorrectiveMaintananceItem;
->>>>>>> feature/addAuthProcess
   mode: string;
 }
 
@@ -324,13 +220,6 @@ export interface MonthlyAccountingInformation {
   originDescription: string;
   transactionType: string;
   amountPaid: number;
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
 }
 
 export interface DetailedAccountingInformation {
@@ -345,12 +234,6 @@ export interface DetailedAccountingInformation {
   heavyMachinery: number;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-//errors
-=======
-=======
->>>>>>> feature/addAuthProcess
 export interface ResponseByModel {
   id: number;
   technicalReviewsStart: string;
@@ -388,7 +271,3 @@ export interface employeeItem {
   createdAt?: string,
   updatedAt?: string,
 }
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess

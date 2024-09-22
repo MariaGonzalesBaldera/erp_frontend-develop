@@ -17,19 +17,6 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import PeopleAlt from "@mui/material/Button";
-
-import themeNew, { useAppTheme } from "../../utils/theme";
-import { ListItemButton, ListItemIcon, useMediaQuery } from "@mui/material";
-import { Link } from "react-router-dom";
-import LocalGasStationOutlinedIcon from "@mui/icons-material/LocalGasStationOutlined";
-import {
-  AssignmentOutlined,
-=======
-=======
->>>>>>> feature/addAuthProcess
 
 import themeNew, { useAppTheme } from "../../utils/theme";
 import { ListItemButton, ListItemIcon, useMediaQuery } from "@mui/material";
@@ -38,10 +25,6 @@ import LocalGasStationOutlinedIcon from "@mui/icons-material/LocalGasStationOutl
 import {
   AssignmentOutlined,
   BorderColorOutlined,
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
   CheckBoxOutlined,
   DriveEtaOutlined,
   EngineeringOutlined,
@@ -50,16 +33,8 @@ import {
   LocationOnOutlined,
   PeopleAltOutlined,
 } from "@mui/icons-material";
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 import { capitalizer } from "../../utils/capitalize";
 import InfoModal from "../../components/InfoModal";
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-import { capitalizer } from "../../utils/capitalize";
-import InfoModal from "../../components/InfoModal";
->>>>>>> feature/addAuthProcess
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
@@ -122,17 +97,8 @@ const ICONS = [
   <LocalGasStationOutlinedIcon />,
   <LocationOnOutlined />,
   <LibraryBooksOutlined />,
-<<<<<<< HEAD
-<<<<<<< HEAD
-  <PeopleAltOutlined />,
-=======
   <BorderColorOutlined />,
   <PeopleAltOutlined />
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-  <BorderColorOutlined />,
-  <PeopleAltOutlined />
->>>>>>> feature/addAuthProcess
 ];
 const LINKS = [
   "/dashboard",
@@ -143,14 +109,7 @@ const LINKS = [
   "/fuel-register",
   "/gps-tracking",
   "/accounting",
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
   "/income",
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-  "/income",
->>>>>>> feature/addAuthProcess
   "/human-resources",
 ];
 const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
@@ -327,21 +286,6 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
 
               <MenuItem
                 sx={{ justifyContent: "end" }}
-<<<<<<< HEAD
-<<<<<<< HEAD
-                key={0}
-                onClick={() => {
-                  location.replace("/help-and-support");
-                }}
-                data-testid="menu-item"
-              >
-                <Typography textAlign="center">Ayuda</Typography>
-              </MenuItem>
-              <MenuItem
-=======
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
                 key={1}
                 onClick={handleLogout}
                 data-testid="menu-item-logout"
@@ -372,25 +316,7 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
         >
           <div className="flex justify-center w-80 h-0"></div>
           <List className="px-2.5">
-<<<<<<< HEAD
-<<<<<<< HEAD
-            {[
-              "Inicio",
-              "Maquinarias",
-              "Documentos",
-              "Mantenimiento",
-              "Inspecciones",
-              "Registro de combustible",
-              "Seguimiento GPS",
-              "Contabilidad",
-              "RRHH",
-            ].map((text, index) => (
-=======
             {filteredItems.map((item, index) => (
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-            {filteredItems.map((item, index) => (
->>>>>>> feature/addAuthProcess
               <Link
                 key={item.link + "_key"}
                 to={item.link}
@@ -402,25 +328,11 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
                   disablePadding
                   sx={{
                     backgroundColor:
-<<<<<<< HEAD
-<<<<<<< HEAD
-                      selectedLink === LINKS[index]
-                        ? themeNew.palette.secondary.main
-                        : themeNew.palette.primary.main,
-                    color:
-                      selectedLink === LINKS[index]
-=======
-=======
->>>>>>> feature/addAuthProcess
                       selectedLink === item.link
                         ? themeNew.palette.secondary.main
                         : themeNew.palette.primary.main,
                     color:
                       selectedLink === item.link
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
                         ? themeNew.palette.secondary.main
                         : themeNew.palette.primary.main,
                   }}
@@ -430,15 +342,7 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
                       sx={{
                         minWidth: "40px",
                         color:
-<<<<<<< HEAD
-<<<<<<< HEAD
-                          selectedLink === LINKS[index]
-=======
                           selectedLink === item.link
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-                          selectedLink === item.link
->>>>>>> feature/addAuthProcess
                             ? themeNew.palette.primary.main
                             : themeNew.palette.secondary.main,
                       }}
@@ -449,15 +353,7 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
                       primary={item.text}
                       sx={{
                         color:
-<<<<<<< HEAD
-<<<<<<< HEAD
-                          selectedLink === LINKS[index]
-=======
                           selectedLink === item.link
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-                          selectedLink === item.link
->>>>>>> feature/addAuthProcess
                             ? themeNew.palette.primary.main
                             : themeNew.palette.secondary.main,
                       }}

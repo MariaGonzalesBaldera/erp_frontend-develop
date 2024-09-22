@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { Box, Grid, Typography } from "@mui/material";
-import React, { useCallback } from "react";
-import GroupRadioButton from "../../GroupRadioButton";
-import ButtonIconSearch from "../../ButtonIconSearch";
-import DatePickerForm from "../../DatePickerForm";
-
-const ActualGps: React.FC = () => {
-=======
-=======
->>>>>>> feature/addAuthProcess
 import { useEffect } from "react";
 import { Box, Grid, MenuItem, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
@@ -104,31 +92,10 @@ const ActualGps: React.FC = () => {
   ) => {
     setSelectedMachinery(Number(event.target.value));
   };
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-6xl mx-auto">
       <div className="col-span-1 md:col-span-1 border rounded-md border-gray-400 flex items-start justify-start p-2">
         <Grid container justifyItems="center" justifyContent="center">
-<<<<<<< HEAD
-<<<<<<< HEAD
-          <GroupRadioButton />
-          <Grid item xs={12}  className="pt-2">
-            <DatePickerForm
-              key={"filter-day"}
-              dateValue={""}
-              labelValue="Fecha"
-              handleDateChange={() => console.log("first")}
-              nameValue="end-day"
-            />
-          </Grid>
-          <Grid item  xs={12} className="pt-2">
-            <ButtonIconSearch />
-=======
-=======
->>>>>>> feature/addAuthProcess
           <Box className="mt-2 mb-3" sx={{textAlign:"center", color:"#1e1b4b"}}>
             <Typography variant="button">
               {"SELECCIONE MAQUINARIA PARA VER SU RUTA"}
@@ -153,10 +120,6 @@ const ActualGps: React.FC = () => {
           </Grid>
           <Grid item xs={12} className="pt-2">
             <ButtonDefault title="Buscar" onClick={handleSearchClick} />
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
           </Grid>
 
           <Grid item xs={12}>
@@ -167,23 +130,6 @@ const ActualGps: React.FC = () => {
               <Typography variant="h6" gutterBottom>
                 Detalles de la Operación
               </Typography>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <Typography>
-                <strong>Hora de Inicio: </strong>08:00 AM
-              </Typography>
-              <Typography>
-                <strong>Hora Final: </strong>05:00 PM
-              </Typography>
-              <Typography>
-                <strong>Kilómetros Recorridos: </strong>120 km
-              </Typography>
-              <Typography>
-                <strong>Horas Trabajadas: </strong>9 horas
-              </Typography>
-=======
-=======
->>>>>>> feature/addAuthProcess
               {showMessage ? (
                 <Typography>
                   Realice una búsqueda haciendo clic en el ícono de la lupa.
@@ -210,29 +156,11 @@ const ActualGps: React.FC = () => {
                   </>
                 )
               )}
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
             </Box>
           </Grid>
         </Grid>
       </div>
       <div className="col-span-1 md:col-span-2 border flex items-center justify-start p-0">
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <div className="w-full h-full pb-[56.25%] relative">
-          {" "}
-          {/* 16:9 Aspect Ratio */}
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15617.55636141443!2d-77.1370109!3d-11.87797195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2spe!4v1725071318483!5m2!1ses-419!2spe"
-            className="absolute top-0 left-0 w-full h-full"
-            loading="lazy"
-          ></iframe>
-        </div>
-=======
-=======
->>>>>>> feature/addAuthProcess
         {showMessage ? (
           <Box> </Box>
         ) : (
@@ -240,10 +168,6 @@ const ActualGps: React.FC = () => {
             <GoogleMapPolyline />
           </div>
         )}
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
       </div>
     </div>
   );

@@ -10,15 +10,7 @@ import {
   useUpdateMachinery,
 } from "../../hooks/useMaquinaria";
 import { MachineryResponse } from "../../domain/machinery.interface";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import dayjs from "dayjs";
-=======
 import { formatDateForAPI } from "../../utils/capitalize";
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-import { formatDateForAPI } from "../../utils/capitalize";
->>>>>>> feature/addAuthProcess
 
 const fuelTypeItem = [
   { value: "gas", label: "Gas" },
@@ -39,19 +31,10 @@ const ModalForm: React.FC<ModalFormProps> = ({
   mode,
 }) => {
   const createMachinery = useCreateMachinery();
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> feature/addAuthProcess
   const [loading, setLoading] = useState(false);
   const updateBeneficiaryMutation = useUpdateMachinery({
     id: data.id?.toString(),
   });
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
 
   const [formData, setFormData] = useState({
     brand: "",
@@ -84,16 +67,6 @@ const ModalForm: React.FC<ModalFormProps> = ({
     }
   }, [openModal, data]);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-  const updateBeneficiaryMutation = useUpdateMachinery({
-    id: data.id?.toString(),
-  });
-
-=======
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
 
@@ -145,42 +118,6 @@ const ModalForm: React.FC<ModalFormProps> = ({
       if (hasErrors) {
         return; // No proceder si hay errores
       }
-<<<<<<< HEAD
-<<<<<<< HEAD
-      let body;
-      if (mode === "create") {
-        body = {
-          brand: (formData.brand),
-          model: formData.model,
-          modelYear: formData.modelYear,
-          acquisitionDate: formatDateForAPI(formData.acquisitionDate),
-          netLoad: formData.netLoad,
-          fuelType: formData.fuelType,
-        };
-        console.log("Creating new record:", body);
-        onCreateMachinery(body);
-      } else {
-        body = {
-          brand: formData.brand,
-          model: formData.model,
-          modelYear: formData.modelYear,
-          acquisitionDate: formatDateForAPI(formData.acquisitionDate),
-          netLoad: formData.netLoad,
-          fuelType: formData.fuelType
-        };
-        onUpdateMachinery(body);
-      }
-      handleClose();
-    },
-    [formData, mode, useCreateMachinery, handleClose]
-  );
-  const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
-  const modalTitle =
-    mode === "create" ? "NUEVA MAQUINARIA" : "ACTUALIZAR DATOS DE MAQUINARIA";
-
-=======
-=======
->>>>>>> feature/addAuthProcess
       setLoading(true);
       try{
         let body;
@@ -218,10 +155,6 @@ const ModalForm: React.FC<ModalFormProps> = ({
     },
     [formData, mode, useCreateMachinery, handleClose]
   );
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
   const onCreateMachinery = async (data: MachineryResponse) => {
     try {
       const response = await createMachinery.mutateAsync(data);
@@ -239,22 +172,10 @@ const ModalForm: React.FC<ModalFormProps> = ({
       console.log("Error-> " + error);
     }
   };
-<<<<<<< HEAD
-<<<<<<< HEAD
-  const formatDateForAPI = (date) => {
-    return date ? dayjs(date).format("YYYY-MM-DD") : "";
-  };
-=======
-=======
->>>>>>> feature/addAuthProcess
   const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
   const modalTitle =
     mode === "create" ? "NUEVA MAQUINARIA" : "ACTUALIZAR DATOS DE MAQUINARIA";
 
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
   return (
     <Modal
       open={openModal}
@@ -344,19 +265,9 @@ const ModalForm: React.FC<ModalFormProps> = ({
                   error={errors.netLoad}
                   helperText={errors.netLoad ? "Este campo es requerido" : ""}
                   InputProps={{
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    endAdornment: <span className="text-icon-primary">Toneladas</span>,
-=======
                     endAdornment: (
                       <span className="text-icon-primary">Toneladas</span>
                     ),
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-                    endAdornment: (
-                      <span className="text-icon-primary">Toneladas</span>
-                    ),
->>>>>>> feature/addAuthProcess
                   }}
                 />
               </Grid>

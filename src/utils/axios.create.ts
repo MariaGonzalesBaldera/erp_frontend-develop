@@ -1,59 +1,12 @@
 import axios from "axios";
 
 const instance = axios.create({
-<<<<<<< HEAD
-<<<<<<< HEAD
-	baseURL: import.meta.env.VITE_BACKEND_URL, //`
-=======
 	baseURL: import.meta.env.VITE_BACKEND_URL,
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-	baseURL: import.meta.env.VITE_BACKEND_URL,
->>>>>>> feature/addAuthProcess
 	headers: {
 		"Content-Type": "application/json",
 	},
 });
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-instance.interceptors.response.use(
-	(response) => {
-	  // Retorna la respuesta si es exitosa
-	  return response;
-	},
-	(error) => {
-	  // Capturar el error de la respuesta
-	  if (error.response) {
-		const { status, data } = error.response;
-  
-		// Manejar token expirado
-		if (status === 401 && data.message === "El token ha expirado") {
-		  // Redirigir al login o pedir al usuario que vuelva a iniciar sesión
-		  console.log("Token expirado. Redirigiendo al login...");
-		  window.location.href = "/login"; // Redirige al login
-		}
-  
-		// Manejar token inválido
-		if (status === 401 && data.message === "Token JWT inválido") {
-		  console.log("Token inválido. Redirigiendo al login...");
-		  window.location.href = "/login"; // Redirige al login
-		}
-  
-		// Puedes manejar otros errores personalizados
-		if (status === 500) {
-		  console.error("Error interno del servidor:", data.message);
-		}
-	  }
-  
-	  // Pasar el error para que las promesas `.catch()` lo manejen
-	  return Promise.reject(error);
-	}
-  );
-export { instance as axios };  
-=======
-=======
->>>>>>> feature/addAuthProcess
 let isRefreshing = false;
 let refreshSubscribers = [];
 
@@ -128,9 +81,4 @@ instance.interceptors.response.use(
 	}
 );
 
-<<<<<<< HEAD
 export { instance as axios };
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-export { instance as axios };
->>>>>>> feature/addAuthProcess

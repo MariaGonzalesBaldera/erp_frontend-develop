@@ -1,11 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { styleModalInspection } from "../../style/StyleModal";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { Box, Grid, Modal } from "@mui/material";
-=======
-=======
->>>>>>> feature/addAuthProcess
 import {
   Box,
   CircularProgress,
@@ -14,19 +8,10 @@ import {
   Modal,
   TextField,
 } from "@mui/material";
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
 import { ModalEditDocumentProps } from "../../types";
 import ButtonDefault from "../ButtonDefault";
 import HeaderModal from "../HeaderModal";
 import DatePickerForm from "../DatePickerForm";
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> feature/addAuthProcess
 import { useCreateDocument, useUpdateDocument } from "../../hooks/useDocuments";
 import {
   DocumentResponse,
@@ -34,10 +19,6 @@ import {
 } from "../../domain/machinery.interface";
 import { capitalizer, formatDateForAPI } from "../../utils/capitalize";
 import { useGetMachineryList } from "../../hooks/useMaquinaria";
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
 
 const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
   openModal,
@@ -45,21 +26,12 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
   data,
   mode,
 }) => {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> feature/addAuthProcess
   const createDocument = useCreateDocument();
   const updateMutation = useUpdateDocument({
     id:data.id,
   });
   const [selectedMachinery, setSelectedMachinery] = useState<number>(0);
   const [loading, setLoading] = useState(false);
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
   const [formData, setFormData] = useState({
     technicalReviewsStart: "",
     technicalReviewsEnd: "",
@@ -71,15 +43,6 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
     trekInsuranceEnd: "",
     operatingCertificateStart: "",
     operatingCertificateEnd: "",
-<<<<<<< HEAD
-<<<<<<< HEAD
-  });
-
-  useEffect(() => {
-    if (openModal) {
-=======
-=======
->>>>>>> feature/addAuthProcess
     heavyMachineryId: 0,
   });
   const [errors, setErrors] = useState({
@@ -109,10 +72,6 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
 
   useEffect(() => {
     if (openModal && data) {
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
       setFormData({
         technicalReviewsStart: data.technicalReviewsStart || "",
         technicalReviewsEnd: data.technicalReviewsEnd || "",
@@ -124,49 +83,6 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
         trekInsuranceEnd: data.trekInsuranceEnd || "",
         operatingCertificateStart: data.operatingCertificateStart || "",
         operatingCertificateEnd: data.operatingCertificateEnd || "",
-<<<<<<< HEAD
-<<<<<<< HEAD
-      });
-    }
-  }, [openModal, data]);
-
-  const handleChange = useCallback(
-    (e) => {
-      setFormData((prevData) => ({
-        ...prevData,
-        [e.target.name]: e.target.value,
-      }));
-    },
-    [setFormData]
-  );
-
-  const handleDateChange = useCallback(
-    (date) => {
-      setFormData((prevData) => ({
-        ...prevData,
-        maintenance_date: date,
-      }));
-    },
-    [setFormData]
-  );
-
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      if (mode === "create") {
-        console.log("Creating record with data:", formData);
-        alert("Record created successfully!");
-      } else {
-        console.log("Updating record with data:", formData);
-        alert("Record updated successfully!");
-      }
-      handleClose(); // Close the modal after operation
-    },
-    [formData, mode, handleClose]
-  );
-=======
-=======
->>>>>>> feature/addAuthProcess
         heavyMachineryId: data.heavyMachineryId || 0,
       });
     }
@@ -254,10 +170,6 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
       console.log("Error-> " + error);
     }
   };
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
 
   const modalTitle =
     mode === "create"
@@ -284,12 +196,6 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
       name: "operatingCertificateEnd",
     },
   ];
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
-=======
->>>>>>> feature/addAuthProcess
   //recuperacion de maquinarias
   const { data: machineryData, isLoading, error } = useGetMachineryList();
   const [machineryItems, setMachineryItems] = useState<
@@ -313,10 +219,6 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
     }
   }, [machineryData, isLoading, error]);
  
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
   return (
     <Modal
       open={openModal}
@@ -327,34 +229,6 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
       <Box sx={styleModalInspection}>
         <HeaderModal
           titleHeader={modalTitle}
-<<<<<<< HEAD
-<<<<<<< HEAD
-          id={data.id || ""}
-          handleClose={handleClose}
-        />
-        <Box component="form" onSubmit={handleSubmit}>
-          <div className="bg-background p-6 w-full max-w-2xl">
-            <div className="grid grid-cols-2 gap-4">
-              {fields.map((field) => (
-                <DatePickerForm
-                  key={field.name}
-                  dateValue={formData[field.name]}
-                  labelValue={field.label}
-                  handleDateChange={handleChange}
-                  nameValue={formData[field.name]}
-                />
-              ))}
-            </div>
-            <Grid container justifyContent="flex-end" spacing={2} mt={2}>
-              <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
-                <ButtonDefault title={buttonText} />
-              </Grid>
-            </Grid>
-          </div>
-        </Box>
-=======
-=======
->>>>>>> feature/addAuthProcess
           id={data.id + ""}
           handleClose={handleClose}
         />
@@ -419,10 +293,6 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
             </div>
           </Box>
         )}
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
       </Box>
     </Modal>
   );

@@ -1,14 +1,5 @@
 import { SearchSharp } from "@mui/icons-material";
 import { Box, Grid, TextField } from "@mui/material";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import React from "react";
-import themeNew from "../../utils/theme";
-
-const ButtonIconSearch: React.FC = () => {
-=======
-=======
->>>>>>> feature/addAuthProcess
 import React, { useState } from "react";
 import themeNew from "../../utils/theme";
 interface ButtonIconSearchProps {
@@ -16,10 +7,6 @@ interface ButtonIconSearchProps {
 }
 const ButtonIconSearch: React.FC<ButtonIconSearchProps> = ({onClick}) => {
 
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
   return (
     <Grid item xs={12}sm={12} >
     <Box  display="flex" justifyContent={"start"}>
@@ -51,14 +38,7 @@ const ButtonIconSearch: React.FC<ButtonIconSearchProps> = ({onClick}) => {
             backgroundColor: themeNew.palette.primary.main,
           },
         }}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
           onClick={onClick}
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-          onClick={onClick}
->>>>>>> feature/addAuthProcess
       />
     </Box>
   </Grid>

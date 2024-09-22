@@ -1,17 +1,8 @@
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import dayjs from "dayjs";
-=======
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-import dayjs from 'dayjs';
-import 'dayjs/locale/es';
->>>>>>> feature/addAuthProcess
 import React from "react";
 
 interface DatePickerFormProps {
@@ -22,15 +13,7 @@ interface DatePickerFormProps {
   error?: boolean;
   helperText?: string;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
 dayjs.locale('es');
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-dayjs.locale('es');
->>>>>>> feature/addAuthProcess
 const DatePickerForm: React.FC<DatePickerFormProps> = ({
   dateValue,
   labelValue,
@@ -40,15 +23,7 @@ const DatePickerForm: React.FC<DatePickerFormProps> = ({
   helperText,
 }) => {
   return (
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-=======
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
->>>>>>> feature/addAuthProcess
       <DatePicker 
         name={nameValue}
         value={dateValue ? dayjs(dateValue, "YYYY-MM-DD") : null}

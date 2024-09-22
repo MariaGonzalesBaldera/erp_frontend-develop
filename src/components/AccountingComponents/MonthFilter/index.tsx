@@ -1,75 +1,16 @@
 import {
   Box,
   Grid,
-<<<<<<< HEAD
-<<<<<<< HEAD
-  IconButton,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import React from "react";
-=======
-=======
->>>>>>> feature/addAuthProcess
   MenuItem,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
 import {
   styleTableItem,
   styleTableResponsive,
 } from "../../../style/StyleModal";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ListIcon from "@mui/icons-material/List";
-//MonthlyAccountingInformation
-
-const rows = [
-  {
-    id: 1,
-    year: 2023,
-    month: 1,
-    originDescription: "Pago de cliente",
-    transactionType: "Crédito",
-    amountPaid: 1500.75,
-  },
-  {
-    id: 2,
-    year: 2023,
-    month: 2,
-    originDescription: "Compra de suministros de oficina",
-    transactionType: "Débito",
-    amountPaid: 320.4,
-  },
-  {
-    id: 3,
-    year: 2023,
-    month: 3,
-    originDescription: "Suscripción de servicio",
-    transactionType: "Débito",
-    amountPaid: 79.99,
-  },
-  {
-    id: 4,
-    year: 2023,
-    month: 4,
-    originDescription: "Pago de factura de proyecto",
-    transactionType: "Crédito",
-    amountPaid: 2450.0,
-  },
-];
-function MonthFilter() {
-=======
-=======
->>>>>>> feature/addAuthProcess
 import { useGetAccountingList } from "../../../hooks/userAcccounting";
 import { AccountingResponse } from "../../../domain/machinery.interface";
 import themeNew from "../../../utils/theme";
@@ -139,10 +80,6 @@ function MonthFilter() {
     refetch(); // Refrescar los datos de la búsqueda
   };
 
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -176,50 +113,6 @@ function MonthFilter() {
       headerAlign: "center",
     },
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-      field: "actions",
-      headerName: "Acciones",
-      flex: 1,
-      minWidth: 150,
-      disableColumnMenu: true,
-      align: "center",
-      headerAlign: "center",
-      renderCell: (params) => (
-        <>
-          <Tooltip title="Editar">
-            <IconButton
-              color="success"
-              //   onClick={() => handleOpenEdit(params.row)}
-              aria-label="Editar"
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="Detalle">
-            <IconButton
-              color="warning"
-              //   onClick={() => handleOpen(params.row)}
-              aria-label="Ver detalles"
-            >
-              <ListIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="ELiminar">
-            <IconButton
-              color="error"
-              //   onClick={() => handleOpenDelete()}
-              aria-label="ELiminar"
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        </>
-      ),
-=======
-=======
->>>>>>> feature/addAuthProcess
       field: "Fecha",
       headerName: "Mes y año",
       flex: 1,
@@ -231,20 +124,11 @@ function MonthFilter() {
       ),
       align: "center",
       headerAlign: "center",
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
     },
   ];
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto">
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> feature/addAuthProcess
         <div className="col-span- md:col-span-2 flex items-center justify-start">
           <TextField
             size="small"
@@ -295,10 +179,6 @@ function MonthFilter() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto">
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
         <div className="col-span-1 md:col-span-1 border flex items-center justify-start p-2">
           <span className="text-1xl ">Total 1:&nbsp;</span>
           <span className="text-1xl font-semibold">00.000</span>
@@ -320,46 +200,6 @@ function MonthFilter() {
         <Typography variant="button">{"DETALLE"}</Typography>
         <>
           <Grid sx={styleTableResponsive}>
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <div style={{ height: 400, width: "100%" }}>
-              <DataGrid
-                sx={styleTableItem}
-                className="truncate..."
-                hideFooter
-                rows={rows}
-                columns={columns}
-              />
-            </div>
-
-            {/* <ModalEditDocument //boton de editar
-          openModal={openEdit}
-          handleClose={handleCloseEdit}
-          data={selectedRow}
-          mode="update"
-        />
-
-        <ModalDocumentDetail //boton de detalle
-          openModal={openDetail}
-          handleClose={handleClose}
-          data={selectedRow}
-        />
-
-        <ConfirmModal //boton de eliminar
-          onConfirm={openDelete}
-          onCancel={handleCloseConfirmModal}
-          id={1}
-        /> */}
-          </Grid>
-          {/* <ModalEditDocument ///crear
-        openModal={openModalNew}
-        handleClose={handleCloseNewModal}
-        data={dataCreate}
-        mode="create"
-      /> */}
-=======
-=======
->>>>>>> feature/addAuthProcess
             {rowsWithIds.length === 0 ? (
               <div
                 style={{
@@ -384,10 +224,6 @@ function MonthFilter() {
               </div>
             )}
           </Grid>
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
         </>
       </Box>
     </div>

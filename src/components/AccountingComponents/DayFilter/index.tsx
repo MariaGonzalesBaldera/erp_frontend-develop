@@ -1,79 +1,10 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
-import React, { useCallback } from "react";
-=======
 import { Box, Grid, Typography } from "@mui/material";
 import React, {  useEffect, useState } from "react";
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-import { Box, Grid, Typography } from "@mui/material";
-import React, {  useEffect, useState } from "react";
->>>>>>> feature/addAuthProcess
 import {
   styleTableItem,
   styleTableResponsive,
 } from "../../../style/StyleModal";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ListIcon from "@mui/icons-material/List";
-import DatePickerForm from "../../DatePickerForm";
-
-const rows = [
-  {
-    id: 1,
-    year: 2023,
-    month: 7,
-    originDescription: "Compra de materiales",
-    transactionType: "Gasto",
-    amountPaid: 15000.5,
-    invoiceNumber: "FAC-202307001",
-    transactionDate: "2023-07-15",
-    heavyMachinery: 2,
-  },
-  {
-    id: 2,
-    year: 2023,
-    month: 8,
-    originDescription: "Mantenimiento de equipo",
-    transactionType: "Gasto",
-    amountPaid: 22000.75,
-    invoiceNumber: "FAC-202308002",
-    transactionDate: "2023-08-10",
-    heavyMachinery: 1,
-  },
-  {
-    id: 3,
-    year: 2023,
-    month: 9,
-    originDescription: "Alquiler de maquinaria",
-    transactionType: "Gasto",
-    amountPaid: 30000.0,
-    invoiceNumber: "FAC-202309003",
-    transactionDate: "2023-09-05",
-    heavyMachinery: 3,
-  },
-  {
-    id: 4,
-    year: 2023,
-    month: 10,
-    originDescription: "Venta de chatarra",
-    transactionType: "Ingreso",
-    amountPaid: 5000.0,
-    invoiceNumber: "FAC-202310004",
-    transactionDate: "2023-10-20",
-    heavyMachinery: 0,
-  },
-];
-function DayFilter() {
-  const handleChange = useCallback((e) => {}, []);
-
-=======
-=======
->>>>>>> feature/addAuthProcess
 import DatePickerForm from "../../DatePickerForm";
 import { SearchSharp } from "@mui/icons-material";
 import themeNew from "../../../utils/theme";
@@ -128,10 +59,6 @@ function DayFilter() {
     });
     refetch();
   };
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -165,50 +92,6 @@ function DayFilter() {
       headerAlign: "center",
     },
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-      field: "actions",
-      headerName: "Acciones",
-      flex: 1,
-      minWidth: 150,
-      disableColumnMenu: true,
-      align: "center",
-      headerAlign: "center",
-      renderCell: (params) => (
-        <>
-          <Tooltip title="Editar">
-            <IconButton
-              color="success"
-              //   onClick={() => handleOpenEdit(params.row)}
-              aria-label="Editar"
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="Detalle">
-            <IconButton
-              color="warning"
-              //   onClick={() => handleOpen(params.row)}
-              aria-label="Ver detalles"
-            >
-              <ListIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="ELiminar">
-            <IconButton
-              color="error"
-              //   onClick={() => handleOpenDelete()}
-              aria-label="ELiminar"
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        </>
-      ),
-=======
-=======
->>>>>>> feature/addAuthProcess
       field: "Fecha",
       headerName: "Mes y año",
       flex: 1,
@@ -220,10 +103,6 @@ function DayFilter() {
       ),
       align: "center",
       headerAlign: "center",
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
     },
   ];
   return (
@@ -231,40 +110,14 @@ function DayFilter() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto mb-5">
         <div className="col-span-1 md:col-span-1 flex items-center justify-start">
           <DatePickerForm
-<<<<<<< HEAD
-<<<<<<< HEAD
-            key={"initial-day"}
-            dateValue={""}
-            labelValue="Inicio de busqueda"
-            handleDateChange={handleChange}
-=======
-=======
->>>>>>> feature/addAuthProcess
             key="initial-day"
             dateValue={initialDay}
             labelValue="Inicio de búsqueda"
             handleDateChange={(date) => handleChange(date, "initial-day")}
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
             nameValue="initial-day"
           />
         </div>
         <div className="col-span-1 md:col-span-1 flex items-center justify-start">
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <DatePickerForm
-            key={"end-day"}
-            dateValue={""}
-            labelValue="Fin de busqueda"
-            handleDateChange={handleChange}
-            nameValue="end-day"
-          />
-        </div>
-=======
-=======
->>>>>>> feature/addAuthProcess
           <DatePickerForm
             key="end-day"
             dateValue={endDay}
@@ -289,10 +142,6 @@ function DayFilter() {
             },
           }}
         />
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
       </div>
 
       <div className="grid border grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto">
@@ -318,45 +167,6 @@ function DayFilter() {
         <>
           <Grid sx={styleTableResponsive}>
             <div style={{ height: 400, width: "100%" }}>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <DataGrid
-                sx={styleTableItem}
-                className="truncate..."
-                hideFooter
-                rows={rows}
-                columns={columns}
-              />
-            </div>
-
-            {/* <ModalEditDocument //boton de editar
-          openModal={openEdit}
-          handleClose={handleCloseEdit}
-          data={selectedRow}
-          mode="update"
-        />
-
-        <ModalDocumentDetail //boton de detalle
-          openModal={openDetail}
-          handleClose={handleClose}
-          data={selectedRow}
-        />
-
-        <ConfirmModal //boton de eliminar
-          onConfirm={openDelete}
-          onCancel={handleCloseConfirmModal}
-          id={1}
-        /> */}
-          </Grid>
-          {/* <ModalEditDocument ///crear
-        openModal={openModalNew}
-        handleClose={handleCloseNewModal}
-        data={dataCreate}
-        mode="create"
-      /> */}
-=======
-=======
->>>>>>> feature/addAuthProcess
               {rowsWithIds.length === 0 ? (
                 <div
                   style={{
@@ -380,10 +190,6 @@ function DayFilter() {
               )}
             </div>
           </Grid>
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
         </>
       </Box>
     </div>

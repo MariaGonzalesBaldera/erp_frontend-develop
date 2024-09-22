@@ -21,18 +21,8 @@ const StatTableInfo: React.FC = () => {
         margin: "0 auto",
       }}
     >
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <Typography color={"white"} variant="h6" component="div" gutterBottom>
-        Uso de Maquinaria
-=======
       <Typography color={"#1e1b4b"} variant="button" component="div" gutterBottom>
         USO DE MAQUINARIA
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
-      <Typography color={"#1e1b4b"} variant="button" component="div" gutterBottom>
-        USO DE MAQUINARIA
->>>>>>> feature/addAuthProcess
       </Typography>
       <BarChart
         xAxis={[

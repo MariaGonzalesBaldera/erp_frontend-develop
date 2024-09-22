@@ -12,21 +12,11 @@ import {
 } from "../../style/StyleModal";
 import FuelLoad from "../TamItemTable/FuelLoad";
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-const TabDocuments: React.FC = () => {
-=======
-=======
->>>>>>> feature/addAuthProcess
 interface TabDocumentsProps{
   idMachinery:number
 }
 
 const TabDocuments: React.FC<TabDocumentsProps> = ({idMachinery}) => {
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -55,24 +45,6 @@ const TabDocuments: React.FC<TabDocumentsProps> = ({idMachinery}) => {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <Documents />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <PreventMaintenance mode="component" />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        <CorrectiveMaintenance mode="component" />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={3}>
-        <InspectionMachinery />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={4}>
-        <FuelLoad />
-=======
-=======
->>>>>>> feature/addAuthProcess
         <Documents idMachinery={idMachinery} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
@@ -86,10 +58,6 @@ const TabDocuments: React.FC<TabDocumentsProps> = ({idMachinery}) => {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
         <FuelLoad idMachinery={idMachinery} />
-<<<<<<< HEAD
->>>>>>> 6ce16cd8de779e3614445d9b1f9e0196d0e7427f
-=======
->>>>>>> feature/addAuthProcess
       </CustomTabPanel>
     </Grid>
   );
