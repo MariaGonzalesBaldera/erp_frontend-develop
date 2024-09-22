@@ -7,24 +7,49 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
 import ModalEditInspector from "../../ModalEditInspector";
-import { styleTableItem, styleTableResponsive } from "../../../style/StyleModal";
-import { useDeleteInspection, useGetInspectionByMachinery } from "../../../hooks/useMachineryInspection";
+import {
+  styleTableItem,
+  styleTableResponsive,
+} from "../../../style/StyleModal";
+import {
+  useDeleteInspection,
+  useGetInspectionByMachinery,
+} from "../../../hooks/useMachineryInspection";
 import { InspectionResponse } from "../../../domain/machinery.interface";
- 
-interface InspectionMachineryProps{
-  idMachinery:number;
+
+interface InspectionMachineryProps {
+  idMachinery: number;
 }
-const InspectionMachinery: React.FC<InspectionMachineryProps> = ({idMachinery}) => {
+const InspectionMachinery: React.FC<InspectionMachineryProps> = ({
+  idMachinery,
+}) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [valueDelete, setValueDelete] = useState(0);
   const { mutateAsync: mutationDeleteId } = useDeleteInspection();
+  const [documentsData, setDocumentsData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const [selectedRow, setSelectedRow] = useState<any>(0);
-  const {
-  	data: machineryData,
-  } = useGetInspectionByMachinery({id: idMachinery});
-  console.log("DATA "+machineryData)
+  const { data: machineryData } = useGetInspectionByMachinery({
+    id: idMachinery,
+  });
+ 
+
+  React.useEffect(() => {
+    setLoading(true);
+    try {
+      if (machineryData) {
+        setDocumentsData(machineryData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [machineryData]);
+
+
 
   const handleOpen = (row: any) => {
     setSelectedRow(row);
@@ -32,7 +57,8 @@ const InspectionMachinery: React.FC<InspectionMachineryProps> = ({idMachinery}) 
   };
 
   const handleCloseConfirmModal = () => {
-    setOpenModalConfirm(false)};
+    setOpenModalConfirm(false);
+  };
 
   const handleOpenEdit = (row: InspectionResponse) => {
     setSelectedRow(row);
@@ -116,10 +142,11 @@ const InspectionMachinery: React.FC<InspectionMachineryProps> = ({idMachinery}) 
           <Tooltip title="ELiminar">
             <IconButton
               color="error"
-              onClick={()=>{
-                setValueDelete(Number(params.id))
-                handleOpenConfirmModal()
-              }}              aria-label="ELiminar"
+              onClick={() => {
+                setValueDelete(Number(params.id));
+                handleOpenConfirmModal();
+              }}
+              aria-label="ELiminar"
             >
               <DeleteIcon />
             </IconButton>
@@ -132,15 +159,35 @@ const InspectionMachinery: React.FC<InspectionMachineryProps> = ({idMachinery}) 
   return (
     <>
       <Grid sx={styleTableResponsive}>
+      {loading ? (
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <CircularProgress /> {/* Indicador de carga */}
+          </Grid>
+        ) : (
           <div style={{ height: 400, width: "100%" }}>
+            {documentsData.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  alignContent: "center",
+                  border: "1px gray solid",
+                  height: "8rem",
+                }}
+              >
+                No se encontraron registros
+              </div>
+            ) : (
               <DataGrid
                 sx={styleTableItem}
                 className="truncate..."
                 hideFooter
-                rows={machineryData ||[]}
+                rows={documentsData}
                 columns={columns}
               />
+            )}
           </div>
+        )}
       </Grid>
       <ModalEditInspector //boton de editar
         openModal={openEdit}

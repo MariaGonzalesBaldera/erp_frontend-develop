@@ -11,24 +11,43 @@ const findAll = async (): Promise<CorrectiveMaintananceItem[]> => {
             throw new Error(err.response?.data.message || "Error al obtener los datos");
         });
 };
-const create = async (data: CorrectiveMaintananceItem): Promise<CorrectiveMaintananceItem> => {
-    return axios
-        .post("/correctiveMaintenance/create", data)
-        .then((res) => res.data.body)
-        .catch((err) => {
-            console.error("Error =>", err.response?.data || "Error en la solicitud");
-            return Promise.reject(err.response?.data.message || "Error al crear maquinaria");
-        });
+const create = async (data: CorrectiveMaintananceItem, files: File[]): Promise<CorrectiveMaintananceItem> => {
+	const formData = new FormData();
+	Object.keys(data).forEach((key) => {
+		formData.append(key, (data as any)[key]);
+	});
+	files.forEach((file) => {
+		formData.append("files", file);
+	});
+	return axios
+		.post("/correctiveMaintenance/create", formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		})
+		.then((res) => res.data.body)
+		.catch((err) => {
+			console.log("Error => " + err.response.data);
+			return Promise.reject(err.response.data);
+		});
 };
 
-const update = async (
-    data: Partial<CorrectiveMaintananceItem>,
-    id?: number,
-): Promise<CorrectiveMaintananceItem> => {
-    return axios
-        .put(`/correctiveMaintenance/update/${id}`, data)
-        .then((res) => res.data.body)
-        .catch((err) => Promise.reject(err.response.data));
+const update = async (data: Partial<CorrectiveMaintananceItem>, files: File[], id?: number): Promise<CorrectiveMaintananceItem> => {
+	const formData = new FormData();
+	Object.keys(data).forEach((key) => {
+		formData.append(key, (data as any)[key]);
+	});
+	files.forEach((file) => {
+		formData.append("files", file);
+	});
+	return axios
+		.put(`/correctiveMaintenance/update/${id}`, formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		})
+		.then((res) => res.data.body)
+		.catch((err) => Promise.reject(err.response.data));
 };
 
 const deleteOne = async (params: ParamsDeleteItem) => {

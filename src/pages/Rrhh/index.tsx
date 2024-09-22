@@ -8,7 +8,6 @@ import { UserItem } from "../../types";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListIcon from "@mui/icons-material/List";
-import ModalEditUser from "../../components/ModalEditUser";
 import { useGetEmployeeList,useDeleteEmployee } from "../../hooks/useEmployee";
 import ModalDetailGeneric from "../../components/ModalDetailGeneric";
 import { calcularEdad, formatDayMonthYear } from "../../utils/capitalize";
@@ -181,7 +180,7 @@ const Rrhh: React.FC = () => {
     },
   ];
 
-  
+
   const fieldsDetail = [
     { title: "Primer Nombre:", value: selectedRow.firstName },
     { title: "Apellido:", value: selectedRow.lastName },

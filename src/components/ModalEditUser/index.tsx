@@ -12,6 +12,7 @@ interface ModalEditUserProps {
   handleClose: () => void;
   data: UserItem;
   mode: string;
+  onChangePassword?: () => void;
 }
 
 const RoleItem = [
@@ -24,6 +25,7 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
   handleClose,
   data,
   mode,
+  onChangePassword
 }) => {
   const createUser = useCreateUser();
   const [openChangeModal, setOpenChangeModal] = useState(false);
@@ -67,13 +69,11 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
 
-    // Actualizar los datos del formulario
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
 
-    // Eliminar el error si el campo tiene un valor válido
     if (value !== "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -242,11 +242,11 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
                 fullWidth
                 size="small"
                 error={errors.password}
-              helperText={errors.password ? "Campo requerido" : ""}
+                helperText={errors.password ? "Campo requerido" : ""}
               />
             ) : (
               <Button
-                onClick={handleOpenChangePass}
+                onClick={onChangePassword}
                 sx={{ border: "1px gray solid" }}
               >
                 Cambiar clave
@@ -261,11 +261,7 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
           </Grid>
         </Box>
 
-        <ChangePassword
-          openModal={openChangeModal}
-          handleClose={handleCloseChangeModal}
-          id={Number(data.id)}
-        />
+       
       </Box>
     </Modal>
   );

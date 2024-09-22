@@ -54,10 +54,17 @@ const deleteOne = async (params: ParamsDeleteItem) => {
 
 const updatePassword = async (
   data: Partial<NewPasswordRequest>,
-  id: number
+  id: number,
+  currentPassword: string, 
+  newPassword: string  
 ) => {
   return axios
-    .put(`/users/updatePassword/${id}`, data)
+    .put(`/users/updatePassword/${id}`, data, {
+      params: {
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      },
+    })
     .then((res) => {
       return res.data.body;
     })

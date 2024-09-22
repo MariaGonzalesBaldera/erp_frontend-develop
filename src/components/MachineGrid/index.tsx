@@ -9,7 +9,6 @@ interface MachineGridProps {
 }
 
 const MachineGrid: React.FC<MachineGridProps> = ({ model, data }) => {
-  console.log("data ",data);
   const filteredData = Array.isArray(data) ? data.filter((item) => item.model === model) : [];
 
   return (

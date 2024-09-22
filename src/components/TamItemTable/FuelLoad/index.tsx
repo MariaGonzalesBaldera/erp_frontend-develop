@@ -1,4 +1,4 @@
-import { IconButton, Tooltip } from "@mui/material";
+import { CircularProgress, Grid, IconButton, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import { FuelLoadProps } from "../../../types";
@@ -6,7 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
-import { styleTableItem } from "../../../style/StyleModal";
+import { styleTableItem, styleTableResponsive } from "../../../style/StyleModal";
 import ModalEditFuelLoad from "../../ModalEditFuelLoad";
 import {
   useDeleteFuelingUp,
@@ -25,9 +25,24 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
   const [selectedRow, setSelectedRow] = useState<any>(0);
   const { mutateAsync: mutationDeleteId } = useDeleteFuelingUp();
   const [valueDelete, setValueDelete] = useState(0);
+  const [documentsData, setDocumentsData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
   const { data: machineryData } = useGetFuelingUpByMachinery({
     id: idMachinery,
   });
+  React.useEffect(() => {
+    setLoading(true);
+    try {
+      if (machineryData) {
+        setDocumentsData(machineryData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [machineryData]);
   console.log("DATA " + machineryData);
 
   const handleClose = () => setOpenDetail(false);
@@ -147,16 +162,36 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
     { title: "Código de la maquinaria", value: selectedRow.heavyMachineryId },
   ];
   return (
-    <>
-      <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          sx={styleTableItem}
-          className="truncate..."
-          hideFooter
-          rows={machineryData || []}
-          columns={columns}
-        />
-      </div>
+    <Grid sx={styleTableResponsive}>
+     {loading ? (
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <CircularProgress /> {/* Indicador de carga */}
+          </Grid>
+        ) : (
+          <div style={{ height: 400, width: "100%" }}>
+            {documentsData.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  alignContent: "center",
+                  border: "1px gray solid",
+                  height: "8rem",
+                }}
+              >
+                No se encontraron registros
+              </div>
+            ) : (
+              <DataGrid
+                sx={styleTableItem}
+                className="truncate..."
+                hideFooter
+                rows={documentsData}
+                columns={columns}
+              />
+            )}
+          </div>
+        )}
 
       <ModalEditFuelLoad //boton de editar
         openModal={openEdit}
@@ -178,7 +213,7 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
         onConfirmAction={handleDelete}
         id={Number(valueDelete)}
       />
-    </>
+    </Grid>
   );
 };
 

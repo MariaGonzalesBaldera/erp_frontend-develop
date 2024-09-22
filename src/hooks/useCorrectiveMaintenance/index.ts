@@ -3,7 +3,7 @@ import { CorrectiveMaintananceService } from "../../services/correctiveMaintenan
 import { IMachinery } from "../../domain/machinery.interface";
 import { CorrectiveMaintananceItem } from "../../types";
 
-const { findAll,create,deleteOne, update,findByMachinery,findByModel } = CorrectiveMaintananceService;
+const { findAll, create, deleteOne, update, findByMachinery, findByModel } = CorrectiveMaintananceService;
 
 export const useGetCorrectiveList = () => {
 	return useQuery({
@@ -14,38 +14,35 @@ export const useGetCorrectiveList = () => {
 
 export const useGetCorrectiveByMachinery = ({ id }: { id: number }) => {
 	return useQuery({
-		queryKey: ["get-corrective-searched",id],
+		queryKey: ["get-corrective-searched", id],
 		queryFn: () => findByMachinery(id),
-		 enabled: !!id,
+		enabled: !!id,
 	});
 };
 export const useGetCorrectiveByModel = ({ model }: { model: string }) => {
 	return useQuery({
-		queryKey: ["get-corrective-searched-model",model],
+		queryKey: ["get-corrective-searched", model],
 		queryFn: () => findByModel(model),
 		enabled: !!model,
 	});
 };
 export const useCreateCorrective = () => {
+	const queryClient = useQueryClient();
 
-  const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (data: CorrectiveMaintananceItem) => create(data),
+		mutationFn: ({ data, files }: { data: CorrectiveMaintananceItem; files: File[] }) => create(data, files),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["get-corrective-searched"] });
 		},
 	});
 };
 
-export const useUpdateCorrective = ({
-	id,
-}: {
-	id?: number;
-}) => {
-  const queryClient = useQueryClient();
+export const useUpdateCorrective = ({ id }: { id?: number }) => {
+	const queryClient = useQueryClient();
+
 	return useMutation({
-		mutationFn: (data: Partial<CorrectiveMaintananceItem>) =>
-			 update(data, id), 
+		mutationFn: ({ data, files }: { data: Partial<CorrectiveMaintananceItem>; files: File[] }) =>
+			update(data, files, id),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["get-corrective-searched"] });
 		},
@@ -62,7 +59,7 @@ export const useDeleteCorrective = (): UseMutationResult<
 
 	return useMutation({
 		mutationFn: async (id: number) => await deleteOne({ id }),
-		onSuccess:()=>{
+		onSuccess: () => {
 			queryClient.invalidateQueries({
 				queryKey: ["get-corrective-searched"]
 			})
