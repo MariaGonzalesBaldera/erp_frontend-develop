@@ -18,9 +18,9 @@ import ButtonDefault from "../../components/ButtonDefault";
 import { useDeleteInspection, useGetInspectionByModel } from "../../hooks/useMachineryInspection";
 import GroupRadioButton from "../../components/GroupRadioButton";
 import { capitalizer } from "../../utils/capitalize";
-import { InspectionResponse } from "../../domain/machinery.interface";
 
 const dataCreate = {
+  id:0,
   projectName: "",
   unitData: "",
   activity: "",
@@ -98,7 +98,6 @@ const Inspections: React.FC = () => {
   const handleCloseNewModal = () => setOpenModalNew(false);
   const [valueDelete, setValueDelete] = useState(0);
   const { mutateAsync: mutationDeleteId } = useDeleteInspection();
-  const [rowsWithIds, setRowsWithIds] = useState<InspectionResponse[]>([]);
 
   const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
   const handleOpenConfirmModal = () => setOpenModalConfirm(true);
@@ -112,13 +111,7 @@ const Inspections: React.FC = () => {
     setLoading(true);
     try {
       if (searchedDocumentsData) {
-        const dataWithIds = searchedDocumentsData.map((item, index) => ({
-          ...item,
-          id: index + 1, // Agregar ID numérico único
-        }));
-        setRowsWithIds(dataWithIds);
-
-        setDocumentsData(dataWithIds);
+        setDocumentsData(searchedDocumentsData);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -241,7 +234,7 @@ const Inspections: React.FC = () => {
           />
         </Grid>
         <Grid item xs="auto" order={{ xs: 1, sm: 3 }}>
-          <ButtonDefault onClick={handleOpenNewModal} title="NUEVO DOCUMENTO" />
+          <ButtonDefault onClick={handleOpenNewModal} title="NUEVA INSPECCIÓN" />
         </Grid>
       </Grid>
 

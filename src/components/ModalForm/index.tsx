@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Box, Grid, MenuItem, Modal, TextField } from "@mui/material";
+import { Box, CircularProgress, Grid, MenuItem, Modal, TextField } from "@mui/material";
 import ButtonDefault from "../ButtonDefault";
 import { ModalFormProps } from "../../types/index";
 import { styleModalInspection } from "../../style/StyleModal";
@@ -76,7 +76,6 @@ const ModalForm: React.FC<ModalFormProps> = ({
       [name]: value,
     }));
 
-    // Eliminar el error si el campo tiene un valor válido
     if (value !== "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -119,7 +118,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
         return; // No proceder si hay errores
       }
       setLoading(true);
-      try{
+      try {
         let body;
         if (mode === "create") {
           body = {
@@ -143,15 +142,12 @@ const ModalForm: React.FC<ModalFormProps> = ({
           };
           onUpdateMachinery(body);
         }
-      }catch(e){
-        console.log("error")
-      }finally{
+      } catch (e) {
+        console.log("error");
+      } finally {
         setLoading(false); // Finalizar la carga
         handleClose();
       }
-
-
-
     },
     [formData, mode, useCreateMachinery, handleClose]
   );
@@ -189,128 +185,138 @@ const ModalForm: React.FC<ModalFormProps> = ({
           id={data?.id + "" || ""}
           handleClose={handleClose}
         />
-        <Box className="p-5">
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Marca"
-                  size="small"
-                  variant="outlined"
-                  fullWidth
-                  name="brand"
-                  value={formData.brand}
-                  onChange={handleChange}
-                  error={errors.brand}
-                  helperText={errors.brand ? "Este campo es requerido" : ""}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  size="small"
-                  id="outlined-select-currency"
-                  label="Modelo"
-                  select
-                  variant="outlined"
-                  fullWidth
-                  name="model"
-                  value={formData.model}
-                  onChange={handleChange}
-                  error={errors.model}
-                  helperText={errors.model ? "Este campo es requerido" : ""}
-                >
-                  {modelItem.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  size="small"
-                  label="Año de Modelo"
-                  variant="outlined"
-                  fullWidth
-                  name="modelYear"
-                  type="number"
-                  value={formData.modelYear}
-                  onChange={handleChange}
-                  error={errors.modelYear}
-                  helperText={errors.modelYear ? "Este campo es requerido" : ""}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <DatePickerForm
-                  dateValue={formData.acquisitionDate}
-                  labelValue="Fecha de Adquisición"
-                  handleDateChange={handleDateChange}
-                  nameValue={"acquisitionDate"}
-                  error={errors.acquisitionDate}
-                  helperText={
-                    errors.acquisitionDate ? "Este campo es requerido" : ""
-                  }
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  size="small"
-                  label="Carga Neta"
-                  variant="outlined"
-                  fullWidth
-                  name="netLoad"
-                  type="number"
-                  value={formData.netLoad}
-                  onChange={handleChange}
-                  error={errors.netLoad}
-                  helperText={errors.netLoad ? "Este campo es requerido" : ""}
-                  InputProps={{
-                    endAdornment: (
-                      <span className="text-icon-primary">Toneladas</span>
-                    ),
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  size="small"
-                  id="outlined-select-currency"
-                  label="Tipo de Combustible"
-                  select
-                  variant="outlined"
-                  fullWidth
-                  name="fuelType"
-                  value={formData.fuelType}
-                  onChange={handleChange}
-                  error={errors.fuelType}
-                  helperText={errors.fuelType ? "Este campo es requerido" : ""}
-                >
-                  {fuelTypeItem.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              {mode !== "create" && (
-                <Grid item xs={12}>
+        {loading ? (
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <CircularProgress /> {/* Indicador de carga */}
+          </Grid>
+        ) : (
+          <Box className="p-5">
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
                   <TextField
-                    label="Creado el"
+                    label="Marca"
+                    size="small"
                     variant="outlined"
                     fullWidth
-                    name="createdAt"
-                    value={formData.createdAt}
+                    name="brand"
+                    value={formData.brand}
                     onChange={handleChange}
-                    disabled
+                    error={errors.brand}
+                    helperText={errors.brand ? "Este campo es requerido" : ""}
                   />
                 </Grid>
-              )}
-              <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
-                <ButtonDefault title={buttonText} />
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    size="small"
+                    id="outlined-select-currency"
+                    label="Modelo"
+                    select
+                    variant="outlined"
+                    fullWidth
+                    name="model"
+                    value={formData.model}
+                    onChange={handleChange}
+                    error={errors.model}
+                    helperText={errors.model ? "Este campo es requerido" : ""}
+                  >
+                    {modelItem.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    size="small"
+                    label="Año de Modelo"
+                    variant="outlined"
+                    fullWidth
+                    name="modelYear"
+                    type="number"
+                    value={formData.modelYear}
+                    onChange={handleChange}
+                    error={errors.modelYear}
+                    helperText={
+                      errors.modelYear ? "Este campo es requerido" : ""
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <DatePickerForm
+                    dateValue={formData.acquisitionDate}
+                    labelValue="Fecha de Adquisición"
+                    handleDateChange={handleDateChange}
+                    nameValue={"acquisitionDate"}
+                    error={errors.acquisitionDate}
+                    helperText={
+                      errors.acquisitionDate ? "Este campo es requerido" : ""
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    size="small"
+                    label="Carga Neta"
+                    variant="outlined"
+                    fullWidth
+                    name="netLoad"
+                    type="number"
+                    value={formData.netLoad}
+                    onChange={handleChange}
+                    error={errors.netLoad}
+                    helperText={errors.netLoad ? "Este campo es requerido" : ""}
+                    InputProps={{
+                      endAdornment: (
+                        <span className="text-icon-primary">Toneladas</span>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    size="small"
+                    id="outlined-select-currency"
+                    label="Tipo de Combustible"
+                    select
+                    variant="outlined"
+                    fullWidth
+                    name="fuelType"
+                    value={formData.fuelType}
+                    onChange={handleChange}
+                    error={errors.fuelType}
+                    helperText={
+                      errors.fuelType ? "Este campo es requerido" : ""
+                    }
+                  >
+                    {fuelTypeItem.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                {mode !== "create" && (
+                  <Grid item xs={12}>
+                    <TextField
+                      label="Creado el"
+                      variant="outlined"
+                      fullWidth
+                      name="createdAt"
+                      value={formData.createdAt}
+                      onChange={handleChange}
+                      disabled
+                    />
+                  </Grid>
+                )}
+                <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
+                  <ButtonDefault title={buttonText} />
+                </Grid>
               </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
+        )}
       </Box>
     </Modal>
   );

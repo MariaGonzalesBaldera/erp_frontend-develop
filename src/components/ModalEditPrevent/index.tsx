@@ -249,6 +249,7 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
                       key={item}
                       control={
                         <Checkbox
+                          color="success"
                           checked={formData[item as keyof typeof formData]}
                           onChange={handleChange}
                           name={item}

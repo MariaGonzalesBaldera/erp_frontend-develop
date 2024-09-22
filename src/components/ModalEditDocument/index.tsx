@@ -185,8 +185,8 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
     { label: "Fin del SOAT", name: "soatEnd" },
     { label: "Inicio del seguro", name: "insuranceStart" },
     { label: "Fin del seguro", name: "insuranceEnd" },
-    { label: "Inicio del seguro de trekking", name: "trekInsuranceStart" },
-    { label: "Fin del seguro de trekking", name: "trekInsuranceEnd" },
+    { label: "Inicio del seguro de viaje", name: "trekInsuranceStart" },
+    { label: "Fin del seguro de viaje", name: "trekInsuranceEnd" },
     {
       label: "Inicio del certificado de operaciones",
       name: "operatingCertificateStart",
