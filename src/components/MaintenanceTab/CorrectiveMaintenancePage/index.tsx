@@ -86,6 +86,7 @@ const CorrectiveMaintenancePage = ({}) => {
   };
 
   const handleOpenImage = (row: CorrectiveMaintananceItem) => {
+    console.log(row)
     setSelectedRow(row);
     setOpenImage(true);
   };
@@ -283,7 +284,7 @@ const CorrectiveMaintenancePage = ({}) => {
       <ModalImageEvidence //look image
         openModal={openImage}
         handleClose={handleCloseImageModal}
-        id={selectedRow}
+        id={selectedRow.id}
       />
     </Box>
   );
