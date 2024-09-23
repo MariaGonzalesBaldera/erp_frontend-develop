@@ -1,5 +1,5 @@
 import { ParamsDeleteItem } from "../domain/machinery.interface";
-import { CorrectiveMaintananceItem } from "../types";
+import { CorrectiveMaintananceItem, EvidenceImageItem } from "../types";
 import { axios } from "../utils/axios.create";
 
 const findAll = async (): Promise<CorrectiveMaintananceItem[]> => {
@@ -80,11 +80,24 @@ const findByModel = async (model: string): Promise<CorrectiveMaintananceItem[]> 
 			throw new Error(err.response.data);
 		});
 };
+
+const findEvidenceByMachinery = async (machineryId: number): Promise<EvidenceImageItem[]> => {
+    return axios
+        .get(`/evidenceImage/findByMachinery/${machineryId}`)
+        .then((res) => res.data)
+        .catch((err) => {
+            console.error(err.response?.data || "Error en la solicitud");
+            throw new Error(err.response?.data.message || "Error al obtener los datos");
+        });
+};
+
+
 export const CorrectiveMaintananceService = {
     findAll,
     create,
     deleteOne,
     update,
     findByMachinery,
-    findByModel
+    findByModel,
+	findEvidenceByMachinery
 }

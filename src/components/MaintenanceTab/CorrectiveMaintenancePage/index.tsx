@@ -18,6 +18,8 @@ import { capitalizer, formatDayMonthYear } from "../../../utils/capitalize";
 import GroupRadioButton from "../../GroupRadioButton";
 import ModalDetailGeneric from "../../ModalDetailGeneric";
 import { title } from "process";
+import { Visibility } from "@mui/icons-material";
+import ModalImageEvidence from "../../ModalImageEvidence";
 
 const dataCreate = {
   id: 0,
@@ -36,12 +38,15 @@ const dataCreate = {
 const CorrectiveMaintenancePage = ({}) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [openImage, setOpenImage] = useState(false);
   const [valueDelete, setValueDelete] = useState(0);
   const [selectedRow, setSelectedRow] = useState<any>(0);
   const [openModalNew, setOpenModalNew] = React.useState(false);
 
   const handleOpenNewModal = () => setOpenModalNew(true);
   const handleCloseNewModal = () => setOpenModalNew(false);
+  const handleCloseImageModal = () => setOpenImage(false);
+
   const [selectedValue, setSelectedValue] = useState<string>("oruga");
   const { mutateAsync: mutationDeleteId } = useDeleteCorrective();
   const [documentsData, setDocumentsData] = useState<any[]>([]);
@@ -79,6 +84,12 @@ const CorrectiveMaintenancePage = ({}) => {
     setSelectedRow(row);
     setOpenEdit(true);
   };
+
+  const handleOpenImage = (row: CorrectiveMaintananceItem) => {
+    setSelectedRow(row);
+    setOpenImage(true);
+  };
+  
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
 
@@ -135,6 +146,16 @@ const CorrectiveMaintenancePage = ({}) => {
       headerAlign: "center",
       renderCell: (params) => (
         <>
+        <Tooltip title="Ver registro de Imagen">
+            <IconButton
+              color="secondary"
+              onClick={() => handleOpenImage(params.row)}
+              aria-label="Imagen"
+            >
+              <Visibility />
+            </IconButton>
+          </Tooltip>
+          
           <Tooltip title="Editar">
             <IconButton
               color="success"
@@ -258,6 +279,11 @@ const CorrectiveMaintenancePage = ({}) => {
         handleClose={handleCloseNewModal}
         data={dataCreate}
         mode="create"
+      />
+      <ModalImageEvidence //look image
+        openModal={openImage}
+        handleClose={handleCloseImageModal}
+        id={selectedRow}
       />
     </Box>
   );

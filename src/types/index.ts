@@ -271,3 +271,12 @@ export interface employeeItem {
   createdAt?: string,
   updatedAt?: string,
 }
+export interface EvidenceImageItem {
+  id?: number,
+  name: string,
+  imageUrl: string,
+  imageId: string,
+  createdAt?: string,
+  updatedAt?: string,
+  correctiveMaintenanceId?: number,
+}

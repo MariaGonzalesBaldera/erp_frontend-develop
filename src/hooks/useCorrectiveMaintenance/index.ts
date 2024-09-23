@@ -3,7 +3,7 @@ import { CorrectiveMaintananceService } from "../../services/correctiveMaintenan
 import { IMachinery } from "../../domain/machinery.interface";
 import { CorrectiveMaintananceItem } from "../../types";
 
-const { findAll, create, deleteOne, update, findByMachinery, findByModel } = CorrectiveMaintananceService;
+const { findAll, create, deleteOne, update, findByMachinery, findByModel, findEvidenceByMachinery } = CorrectiveMaintananceService;
 
 export const useGetCorrectiveList = () => {
 	return useQuery({
@@ -68,3 +68,10 @@ export const useDeleteCorrective = (): UseMutationResult<
 
 };
 
+export const useGetEvidenceByMachinery = (machineryId: number) => {
+    return useQuery({
+        queryKey: ["evidenceByMachinery", machineryId],
+        queryFn: () => findEvidenceByMachinery(machineryId),
+        enabled: !!machineryId,
+    });
+};

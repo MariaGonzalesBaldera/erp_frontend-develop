@@ -28,6 +28,8 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
   const updateMutation = useUpdateCorrective({
     id: data.id,
   });
+  const [imageFile, setImageFile] = useState<File | null>(null); // Para almacenar la imagen seleccionada
+
   const [selectedMachinery, setSelectedMachinery] = useState<number | "">("");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -87,16 +89,21 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
     }
   };
 
-  const handleChange = useCallback(
-    (e) => {
-      setFormData((prevData) => ({
-        ...prevData,
-        [e.target.name]: e.target.value,
-      }));
-    },
-    [setFormData]
-  );
+  const handleChange = useCallback((e) => {
+    const { name, value } = e.target;
 
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+
+    if (value !== "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: false,
+      }));
+    }
+  }, []);
   const handleDateChange = useCallback((name: string, date: string) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -112,6 +119,8 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
+  
+      // Validar los campos...
       const newErrors = {
         description: formData.description === "",
         maintenanceDate: formData.maintenanceDate === "",
@@ -119,38 +128,45 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
         operatorName: formData.operatorName === "",
         projectName: formData.projectName === "",
         observations: formData.observations === "",
-        invoiceNumber:formData.invoiceNumber === "",
+        invoiceNumber: formData.invoiceNumber === "",
         drivingStart: formData.drivingStart === "",
         drivingEnd: formData.drivingEnd === "",
         heavyMachineryId: mode === "create" && !selectedMachinery,
       };
       setErrors(newErrors);
-
-      const hasErrors = Object.values(newErrors).some(
-        (error) => error === true
-      );
+  
+      const hasErrors = Object.values(newErrors).some((error) => error === true);
       if (hasErrors) {
-        return; // Si hay errores, no proceder
+        return;
       }
-      setLoading(true); // Iniciar la carga
+  
+      setLoading(true);
+  
       try {
-        let body;
+        // Prepara el objeto `data` y el archivo `imageFile`
+        const data = {
+          description: formData.description,
+          maintenanceDate: formData.maintenanceDate,
+          amountPaid: formData.amountPaid,
+          operatorName: formData.operatorName,
+          projectName: formData.projectName,
+          observations: formData.observations,
+          invoiceNumber: formData.invoiceNumber,
+          drivingStart: formData.drivingStart,
+          drivingEnd: formData.drivingEnd,
+          heavyMachineryId: selectedMachinery || formData.heavyMachineryId,
+        };
+  
+        const files = imageFile ? [imageFile] : [];
+  
+        let response;
         if (mode === "create") {
-          body = {
-            ...formData,
-            heavyMachineryId: selectedMachinery, // Usa el valor actualizado de selectedMachinery
-          };
-          console.log("body ", body);
-          await onCreateMantenance(body);
+          response = await createMaintenance.mutateAsync({ data, files });
         } else {
-          body = {
-            ...formData,
-            heavyMachineryId: formData.heavyMachineryId,
-          };
-          console.log("body ", body);
-
-          await onUpdateMantenance(body);
+          response = await updateMutation.mutateAsync({ data, files });
         }
+  
+        console.log("Response: ", response);
       } catch (error) {
         console.error("Error:", error);
       } finally {
@@ -158,26 +174,21 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
         handleClose();
       }
     },
-    [
-      formData,
-      mode,
-      selectedMachinery,
-      useCreateCorrective,
-      useUpdateCorrective,
-      handleClose,
-    ]
+    [formData, mode, selectedMachinery, imageFile, handleClose, createMaintenance, updateMutation]
   );
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files) {
-      setFormData((prevData) => ({
-        ...prevData,
-        files: Array.from(files),
-      }));
+  
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const selectedFile = e.target.files[0]; // Solo el primer archivo
+      console.log("Selected file: ", selectedFile); // Depuración
+      setImageFile(selectedFile); // Actualiza el estado con el archivo seleccionado
     }
-  };
+  };  
+  
 
-  const onCreateMantenance = async (data: CorrectiveMaintananceItem) => {
+
+  const onCreateMantenance = async (data: FormData) => {
+    console.log(data);
     try {
       const response = await createMaintenance.mutateAsync(data);
       console.log(response);
@@ -350,18 +361,13 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <input
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  id="upload-photo"
-                  name="files"
-                  type="file"
-                  onChange={handleFileChange}
-                  multiple
-                />
-                <label htmlFor="upload-photo">
-                  <Button component="span" />Seleccione una foto<Button/>
-                </label>
+              <TextField
+                    fullWidth
+                    name="file"
+                    type="file"
+                    onChange={handleFileChange}
+                    inputProps={{ accept: "image/*" }}
+                  />
               </Grid>
 
               {mode == "create" ? (
