@@ -198,7 +198,7 @@ const PreventMaintenancePage: React.FC = ({}) => {
           />
         </Grid>
         <Grid item order={{ xs: 1, sm: 3 }}>
-          <ButtonDefault onClick={handleOpenNewModal} title="NUEVO DOCUMENTO" />
+          <ButtonDefault onClick={handleOpenNewModal} title="NUEVO MANTENIMIENTO" />
         </Grid>
       </Grid>
 

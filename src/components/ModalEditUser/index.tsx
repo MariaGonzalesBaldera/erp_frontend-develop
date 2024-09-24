@@ -151,7 +151,7 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
     }
   };
   const modalTitle =
-    mode === "create" ? "CREAR USUARIO" : "EDITAR DETALLE DE LA USUARIO";
+    mode === "create" ? "CREAR USUARIO" : "EDITAR USUARIO - CÓDIGO ";
 
   const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
 
@@ -165,7 +165,7 @@ const ModalEditUser: React.FC<ModalEditUserProps> = ({
       <Box sx={styleModalInspection}>
         <HeaderModal
           titleHeader={modalTitle}
-          id={""} //aqui va el id
+          id={data.id ||""} //aqui va el id
           handleClose={handleClose}
         />
 

@@ -24,8 +24,8 @@ const ModalDetailUser: React.FC<ModalDetailUserProps> = ({
         >
           <Box sx={styleModalInspection}>
             <HeaderModal
-              titleHeader={"DETALLE DEL USUARIO"}
-              id={""} //aqui va el id
+              titleHeader={"DETALLE USUARIO CÓDIGO "}
+              id={data.id ||""} //aqui va el id
               handleClose={handleClose}
             />
             {data && (

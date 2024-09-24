@@ -10,12 +10,12 @@ import CircularBarCard from "../../components/CircularBarCard";
 import { useLocation } from "react-router-dom";
 
 import { DriveEta, LocationOn } from "@mui/icons-material";
-import { Box, Card } from "@mui/material";
+import { Box, Card, CircularProgress } from "@mui/material";
 import { useGetMachineryList } from "../../hooks/useMaquinaria";
 
 interface CardItemDashboardProps {
   title: string;
-  value: string;
+  value: any;
   icon: SvgIconComponent;
   colorIcon?: string;
 }
@@ -54,16 +54,16 @@ export const CardItemDashboard: React.FC<CardItemDashboardProps> = ({
 };
 
 const Dashboard: React.FC = () => {
-  const { data: machineryData } = useGetMachineryList();
+  const { data: machineryData,isLoading } = useGetMachineryList();
   const location = useLocation();
   const { username, role } = location.state || {};
   const percentage = 70;
   return (
     <div className="p-3">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3 max-w-6xl mx-auto">
-        <CardItemDashboard
+      <CardItemDashboard
           title="Total Maquinarias"
-          value={machineryData?.length+"" || ""}
+          value={isLoading ? <CircularProgress size={24} /> : machineryData?.length?.toString() || "0"}
           icon={DriveEta}
           colorIcon="#ff5f5f"
         />

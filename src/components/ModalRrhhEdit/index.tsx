@@ -196,7 +196,7 @@ const ModalRrhhEdit: React.FC<ModalRrhhEditProps> = ({
     }
   };
   const modalTitle =
-    mode === "create" ? "CREAR USUARIO" : "EDITAR DETALLE DE LA USUARIO";
+    mode === "create" ? "REGISTAR TRABAJADOR" : "EDITAR TRABAJADOR - CÓDIGO ";
 
   const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
 
@@ -210,7 +210,7 @@ const ModalRrhhEdit: React.FC<ModalRrhhEditProps> = ({
       <Box sx={styleModalInspection}>
         <HeaderModal
           titleHeader={modalTitle}
-          id={""} //aqui va el id
+          id={data.id ||""} //aqui va el id
           handleClose={handleClose}
         />
 

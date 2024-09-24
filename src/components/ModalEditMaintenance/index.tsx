@@ -205,7 +205,7 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
     }
   };
   const modalTitle =
-    mode === "create" ? "CREAR NUEVO MANTENIMIENTO" : "EDITAR MANTENIMIENTO";
+    mode === "create" ? "REGISTRA UN NUEVO MANTENIMIENTO CORR." : "ACTUALIZAR MANTENIMIENTO CORR. ";
 
   const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
   //recuperacion de maquinarias
@@ -247,7 +247,7 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
       <Box sx={styleModalInspection}>
         <HeaderModal
           titleHeader={modalTitle}
-          id={""} //aqui va el id
+          id={data.id || ""} //aqui va el id
           handleClose={handleClose}
         />
         <Box className="p-5">

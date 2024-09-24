@@ -232,7 +232,7 @@ const Documents: React.FC<DocumentsProps> = ({ idMachinery }) => {
         handleClose={handleClose}
         data={selectedRow}
         fields={fieldsDetail}
-        title="DETALLE DEL DOCUMENTO"
+        title="DETALLE - DOCUMENTO CÓDIGO"
       />
 
       <ConfirmModal //boton de eliminar

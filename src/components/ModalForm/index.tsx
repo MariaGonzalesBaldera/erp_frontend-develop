@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Box, CircularProgress, Grid, MenuItem, Modal, TextField } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  MenuItem,
+  Modal,
+  TextField,
+} from "@mui/material";
 import ButtonDefault from "../ButtonDefault";
 import { ModalFormProps } from "../../types/index";
 import { styleModalInspection } from "../../style/StyleModal";
@@ -170,7 +177,9 @@ const ModalForm: React.FC<ModalFormProps> = ({
   };
   const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
   const modalTitle =
-    mode === "create" ? "NUEVA MAQUINARIA" : "ACTUALIZAR DATOS DE MAQUINARIA";
+    mode === "create"
+      ? "AGREGAR UNA NUEVA MAQUINARIA"
+      : "ACTUALIZAR MAQUINARIA CÓDIGO";
 
   return (
     <Modal
@@ -182,7 +191,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
       <Box sx={styleModalInspection}>
         <HeaderModal
           titleHeader={modalTitle}
-          id={data?.id + "" || ""}
+          id={data.id+""}
           handleClose={handleClose}
         />
         {loading ? (

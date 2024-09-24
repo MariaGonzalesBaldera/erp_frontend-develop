@@ -204,7 +204,7 @@ const Rrhh: React.FC = () => {
     <>
       <HeaderPage
         title="LISTA DE TRABAJADORES"
-        titleButton="NUEVO USUARIO"
+        titleButton="NUEVO TRABAJADOR"
         handleOpen={handleOpenNewModal}
       />
      <Grid sx={styleTableResponsive}>
@@ -250,7 +250,7 @@ const Rrhh: React.FC = () => {
         handleClose={handleClose}
         data={selectedRow}
         fields={fieldsDetail}
-        title="DETALLE DEL USUARIO"
+        title="DETALLE DEL TRABAJADOR - CÓDIGO "
       />
       <ConfirmModal //boton de eliminar
         onConfirm={openModalConfirm}

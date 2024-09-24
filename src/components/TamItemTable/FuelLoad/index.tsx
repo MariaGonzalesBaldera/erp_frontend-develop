@@ -204,7 +204,7 @@ const FuelLoad: React.FC<FuelLoadPropsItem> = ({ idMachinery }) => {
         handleClose={handleClose}
         data={selectedRow}
         fields={fieldsDetail}
-        title="DETALLE DEL REGISTRO"
+        title="DETALLE DEL REGISTRO DE COMBUSTIBLE-CÓDIGO"
       />
 
       <ConfirmModal //boton de eliminar

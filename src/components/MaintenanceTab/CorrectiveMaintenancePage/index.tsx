@@ -235,7 +235,7 @@ const CorrectiveMaintenancePage = ({}) => {
           />
         </Grid>
         <Grid item xs="auto" order={{ xs: 1, sm: 3 }}>
-          <ButtonDefault onClick={handleOpenNewModal} title="NUEVO DOCUMENTO" />
+          <ButtonDefault onClick={handleOpenNewModal} title="NUEVO MANTENIMIENTO" />
         </Grid>
       </Grid>
       <div style={{ height: 400, width: "100%" }}>

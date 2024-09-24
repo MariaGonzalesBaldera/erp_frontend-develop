@@ -196,7 +196,9 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
     observations: "Observaciones",
   };
   const modalTitle =
-    mode === "create" ? "NUEVO MANTENIMIENTO" : "EDITAR REGISTRO";
+    mode === "create"
+      ? "REGISTRA UN NUEVO MANTENIMIENTO PREV."
+      : "ACTUALIZAR MANTENIMIENTO - CÓDIGO ";
 
   const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
   const { data: machineryData, isLoading, error } = useGetMachineryList(); // Llamar a la API
@@ -232,7 +234,7 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
       <Box sx={styleModalInspection}>
         <HeaderModal
           titleHeader={modalTitle}
-          id={""} // Display the ID if available
+          id={data.id + "" || ""} // Display the ID if available
           handleClose={handleClose}
         />
         <Box className="pb-5 pl-5 pr-5 pt-1">
@@ -242,25 +244,8 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
                 <CircularProgress /> {/* Indicador de carga */}
               </Grid>
             ) : (
-              <Grid container spacing={2}>
+              <Grid container spacing={2} className="pt-3">
                 <Grid item xs={12} sm={12}>
-                  {Object.keys(checkboxLabels).map((item) => (
-                    <FormControlLabel
-                      key={item}
-                      control={
-                        <Checkbox
-                          color="success"
-                          checked={formData[item as keyof typeof formData]}
-                          onChange={handleChange}
-                          name={item}
-                        />
-                      }
-                      label={
-                        checkboxLabels[item as keyof typeof checkboxLabels]
-                      } // Mostrar el título en español
-                    />
-                  ))}
-
                   {/* Text Inputs */}
                   {[
                     "periodType",
@@ -317,6 +302,25 @@ const ModalEditPrevent: React.FC<ModalEditPreventProps> = ({
                     error={errors.amountPaid}
                     helperText={errors.amountPaid ? "Campo requerido" : ""}
                   />
+                  <div className="text text-blue-950">
+                  <Typography variant="button">{"DATOS ADICIONALES"}</Typography>
+                  </div>
+                  {Object.keys(checkboxLabels).map((item) => (
+                    <FormControlLabel
+                      key={item}
+                      control={
+                        <Checkbox
+                          color="success"
+                          checked={formData[item as keyof typeof formData]}
+                          onChange={handleChange}
+                          name={item}
+                        />
+                      }
+                      label={
+                        checkboxLabels[item as keyof typeof checkboxLabels]
+                      } // Mostrar el título en español
+                    />
+                  ))}
                   {mode === "create" ? (
                     <div>
                       {isLoading ? (

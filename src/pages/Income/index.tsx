@@ -234,7 +234,7 @@ const Income: React.FC = () => {
           handleClose={handleClose}
           data={selectedRow}
           fields={fieldsDetail}
-          title="DETALLE DEL INGRESO"
+          title="DETALLE DEL INGRESO - CÓDIGO"
         />
         <ConfirmModal //boton de eliminar
           onConfirm={openModalConfirm}

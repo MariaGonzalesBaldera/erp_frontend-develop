@@ -33,7 +33,7 @@ const ModalDetailGeneric = <T,>({
       <Box sx={styleModalInspection}>
         <HeaderModal
           titleHeader={title}
-          id={""} // Aquí puedes pasar el ID si lo tienes disponible
+          id={data.id+""}
           handleClose={handleClose}
         />
         {data && (

@@ -282,7 +282,7 @@ const Documents: React.FC = () => {
           handleClose={handleClose}
           data={selectedRow}
           fields={fieldsDetail}
-          title="DETALLE DEL DOCUMENTO"
+          title="DETALLE - DOCUMENTO CÓDIGO"
         />
         <ConfirmModal //boton de eliminar
           onConfirm={openModalConfirm}

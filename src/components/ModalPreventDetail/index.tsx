@@ -24,8 +24,8 @@ const ModalPreventDetail: React.FC<ModalPreventDetailProps> = ({
       >
         <Box sx={styleModalInspection}>
           <HeaderModal
-            titleHeader={"DETALLE DEL MANTENIMIENTO"}
-            id={"#"} //aqui va el id
+            titleHeader={"DETALLE - MANTENIMIENTO PREV, CÓDIGO "}
+            id={data.id || ""} //aqui va el id
             handleClose={handleClose}
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-0 max-w-6xl mx-auto p-1">

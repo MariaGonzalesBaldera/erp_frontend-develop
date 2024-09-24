@@ -173,8 +173,8 @@ const ModalEditDocument: React.FC<ModalEditDocumentProps> = ({
 
   const modalTitle =
     mode === "create"
-      ? "CREAR NUEVO DOCUMENTO"
-      : "EDITAR DETALLE DEL DOCUMENTO";
+      ? "REGISTRAR NUEVO DOCUMENTO"
+      : "ACTUALIZAR DOCUMENTO-CÓDIGO ";
 
   const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
 

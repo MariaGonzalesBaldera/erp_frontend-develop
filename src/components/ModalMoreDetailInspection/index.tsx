@@ -25,8 +25,8 @@ const ModalMoreDetailInspection: React.FC<ModalMoreDetailProps> = ({
       >
         <Box sx={styleModalInspection}>
           <HeaderModal
-          titleHeader={"DETALLE DE LA INSPECCIÓN"}
-          id={"#"} //aqui va el id
+          titleHeader={"DETALLE DE LA INSPECCIÓN CÓDIGO"}
+          id={data.id || ""} //aqui va el id
           handleClose={handleClose}
         />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-0 max-w-6xl mx-auto p-1">

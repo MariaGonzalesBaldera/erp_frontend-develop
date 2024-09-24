@@ -275,7 +275,9 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
     }
   };
   const modalTitle =
-    mode === "create" ? "CREAR INSPECCIÓN" : "EDITAR DETALLE DE LA INSPECCIÓN";
+    mode === "create"
+      ? "REGISTRA UNA NUEVA INSPECIÓN"
+      : "ACTUALIZA DETALLE DE LA INSPECCIÓN";
 
   const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
   const checkboxLabels2 = {
@@ -351,7 +353,7 @@ const ModalEditInspector: React.FC<ModalEditDocumentProps> = ({
       <Box sx={styleModalInspection}>
         <HeaderModal
           titleHeader={modalTitle}
-          id={""} //aqui va el id
+          id={data.id ||""} //aqui va el id
           handleClose={handleClose}
         />
         {loading ? (

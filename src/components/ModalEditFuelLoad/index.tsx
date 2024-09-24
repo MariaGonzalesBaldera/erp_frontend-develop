@@ -174,7 +174,7 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
   };
 
   const modalTitle =
-    mode === "create" ? "CREAR NUEVO REGISTRO" : "EDITAR REGISTRO";
+    mode === "create" ? "INGRESAR REGISTRO DE COMBUSTIBLE" : "ACTUALIZAR REGISTRO DE COMBUSTIBLE - CÓDIGO ";
 
   const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
 
@@ -217,7 +217,7 @@ const ModalEditFuelLoad: React.FC<ModalEditFuelLoadProps> = ({
       <Box sx={styleModalInspection}>
         <HeaderModal
           titleHeader={modalTitle}
-          id={""} // Display the ID if available
+          id={data.id ||""} // Display the ID if available
           handleClose={handleClose}
         />
         <Box className="p-5">
