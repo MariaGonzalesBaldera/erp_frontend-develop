@@ -14,7 +14,7 @@ import {
   useGetAccountingRangeListTotal,
 } from "../../../hooks/userAcccounting";
 import { AccountingResponse } from "../../../domain/machinery.interface";
-import { getMonthName } from "../../../utils/capitalize";
+import { formatDayMonthYear, getMonthName } from "../../../utils/capitalize";
 
 function DayFilter() {
   // Establecer las fechas iniciales (hace una semana y hoy)
@@ -117,22 +117,27 @@ function DayFilter() {
       headerAlign: "center",
     },
     {
-      field: "Fecha",
-      headerName: "Mes y año",
+      field: "invoiceNumber",
+      headerName: "Número de factura",
       flex: 1,
       minWidth: 150,
-      renderCell: (params) => (
-        <span>
-          {getMonthName(params.row.month || "")} - {params.row.year}
-        </span>
-      ),
+
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "transactionDate",
+      headerName: "Día de transacción",
+      flex: 1,
+      minWidth: 150,
+      renderCell: (params) => formatDayMonthYear(params.value),
       align: "center",
       headerAlign: "center",
     },
   ];
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto mb-5">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto mb-5 mt-2">
         <div className="col-span-1 md:col-span-1 flex items-center justify-start">
           <DatePickerForm
             key="initial-day"
@@ -168,8 +173,8 @@ function DayFilter() {
           }}
         />
       </div>
-      <Box className=" pt-2">
-        <Typography variant="button">MONTOS TOTALES POR MES</Typography>
+      <Box className="mt-2">
+        <Typography variant="button">MONTOS TOTALES POR RANGO DE MES</Typography>
       </Box>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto p-1">
         <div className="col-span-1 border bg-gray-100 rounded-lg shadow-lg flex flex-col items-center justify-center p-2">

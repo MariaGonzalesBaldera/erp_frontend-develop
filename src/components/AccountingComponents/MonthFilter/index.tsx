@@ -123,15 +123,20 @@ function MonthFilter() {
       headerAlign: "center",
     },
     {
-      field: "Fecha",
-      headerName: "Mes y año",
+      field: "invoiceNumber",
+      headerName: "Número de factura",
       flex: 1,
       minWidth: 150,
-      renderCell: (params) => (
-        <span>
-          {getMonthName(params.row.month || "")} - {params.row.year}
-        </span>
-      ),
+
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "transactionDate",
+      headerName: "Día de transacción",
+      flex: 1,
+      minWidth: 150,
+      renderCell: (params) => formatDayMonthYear(params.value),
       align: "center",
       headerAlign: "center",
     },

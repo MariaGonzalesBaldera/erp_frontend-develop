@@ -12,7 +12,12 @@ import ModalEditMaintenance from "../../ModalEditMaintenance";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
 import { styleTableItem } from "../../../style/StyleModal";
-import { useDeleteCorrective, useGetCorrectiveByMachinery } from "../../../hooks/useCorrectiveMaintenance";
+import {
+  useDeleteCorrective,
+  useGetCorrectiveByMachinery,
+} from "../../../hooks/useCorrectiveMaintenance";
+import ModalDetailGeneric from "../../ModalDetailGeneric";
+import { formatDayMonthYear } from "../../../utils/capitalize";
 
 const dataCreate = {
   id: "",
@@ -59,7 +64,7 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
     setSelectedRow(row);
     setOpenDetail(true);
   };
- 
+
   const handleCloseConfirmModal = () => setOpenModalConfirm(false);
 
   const handleOpenEdit = (row: CorrectiveMaintananceItem) => {
@@ -155,6 +160,21 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
       ),
     },
   ];
+  const fieldsDetail = [
+    { title: "Descripción", value: selectedRow.description },
+    {
+      title: "Fecha de mantenimiento",
+      value: formatDayMonthYear(selectedRow.maintenanceDate),
+    },
+    { title: "Cantidad pagada", value: selectedRow.amountPaid },
+    { title: "Número de factura", value: selectedRow.invoiceNumber },
+    { title: "Nombre del operador", value: selectedRow.operatorName },
+    { title: "Nombre del proyecto", value: selectedRow.projectName },
+    { title: "Observaciones", value: selectedRow.observations },
+    { title: "Inicio de manejo", value: selectedRow.drivingStart },
+    { title: "Fin de manejo", value: selectedRow.drivingEnd },
+    { title: "Código de maquinaria", value: selectedRow.heavyMachineryId },
+  ];
 
   return (
     <>
@@ -189,18 +209,20 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
         mode="update"
       />
 
-      <ModalMoreDetail //boton de detalle
+      {/* ModalMoreDetail */}
+      <ModalDetailGeneric //boton de detalle
         openModal={openDetail}
         handleClose={handleClose}
         data={selectedRow}
+        fields={fieldsDetail}
+        title="DETALLE DEL MATENIMIENTO CORRECTIVO"
       />
-
       <ConfirmModal //boton de eliminar
         onConfirm={openModalConfirm}
         onCancel={handleCloseConfirmModal}
         onConfirmAction={handleDelete}
         id={Number(valueDelete)}
-      /> 
+      />
     </>
   );
 };
