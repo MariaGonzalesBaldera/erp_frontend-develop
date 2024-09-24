@@ -3,7 +3,15 @@ import {
   CorrectiveMaintananceItem,
   ModalEditMaintenanceProps,
 } from "../../types";
-import { Box, Button, Grid, MenuItem, Modal, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  MenuItem,
+  Modal,
+  TextField,
+} from "@mui/material";
 import { styleModalInspection } from "../../style/StyleModal";
 import ButtonDefault from "../ButtonDefault";
 import HeaderModal from "../HeaderModal";
@@ -39,7 +47,7 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
     operatorName: "",
     projectName: "",
     observations: "",
-    invoiceNumber:"",
+    invoiceNumber: "",
     drivingStart: "",
     drivingEnd: "",
     heavyMachineryId: 0,
@@ -51,7 +59,7 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
     operatorName: false,
     projectName: false,
     observations: false,
-    invoiceNumber:false,
+    invoiceNumber: false,
     drivingStart: false,
     drivingEnd: false,
     heavyMachineryId: false,
@@ -65,7 +73,7 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
         operatorName: data.operatorName || "",
         projectName: data.projectName || "",
         observations: data.observations || "",
-        invoiceNumber:data.invoiceNumber ||"",
+        invoiceNumber: data.invoiceNumber || "",
         drivingStart: data.drivingStart || "",
         drivingEnd: data.drivingEnd || "",
         heavyMachineryId: data.heavyMachineryId || 0,
@@ -119,7 +127,7 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-  
+
       // Validar los campos...
       const newErrors = {
         description: formData.description === "",
@@ -134,14 +142,16 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
         heavyMachineryId: mode === "create" && !selectedMachinery,
       };
       setErrors(newErrors);
-  
-      const hasErrors = Object.values(newErrors).some((error) => error === true);
+
+      const hasErrors = Object.values(newErrors).some(
+        (error) => error === true
+      );
       if (hasErrors) {
         return;
       }
-  
+
       setLoading(true);
-  
+
       try {
         // Prepara el objeto `data` y el archivo `imageFile`
         const data = {
@@ -156,16 +166,16 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
           drivingEnd: formData.drivingEnd,
           heavyMachineryId: selectedMachinery || formData.heavyMachineryId,
         };
-  
+
         const files = imageFile ? [imageFile] : [];
-  
+
         let response;
         if (mode === "create") {
           response = await createMaintenance.mutateAsync({ data, files });
         } else {
           response = await updateMutation.mutateAsync({ data, files });
         }
-  
+
         console.log("Response: ", response);
       } catch (error) {
         console.error("Error:", error);
@@ -174,18 +184,24 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
         handleClose();
       }
     },
-    [formData, mode, selectedMachinery, imageFile, handleClose, createMaintenance, updateMutation]
+    [
+      formData,
+      mode,
+      selectedMachinery,
+      imageFile,
+      handleClose,
+      createMaintenance,
+      updateMutation,
+    ]
   );
-  
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const selectedFile = e.target.files[0]; // Solo el primer archivo
       console.log("Selected file: ", selectedFile); // Depuración
       setImageFile(selectedFile); // Actualiza el estado con el archivo seleccionado
     }
-  };  
-  
-
+  };
 
   const onCreateMantenance = async (data: FormData) => {
     console.log(data);
@@ -205,7 +221,9 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
     }
   };
   const modalTitle =
-    mode === "create" ? "REGISTRA UN NUEVO MANTENIMIENTO CORR." : "ACTUALIZAR MANTENIMIENTO CORR. ";
+    mode === "create"
+      ? "REGISTRA UN NUEVO MANTENIMIENTO CORR."
+      : "ACTUALIZAR MANTENIMIENTO CORR. ";
 
   const buttonText = mode === "create" ? "GUARDAR" : "ACTUALIZAR";
   //recuperacion de maquinarias
@@ -252,161 +270,170 @@ const ModalEditMaintenance: React.FC<ModalEditMaintenanceProps> = ({
         />
         <Box className="p-5">
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  label="Descripción"
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  error={errors.description}
-                  helperText={errors.description ? "Campo requerido" : ""}
-                />
+            {loading ? (
+              <Grid item xs={12} style={{ textAlign: "center" }}>
+                <CircularProgress /> {/* Indicador de carga */}
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <DatePickerForm
-                  dateValue={formData.maintenanceDate}
-                  labelValue="Fecha de Mantenimiento"
-                  handleDateChange={(date) =>
-                    handleDateChange("maintenanceDate", formatDateForAPI(date))
-                  }
-                  nameValue="maintenanceDate"
-                  error={errors.maintenanceDate}
-                  helperText={errors.maintenanceDate ? "Campo requerido" : ""}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  label="Cantidad Pagada"
-                  name="amountPaid"
-                  type="number"
-                  value={formData.amountPaid}
-                  onChange={handleChange}
-                  error={errors.amountPaid}
-                  helperText={errors.amountPaid ? "Campo requerido" : ""}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  label="Nombre del Operador"
-                  name="operatorName"
-                  value={formData.operatorName}
-                  onChange={handleChange}
-                  error={errors.operatorName}
-                  helperText={errors.operatorName ? "Campo requerido" : ""}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  label="Nombre del Proyecto"
-                  name="projectName"
-                  value={formData.projectName}
-                  onChange={handleChange}
-                  error={errors.projectName}
-                  helperText={errors.projectName ? "Campo requerido" : ""}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  type="text"
-                  fullWidth
-                  size="small"
-                  label="Observaciones"
-                  name="observations"
-                  value={formData.observations}
-                  onChange={handleChange}
-                  error={errors.observations}
-                  helperText={errors.observations ? "Campo requerido" : ""}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  type="text"
-                  fullWidth
-                  size="small"
-                  label="Número de factura"
-                  name="invoiceNumber"
-                  value={formData.invoiceNumber}
-                  onChange={handleChange}
-                  error={errors.invoiceNumber}
-                  helperText={errors.invoiceNumber ? "Campo requerido" : ""}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TimePickerForm
-                  handleTimeChange={handleTimeChange}
-                  timeValue={formData.drivingStart}
-                  nameValue="drivingStart"
-                  label="Inicio de conduccion"
-                  error={errors.drivingStart}
-                  helperText={errors.drivingStart ? "Campo requerido" : ""}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TimePickerForm
-                  handleTimeChange={handleTimeChange}
-                  timeValue={formData.drivingEnd}
-                  nameValue="drivingEnd"
-                  label="Fin de conduccion"
-                  error={errors.drivingEnd}
-                  helperText={errors.drivingEnd ? "Campo requerido" : ""}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-              <TextField
+            ) : (
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="Descripción"
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    error={errors.description}
+                    helperText={errors.description ? "Campo requerido" : ""}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <DatePickerForm
+                    dateValue={formData.maintenanceDate}
+                    labelValue="Fecha de Mantenimiento"
+                    handleDateChange={(date) =>
+                      handleDateChange(
+                        "maintenanceDate",
+                        formatDateForAPI(date)
+                      )
+                    }
+                    nameValue="maintenanceDate"
+                    error={errors.maintenanceDate}
+                    helperText={errors.maintenanceDate ? "Campo requerido" : ""}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="Cantidad Pagada"
+                    name="amountPaid"
+                    type="number"
+                    value={formData.amountPaid}
+                    onChange={handleChange}
+                    error={errors.amountPaid}
+                    helperText={errors.amountPaid ? "Campo requerido" : ""}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="Nombre del Operador"
+                    name="operatorName"
+                    value={formData.operatorName}
+                    onChange={handleChange}
+                    error={errors.operatorName}
+                    helperText={errors.operatorName ? "Campo requerido" : ""}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="Nombre del Proyecto"
+                    name="projectName"
+                    value={formData.projectName}
+                    onChange={handleChange}
+                    error={errors.projectName}
+                    helperText={errors.projectName ? "Campo requerido" : ""}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    type="text"
+                    fullWidth
+                    size="small"
+                    label="Observaciones"
+                    name="observations"
+                    value={formData.observations}
+                    onChange={handleChange}
+                    error={errors.observations}
+                    helperText={errors.observations ? "Campo requerido" : ""}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    type="text"
+                    fullWidth
+                    size="small"
+                    label="Número de factura"
+                    name="invoiceNumber"
+                    value={formData.invoiceNumber}
+                    onChange={handleChange}
+                    error={errors.invoiceNumber}
+                    helperText={errors.invoiceNumber ? "Campo requerido" : ""}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TimePickerForm
+                    handleTimeChange={handleTimeChange}
+                    timeValue={formData.drivingStart}
+                    nameValue="drivingStart"
+                    label="Inicio de conduccion"
+                    error={errors.drivingStart}
+                    helperText={errors.drivingStart ? "Campo requerido" : ""}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TimePickerForm
+                    handleTimeChange={handleTimeChange}
+                    timeValue={formData.drivingEnd}
+                    nameValue="drivingEnd"
+                    label="Fin de conduccion"
+                    error={errors.drivingEnd}
+                    helperText={errors.drivingEnd ? "Campo requerido" : ""}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
                     fullWidth
                     name="file"
                     type="file"
                     onChange={handleFileChange}
                     inputProps={{ accept: "image/*" }}
                   />
-              </Grid>
-
-              {mode == "create" ? (
-                <Grid item xs={12} sm={6}>
-                  <div>
-                    {isLoading ? (
-                      <p>Cargando maquinaria...</p>
-                    ) : error ? (
-                      <p>Error al cargar la maquinaria</p>
-                    ) : (
-                      <TextField
-                        select
-                        size="small"
-                        label="Seleccione Maquinaria"
-                        value={selectedMachinery}
-                        onChange={handleChangeMachinery}
-                        name="heavyMachineryId"
-                        fullWidth
-                        error={errors.heavyMachineryId}
-                        helperText={
-                          errors.heavyMachineryId ? "Campo requerido" : ""
-                        }
-                      >
-                        {machineryItems.map((item) => (
-                          <MenuItem key={item.value} value={item.value}>
-                            {item.label}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    )}
-                  </div>
                 </Grid>
-              ) : (
-                ""
-              )}
-              <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
-                <ButtonDefault title={buttonText} />
+
+                {mode == "create" ? (
+                  <Grid item xs={12} sm={6}>
+                    <div>
+                      {isLoading ? (
+                        <p>Cargando maquinaria...</p>
+                      ) : error ? (
+                        <p>Error al cargar la maquinaria</p>
+                      ) : (
+                        <TextField
+                          select
+                          size="small"
+                          label="Seleccione Maquinaria"
+                          value={selectedMachinery}
+                          onChange={handleChangeMachinery}
+                          name="heavyMachineryId"
+                          fullWidth
+                          error={errors.heavyMachineryId}
+                          helperText={
+                            errors.heavyMachineryId ? "Campo requerido" : ""
+                          }
+                        >
+                          {machineryItems.map((item) => (
+                            <MenuItem key={item.value} value={item.value}>
+                              {item.label}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      )}
+                    </div>
+                  </Grid>
+                ) : (
+                  ""
+                )}
+                <Grid item xs={12} sx={{ textAlign: "center", mt: 3 }}>
+                  <ButtonDefault title={buttonText} />
+                </Grid>
               </Grid>
-            </Grid>
+            )}
           </Box>
         </Box>
       </Box>

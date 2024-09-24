@@ -1,18 +1,12 @@
-import {
-  Box,
-  Grid,
-  MenuItem,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, MenuItem, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import {
   styleTableItem,
   styleTableResponsive,
 } from "../../../style/StyleModal";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useGetAccountingList } from "../../../hooks/userAcccounting";
-import { AccountingResponse } from "../../../domain/machinery.interface";
+import { useGetAccountingList, useGetAccountingListTable } from "../../../hooks/userAcccounting";
+import { AccountingResponse, AccountingResponseTable } from "../../../domain/machinery.interface";
 import themeNew from "../../../utils/theme";
 import { getMonthName } from "../../../utils/capitalize";
 import { SearchSharp } from "@mui/icons-material";
@@ -32,51 +26,65 @@ const MonthItem = [
   { value: "12", label: "Diciembre" },
 ];
 function MonthFilter() {
-  // Obtener el mes y año actual
   const currentDate = new Date();
   const currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0");
   const currentYear = currentDate.getFullYear();
 
-  // Estados para el mes y el año seleccionados
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
   const [selectedYear, setSelectedYear] = useState(currentYear.toString());
   const [searchDate, setSearchDate] = useState(
     `${currentYear}-${currentMonth}-01`
   );
 
-  // Estado para los datos con 'id'
-  const [rowsWithIds, setRowsWithIds] = useState<AccountingResponse[]>([]);
+  const [rowsWithIds, setRowsWithIds] = useState<AccountingResponseTable[]>([]);
 
-  // Obtener los datos iniciales con el hook personalizado
   const { data: listData, refetch } = useGetAccountingList({
     searchMonth: searchDate,
   });
 
-  // Efecto para actualizar los datos con ID único
+  const { data: listDataTable } = useGetAccountingListTable({
+    searchMonth: searchDate,
+  });
+
   useEffect(() => {
-    if (listData) {
-      const dataWithIds = listData.map((item, index) => ({
+    if (listDataTable) {
+      const dataWithIds = listDataTable.map((item, index) => ({
         ...item,
         id: index + 1, // Agregar ID numérico único
       }));
       setRowsWithIds(dataWithIds);
     }
-  }, [listData]);
+  }, [listDataTable]);
 
-  // Manejar cambios en el TextField del mes
+  const mantCorrectivo =
+    listData?.find((item) => item.originDescription === "MANT. CORRECTIVO")
+      ?.amountPaid || 0;
+
+  const mantPreventivo =
+    listData?.find((item) => item.originDescription === "MANT. PREVENTIVO")
+      ?.amountPaid || 0;
+
+  const cargaCombustible =
+    listData?.find((item) => item.originDescription === "CARGA COMBUSTIBLE")
+      ?.amountPaid || 0;
+
+  const ingresoMaquinaria =
+    listData?.find((item) => item.originDescription === "INGRESO MAQUINARIA")
+      ?.amountPaid || 0;
+
+
+
   const handleChangeMonth = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedMonth(event.target.value);
   };
 
-  // Manejar cambios en el TextField del año
   const handleChangeYear = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedYear(event.target.value);
   };
 
-  // Manejar la búsqueda al hacer clic en el botón
   const handleSearch = () => {
-    const newDate = `${selectedYear}-${selectedMonth}-01`; // Formato YYYY-MM-01
-    setSearchDate(newDate); // Actualizar la fecha de búsqueda
+    const newDate = `${selectedYear}-${selectedMonth}-01`; 
+    setSearchDate(newDate); 
     refetch(); // Refrescar los datos de la búsqueda
   };
 
@@ -177,25 +185,52 @@ function MonthFilter() {
           />
         </div>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 max-w-6xl mx-auto">
-        <div className="col-span-1 md:col-span-1 border flex items-center justify-start p-2">
-          <span className="text-1xl ">Total 1:&nbsp;</span>
-          <span className="text-1xl font-semibold">00.000</span>
+      <Box className=" pt-2  ">
+        <Typography variant="button">MONTOS TOTALES POR MES</Typography>
+      </Box>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto p-1">
+        <div className="col-span-1 border bg-gray-100 rounded-lg shadow-lg flex flex-col items-center justify-center p-2">
+          <span className="block text-base font-medium">
+            Mantenimiento Correctivo:
+          </span>
+          <span className="block ext-xl font-bold text-gray-700">
+            {mantCorrectivo !== undefined
+              ? mantCorrectivo.toFixed(2)
+              : "loading..."}
+          </span>
         </div>
-        <div className="col-span-1 md:col-span-1 border flex items-center justify-start p-2">
-          <span className="text-1xl ">Total 2:&nbsp;</span>
-          <span className="text-1xl font-semibold">00.000</span>
+        <div className="col-span-1 border bg-gray-100 rounded-lg shadow-lg flex flex-col items-center justify-center p-2">
+          <span className="block text-base font-medium">
+            Mantenimiento Preventivo:
+          </span>
+          <span className="block text-xl font-bold text-gray-700">
+            {mantPreventivo !== undefined
+              ? mantPreventivo.toFixed(2)
+              : "loading..."}
+          </span>
         </div>
-        <div className="col-span-1 md:col-span-1 border flex items-center justify-start p-2">
-          <span className="text-1xl ">Total 3:&nbsp;</span>
-          <span className="text-1xl font-semibold">00.000</span>
+        <div className="col-span-1 border bg-gray-100 rounded-lg shadow-lg flex flex-col items-center justify-center p-2">
+          <span className="block text-base font-medium">
+            Carga Combustible:
+          </span>
+          <span className="block text-xl font-bold text-gray-700">
+            {cargaCombustible !== undefined
+              ? cargaCombustible.toFixed(2)
+              : "loading..."}
+          </span>
         </div>
-        <div className="col-span-1 md:col-span-1 border flex items-center justify-start p-2">
-          <span className="text-1xl ">Total 4:&nbsp;</span>
-          <span className="text-1xl font-semibold">00.000</span>
+        <div className="col-span-1 border bg-gray-100 rounded-lg shadow-lg flex flex-col items-center justify-center p-2">
+          <span className="block text-base font-medium">
+            Ingreso Maquinaria:
+          </span>
+          <span className="block text-xl font-bold text-gray-700">
+            {ingresoMaquinaria !== undefined
+              ? ingresoMaquinaria.toFixed(2)
+              : "loading..."}
+          </span>
         </div>
       </div>
+
       <Box className="mt-4 mb-4">
         <Typography variant="button">{"DETALLE"}</Typography>
         <>

@@ -203,3 +203,15 @@ export interface AccountingResponse {
   transactionType: string,
   amountPaid: number
 }
+
+export interface AccountingResponseTable {
+  id?:number,
+  year:number,
+  month:number,
+  originDescription:string,
+  transactionType:string,
+  amountPaid:number,
+  invoiceNumber:string,
+  transactionDate:string,
+  heavyMachinery:string,
+}

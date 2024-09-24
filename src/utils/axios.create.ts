@@ -10,7 +10,7 @@ const instance = axios.create({
 let isRefreshing = false;
 let refreshSubscribers = [];
 
-const onRrefreshed = (newToken) => {
+const onRefreshed = (newToken) => {
 	refreshSubscribers.forEach((callback) => callback(newToken));
 	refreshSubscribers = [];
 };
@@ -61,7 +61,7 @@ instance.interceptors.response.use(
 					const updatedAuthData = { ...authData, accessToken };
 					localStorage.setItem("authData", JSON.stringify(updatedAuthData));
 					isRefreshing = false;
-					onRrefreshed(accessToken);
+					onRefreshed(accessToken);
 				} catch (refreshError) {
 					localStorage.removeItem("authData");
 					window.location.href = "/login";
