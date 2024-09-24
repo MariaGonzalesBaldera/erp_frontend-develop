@@ -174,7 +174,7 @@ const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
     role === "ADMINISTRATOR"
       ? menuItems
       : menuItems.filter(
-          (item) => item.text !== "RRHH" && item.text !== "Contabilidad"
+          (item) => item.text !== "RRHH" && item.text !== "Contabilidad" && item.text !== "Ingresos"
         );
 
   //modal ayuda
