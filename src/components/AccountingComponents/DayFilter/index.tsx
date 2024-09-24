@@ -168,7 +168,7 @@ function DayFilter() {
           }}
         />
       </div>
-      <Box className=" pt-2  ">
+      <Box className=" pt-2">
         <Typography variant="button">MONTOS TOTALES POR MES</Typography>
       </Box>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto p-1">

@@ -5,10 +5,13 @@ import {
   styleTableResponsive,
 } from "../../../style/StyleModal";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useGetAccountingList, useGetAccountingListTable } from "../../../hooks/userAcccounting";
+import {
+  useGetAccountingList,
+  useGetAccountingListTable,
+} from "../../../hooks/userAcccounting";
 import { AccountingResponseTable } from "../../../domain/machinery.interface";
 import themeNew from "../../../utils/theme";
-import { getMonthName } from "../../../utils/capitalize";
+import { formatDayMonthYear, getMonthName } from "../../../utils/capitalize";
 import { SearchSharp } from "@mui/icons-material";
 
 const MonthItem = [
@@ -42,7 +45,7 @@ function MonthFilter() {
   const { data: listData, refetch } = useGetAccountingList({
     searchMonth: searchDate,
   });
-//detalle
+  //detalle
   const { data: listDataTable } = useGetAccountingListTable({
     searchMonth: searchDate,
   });
@@ -73,8 +76,6 @@ function MonthFilter() {
     listData?.find((item) => item.originDescription === "INGRESO MAQUINARIA")
       ?.amountPaid || 0;
 
-
-
   const handleChangeMonth = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedMonth(event.target.value);
   };
@@ -84,8 +85,8 @@ function MonthFilter() {
   };
 
   const handleSearch = () => {
-    const newDate = `${selectedYear}-${selectedMonth}-01`; 
-    setSearchDate(newDate); 
+    const newDate = `${selectedYear}-${selectedMonth}-01`;
+    setSearchDate(newDate);
     refetch(); // Refrescar los datos de la búsqueda
   };
 
@@ -186,7 +187,7 @@ function MonthFilter() {
           />
         </div>
       </div>
-      <Box className=" pt-2  ">
+      <Box className=" pt-2 ">
         <Typography variant="button">MONTOS TOTALES POR MES</Typography>
       </Box>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto p-1">
