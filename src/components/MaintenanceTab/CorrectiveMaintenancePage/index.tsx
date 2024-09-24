@@ -5,13 +5,23 @@ import {
 } from "../../../hooks/useCorrectiveMaintenance";
 import { CorrectiveMaintananceItem } from "../../../types";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModalEditMaintenance from "../../ModalEditMaintenance";
 import ConfirmModal from "../../ConfirmModal";
 import ListIcon from "@mui/icons-material/List";
-import { styleTableItem } from "../../../style/StyleModal";
+import {
+  styleTableItem,
+  styleTableResponsive,
+} from "../../../style/StyleModal";
 import ModalMoreDetail from "../../ModalMoreDetail";
 import ButtonDefault from "../../ButtonDefault";
 import { capitalizer, formatDayMonthYear } from "../../../utils/capitalize";
@@ -235,32 +245,43 @@ const CorrectiveMaintenancePage = ({}) => {
           />
         </Grid>
         <Grid item xs="auto" order={{ xs: 1, sm: 3 }}>
-          <ButtonDefault onClick={handleOpenNewModal} title="NUEVO MANTENIMIENTO" />
+          <ButtonDefault
+            onClick={handleOpenNewModal}
+            title="NUEVO MANTENIMIENTO"
+          />
         </Grid>
       </Grid>
-      <div style={{ height: 400, width: "100%" }}>
-        {documentsData.length === 0 ? (
-          <div
-            style={{
-              textAlign: "center",
-              marginTop: "20px",
-              alignContent: "center",
-              border: "1px gray solid",
-              height: "8rem",
-            }}
-          >
-            No se encontraron documentos de {capitalizer(selectedValue)}
-          </div>
+      <Grid sx={styleTableResponsive}>
+        {loading ? (
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            <CircularProgress /> {/* Indicador de carga */}
+          </Grid>
         ) : (
-          <DataGrid
-            sx={styleTableItem}
-            className="truncate..."
-            hideFooter
-            rows={documentsData}
-            columns={columns}
-          />
+          <div style={{ height: 400, width: "100%" }}>
+            {documentsData.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  alignContent: "center",
+                  border: "1px gray solid",
+                  height: "8rem",
+                }}
+              >
+                No se encontraron documentos de {capitalizer(selectedValue)}
+              </div>
+            ) : (
+              <DataGrid
+                sx={styleTableItem}
+                className="truncate..."
+                hideFooter
+                rows={documentsData}
+                columns={columns}
+              />
+            )}
+          </div>
         )}
-      </div>
+      </Grid>
 
       <ModalEditMaintenance //boton de editar
         openModal={openEdit}

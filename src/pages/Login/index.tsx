@@ -10,6 +10,8 @@ import {
   Box,
   InputAdornment,
   CircularProgress,
+  Popper,
+  Fade,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React, { useState } from "react";
@@ -84,6 +86,17 @@ const Login: React.FC = () => {
     }
     setOpenSnackbar(false);
   };
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popper" : undefined;
+  const id2 = open ? "simple-popper" : undefined;
+
   return (
     <Box
       className="flex min-h-screen items-center justify-center bg-background px-4"
@@ -133,10 +146,27 @@ const Login: React.FC = () => {
               }}
             />
           </div>
-          <div className="flex items-center justify-between mt-2">
-            <Link href="#" underline="hover" className="text-sm">
+          <div
+            onClick={handleClick}
+            className="flex items-center justify-between mt-2"
+          >
+            <Link
+              aria-describedby={id}
+              href="#"
+              underline="hover"
+              className="text-sm"
+            >
               ¿Olvidaste tu contraseña?
             </Link>
+            <Popper id={id} open={open} anchorEl={anchorEl} transition>
+              {({ TransitionProps }) => (
+                <Fade {...TransitionProps} timeout={250}>
+                  <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
+                    Comunicate con tu administrador
+                  </Box>
+                </Fade>
+              )}
+            </Popper>
           </div>
         </CardContent>
         <CardActions className="flex flex-col space-y-2 px-4">
@@ -167,9 +197,18 @@ const Login: React.FC = () => {
             className="text-center"
           >
             ¿No tienes una cuenta?{" "}
-            <Link href="#" underline="hover">
+            <Link id={id2} href="#" onClick={handleClick} underline="hover">
               Crear Cuenta
             </Link>
+            <Popper id={id2} open={open} anchorEl={anchorEl} transition>
+              {({ TransitionProps }) => (
+                <Fade {...TransitionProps} timeout={250}>
+                  <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
+                    Comunicate con tu administrador
+                  </Box>
+                </Fade>
+              )}
+            </Popper>
           </Typography>
         </CardActions>
       </Card>
