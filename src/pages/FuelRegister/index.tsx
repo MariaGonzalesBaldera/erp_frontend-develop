@@ -7,6 +7,7 @@ import {
   Grid,
   IconButton,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -187,13 +188,14 @@ const FuelRegister: React.FC = () => {
   ];
   return (
     <Box>
+      <Typography variant="button">{"Lista de registro de combustible"}</Typography>
       <Grid
         container
         justifyContent={"space-between"}
         direction={{ xs: "column", sm: "row" }}
         alignItems={{ xs: "start", sm: "center" }}
         gap={1}
-        className="p-2 border border-gray-400 bg-white mb-2"
+        className="p-2 border border-gray-400 bg-white mb-2 mt-2"
       >
         <Grid item gap={2} alignItems={"center"}>
           <GroupRadioButton

@@ -1,8 +1,10 @@
 import {
+  Box,
   CircularProgress,
   Grid,
   IconButton,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
@@ -211,14 +213,15 @@ const Inspections: React.FC = () => {
   ];
 
   return (
-    <>
+    <Box>
+      <Typography variant="button">{"LISTA DE INSPECCIONES"}</Typography>
       <Grid
         container
         justifyContent={"space-between"}
         direction={{ xs: "column", sm: "row" }}
         alignItems={{ xs: "start", sm: "center" }}
         gap={1}
-        className="p-2 border border-gray-400 bg-white mb-2"
+        className="p-2 border border-gray-400 bg-white mb-2 mt-2"
       >
         <Grid
           container
@@ -296,7 +299,7 @@ const Inspections: React.FC = () => {
         data={dataCreate}
         mode="create"
       />
-    </>
+    </Box>
   );
 };
 

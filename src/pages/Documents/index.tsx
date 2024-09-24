@@ -1,5 +1,5 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { DocumentItem } from "../../types";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -12,6 +12,7 @@ import {
   Grid,
   IconButton,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import { styleTableItem, styleTableResponsive } from "../../style/StyleModal";
 import GroupRadioButton from "../../components/GroupRadioButton";
@@ -218,13 +219,14 @@ const Documents: React.FC = () => {
   ];
   return (
     <Box>
+        <Typography variant="button">{"LISTA DE DOCUMENTOS"}</Typography>
       <Grid
         container
         justifyContent={"space-between"}
         direction={{ xs: "column", sm: "row" }}
         alignItems={{ xs: "start", sm: "center" }}
         gap={1}
-        className="p-2 border border-gray-400 bg-white mb-2"
+        className="p-2 border border-gray-400 bg-white mb-2 mt-2"
       >
         <Grid item gap={2} alignItems={"center"}>
           <GroupRadioButton

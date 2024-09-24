@@ -95,95 +95,98 @@ const HistoryGps: React.FC = () => {
     setSelectedMachinery(Number(event.target.value));
   };
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-6xl mx-auto">
-      <div className="col-span-1 md:col-span-1 border rounded-md border-gray-400 flex items-start justify-start p-2">
-        <Grid container justifyItems="center" justifyContent="center">
-          <Box
-            className="mt-2 mb-3"
-            sx={{ textAlign: "center", color: "#1e1b4b" }}
-          >
-            <Typography variant="button">
-              {"SELECCIONE MAQUINARIA PARA VER SU RUTA"}
-            </Typography>
-          </Box>
-          <Grid item xs={12} className="pt-2 pb-2">
-            <TextField
-              select
-              size="small"
-              label="Seleccione Maquinaria"
-              value={selectedMachinery}
-              onChange={handleChangeMachinery}
-              name="heavyMachineryId"
-              fullWidth
-            >
-              {machineryItems.map((item) => (
-                <MenuItem key={item.value} value={item.value}>
-                  {item.label}
-                </MenuItem>
-              ))}
-            </TextField>{" "}
-          </Grid>
-          <Grid item xs={12}>
-            <DatePickerForm
-              key={"filter-day"}
-              dateValue={""}
-              labelValue="Fecha"
-              handleDateChange={() => console.log("first")}
-              nameValue="end-day"
-            />
-          </Grid>
-          <Grid item xs={12} className="pt-2">
-            <ButtonDefault title="Buscar" onClick={handleSearchClick} />
-          </Grid>
-
-          <Grid item xs={12}>
+    <Box>
+      <Typography variant="button">{"BUSQUEDA DE UNA MAQUINARIA POR GPS POR FECHA"}</Typography>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-6xl mx-auto mt-2">
+        <div className="col-span-1 md:col-span-1 border rounded-md border-gray-400 flex items-start justify-start p-2">
+          <Grid container justifyItems="center" justifyContent="center">
             <Box
-              sx={{ backgroundColor: "#e2e0ff", color: "#1e1b4b" }}
-              className="border border-gray-300 p-4 rounded-md mt-2"
+              className="mt-2 mb-3"
+              sx={{ textAlign: "center", color: "#1e1b4b" }}
             >
-              <Typography variant="h6" gutterBottom>
-                Detalles de la Operación
+              <Typography variant="button">
+                {"SELECCIONE MAQUINARIA PARA VER SU RUTA"}
               </Typography>
-              {showMessage ? (
-                <Typography>
-                  Realice una búsqueda haciendo clic en el ícono de la lupa.
-                </Typography>
-              ) : (
-                searchResult && (
-                  <>
-                    <Typography>
-                      <strong>Hora de Inicio: </strong>
-                      {searchResult.details.startTime}
-                    </Typography>
-                    <Typography>
-                      <strong>Hora Final: </strong>
-                      {searchResult.details.endTime}
-                    </Typography>
-                    <Typography>
-                      <strong>Kilómetros Recorridos: </strong>
-                      {searchResult.details.kilometers}
-                    </Typography>
-                    <Typography>
-                      <strong>Horas Trabajadas: </strong>
-                      {searchResult.details.hoursWorked}
-                    </Typography>
-                  </>
-                )
-              )}
             </Box>
+            <Grid item xs={12} className="pt-2 pb-2">
+              <TextField
+                select
+                size="small"
+                label="Seleccione Maquinaria"
+                value={selectedMachinery}
+                onChange={handleChangeMachinery}
+                name="heavyMachineryId"
+                fullWidth
+              >
+                {machineryItems.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.label}
+                  </MenuItem>
+                ))}
+              </TextField>{" "}
+            </Grid>
+            <Grid item xs={12}>
+              <DatePickerForm
+                key={"filter-day"}
+                dateValue={""}
+                labelValue="Fecha"
+                handleDateChange={() => console.log("first")}
+                nameValue="end-day"
+              />
+            </Grid>
+            <Grid item xs={12} className="pt-2">
+              <ButtonDefault title="Buscar" onClick={handleSearchClick} />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Box
+                sx={{ backgroundColor: "#e2e0ff", color: "#1e1b4b" }}
+                className="border border-gray-300 p-4 rounded-md mt-2"
+              >
+                <Typography variant="h6" gutterBottom>
+                  Detalles de la Operación
+                </Typography>
+                {showMessage ? (
+                  <Typography>
+                    Realice una búsqueda haciendo clic en el ícono de la lupa.
+                  </Typography>
+                ) : (
+                  searchResult && (
+                    <>
+                      <Typography>
+                        <strong>Hora de Inicio: </strong>
+                        {searchResult.details.startTime}
+                      </Typography>
+                      <Typography>
+                        <strong>Hora Final: </strong>
+                        {searchResult.details.endTime}
+                      </Typography>
+                      <Typography>
+                        <strong>Kilómetros Recorridos: </strong>
+                        {searchResult.details.kilometers}
+                      </Typography>
+                      <Typography>
+                        <strong>Horas Trabajadas: </strong>
+                        {searchResult.details.hoursWorked}
+                      </Typography>
+                    </>
+                  )
+                )}
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
+        </div>
+        <div className="col-span-1 md:col-span-2 border flex items-center justify-start p-0">
+          {showMessage ? (
+            <Box> </Box>
+          ) : (
+            <div className="card">
+              <GoogleMapPolyline />
+            </div>
+          )}
+        </div>
       </div>
-      <div className="col-span-1 md:col-span-2 border flex items-center justify-start p-0">
-        {showMessage ? (
-          <Box> </Box>
-        ) : (
-          <div className="card">
-            <GoogleMapPolyline />
-          </div>
-        )}
-      </div>
-    </div>
+    </Box>
   );
 };
 

@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import {
-  useDeleteIncome,
-  useGetIncomeByModel,
-} from "../../hooks/useIncome";
+import { useDeleteIncome, useGetIncomeByModel } from "../../hooks/useIncome";
 import { MachineryIncomeResponse } from "../../domain/machinery.interface";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, Grid, IconButton, Tooltip } from "@mui/material";
+import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListIcon from "@mui/icons-material/List";
@@ -45,7 +42,7 @@ const Income: React.FC = () => {
   const { data: searchedDocumentsData } = useGetIncomeByModel({
     model: selectedValue,
   });
-  
+
   React.useEffect(() => {
     if (searchedDocumentsData) {
       setDocumentsData(searchedDocumentsData);
@@ -162,24 +159,27 @@ const Income: React.FC = () => {
     },
   ];
   const fieldsDetail = [
-    {title:"Fecha de transacción",value:formatDayMonthYear(selectedRow.transactionDate)},
-    {title:"Horas de funcionamiento",value:selectedRow.hoursOperated},
-    {title:"Tarifa por hora",value:selectedRow.hourlyRate},
-    {title:"Ingreso total",value:selectedRow.totalIncome},
-    {title:"Número de factura",value:selectedRow.invoiceNumber},
-    {title:"Nombre del proyecto",value:selectedRow.projectName},
-    {title:"Código de la maquinaria",value:selectedRow.heavyMachineryId},
-
+    {
+      title: "Fecha de transacción",
+      value: formatDayMonthYear(selectedRow.transactionDate),
+    },
+    { title: "Horas de funcionamiento", value: selectedRow.hoursOperated },
+    { title: "Tarifa por hora", value: selectedRow.hourlyRate },
+    { title: "Ingreso total", value: selectedRow.totalIncome },
+    { title: "Número de factura", value: selectedRow.invoiceNumber },
+    { title: "Nombre del proyecto", value: selectedRow.projectName },
+    { title: "Código de la maquinaria", value: selectedRow.heavyMachineryId },
   ];
   return (
     <Box>
+      <Typography variant="button">{"LISTA DE INGRESOS DE LAS MAQUINARIAS"}</Typography>
       <Grid
         container
         justifyContent={"space-between"}
         direction={{ xs: "column", sm: "row" }}
         alignItems={{ xs: "start", sm: "center" }}
         gap={1}
-        className="p-2 border border-gray-400 bg-white mb-2"
+        className="p-2 border border-gray-400 bg-white mb-2 mt-2"
       >
         <Grid
           container

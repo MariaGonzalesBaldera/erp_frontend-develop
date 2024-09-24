@@ -5,7 +5,7 @@ import {
 } from "../../../hooks/useCorrectiveMaintenance";
 import { CorrectiveMaintananceItem } from "../../../types";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, Grid, IconButton, Tooltip } from "@mui/material";
+import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModalEditMaintenance from "../../ModalEditMaintenance";
@@ -86,11 +86,11 @@ const CorrectiveMaintenancePage = ({}) => {
   };
 
   const handleOpenImage = (row: CorrectiveMaintananceItem) => {
-    console.log(row)
+    console.log(row);
     setSelectedRow(row);
     setOpenImage(true);
   };
-  
+
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
 
@@ -147,7 +147,7 @@ const CorrectiveMaintenancePage = ({}) => {
       headerAlign: "center",
       renderCell: (params) => (
         <>
-        <Tooltip title="Ver registro de Imagen">
+          <Tooltip title="Ver registro de Imagen">
             <IconButton
               color="secondary"
               onClick={() => handleOpenImage(params.row)}
@@ -156,7 +156,7 @@ const CorrectiveMaintenancePage = ({}) => {
               <Visibility />
             </IconButton>
           </Tooltip>
-          
+
           <Tooltip title="Editar">
             <IconButton
               color="success"
@@ -194,7 +194,10 @@ const CorrectiveMaintenancePage = ({}) => {
   ];
   const fieldsDetail = [
     { title: "Descripción", value: selectedRow.description },
-    { title: "Fecha de mantenimiento", value: formatDayMonthYear(selectedRow.maintenanceDate) },
+    {
+      title: "Fecha de mantenimiento",
+      value: formatDayMonthYear(selectedRow.maintenanceDate),
+    },
     { title: "Cantidad pagada", value: selectedRow.amountPaid },
     { title: "Número de factura", value: selectedRow.invoiceNumber },
     { title: "Nombre del operador", value: selectedRow.operatorName },
@@ -207,13 +210,16 @@ const CorrectiveMaintenancePage = ({}) => {
 
   return (
     <Box>
+      <Typography variant="button">
+        {"LISTA DE MATENIMIENTO CORRECTIVO"}
+      </Typography>
       <Grid
         container
         justifyContent={"space-between"}
         direction={{ xs: "column", sm: "row" }}
         alignItems={{ xs: "start", sm: "center" }}
         gap={1}
-        className="p-2 border border-gray-400 bg-white mb-2"
+        className="p-2 border border-gray-400 bg-white mb-2 mt-2"
       >
         <Grid
           container
