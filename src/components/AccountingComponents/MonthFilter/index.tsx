@@ -6,7 +6,7 @@ import {
 } from "../../../style/StyleModal";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useGetAccountingList, useGetAccountingListTable } from "../../../hooks/userAcccounting";
-import { AccountingResponse, AccountingResponseTable } from "../../../domain/machinery.interface";
+import { AccountingResponseTable } from "../../../domain/machinery.interface";
 import themeNew from "../../../utils/theme";
 import { getMonthName } from "../../../utils/capitalize";
 import { SearchSharp } from "@mui/icons-material";
@@ -38,10 +38,11 @@ function MonthFilter() {
 
   const [rowsWithIds, setRowsWithIds] = useState<AccountingResponseTable[]>([]);
 
+  //total
   const { data: listData, refetch } = useGetAccountingList({
     searchMonth: searchDate,
   });
-
+//detalle
   const { data: listDataTable } = useGetAccountingListTable({
     searchMonth: searchDate,
   });
@@ -193,7 +194,7 @@ function MonthFilter() {
           <span className="block text-base font-medium">
             Mantenimiento Correctivo:
           </span>
-          <span className="block ext-xl font-bold text-gray-700">
+          <span className="block text-xl font-bold text-gray-700">
             {mantCorrectivo !== undefined
               ? mantCorrectivo.toFixed(2)
               : "loading..."}

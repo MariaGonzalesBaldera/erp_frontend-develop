@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { AccountingService } from "../../services/accountingInfo.service";
 
-const { findMonthly,findRangeDate,findMonthlyTable } = AccountingService;
+const { findMonthly,findRangeDate,findMonthlyTable ,findRangeDateTotal} = AccountingService;
 
 export const useGetAccountingList = ({ searchMonth }: { searchMonth: string }) => {
   return useQuery({
@@ -33,3 +33,16 @@ export const useGetAccountingRangeList = ({
 	});
   };
   
+  export const useGetAccountingRangeListTotal = ({
+	searchDateStart,
+	searchDateEnd,
+  }: {
+	searchDateStart: string;
+	searchDateEnd: string;
+  }) => {
+	return useQuery({
+	  queryKey: ["get-accounting-range-total", searchDateStart, searchDateEnd],
+	  queryFn: () => findRangeDateTotal(searchDateStart, searchDateEnd),
+	  enabled: !!searchDateStart && !!searchDateEnd,
+	});
+  };
