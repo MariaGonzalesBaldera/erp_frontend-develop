@@ -1,4 +1,4 @@
-import { Box, Grid, Tab, Tabs } from "@mui/material";
+import { Box, Grid, Tab, Tabs, Typography } from "@mui/material";
 import React from "react";
 import { a11yProps, CustomTabPanel, styleTableResponsive, styleTabsBackground } from "../../style/StyleModal";
 import MonthFilter from "../../components/AccountingComponents/MonthFilter";
@@ -13,7 +13,10 @@ const Accounting: React.FC = () => {
   };
   return(
     <Grid sx={styleTableResponsive}>
-    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+       <Typography variant="button">
+        {"CONTABILIDAD"}
+      </Typography>
+    <Box sx={{ borderBottom: 1, borderColor: "divider", paddingTop:1 }}>
       <Tabs
         sx={styleTabsBackground}
         value={value}

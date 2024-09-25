@@ -221,7 +221,6 @@ const CorrectiveMaintenancePage = ({}) => {
   return (
     <Box>
       <Typography variant="button">
-        {"LISTA DE MATENIMIENTO CORRECTIVO"}
       </Typography>
       <Grid
         container

@@ -175,7 +175,6 @@ const PreventMaintenancePage: React.FC = ({}) => {
 
   return (
     <Box>
-        <Typography variant="button">{"LISTA DE MATENIMIENTO PREVENTIVO"}</Typography>
       <Grid
         container
         justifyContent={"space-between"}

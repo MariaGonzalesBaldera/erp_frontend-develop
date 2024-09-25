@@ -90,7 +90,6 @@ const ActualGps: React.FC = () => {
   };
   return (
     <Box>
-      <Typography variant="button">{"BUSQUEDA DE UNA MAQUINARIA POR GPS"}</Typography>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-6xl mx-auto mt-2">
         <div className="col-span-1 md:col-span-1 border rounded-md border-gray-400 flex items-start justify-start p-2">
           <Grid container justifyItems="center" justifyContent="center">

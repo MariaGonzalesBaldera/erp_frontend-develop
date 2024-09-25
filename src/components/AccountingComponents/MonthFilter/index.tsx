@@ -193,34 +193,34 @@ function MonthFilter() {
         </div>
       </div>
       <Box className=" pt-2 ">
-        <Typography variant="button">MONTOS TOTALES POR MES</Typography>
+        <Typography variant="button">TOTALES POR MES</Typography>
       </Box>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto p-1">
-        <div className="col-span-1 border bg-gray-100 rounded-lg shadow-lg flex flex-col items-center justify-center p-2">
-          <span className="block text-base font-medium">
+      <div className="col-span-1 border bg-blue-950 rounded-lg shadow-lg flex flex-col items-center justify-center p-2">
+      <span className="block text-base font-medium text-zinc-200">
             Mantenimiento Correctivo:
           </span>
-          <span className="block text-xl font-bold text-gray-700">
+          <span className="block text-xl font-bold text-white">
             {mantCorrectivo !== undefined
               ? mantCorrectivo.toFixed(2)
               : "loading..."}
           </span>
         </div>
         <div className="col-span-1 border bg-gray-100 rounded-lg shadow-lg flex flex-col items-center justify-center p-2">
-          <span className="block text-base font-medium">
+        <span className="block text-base font-medium">
             Mantenimiento Preventivo:
           </span>
-          <span className="block text-xl font-bold text-gray-700">
+          <span className="block text-xl font-bold text-blue-950">
             {mantPreventivo !== undefined
               ? mantPreventivo.toFixed(2)
               : "loading..."}
           </span>
         </div>
-        <div className="col-span-1 border bg-gray-100 rounded-lg shadow-lg flex flex-col items-center justify-center p-2">
-          <span className="block text-base font-medium">
+        <div className="col-span-1 border bg-blue-950 rounded-lg shadow-lg flex flex-col items-center justify-center p-2">
+        <span className="block text-base font-medium text-zinc-200">
             Carga Combustible:
           </span>
-          <span className="block text-xl font-bold text-gray-700">
+          <span className="block text-xl font-bold text-white">
             {cargaCombustible !== undefined
               ? cargaCombustible.toFixed(2)
               : "loading..."}
@@ -230,7 +230,7 @@ function MonthFilter() {
           <span className="block text-base font-medium">
             Ingreso Maquinaria:
           </span>
-          <span className="block text-xl font-bold text-gray-700">
+          <span className="block text-xl font-bold text-blue-950">
             {ingresoMaquinaria !== undefined
               ? ingresoMaquinaria.toFixed(2)
               : "loading..."}
