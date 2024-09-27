@@ -1,4 +1,10 @@
-import { Box, Grid, IconButton, Tooltip } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import ModalMoreDetail from "../../ModalMoreDetail";
@@ -18,6 +24,8 @@ import {
 } from "../../../hooks/useCorrectiveMaintenance";
 import ModalDetailGeneric from "../../ModalDetailGeneric";
 import { formatDayMonthYear } from "../../../utils/capitalize";
+import { Visibility } from "@mui/icons-material";
+import ModalImageEvidence from "../../ModalImageEvidence";
 
 const dataCreate = {
   id: "",
@@ -36,12 +44,13 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
 }) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [openImage, setOpenImage] = useState(false);
   const [valueDelete, setValueDelete] = useState(0);
   const [selectedRow, setSelectedRow] = useState<any>(0);
-  const [openModalNew, setOpenModalNew] = React.useState(false);
-  const handleCloseNewModal = () => setOpenModalNew(false);
   const { mutateAsync: mutationDeleteId } = useDeleteCorrective();
   const [documentsData, setDocumentsData] = useState<any[]>([]);
+  const handleCloseImageModal = () => setOpenImage(false);
+
   const [loading, setLoading] = useState(false);
   const { data: correctiveData } = useGetCorrectiveByMachinery({
     id: idMachinery,
@@ -71,6 +80,13 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
     setSelectedRow(row);
     setOpenEdit(true);
   };
+
+  const handleOpenImage = (row: CorrectiveMaintananceItem) => {
+    console.log(row);
+    setSelectedRow(row);
+    setOpenImage(true);
+  };
+
   const handleClose = () => setOpenDetail(false);
   const handleCloseEdit = () => setOpenEdit(false);
   const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
@@ -125,6 +141,15 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
       headerAlign: "center",
       renderCell: (params) => (
         <>
+          <Tooltip title="Ver evidencia - imagen">
+            <IconButton
+              color="secondary"
+              onClick={() => handleOpenImage(params.row)}
+              aria-label="Imagen"
+            >
+              <Visibility />
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Editar">
             <IconButton
               color="success"
@@ -178,29 +203,35 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
 
   return (
     <>
-      <div style={{ height: 400, width: "100%" }}>
-        {documentsData.length === 0 ? (
-          <div
-            style={{
-              textAlign: "center",
-              marginTop: "20px",
-              alignContent: "center",
-              border: "1px gray solid",
-              height: "8rem",
-            }}
-          >
-            No se encontraron documentos registros
-          </div>
-        ) : (
-          <DataGrid
-            sx={styleTableItem}
-            className="truncate..."
-            hideFooter
-            rows={documentsData}
-            columns={columns}
-          />
-        )}
-      </div>
+      {loading ? (
+        <Grid item xs={12} style={{ textAlign: "center" }}>
+          <CircularProgress /> {/* Indicador de carga */}
+        </Grid>
+      ) : (
+        <div style={{ height: 400, width: "100%" }}>
+          {documentsData.length === 0 ? (
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: "20px",
+                alignContent: "center",
+                border: "1px gray solid",
+                height: "8rem",
+              }}
+            >
+              No se encontraron documentos registros
+            </div>
+          ) : (
+            <DataGrid
+              sx={styleTableItem}
+              className="truncate..."
+              hideFooter
+              rows={documentsData}
+              columns={columns}
+            />
+          )}
+        </div>
+      )}
 
       <ModalEditMaintenance //boton de editar
         openModal={openEdit}
@@ -222,6 +253,11 @@ const CorrectiveMaintenance: React.FC<CorrectiveMaintenanceProps> = ({
         onCancel={handleCloseConfirmModal}
         onConfirmAction={handleDelete}
         id={Number(valueDelete)}
+      />
+      <ModalImageEvidence //look image
+        openModal={openImage}
+        handleClose={handleCloseImageModal}
+        id={selectedRow.id}
       />
     </>
   );

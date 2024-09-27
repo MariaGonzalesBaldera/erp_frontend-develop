@@ -3,7 +3,7 @@ import {
   useDeleteCorrective,
   useGetCorrectiveByModel,
 } from "../../../hooks/useCorrectiveMaintenance";
-import { CorrectiveMaintananceItem } from "../../../types";
+import { CorrectiveMaintananceItem } from "../../../types"; 
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import {
   Box,
@@ -157,7 +157,7 @@ const CorrectiveMaintenancePage = ({}) => {
       headerAlign: "center",
       renderCell: (params) => (
         <>
-          <Tooltip title="Ver registro de Imagen">
+          <Tooltip title="Ver evidencia - imagen">
             <IconButton
               color="secondary"
               onClick={() => handleOpenImage(params.row)}

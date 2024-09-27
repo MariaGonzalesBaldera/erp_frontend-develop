@@ -162,7 +162,7 @@ const ActualGps: React.FC = () => {
         </div>
         <div className="col-span-1 md:col-span-2 border flex items-center justify-start p-0">
           {showMessage ? (
-            <Box> </Box>
+            <> </>
           ) : (
             <div className="card">
               <GoogleMapPolyline />
